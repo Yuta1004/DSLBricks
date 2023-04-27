@@ -1,3 +1,5 @@
+// ビルド設定インポート
+use depagerpp::builder::prelude::*;
 use depagerpp::builder::env::Windows_X86_64;
 use depagerpp::builder::target::{Compiler, Interpreter};
 
@@ -46,6 +48,7 @@ impl DSL for CalcLang {
 }
 
 fn main() {
+    // ビルド実行
     langbuild!(CalcLang)
         .target(Compiler::<Windows_X86_64>::new())
         .target(Interpreter::<Windows_X86_64>::new())
