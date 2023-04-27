@@ -8,8 +8,8 @@ publish = false
 depagerpp = { path = "../compiler/dpp" }
 
 [[test]]
-name = "simple"
-path = "simple/simple.rs"
+name = "simplelang"
+path = "simplelang/simplelang.rs"
 
 [[test]]
 name = "impl_orig_target"
