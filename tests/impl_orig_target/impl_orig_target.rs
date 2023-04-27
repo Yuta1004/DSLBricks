@@ -1,5 +1,6 @@
 use depagerpp::builder::prelude::*;
 use depagerpp::builder::Builder;
+use depagerpp::macros::langbuild;
 
 struct OrigEnvSettings;
 
@@ -20,5 +21,5 @@ impl Target<OrigEnvSettings> for OrigTarget {
 
 #[test]
 fn check_orig_target() {
-    Builder::new().target(OrigTarget::default()).build()
+    langbuild!().target(OrigTarget::default()).build()
 }

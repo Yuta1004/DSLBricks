@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 builder = { package = "depagerpp_builder", path = "../dpp_builder" }
+macros = { package = "depagerpp_macros", path = "../dpp_macros" }

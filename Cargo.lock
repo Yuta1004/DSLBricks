@@ -7,10 +7,15 @@ name = "depagerpp"
 version = "0.1.0"
 dependencies = [
  "depagerpp_builder",
+ "depagerpp_macros",
 ]
 
 [[package]]
 name = "depagerpp_builder"
+version = "0.1.0"
+
+[[package]]
+name = "depagerpp_macros"
 version = "0.1.0"
 
 [[package]]
