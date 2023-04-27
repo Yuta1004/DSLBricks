@@ -1,59 +1,53 @@
+use depagerpp::builder::env::Windows_X86_64;
+use depagerpp::builder::target::{Compiler, Interpreter};
+
 // 部品インポート
-/*
-use depagerpp::dsl::prelude;
-use depagerpp::dsl::syntax {
-    num::integer,
-    expr::{ add, sub, mul, div },
+use depagerpp::dsl::prelude::*;
+use depagerpp::dsl::synpart::{
+    expr::{add, div, mul, sub},
     io::stdout,
+    num::integer,
 };
- */
 
 // 部品作成
-/*
-assemble!(Print{ val: ... }, stdout::semantics,
-    Print
-        : "p" val
-        | "print" val
-        | "print" '(' val ')'
-        ;
-)
-
-or
-
-assemble_ns!(Print{ val: ... },
-    Print
-        : "p" val
-        | "print" val
-        | "print" "(" val ")"
-        ;
-)
-
-impl Semantics for Print {
-    fn ... {}
+#[dsl(synpart, extends = stdout)]
+struct Print<T> {
+    val: T,
 }
- */
+
+impl DSL for Print {
+    syntax_lalr! {
+        print
+            : "p" val
+            | "print" val
+            | "print" '(' val ')'
+            ;
+    }
+}
 
 // 構文定義
-/*
-langdef!(
-    CalcLang,
-    program
-        : stmt
-        | program stmt
-        ;
+#[dsl(main)]
+struct CalcLang;
 
-    stmt
-        | Print(expr) ";"
-    ...
-)
- */
+impl DSL for CalcLang {
+    syntax_lalr! {
+        program
+            : stmt
+            | program stmt
+            ;
 
-use depagerpp::builder::env::Windows_X86_64;
-use depagerpp::builder::target::Compiler;
-use depagerpp::builder::Builder;
+        stmt
+            : $Print(expr)
+            ...
+            ;
+
+        ...
+    }
+}
 
 fn main() {
-    Builder::new()
-        .add(Compiler::<Windows_X86_64>::new())
-        .build()
+    langbuild!(CalcLang)
+        .target(Compiler::<Windows_X86_64>::new())
+        .target(Interpreter::<Windows_X86_64>::new())
+        .build();
 }
