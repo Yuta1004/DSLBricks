@@ -10,3 +10,7 @@ depagerpp = { path = "../compiler/dpp" }
 [[test]]
 name = "simple"
 path = "simple/simple.rs"
+
+[[test]]
+name = "impl_orig_target"
+path = "impl_orig_target/impl_orig_target.rs"
