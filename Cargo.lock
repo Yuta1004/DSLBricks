@@ -5,6 +5,13 @@ version = 3
 [[package]]
 name = "depagerpp"
 version = "0.1.0"
+dependencies = [
+ "dpp_builder",
+]
+
+[[package]]
+name = "dpp_builder"
+version = "0.1.0"
 
 [[package]]
 name = "tests"
