@@ -13,4 +13,4 @@ path = "simplelang/simplelang.rs"
 
 [[test]]
 name = "impl_orig_target"
-path = "impl_orig_target/impl_orig_target.rs"
+path = "impl_orig_target/test.rs"
