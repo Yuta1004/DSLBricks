@@ -9,7 +9,7 @@ depagerpp = { path = "../compiler/dpp" }
 
 [[test]]
 name = "simplelang"
-path = "simplelang/simplelang.rs"
+path = "simplelang/test.rs"
 
 [[test]]
 name = "impl_orig_target"
