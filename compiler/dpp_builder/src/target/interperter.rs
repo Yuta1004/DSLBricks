@@ -1,13 +1,13 @@
 use std::marker::PhantomData;
 
-use crate::target::Target;
 use crate::env::Environment;
+use crate::target::Target;
 
-pub struct Interpreter<E: Environment> (PhantomData<E>);
+pub struct Interpreter<E: Environment>(PhantomData<E>);
 
 impl<E> From<()> for Interpreter<E>
 where
-    E: Environment
+    E: Environment,
 {
     fn from(_lang: ()) -> Self {
         Interpreter(PhantomData)
@@ -16,7 +16,7 @@ where
 
 impl<E> Target<E> for Interpreter<E>
 where
-    E: Environment
+    E: Environment,
 {
     fn build(&self) {
         println!("===== BuildInfo ===== ");

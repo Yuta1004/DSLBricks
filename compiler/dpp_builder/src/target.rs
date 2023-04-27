@@ -12,8 +12,8 @@ pub trait Target<E: Environment> {
 
 #[cfg(test)]
 mod test {
-    use crate::env::Windows_X86_64;
     use super::{Compiler, Interpreter};
+    use crate::env::Windows_X86_64;
 
     #[test]
     fn compiler() {

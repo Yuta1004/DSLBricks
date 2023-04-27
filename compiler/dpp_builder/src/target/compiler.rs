@@ -1,13 +1,13 @@
 use std::marker::PhantomData;
 
-use crate::target::Target;
 use crate::env::Environment;
+use crate::target::Target;
 
-pub struct Compiler<E: Environment> (PhantomData<E>);
+pub struct Compiler<E: Environment>(PhantomData<E>);
 
 impl<E> From<()> for Compiler<E>
 where
-    E: Environment
+    E: Environment,
 {
     fn from(_lang: ()) -> Self {
         Compiler(PhantomData)
@@ -16,7 +16,7 @@ where
 
 impl<E> Target<E> for Compiler<E>
 where
-    E: Environment
+    E: Environment,
 {
     fn build(&self) {
         println!("===== BuildInfo ===== ");

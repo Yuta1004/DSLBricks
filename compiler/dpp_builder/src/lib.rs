@@ -2,8 +2,8 @@ pub mod prelude;
 pub mod target;
 pub mod env;
 
-use target::Target;
 use env::Environment;
+use target::Target;
 
 pub struct Builder {
     queue: Vec<Box<dyn FnOnce() -> ()>>,
@@ -11,15 +11,13 @@ pub struct Builder {
 
 impl Builder {
     pub fn new() -> Builder {
-        Builder {
-            queue: vec![],
-        }
+        Builder { queue: vec![] }
     }
 
     pub fn add<T, E>(mut self, target: T) -> Builder
     where
         T: Target<E> + 'static,
-        E: Environment
+        E: Environment,
     {
         self.queue.push(Box::new(move || target.build()));
         self
@@ -34,9 +32,9 @@ impl Builder {
 
 #[cfg(test)]
 mod test {
-    use crate::target::{Compiler, Interpreter};
-    use crate::env::Windows_X86_64;
     use super::Builder;
+    use crate::env::Windows_X86_64;
+    use crate::target::{Compiler, Interpreter};
 
     #[test]
     fn builder_single() {
