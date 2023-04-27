@@ -6,11 +6,11 @@ version = 3
 name = "depagerpp"
 version = "0.1.0"
 dependencies = [
- "dpp_builder",
+ "depagerpp_builder",
 ]
 
 [[package]]
-name = "dpp_builder"
+name = "depagerpp_builder"
 version = "0.1.0"
 
 [[package]]
