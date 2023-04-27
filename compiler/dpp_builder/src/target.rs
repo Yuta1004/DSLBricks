@@ -1,32 +1,27 @@
-use std::marker::PhantomData;
+mod compiler;
+mod interperter;
+
+pub use compiler::Compiler;
+pub use interperter::Interpreter;
 
 use crate::env::Environment;
 
-pub trait Target<E>
-where
-    E: Environment
-{
+pub trait Target<E: Environment> {
     fn build(&self);
 }
 
-pub struct Compiler<E: Environment> (PhantomData<E>);
+#[cfg(test)]
+mod test {
+    use crate::env::Windows_X86_64;
+    use super::{Compiler, Interpreter};
 
-impl<E> From<()> for Compiler<E>
-where
-    E: Environment
-{
-    fn from(_lang: ()) -> Self {
-        Compiler(PhantomData)
+    #[test]
+    fn compiler() {
+        let _ = Compiler::<Windows_X86_64>::from(());
     }
-}
 
-impl<E> Target<E> for Compiler<E>
-where
-    E: Environment
-{
-    fn build(&self) {
-        println!("===== BuildInfo ===== ");
-        println!("* Env : {}", <E as Environment>::name());
-        println!("===================== ");
+    #[test]
+    fn interperter() {
+        let _ = Interpreter::<Windows_X86_64>::from(());
     }
 }
