@@ -1,6 +1,4 @@
 use depagerpp::builder::prelude::*;
-use depagerpp::builder::Builder;
-use depagerpp::macros::langbuild;
 
 struct OrigEnvSettings;
 
