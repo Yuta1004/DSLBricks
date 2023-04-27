@@ -5,3 +5,17 @@ version = 3
 [[package]]
 name = "calc"
 version = "0.1.0"
+dependencies = [
+ "depagerpp",
+]
+
+[[package]]
+name = "depagerpp"
+version = "0.1.0"
+dependencies = [
+ "depagerpp_builder",
+]
+
+[[package]]
+name = "depagerpp_builder"
+version = "0.1.0"

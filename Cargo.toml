@@ -1,5 +1,9 @@
 [workspace]
 members = [
     "compiler/dpp",
-    "tests"
+    "tests",
+]
+
+exclude = [
+    "example/calc",
 ]

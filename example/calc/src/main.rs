@@ -48,32 +48,12 @@ langdef!(
 )
  */
 
-// ビルド方法指示
-/*
-use depagerpp::build::prelude;
-use depagerpp::build::target::Compiler;
-use depagerpp::build::env::{ ARM64, Windows_X86_64 };
-
-prod!(CalcLang, Compiler<Windows_ARM64>)
-prod!(CalcLang, Compiler<Windows_X86_64>)
-
-fn build() -> Result<Compiler> {
-    let builder_arm64 = <Compiler<Windows_ARM64> as Target>::builder()
-        .setup(...)
-        .setup2(...)
-        .setup3(...)
-        .setup4(...)
-        .build()?;
-
-    let builder_x86_64 = <Compiler<Windows_X86_64> as Target>::builder()
-        .setup(...)
-        .setup2(...)
-        .setup3(...)
-        .setup4(...)
-        .build()
-}
- */
+use depagerpp::builder::env::Windows_X86_64;
+use depagerpp::builder::target::Compiler;
+use depagerpp::builder::Builder;
 
 fn main() {
-    println!("Hello, world!");
+    Builder::new()
+        .add(Compiler::<Windows_X86_64>::new())
+        .build()
 }
