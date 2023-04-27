@@ -4,5 +4,7 @@ use crate::env::Environment;
 pub struct Windows_X86_64;
 
 impl Environment for Windows_X86_64 {
-    fn name() -> &'static str { "Windows_X86_64" }
+    fn name() -> &'static str {
+        "Windows_X86_64"
+    }
 }

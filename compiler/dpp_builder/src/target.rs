@@ -7,7 +7,7 @@ pub use interperter::Interpreter;
 use crate::env::Environment;
 
 pub trait Target<E: Environment> {
-    fn build(&self);
+    fn build(&self, _lang: &());
 }
 
 #[cfg(test)]
@@ -17,11 +17,11 @@ mod test {
 
     #[test]
     fn compiler() {
-        let _ = Compiler::<Windows_X86_64>::from(());
+        let _ = Compiler::<Windows_X86_64>::new();
     }
 
     #[test]
     fn interperter() {
-        let _ = Interpreter::<Windows_X86_64>::from(());
+        let _ = Interpreter::<Windows_X86_64>::new();
     }
 }

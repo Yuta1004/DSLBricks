@@ -5,6 +5,6 @@ use depagerpp::builder::Builder;
 #[test]
 fn simplelang_compiler() {
     Builder::new()
-        .add(Compiler::<Windows_X86_64>::from(()))
+        .add(Compiler::<Windows_X86_64>::new())
         .build()
 }

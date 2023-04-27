@@ -5,11 +5,11 @@ use crate::target::Target;
 
 pub struct Compiler<E: Environment>(PhantomData<E>);
 
-impl<E> From<()> for Compiler<E>
+impl<E> Compiler<E>
 where
     E: Environment,
 {
-    fn from(_lang: ()) -> Self {
+    pub fn new() -> Self {
         Compiler(PhantomData)
     }
 }
@@ -18,7 +18,7 @@ impl<E> Target<E> for Compiler<E>
 where
     E: Environment,
 {
-    fn build(&self) {
+    fn build(&self, _lang: &()) {
         println!("===== BuildInfo ===== ");
         println!("* Target : Compiler");
         println!("* Env : {}", <E as Environment>::name());

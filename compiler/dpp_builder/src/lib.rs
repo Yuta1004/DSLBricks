@@ -19,7 +19,7 @@ impl Builder {
         T: Target<E> + 'static,
         E: Environment,
     {
-        self.queue.push(Box::new(move || target.build()));
+        self.queue.push(Box::new(move || target.build(&())));
         self
     }
 
@@ -39,15 +39,15 @@ mod test {
     #[test]
     fn builder_single() {
         Builder::new()
-            .add(Compiler::<Windows_X86_64>::from(()))
+            .add(Compiler::<Windows_X86_64>::new())
             .build()
     }
 
     #[test]
     fn builder_multiple() {
         Builder::new()
-            .add(Compiler::<Windows_X86_64>::from(()))
-            .add(Interpreter::<Windows_X86_64>::from(()))
+            .add(Compiler::<Windows_X86_64>::new())
+            .add(Interpreter::<Windows_X86_64>::new())
             .build()
     }
 }
