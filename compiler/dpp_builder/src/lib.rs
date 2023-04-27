@@ -14,7 +14,7 @@ impl Builder {
         Builder { queue: vec![] }
     }
 
-    pub fn add<T, E>(mut self, target: T) -> Builder
+    pub fn target<T, E>(mut self, target: T) -> Builder
     where
         T: Target<E> + 'static,
         E: Environment,
@@ -39,15 +39,15 @@ mod test {
     #[test]
     fn builder_single() {
         Builder::new()
-            .add(Compiler::<Windows_X86_64>::new())
+            .target(Compiler::<Windows_X86_64>::new())
             .build()
     }
 
     #[test]
     fn builder_multiple() {
         Builder::new()
-            .add(Compiler::<Windows_X86_64>::new())
-            .add(Interpreter::<Windows_X86_64>::new())
+            .target(Compiler::<Windows_X86_64>::new())
+            .target(Interpreter::<Windows_X86_64>::new())
             .build()
     }
 }

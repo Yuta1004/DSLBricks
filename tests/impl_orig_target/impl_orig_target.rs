@@ -20,5 +20,5 @@ impl Target<OrigEnvSettings> for OrigTarget {
 
 #[test]
 fn check_orig_target() {
-    Builder::new().add(OrigTarget::default()).build()
+    Builder::new().target(OrigTarget::default()).build()
 }
