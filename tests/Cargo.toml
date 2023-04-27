@@ -9,4 +9,4 @@ depagerpp = { path = "../compiler/dpp" }
 
 [[test]]
 name = "simple"
-path = "simple.rs"
+path = "simple/simple.rs"
