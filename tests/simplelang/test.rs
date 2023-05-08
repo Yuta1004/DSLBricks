@@ -1,6 +1,6 @@
-use depagerpp::builder::prelude::*;
-use depagerpp::builder::env::Windows_X86_64;
-use depagerpp::builder::target::Compiler;
+use depagerpp::driver::prelude::*;
+use depagerpp::driver::env::Windows_X86_64;
+use depagerpp::driver::target::Compiler;
 
 #[test]
 fn simplelang_compiler() {

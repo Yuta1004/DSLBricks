@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-builder = { package = "depagerpp_builder", path = "../dpp_builder" }
+driver = { package = "depagerpp_driver", path = "../dpp_driver" }

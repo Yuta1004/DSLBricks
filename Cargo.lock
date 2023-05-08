@@ -6,11 +6,11 @@ version = 3
 name = "depagerpp"
 version = "0.1.0"
 dependencies = [
- "depagerpp_builder",
+ "depagerpp_driver",
 ]
 
 [[package]]
-name = "depagerpp_builder"
+name = "depagerpp_driver"
 version = "0.1.0"
 dependencies = [
  "depagerpp_macros",
