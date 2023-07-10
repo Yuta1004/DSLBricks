@@ -7,21 +7,21 @@ pub use interperter::Interpreter;
 use crate::env::Environment;
 
 pub trait Target<E: Environment> {
-    fn build(&self, _lang: &());
+    fn build(lang: &());
 }
 
 #[cfg(test)]
 mod test {
-    use super::{Compiler, Interpreter};
+    use super::{Compiler, Interpreter, Target};
     use crate::env::Windows_X86_64;
 
     #[test]
     fn compiler() {
-        let _ = Compiler::<Windows_X86_64>::new();
+        Compiler::<Windows_X86_64>::build(&());
     }
 
     #[test]
     fn interperter() {
-        let _ = Interpreter::<Windows_X86_64>::new();
+        Interpreter::<Windows_X86_64>::build(&());
     }
 }

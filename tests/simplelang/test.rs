@@ -4,5 +4,5 @@ use depagerpp::driver::target::Compiler;
 
 #[test]
 fn simplelang_compiler() {
-    // Compiler::<Windows_X86_64>::new()
+    Compiler::<Windows_X86_64>::build(&())
 }
