@@ -12,13 +12,6 @@ dependencies = [
 [[package]]
 name = "depagerpp_driver"
 version = "0.1.0"
-dependencies = [
- "depagerpp_macros",
-]
-
-[[package]]
-name = "depagerpp_macros"
-version = "0.1.0"
 
 [[package]]
 name = "tests"
