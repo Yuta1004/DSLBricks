@@ -4,6 +4,4 @@ members = [
     "tests",
 ]
 
-exclude = [
-    "example/calc",
-]
+exclude = []
