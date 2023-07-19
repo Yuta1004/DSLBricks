@@ -7,3 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 clap = { version = "4.3", features = ["derive"] }
+langpart = { package = "depagerpp_langpart", path = "../dpp_langpart" }

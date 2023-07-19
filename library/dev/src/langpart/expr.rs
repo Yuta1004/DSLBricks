@@ -107,6 +107,6 @@ impl ExprNode {
     }
 }
 
-pub fn expr_langpart() -> LangPart<ExprNode, ExprSyntax, ExprToken>{
+pub fn expr_langpart() -> LangPart<ExprNode, ExprSyntax, ExprToken> {
     LangPart::gen().unwrap()
 }

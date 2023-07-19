@@ -9,6 +9,7 @@ anyhow = "1.0"
 thiserror = "1.0"
 strum = { version = "0.25", features = ["derive"] }
 depagerpp = { path = "../compiler/dpp" }
+depagerpp_lib_dev = { package = "dev", path = "../library/dev" }
 
 [[test]]
 name = "driver-c"
