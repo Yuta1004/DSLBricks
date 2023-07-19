@@ -140,6 +140,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
+ "depagerpp_langpart",
  "thiserror",
 ]
 
@@ -163,6 +164,16 @@ dependencies = [
  "quote",
  "strum",
  "syn",
+]
+
+[[package]]
+name = "dev"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "depagerpp",
+ "strum",
+ "thiserror",
 ]
 
 [[package]]
@@ -359,6 +370,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "depagerpp",
+ "dev",
  "strum",
  "thiserror",
 ]
