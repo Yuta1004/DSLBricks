@@ -1,6 +1,6 @@
-use depagerpp::langpart::prelude::*;
 use depagerpp::langpart::parser::kind::LR1;
 use depagerpp::langpart::parser::syntax::ASyntax;
+use depagerpp::langpart::prelude::*;
 use depagerpp::langpart::LangPart;
 use depagerpp::langpart_macros::*;
 

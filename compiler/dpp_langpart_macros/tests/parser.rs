@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod test {
+    use depagerpp_langpart_macros::*;
     use langpart::parser::kind::LR1;
     use langpart::parser::syntax::util::VoidSemantics;
     use langpart::prelude::*;
-    use depagerpp_langpart_macros::*;
 
     #[lexer]
     #[derive(Debug)]
@@ -44,33 +44,40 @@ mod test {
     #[test]
     fn check_rule() {
         let syntax_rule = vec![
-            (TestSyntax::STMT, Rule::from((
-                RuleElem::nonterm("STMT"),
-                vec![
+            (
+                TestSyntax::STMT,
+                Rule::from((RuleElem::nonterm("STMT"), vec![RuleElem::nonterm("STMT2")])),
+            ),
+            (
+                TestSyntax::AandB,
+                Rule::from((
                     RuleElem::nonterm("STMT2"),
-                ]
-            ))),
-            (TestSyntax::AandB, Rule::from((
-                RuleElem::nonterm("STMT2"),
-                vec![
-                    RuleElem::term(TestToken::TokenA),
-                    RuleElem::term(TestToken::TokenB),
-                ]
-            ))),
-            (TestSyntax::AandC, Rule::from((
-                RuleElem::nonterm("STMT2"),
-                vec![
-                    RuleElem::term(TestToken::TokenA),
-                    RuleElem::term(TestToken::TokenC),
-                ]
-            ))),
-            (TestSyntax::BandC, Rule::from((
-                RuleElem::nonterm("STMT2"),
-                vec![
-                    RuleElem::term(TestToken::TokenB),
-                    RuleElem::term(TestToken::TokenC),
-                ]
-            ))),
+                    vec![
+                        RuleElem::term(TestToken::TokenA),
+                        RuleElem::term(TestToken::TokenB),
+                    ],
+                )),
+            ),
+            (
+                TestSyntax::AandC,
+                Rule::from((
+                    RuleElem::nonterm("STMT2"),
+                    vec![
+                        RuleElem::term(TestToken::TokenA),
+                        RuleElem::term(TestToken::TokenC),
+                    ],
+                )),
+            ),
+            (
+                TestSyntax::BandC,
+                Rule::from((
+                    RuleElem::nonterm("STMT2"),
+                    vec![
+                        RuleElem::term(TestToken::TokenB),
+                        RuleElem::term(TestToken::TokenC),
+                    ],
+                )),
+            ),
         ];
         for (syntax, rule) in syntax_rule {
             assert_eq!(TestSyntax::to_rule(&syntax), rule);

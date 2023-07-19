@@ -10,5 +10,5 @@ pub use crate::{tget, tignore};
 pub use crate::lexer::Token;
 
 // parser
-pub use crate::parser::syntax::Syntax;
 pub use crate::parser::rule::{Rule, RuleElem, RuleSet};
+pub use crate::parser::syntax::Syntax;

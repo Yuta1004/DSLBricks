@@ -9,10 +9,7 @@ where
     S: Syntax<Self, T>,
     T: Token,
 {
-    fn mapping(
-        _: S,
-        _: Vec<(Option<Box<Self>>, Option<&str>)>,
-    ) -> anyhow::Result<Box<Self>> {
+    fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
         Ok(Box::new(VoidSemantics {}))
     }
 }

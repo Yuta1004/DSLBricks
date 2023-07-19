@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod test {
-    use langpart::prelude::*;
     use depagerpp_langpart_macros::*;
+    use langpart::prelude::*;
 
     #[lexer]
     enum TestToken {
