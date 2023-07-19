@@ -1,0 +1,15 @@
+[package]
+name = "examples"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dev-dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+depagerpp = { path = "../compiler/dpp" }
+depagerpp_lib_dev = { package = "dev", path = "../library/dev" }
+
+[[example]]
+name = "calc_interpreter"
+path = "calculator/interpreter.rs"

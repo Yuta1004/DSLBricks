@@ -40,6 +40,6 @@ where
 
     fn exec(self: Self) -> anyhow::Result<()> {
         let _ = CompilerCLI::parse();
-        Ok(())
+        unimplemented!();
     }
 }

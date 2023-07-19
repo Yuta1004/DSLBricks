@@ -1,3 +1,5 @@
+use std::io;
+use std::io::Write;
 use std::marker::PhantomData;
 
 use clap::Parser;
@@ -21,25 +23,37 @@ where
     T: Token,
 {
     env: PhantomData<E>,
-    _langpart: LangPart<A, S, T>,
+    langpart: LangPart<A, S, T>,
 }
 
 impl<E, A, S, T> Target<E, A, S, T> for Interpreter<E, A, S, T>
 where
     E: Environment,
     A: ASyntax<S, T>,
-    S: Syntax<A, T>,
-    T: Token,
+    S: Syntax<A, T> + 'static,
+    T: Token + 'static,
 {
     fn build(langpart: LangPart<A, S, T>) -> Self {
         Interpreter {
             env: PhantomData,
-            _langpart: langpart,
+            langpart,
         }
     }
 
     fn exec(self: Self) -> anyhow::Result<()> {
         let _ = InterpreterCLI::parse();
-        Ok(())
+
+        loop {
+            print!("$ ");
+            io::stdout().flush().unwrap();
+
+            let mut line = String::new();
+            io::stdin().read_line(&mut line)?;
+
+            match self.langpart.process(&line) {
+                Ok(_) => println!("Ok\n"),
+                Err(_) => println!("Error!\n"),
+            };
+        }
     }
 }

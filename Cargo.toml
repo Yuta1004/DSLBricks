@@ -3,6 +3,7 @@ members = [
     "compiler/dpp",
     "library/dev",
     "tests",
+    "examples",
 ]
 
 exclude = []
