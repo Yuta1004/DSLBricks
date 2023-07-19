@@ -1,13 +1,8 @@
 # Depager++
 
-## コマンド
-
-### cargo test
+## Commands
 
 ```
-// 全てのテスト
+// Test(all)
 $ cargo test
-
-// 結合テスト
-$ cargo test -p tests
 ```
