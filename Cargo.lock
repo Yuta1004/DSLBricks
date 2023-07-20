@@ -130,6 +130,7 @@ name = "depagerpp"
 version = "0.1.0"
 dependencies = [
  "depagerpp_driver",
+ "depagerpp_dslgen",
  "depagerpp_langpart",
  "depagerpp_langpart_macros",
 ]
@@ -140,6 +141,15 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
+ "depagerpp_langpart",
+ "thiserror",
+]
+
+[[package]]
+name = "depagerpp_dslgen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "depagerpp_langpart",
  "thiserror",
 ]
