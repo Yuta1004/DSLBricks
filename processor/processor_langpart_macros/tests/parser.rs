@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test {
-    use langpart::parser::{LR1, ASyntax};
+    use langpart::parser::{ASyntax, LR1};
     use langpart::prelude::*;
     use processor_langpart_macros::*;
 

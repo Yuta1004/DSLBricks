@@ -1,5 +1,5 @@
 use blockdsl::driver::interpreter::Interpreter;
-use blockdsl::dsl::langpart::parser::{LR1, ASyntax};
+use blockdsl::dsl::langpart::parser::{ASyntax, LR1};
 use blockdsl::dsl::macros::*;
 use blockdsl::dsl::prelude::*;
 use blockdsl::dsl::DSL;

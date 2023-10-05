@@ -215,9 +215,9 @@ mod test {
     use std::collections::HashMap;
 
     use crate::lexer::Token;
-    use crate::parser::syntax::util::VoidSemantics;
     use crate::parser::rule::{Rule, RuleElem};
-    use crate::parser::{LR1, Syntax};
+    use crate::parser::syntax::util::VoidSemantics;
+    use crate::parser::{Syntax, LR1};
     use crate::prelude::*;
 
     #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug)]
