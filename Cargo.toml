@@ -17,6 +17,7 @@ blockdsl = { path = "./" }
 
 [workspace]
 members = [
+    "builder",
     "driver/compiler",
     "driver/interpreter",
     "processor/processor",
