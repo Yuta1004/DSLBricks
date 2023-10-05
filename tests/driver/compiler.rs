@@ -1,5 +1,5 @@
 use compiler::Compiler;
-use processor_lib_dev::langpart::*;
+use lib::dev::langpart::*;
 
 #[test]
 fn compiler() {

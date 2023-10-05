@@ -8,7 +8,7 @@ publish = false
 anyhow = "1.0"
 thiserror = "1.0"
 interpreter = { package = "interpreter", path = "../driver/interpreter" }
-processor_lib_dev = { package = "lib_dev", path = "../library/dev" }
+lib = { package = "lib", path = "../library" }
 
 [[example]]
 name = "calc_interpreter"

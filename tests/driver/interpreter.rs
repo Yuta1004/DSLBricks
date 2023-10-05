@@ -1,5 +1,5 @@
 use interpreter::Interpreter;
-use processor_lib_dev::langpart::*;
+use lib::dev::langpart::*;
 
 #[test]
 fn interpreter() {

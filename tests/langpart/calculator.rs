@@ -1,4 +1,4 @@
-use processor_lib_dev::langpart::expr_langpart;
+use lib::dev::langpart::expr_langpart;
 
 #[test]
 fn calculator() {

@@ -8,4 +8,4 @@ anyhow = "1.0"
 thiserror = "1.0"
 clap = { version = "4.3", features = ["derive"] }
 processor = { path = "../../processor/processor" }
-processor_lib_dev = { package = "lib_dev", path = "../../library/dev" }
+lib = { package = "lib", path = "../../library" }
