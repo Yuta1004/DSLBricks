@@ -1,0 +1,10 @@
+[package]
+name = "compiler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+driver = { package = "compiler_driver", path = "../compiler_driver" }
+dslgen = { package = "compiler_dslgen", path = "../compiler_dslgen" }
+langpart = { package = "compiler_langpart", path = "../compiler_langpart" }
+langpart_macros = { package = "compiler_langpart_macros", path = "../compiler_langpart_macros" }

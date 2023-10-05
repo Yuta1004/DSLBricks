@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "compiler/dpp",
+    "compiler/compiler",
     "library/dev",
     "tests",
     "examples",

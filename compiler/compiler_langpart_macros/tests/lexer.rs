@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test {
-    use depagerpp_langpart_macros::*;
+    use compiler_langpart_macros::*;
     use langpart::prelude::*;
 
     #[lexer]

@@ -1,7 +1,7 @@
-use depagerpp::driver::env::Auto;
-use depagerpp::driver::prelude::*;
-use depagerpp::driver::Interpreter;
-use depagerpp_lib_dev::langpart::*;
+use compiler::driver::env::Auto;
+use compiler::driver::prelude::*;
+use compiler::driver::Interpreter;
+use compiler_lib_dev::langpart::*;
 
 fn main() -> anyhow::Result<()> {
     let langpart = expr_langpart();
