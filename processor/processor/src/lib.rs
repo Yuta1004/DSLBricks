@@ -1,2 +1,4 @@
-pub use langpart;
-pub use langpart_macros;
+pub use langpart::*;
+pub mod macros {
+    pub use langpart_macros::*;
+}

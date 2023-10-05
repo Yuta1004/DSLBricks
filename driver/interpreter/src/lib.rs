@@ -3,9 +3,9 @@ use std::io::Write;
 
 use clap::Parser;
 
-use processor::langpart::parser::syntax::ASyntax;
-use processor::langpart::prelude::*;
-use processor::langpart::LangPart;
+use processor::parser::syntax::ASyntax;
+use processor::prelude::*;
+use processor::LangPart;
 
 #[derive(Parser)]
 #[command(author, version, about)]

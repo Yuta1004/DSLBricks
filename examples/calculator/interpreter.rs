@@ -1,8 +1,9 @@
 use blockdsl::driver::interpreter::Interpreter;
-use blockdsl::dsl::langpart::{prelude::*, LangPart};
-use blockdsl::dsl::langpart::parser::kind::LR1;
-use blockdsl::dsl::langpart::parser::syntax::ASyntax;
-use blockdsl::dsl::langpart_macros::*;
+use blockdsl::dsl::prelude::*;
+use blockdsl::dsl::LangPart;
+use blockdsl::dsl::parser::kind::LR1;
+use blockdsl::dsl::parser::syntax::ASyntax;
+use blockdsl::dsl::macros::*;
 
 #[lexer]
 pub enum ExprToken {
@@ -109,5 +110,5 @@ impl ExprNode {
 
 fn main() -> anyhow::Result<()> {
     let langpart = LangPart::<ExprNode, ExprSyntax, ExprToken>::gen()?;
-    Interpreter::<ExprNode, ExprSyntax, ExprToken>::new(langpart).exec()
+    Interpreter::new(langpart).exec()
 }

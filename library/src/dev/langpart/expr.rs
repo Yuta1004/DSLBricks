@@ -1,8 +1,8 @@
-use processor::langpart::parser::kind::LR1;
-use processor::langpart::parser::syntax::ASyntax;
-use processor::langpart::prelude::*;
-use processor::langpart::LangPart;
-use processor::langpart_macros::*;
+use processor::parser::kind::LR1;
+use processor::parser::syntax::ASyntax;
+use processor::prelude::*;
+use processor::LangPart;
+use processor::macros::*;
 
 #[lexer]
 pub enum ExprToken {

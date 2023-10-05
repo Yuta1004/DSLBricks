@@ -9,6 +9,12 @@ interpreter = { package = "interpreter", path = "driver/interpreter" }
 lib = { package = "lib", path = "library" }
 processor = { package = "processor", path = "processor/processor" }
 
+[dev-dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+strum = { version = "0.25", features = ["derive"] }
+blockdsl = { patckage = "blockdsl", path = "./" }
+
 [workspace]
 members = [
     "driver/compiler",
@@ -16,6 +22,9 @@ members = [
     "processor/processor",
     "library",
     "tests",
-    "examples",
 ]
 exclude = []
+
+[[example]]
+name = "calc_interpreter"
+path = "examples/calculator/interpreter.rs"
