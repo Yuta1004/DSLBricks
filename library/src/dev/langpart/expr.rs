@@ -1,7 +1,7 @@
-use processor::parser::kind::LR1;
-use processor::parser::syntax::ASyntax;
+use processor::langpart::parser::kind::LR1;
+use processor::langpart::parser::syntax::ASyntax;
+use processor::DSL;
 use processor::prelude::*;
-use processor::LangPart;
 use processor::macros::*;
 
 #[lexer]
@@ -107,6 +107,6 @@ impl ExprNode {
     }
 }
 
-pub fn expr_langpart() -> LangPart<ExprNode, ExprSyntax, ExprToken> {
-    LangPart::gen().unwrap()
+pub fn expr_langpart() -> DSL<ExprNode, ExprSyntax, ExprToken> {
+    DSL::gen().unwrap()
 }

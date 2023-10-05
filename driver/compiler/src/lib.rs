@@ -1,18 +1,18 @@
 use clap::Parser;
 
-use processor::parser::syntax::ASyntax;
+use processor::langpart::parser::syntax::ASyntax;
 use processor::prelude::*;
-use processor::LangPart;
+use processor::DSL;
 
 #[derive(Parser)]
 #[command(author, version, about)]
 struct CompilerCLI {}
 
-pub struct Compiler<A, S, T> (LangPart<A, S, T>)
+pub struct Compiler<A, S, T> (DSL<A, S, T>)
 where
     A: ASyntax<S, T>,
-    S: Syntax<A, T>,
-    T: Token;
+    S: Syntax<A, T> + 'static,
+    T: Token + 'static;
 
 impl<A, S, T> Compiler<A, S, T>
 where
@@ -20,7 +20,7 @@ where
     S: Syntax<A, T>,
     T: Token,
 {
-    pub fn new(langpart: LangPart<A, S, T>) -> Self {
+    pub fn new(langpart: DSL<A, S, T>) -> Self {
         Compiler(langpart)
     }
 

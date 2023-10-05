@@ -1,8 +1,8 @@
 use blockdsl::driver::interpreter::Interpreter;
 use blockdsl::dsl::prelude::*;
-use blockdsl::dsl::LangPart;
-use blockdsl::dsl::parser::kind::LR1;
-use blockdsl::dsl::parser::syntax::ASyntax;
+use blockdsl::dsl::DSL;
+use blockdsl::dsl::langpart::parser::kind::LR1;
+use blockdsl::dsl::langpart::parser::syntax::ASyntax;
 use blockdsl::dsl::macros::*;
 
 #[lexer]
@@ -109,6 +109,6 @@ impl ExprNode {
 }
 
 fn main() -> anyhow::Result<()> {
-    let langpart = LangPart::<ExprNode, ExprSyntax, ExprToken>::gen()?;
-    Interpreter::new(langpart).exec()
+    let dsl = DSL::<ExprNode, ExprSyntax, ExprToken>::gen()?;
+    Interpreter::new(dsl).exec()
 }

@@ -3,19 +3,19 @@ use std::io::Write;
 
 use clap::Parser;
 
-use processor::parser::syntax::ASyntax;
+use processor::langpart::parser::syntax::ASyntax;
 use processor::prelude::*;
-use processor::LangPart;
+use processor::DSL;
 
 #[derive(Parser)]
 #[command(author, version, about)]
 struct InterpreterCLI {}
 
-pub struct Interpreter<A, S, T> (LangPart<A, S, T>)
+pub struct Interpreter<A, S, T> (DSL<A, S, T>)
 where
     A: ASyntax<S, T>,
-    S: Syntax<A, T>,
-    T: Token;
+    S: Syntax<A, T> + 'static,
+    T: Token + 'static;
 
 impl<A, S, T> Interpreter<A, S, T>
 where
@@ -23,8 +23,8 @@ where
     S: Syntax<A, T> + 'static,
     T: Token + 'static,
 {
-    pub fn new(langpart: LangPart<A, S, T>) -> Self {
-        Interpreter(langpart)
+    pub fn new(dsl: DSL<A, S, T>) -> Self {
+        Interpreter(dsl)
     }
 
     pub fn exec(self: Self) -> anyhow::Result<()> {
