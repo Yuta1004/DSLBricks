@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test {
-    use compiler_langpart_macros::*;
+    use processor_langpart_macros::*;
     use langpart::prelude::*;
 
     #[lexer]

@@ -1,7 +1,7 @@
-use compiler::driver::env::Windows_X86_64;
-use compiler::driver::prelude::*;
-use compiler::driver::Interpreter;
-use compiler_lib_dev::langpart::*;
+use processor::driver::env::Windows_X86_64;
+use processor::driver::prelude::*;
+use processor::driver::Interpreter;
+use processor_lib_dev::langpart::*;
 
 #[test]
 fn interpreter() {

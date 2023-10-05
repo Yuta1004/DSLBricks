@@ -8,8 +8,8 @@ publish = false
 anyhow = "1.0"
 thiserror = "1.0"
 strum = { version = "0.25", features = ["derive"] }
-compiler = { path = "../compiler/compiler" }
-compiler_lib_dev = { package = "lib_dev", path = "../library/dev" }
+processor = { path = "../processor/processor" }
+processor_lib_dev = { package = "lib_dev", path = "../library/dev" }
 
 [[test]]
 name = "driver-c"

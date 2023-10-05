@@ -1,5 +1,5 @@
 [package]
-name = "compiler_langpart_macros"
+name = "processor_langpart_macros"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,7 +8,7 @@ proc-macro2 = "1.0"
 quote = "1.0"
 syn = {version ="2.0", features = ["full", "extra-traits"] }
 strum = { version = "0.25", features = ["derive"] }
-langpart = { package = "compiler_langpart", path = "../compiler_langpart" }
+langpart = { package = "processor_langpart", path = "../processor_langpart" }
 
 [lib]
 proc-macro = true

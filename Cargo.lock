@@ -126,57 +126,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 
 [[package]]
-name = "compiler"
-version = "0.1.0"
-dependencies = [
- "compiler_driver",
- "compiler_dslgen",
- "compiler_langpart",
- "compiler_langpart_macros",
-]
-
-[[package]]
-name = "compiler_driver"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "compiler_langpart",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_dslgen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "compiler_langpart",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_langpart"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "itertools",
- "regex",
- "strum",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_langpart_macros"
-version = "0.1.0"
-dependencies = [
- "compiler_langpart",
- "proc-macro2",
- "quote",
- "strum",
- "syn",
-]
-
-[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -208,8 +157,8 @@ name = "examples"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "compiler",
  "lib_dev",
+ "processor",
  "thiserror",
 ]
 
@@ -250,7 +199,7 @@ name = "lib_dev"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "compiler",
+ "processor",
  "strum",
  "thiserror",
 ]
@@ -286,6 +235,57 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "processor"
+version = "0.1.0"
+dependencies = [
+ "processor_driver",
+ "processor_dslgen",
+ "processor_langpart",
+ "processor_langpart_macros",
+]
+
+[[package]]
+name = "processor_driver"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "processor_langpart",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_dslgen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "processor_langpart",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_langpart"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "itertools",
+ "regex",
+ "strum",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_langpart_macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "processor_langpart",
+ "quote",
+ "strum",
+ "syn",
 ]
 
 [[package]]
@@ -389,8 +389,8 @@ name = "tests"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "compiler",
  "lib_dev",
+ "processor",
  "strum",
  "thiserror",
 ]

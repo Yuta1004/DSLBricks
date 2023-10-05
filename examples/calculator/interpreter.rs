@@ -1,7 +1,7 @@
-use compiler::driver::env::Auto;
-use compiler::driver::prelude::*;
-use compiler::driver::Interpreter;
-use compiler_lib_dev::langpart::*;
+use processor::driver::env::Auto;
+use processor::driver::prelude::*;
+use processor::driver::Interpreter;
+use processor_lib_dev::langpart::*;
 
 fn main() -> anyhow::Result<()> {
     let langpart = expr_langpart();
