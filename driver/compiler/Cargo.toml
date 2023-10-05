@@ -1,5 +1,5 @@
 [package]
-name = "processor_driver"
+name = "compiler"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,5 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 clap = { version = "4.3", features = ["derive"] }
-langpart = { package = "processor_langpart", path = "../processor_langpart" }
+processor = { path = "../../processor/processor" }
+processor_lib_dev = { package = "lib_dev", path = "../../library/dev" }

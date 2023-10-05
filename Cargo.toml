@@ -1,5 +1,7 @@
 [workspace]
 members = [
+    "driver/compiler",
+    "driver/interpreter",
     "processor/processor",
     "library/dev",
     "tests",

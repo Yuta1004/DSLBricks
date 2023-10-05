@@ -126,6 +126,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 
 [[package]]
+name = "compiler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "lib_dev",
+ "processor",
+ "thiserror",
+]
+
+[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -157,8 +168,8 @@ name = "examples"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "interpreter",
  "lib_dev",
- "processor",
  "thiserror",
 ]
 
@@ -173,6 +184,17 @@ name = "hermit-abi"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "443144c8cdadd93ebf52ddb4056d257f5b52c04d3c804e657d19eb73fc33668b"
+
+[[package]]
+name = "interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "lib_dev",
+ "processor",
+ "thiserror",
+]
 
 [[package]]
 name = "is-terminal"
@@ -241,20 +263,9 @@ dependencies = [
 name = "processor"
 version = "0.1.0"
 dependencies = [
- "processor_driver",
  "processor_dslgen",
  "processor_langpart",
  "processor_langpart_macros",
-]
-
-[[package]]
-name = "processor_driver"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "processor_langpart",
- "thiserror",
 ]
 
 [[package]]
@@ -389,8 +400,9 @@ name = "tests"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "compiler",
+ "interpreter",
  "lib_dev",
- "processor",
  "strum",
  "thiserror",
 ]

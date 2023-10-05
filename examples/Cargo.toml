@@ -7,7 +7,7 @@ publish = false
 [dev-dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
-processor = { path = "../processor/processor" }
+interpreter = { package = "interpreter", path = "../driver/interpreter" }
 processor_lib_dev = { package = "lib_dev", path = "../library/dev" }
 
 [[example]]
