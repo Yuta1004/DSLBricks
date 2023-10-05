@@ -3,7 +3,7 @@ use std::io::Write;
 
 use clap::Parser;
 
-use processor::langpart::parser::syntax::ASyntax;
+use processor::langpart::parser::ASyntax;
 use processor::prelude::*;
 use processor::DSL;
 

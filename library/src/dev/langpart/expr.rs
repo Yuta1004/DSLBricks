@@ -1,5 +1,4 @@
-use processor::langpart::parser::kind::LR1;
-use processor::langpart::parser::syntax::ASyntax;
+use processor::langpart::parser::{LR1, ASyntax};
 use processor::macros::*;
 use processor::prelude::*;
 use processor::DSL;

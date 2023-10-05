@@ -438,9 +438,9 @@ impl<'a, T: Token> LRItem<'a, T> {
 #[cfg(test)]
 mod test {
     use crate::lexer::Token;
-    use crate::parser::kind::LR1;
     use crate::parser::syntax::util::VoidSemantics;
-    use crate::parser::syntax::Syntax;
+    use crate::parser::rule::{Rule, RuleElem};
+    use crate::parser::{LR1, Syntax};
     use crate::prelude::*;
     use crate::LangPart;
 

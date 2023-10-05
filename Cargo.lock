@@ -296,11 +296,13 @@ dependencies = [
 name = "processor_langpart_macros"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "proc-macro2",
  "processor_langpart",
  "quote",
  "strum",
  "syn",
+ "thiserror",
 ]
 
 [[package]]

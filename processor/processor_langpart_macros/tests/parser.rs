@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod test {
-    use langpart::parser::kind::LR1;
-    use langpart::parser::syntax::util::VoidSemantics;
+    use langpart::parser::{LR1, ASyntax};
     use langpart::prelude::*;
     use processor_langpart_macros::*;
 
@@ -33,6 +32,18 @@ mod test {
         AandB,
         AandC,
         BandC,
+    }
+
+    struct VoidSemantics;
+
+    impl<S, T> ASyntax<S, T> for VoidSemantics
+    where
+        S: Syntax<Self, T>,
+        T: Token,
+    {
+        fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
+            Ok(Box::new(VoidSemantics {}))
+        }
     }
 
     #[test]

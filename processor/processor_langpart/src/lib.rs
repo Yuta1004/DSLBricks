@@ -1,6 +1,6 @@
 use crate::lexer::{Lexer, Token};
-use crate::parser::syntax::{ASyntax, Syntax};
 use crate::parser::Parser;
+use crate::parser::syntax::{ASyntax, Syntax};
 
 pub mod prelude;
 pub mod lexer;

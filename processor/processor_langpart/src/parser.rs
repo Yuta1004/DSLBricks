@@ -1,7 +1,4 @@
 mod pimpl;
-pub mod kind {
-    pub use super::pimpl::LR1;
-}
 pub mod rule;
 pub mod syntax;
 
@@ -10,7 +7,9 @@ use std::marker::PhantomData;
 use thiserror::Error;
 
 use pimpl::ParserImpl;
-use syntax::{ASyntax, Syntax};
+pub use pimpl::LR1;
+pub use syntax::ASyntax;
+use syntax::Syntax;
 
 use crate::lexer::Token;
 
@@ -20,7 +19,7 @@ pub enum ParseError {
     Unknown,
 }
 
-pub struct Parser<A, S, T>
+pub(super) struct Parser<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
