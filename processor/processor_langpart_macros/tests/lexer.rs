@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod test {
-    use processor_langpart_macros::*;
     use langpart::prelude::*;
+    use processor_langpart_macros::*;
 
     #[lexer]
     enum TestToken {

@@ -11,7 +11,7 @@ use processor::DSL;
 #[command(author, version, about)]
 struct InterpreterCLI {}
 
-pub struct Interpreter<A, S, T> (DSL<A, S, T>)
+pub struct Interpreter<A, S, T>(DSL<A, S, T>)
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + 'static,

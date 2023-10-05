@@ -8,7 +8,7 @@ use processor::DSL;
 #[command(author, version, about)]
 struct CompilerCLI {}
 
-pub struct Compiler<A, S, T> (DSL<A, S, T>)
+pub struct Compiler<A, S, T>(DSL<A, S, T>)
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + 'static,

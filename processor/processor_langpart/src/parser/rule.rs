@@ -114,17 +114,11 @@ where
 
 impl<T: Token> RuleSet<T> {
     pub fn nonterms(&self) -> Vec<&RuleElem<T>> {
-        self.rules
-            .iter()
-            .flat_map(|rule| rule.nonterms())
-            .collect()
+        self.rules.iter().flat_map(|rule| rule.nonterms()).collect()
     }
 
     pub fn terms(&self) -> Vec<&RuleElem<T>> {
-        self.rules
-            .iter()
-            .flat_map(|rule| rule.terms())
-            .collect()
+        self.rules.iter().flat_map(|rule| rule.terms()).collect()
     }
 
     pub fn find_rule(&self, target: &RuleElem<T>) -> Vec<&Rule<T>> {
