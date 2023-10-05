@@ -1,7 +1,7 @@
-use depagerpp::driver::env::Windows_X86_64;
-use depagerpp::driver::prelude::*;
-use depagerpp::driver::Compiler;
-use depagerpp_lib_dev::langpart::*;
+use compiler::driver::env::Windows_X86_64;
+use compiler::driver::prelude::*;
+use compiler::driver::Compiler;
+use compiler_lib_dev::langpart::*;
 
 #[test]
 fn compiler() {

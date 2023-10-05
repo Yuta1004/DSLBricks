@@ -126,36 +126,36 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 
 [[package]]
-name = "depagerpp"
+name = "compiler"
 version = "0.1.0"
 dependencies = [
- "depagerpp_driver",
- "depagerpp_dslgen",
- "depagerpp_langpart",
- "depagerpp_langpart_macros",
+ "compiler_driver",
+ "compiler_dslgen",
+ "compiler_langpart",
+ "compiler_langpart_macros",
 ]
 
 [[package]]
-name = "depagerpp_driver"
+name = "compiler_driver"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
- "depagerpp_langpart",
+ "compiler_langpart",
  "thiserror",
 ]
 
 [[package]]
-name = "depagerpp_dslgen"
+name = "compiler_dslgen"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "depagerpp_langpart",
+ "compiler_langpart",
  "thiserror",
 ]
 
 [[package]]
-name = "depagerpp_langpart"
+name = "compiler_langpart"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -166,24 +166,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "depagerpp_langpart_macros"
+name = "compiler_langpart_macros"
 version = "0.1.0"
 dependencies = [
- "depagerpp_langpart",
+ "compiler_langpart",
  "proc-macro2",
  "quote",
  "strum",
  "syn",
-]
-
-[[package]]
-name = "dev"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "depagerpp",
- "strum",
- "thiserror",
 ]
 
 [[package]]
@@ -218,8 +208,8 @@ name = "examples"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "depagerpp",
- "dev",
+ "compiler",
+ "lib_dev",
  "thiserror",
 ]
 
@@ -253,6 +243,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1c173a5686ce8bfa551b3563d0c2170bf24ca44da99c7ca4bfdab5418c3fe57"
 dependencies = [
  "either",
+]
+
+[[package]]
+name = "lib_dev"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "compiler",
+ "strum",
+ "thiserror",
 ]
 
 [[package]]
@@ -389,8 +389,8 @@ name = "tests"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "depagerpp",
- "dev",
+ "compiler",
+ "lib_dev",
  "strum",
  "thiserror",
 ]

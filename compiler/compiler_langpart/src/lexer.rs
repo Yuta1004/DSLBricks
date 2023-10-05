@@ -75,18 +75,17 @@ impl<'a, T: Token> Iterator for LexDriver<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         // Skip spaces
-        match self.regex_istr.find(&self.input) {
-            Some(s) => self.input = &self.input[s.len()..],
-            None => {}
+        if let Some(s) = self.regex_istr.find(self.input) {
+            self.input = &self.input[s.len()..];
         }
 
         // Found the token
         let (s, token): (&str, &T) = self
             .regex_set
-            .matches(&self.input)
+            .matches(self.input)
             .into_iter()
             .map(|idx| &self.regex_map[idx])
-            .map(|(regex, token)| (regex.find(&self.input).unwrap().as_str(), token))
+            .map(|(regex, token)| (regex.find(self.input).unwrap().as_str(), token))
             .next()?;
         self.input = &self.input[s.len()..];
 

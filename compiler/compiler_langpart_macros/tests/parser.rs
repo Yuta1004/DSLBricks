@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test {
-    use depagerpp_langpart_macros::*;
+    use compiler_langpart_macros::*;
     use langpart::parser::kind::LR1;
     use langpart::parser::syntax::util::VoidSemantics;
     use langpart::prelude::*;

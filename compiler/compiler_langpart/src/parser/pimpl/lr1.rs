@@ -158,7 +158,7 @@ where
                 };
                 match action.0 {
                     LRAction::Shift(new_state) => {
-                        stack.push(*new_state as usize);
+                        stack.push(*new_state);
                         result.push((None, Some(action.1.unwrap())));
                         break;
                     }
@@ -204,7 +204,7 @@ impl<'a, T: Token> LRItemDFA<'a, T> {
         while loop_idx.0 != loop_idx.1 {
             let mut new_found_cnt = 0;
             for idx in loop_idx.0..loop_idx.1 {
-                let next_sets = lritem_sets[idx].gen_next_sets(&ruleset, &first_set);
+                let next_sets = lritem_sets[idx].gen_next_sets(ruleset, first_set);
                 for (bef_token, mut next_set) in next_sets {
                     match issue_id(&lritem_sets, &next_set) {
                         Ok(id) => {
@@ -275,7 +275,7 @@ impl<'a, T: Token> LRItemSet<'a, T> {
         loop {
             let new_items: Vec<LRItem<'_, T>> = lr_items_fetched
                 .iter()
-                .flat_map(|item| item.expand_closure(&ruleset, &first_set))
+                .flat_map(|item| item.expand_closure(ruleset, first_set))
                 .collect();
             let new_items = LRItem::<'a, T>::unify_all(new_items);
             let new_items = HashSet::from_iter(new_items.into_iter());
@@ -307,7 +307,7 @@ impl<'a, T: Token> LRItemSet<'a, T> {
         let mut new_sets: HashMap<&RuleElem<T>, HashSet<LRItem<'a, T>>> = HashMap::new();
         for (bef_token, lr_item) in new_items {
             if new_sets.get(&bef_token).is_none() {
-                new_sets.insert(bef_token.clone(), HashSet::new());
+                new_sets.insert(bef_token, HashSet::new());
             }
             new_sets.get_mut(&bef_token).unwrap().insert(lr_item);
         }
@@ -389,6 +389,7 @@ impl<'a, T: Token> LRItem<'a, T> {
         }
     }
 
+    #[allow(clippy::int_plus_one)]
     fn next_dot(&self) -> Option<(&'a RuleElem<T>, LRItem<'a, T>)> {
         if self.dot_pos + 1 <= self.rule.right.len() {
             let bef_token = &self.rule.right[self.dot_pos];

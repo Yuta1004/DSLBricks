@@ -1,5 +1,5 @@
 [package]
-name = "depagerpp_driver"
+name = "compiler_driver"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 clap = { version = "4.3", features = ["derive"] }
-langpart = { package = "depagerpp_langpart", path = "../dpp_langpart" }
+langpart = { package = "compiler_langpart", path = "../compiler_langpart" }

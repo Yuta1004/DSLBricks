@@ -18,5 +18,5 @@ where
     T: Token,
 {
     fn build(lang: LangPart<A, S, T>) -> Self;
-    fn exec(self: Self) -> anyhow::Result<()>;
+    fn exec(self) -> anyhow::Result<()>;
 }

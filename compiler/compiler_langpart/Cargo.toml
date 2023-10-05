@@ -1,5 +1,5 @@
 [package]
-name = "depagerpp_langpart"
+name = "compiler_langpart"
 version = "0.1.0"
 edition = "2021"
 

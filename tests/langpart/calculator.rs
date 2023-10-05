@@ -1,4 +1,4 @@
-use depagerpp_lib_dev::langpart::expr_langpart;
+use compiler_lib_dev::langpart::expr_langpart;
 
 #[test]
 fn calculator() {

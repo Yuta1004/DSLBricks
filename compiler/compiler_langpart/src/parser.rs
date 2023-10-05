@@ -30,6 +30,7 @@ where
     p_impl: S::Parser,
 }
 
+#[allow(clippy::new_without_default)]
 impl<A, S, T> Parser<A, S, T>
 where
     A: ASyntax<S, T>,
