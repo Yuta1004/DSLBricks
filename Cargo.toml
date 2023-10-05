@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-compiler = { package = "compiler", path = "driver/compiler" }
-interpreter = { package = "interpreter", path = "driver/interpreter" }
+compiler = { package = "compiler", path = "compiler/driver/compiler" }
+interpreter = { package = "interpreter", path = "compiler/driver/interpreter" }
+processor = { package = "processor", path = "compiler/processor/processor" }
 lib = { package = "lib", path = "library" }
-processor = { package = "processor", path = "processor/processor" }
 
 [dev-dependencies]
 anyhow = "1.0"
@@ -17,11 +17,16 @@ blockdsl = { path = "./" }
 
 [workspace]
 members = [
-    "builder",
-    "driver/compiler",
-    "driver/interpreter",
-    "processor/processor",
+    # Compiler
+    "compiler/builder",
+    "compiler/driver/compiler",
+    "compiler/driver/interpreter",
+    "compiler/processor/processor",
+
+    # Library
     "library",
+
+    # Test
     "tests",
 ]
 exclude = []
