@@ -101,8 +101,8 @@ where
     U: Into<String>,
 {
     fn from((top, mut rules): (U, Vec<Rule<T>>)) -> Self {
-        for idx in 0..rules.len() {
-            rules[idx].id = idx as i32;
+        for (idx, rule) in rules.iter_mut().enumerate() {
+            rule.id = idx as i32;
         }
 
         RuleSet {
@@ -116,16 +116,14 @@ impl<T: Token> RuleSet<T> {
     pub fn nonterms(&self) -> Vec<&RuleElem<T>> {
         self.rules
             .iter()
-            .map(|rule| rule.nonterms())
-            .flatten()
+            .flat_map(|rule| rule.nonterms())
             .collect()
     }
 
     pub fn terms(&self) -> Vec<&RuleElem<T>> {
         self.rules
             .iter()
-            .map(|rule| rule.terms())
-            .flatten()
+            .flat_map(|rule| rule.terms())
             .collect()
     }
 
@@ -176,9 +174,9 @@ impl<T: Token> RuleSet<T> {
                     .unwrap()
                     .iter()
                     .filter(|relem| !first_set.get(nonterm).unwrap().contains(relem))
-                    .map(|relem| relem.clone())
+                    .copied()
                     .collect();
-                updated = found_elems.len() != 0;
+                updated = !found_elems.is_empty();
                 first_set
                     .get_mut(nonterm)
                     .unwrap()
@@ -194,7 +192,7 @@ impl<T: Token> RuleSet<T> {
         let mut nulls_set: Vec<&RuleElem<T>> = self
             .rules
             .iter()
-            .filter(|rule| rule.right.len() == 0)
+            .filter(|rule| rule.right.is_empty())
             .map(|rule| &rule.left)
             .collect();
 

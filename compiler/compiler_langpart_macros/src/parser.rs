@@ -52,7 +52,7 @@ fn parse_attr(
     let mut token = quote! {};
     let mut semantics = quote! {};
     let mut rule_table = HashMap::new();
-    for attr in attrs.to_string().split(',') {
+    for attr in attrs.split(',') {
         let attr: Vec<&str> = attr.split("=>").collect();
         let (name, value) = (attr[0].trim(), attr[1..].join(""));
         match name {
@@ -70,7 +70,7 @@ fn parse_attr(
 fn parse_bnf(token: &str, bnf: String) -> HashMap<String, TokenStream> {
     let rules_list: Vec<&str> = bnf.trim().split(';').collect();
     rules_list[..rules_list.len() - 1]
-        .into_iter()
+        .iter()
         .flat_map(|rules| parse_bnf_rules(token, rules))
         .collect()
 }
@@ -110,10 +110,10 @@ fn parse_bnf_rule<'a, 'b>(token: &'a str, rule: &'b str) -> (&'b str, Vec<TokenS
     let relems = rule
         .split([' ', '\n'])
         .into_iter()
-        .filter(|relem| relem.len() != 0)
+        .filter(|relem| !relem.is_empty())
         .map(|relem| {
             let relem = relem.trim();
-            if relem.starts_with("\"") {
+            if relem.starts_with('\"') {
                 let relem = &relem[1..relem.len() - 1];
                 let relem: TokenStream = relem.parse().unwrap();
                 quote! { RuleElem::term(#token :: #relem) }

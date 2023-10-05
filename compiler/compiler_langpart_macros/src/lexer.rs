@@ -42,7 +42,7 @@ pub(super) fn tokenize_proc_macro_impl(ast: DeriveInput) -> TokenStream {
                 panic!("\"token\" atrribute must contain \"regex\" argument.");
             }
         }
-        if regex == "" {
+        if regex.is_empty() {
             panic!("All variants must have \"token\" attribute.");
         }
 

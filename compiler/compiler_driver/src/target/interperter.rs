@@ -40,7 +40,7 @@ where
         }
     }
 
-    fn exec(self: Self) -> anyhow::Result<()> {
+    fn exec(self) -> anyhow::Result<()> {
         let _ = InterpreterCLI::parse();
 
         loop {
