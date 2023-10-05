@@ -4,7 +4,7 @@
 
 ```
 // Test(all)
-$ cargo test
+$ cargo test --all
 
 // Example(calculator)
 $ cargo run --example calc_interpreter
