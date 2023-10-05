@@ -1,0 +1,9 @@
+[package]
+name = "processor_dslgen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+langpart = { package = "processor_langpart", path = "../processor_langpart" }

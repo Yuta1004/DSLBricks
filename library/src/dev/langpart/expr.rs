@@ -1,8 +1,7 @@
-use blockdsl::driver::interpreter::Interpreter;
-use blockdsl::dsl::langpart::parser::{ASyntax, LR1};
-use blockdsl::dsl::macros::*;
-use blockdsl::dsl::prelude::*;
-use blockdsl::dsl::DSL;
+use processor::langpart::parser::{ASyntax, LR1};
+use processor::macros::*;
+use processor::prelude::*;
+use processor::DSL;
 
 #[lexer]
 pub enum ExprToken {
@@ -96,18 +95,17 @@ impl ASyntax<ExprSyntax, ExprToken> for ExprNode {
 }
 
 impl ExprNode {
-    pub fn eval(&self) -> i32 {
+    pub fn exec(&self) -> i32 {
         match self {
-            ExprNode::Plus(a, b) => a.eval() + b.eval(),
-            ExprNode::Minus(a, b) => a.eval() - b.eval(),
-            ExprNode::Mul(a, b) => a.eval() * b.eval(),
-            ExprNode::Div(a, b) => a.eval() / b.eval(),
+            ExprNode::Plus(a, b) => a.exec() + b.exec(),
+            ExprNode::Minus(a, b) => a.exec() - b.exec(),
+            ExprNode::Mul(a, b) => a.exec() * b.exec(),
+            ExprNode::Div(a, b) => a.exec() / b.exec(),
             ExprNode::Num(num) => *num,
         }
     }
 }
 
-fn main() -> anyhow::Result<()> {
-    let dsl = DSL::<ExprNode, ExprSyntax, ExprToken>::gen()?;
-    Interpreter::new(dsl).exec()
+pub fn expr_langpart() -> DSL<ExprNode, ExprSyntax, ExprToken> {
+    DSL::gen().unwrap()
 }

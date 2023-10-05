@@ -1,9 +1,36 @@
+[package]
+name = "blockdsl"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+compiler = { package = "compiler", path = "compiler/driver/compiler" }
+interpreter = { package = "interpreter", path = "compiler/driver/interpreter" }
+processor = { package = "processor", path = "compiler/processor/processor" }
+lib = { package = "lib", path = "library" }
+
+[dev-dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+strum = { version = "0.25", features = ["derive"] }
+blockdsl = { path = "./" }
+
 [workspace]
 members = [
-    "compiler/compiler",
-    "library/dev",
-    "tests",
-    "examples",
-]
+    # Compiler
+    "compiler/builder",
+    "compiler/driver/compiler",
+    "compiler/driver/interpreter",
+    "compiler/processor/processor",
 
+    # Library
+    "library",
+
+    # Test
+    "tests",
+]
 exclude = []
+
+[[example]]
+name = "calc_interpreter"
+path = "examples/calculator/interpreter.rs"
