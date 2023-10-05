@@ -13,7 +13,7 @@ processor = { package = "processor", path = "processor/processor" }
 anyhow = "1.0"
 thiserror = "1.0"
 strum = { version = "0.25", features = ["derive"] }
-blockdsl = { patckage = "blockdsl", path = "./" }
+blockdsl = { path = "./" }
 
 [workspace]
 members = [

@@ -439,10 +439,21 @@ impl<'a, T: Token> LRItem<'a, T> {
 mod test {
     use crate::lexer::Token;
     use crate::parser::rule::{Rule, RuleElem};
-    use crate::parser::syntax::util::VoidSemantics;
-    use crate::parser::{Syntax, LR1};
+    use crate::parser::{ASyntax, Syntax, LR1};
     use crate::prelude::*;
     use crate::LangPart;
+
+    pub struct VoidSemantics;
+
+    impl<S, T> ASyntax<S, T> for VoidSemantics
+    where
+        S: Syntax<Self, T>,
+        T: Token,
+    {
+        fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
+            Ok(Box::new(VoidSemantics {}))
+        }
+    }
 
     #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug)]
     enum TestToken {
