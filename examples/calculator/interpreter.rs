@@ -96,12 +96,12 @@ impl ASyntax<ExprSyntax, ExprToken> for ExprNode {
 }
 
 impl ExprNode {
-    pub fn exec(&self) -> i32 {
+    pub fn eval(&self) -> i32 {
         match self {
-            ExprNode::Plus(a, b) => a.exec() + b.exec(),
-            ExprNode::Minus(a, b) => a.exec() - b.exec(),
-            ExprNode::Mul(a, b) => a.exec() * b.exec(),
-            ExprNode::Div(a, b) => a.exec() / b.exec(),
+            ExprNode::Plus(a, b) => a.eval() + b.eval(),
+            ExprNode::Minus(a, b) => a.eval() - b.eval(),
+            ExprNode::Mul(a, b) => a.eval() * b.eval(),
+            ExprNode::Div(a, b) => a.eval() / b.eval(),
             ExprNode::Num(num) => *num,
         }
     }
