@@ -1,5 +1,5 @@
-use compiler::Compiler;
-use lib::dev::langpart::*;
+use blockdsl::driver::compiler::Compiler;
+use blockdsl::lib::dev::langpart::*;
 
 #[test]
 fn compiler() {

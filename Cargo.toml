@@ -1,3 +1,14 @@
+[package]
+name = "blockdsl"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+compiler = { package = "compiler", path = "driver/compiler" }
+interpreter = { package = "interpreter", path = "driver/interpreter" }
+lib = { package = "lib", path = "library" }
+processor = { package = "processor", path = "processor/processor" }
+
 [workspace]
 members = [
     "driver/compiler",
@@ -7,5 +18,4 @@ members = [
     "tests",
     "examples",
 ]
-
 exclude = []

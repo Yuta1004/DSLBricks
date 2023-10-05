@@ -1,4 +1,4 @@
-use lib::dev::langpart::expr_langpart;
+use blockdsl::lib::dev::langpart::expr_langpart;
 
 #[test]
 fn calculator() {

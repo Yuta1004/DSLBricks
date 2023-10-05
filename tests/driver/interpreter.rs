@@ -1,5 +1,5 @@
-use interpreter::Interpreter;
-use lib::dev::langpart::*;
+use blockdsl::driver::interpreter::Interpreter;
+use blockdsl::lib::dev::langpart::*;
 
 #[test]
 fn interpreter() {
