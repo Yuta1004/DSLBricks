@@ -1,8 +1,16 @@
-pub trait DSLDesign {
+use std::fmt::Debug;
+
+pub trait DSLDesign
+where
+    Self: Debug,
+{
     fn design(&self) -> Vec<Box<dyn DSLPart>>;
 }
 
-pub trait DSLPart {
+pub trait DSLPart
+where
+    Self: Debug,
+{
     fn syntax(&self) -> Vec<SyntaxElem>;
 
     fn tokens(&self) -> Vec<&'static str> {
@@ -26,6 +34,7 @@ pub enum SyntaxElem {
 mod test {
     use crate::{DSLDesign, DSLPart, SyntaxElem};
 
+    #[derive(Debug)]
     struct MyDSL;
 
     impl DSLDesign for MyDSL {
@@ -34,6 +43,7 @@ mod test {
         }
     }
 
+    #[derive(Debug)]
     struct Function;
 
     impl DSLPart for Function {
