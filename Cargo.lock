@@ -281,6 +281,7 @@ dependencies = [
  "processor_lexer",
  "processor_lexer_macros",
  "processor_parser",
+ "processor_parser_macros",
 ]
 
 [[package]]
@@ -347,6 +348,19 @@ dependencies = [
  "itertools",
  "processor_lexer",
  "strum",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_parser_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "processor_parser",
+ "quote",
+ "strum",
+ "syn",
  "thiserror",
 ]
 

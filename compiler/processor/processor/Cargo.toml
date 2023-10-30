@@ -12,3 +12,4 @@ langpart_macros = { package = "processor_langpart_macros", path = "../processor_
 lexer = { package = "processor_lexer", path = "../processor_lexer" }
 lexer_macros = { package = "processor_lexer_macros", path = "../processor_lexer_macros" }
 parser = { package = "processor_parser", path = "../processor_parser" }
+parser_macros = { package = "processor_parser_macros", path = "../processor_parser_macros" }
