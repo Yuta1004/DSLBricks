@@ -4,6 +4,8 @@ use blockdsl::processor::macros::*;
 use blockdsl::processor::prelude::*;
 use blockdsl::processor::DSL;
 
+type {NAME} = DSL::<{NAME}ASyntax, {NAME}Syntax, {NAME}Token>;
+
 #[lexer]
 pub enum {NAME}Token \{
     {TOKEN_DEFS}
@@ -12,7 +14,7 @@ pub enum {NAME}Token \{
 #[parser(
     kind => LR1,
     token => {NAME}Token,
-    semantics => {NAME}Semantics,
+    semantics => {NAME}ASyntax,
     bnf => {BNF}
 )]
 pub enum {NAME}Syntax \{
@@ -20,13 +22,13 @@ pub enum {NAME}Syntax \{
 }
 
 #[derive(Debug)]
-pub struct {NAME}Semantics;
+pub struct {NAME}ASyntax;
 
-impl ASyntax<{NAME}Syntax, {NAME}Token> for {NAME}Semantics \{
+impl ASyntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
     fn mapping(
         syntax: {NAME}Syntax,
         mut tokens: Vec<(Option<Box<Self>>, Option<&str>)>,
-    ) -> anyhow::Result<Box<{NAME}Semantics>> \{
-        Ok(Box::new({NAME}Semantics))
+    ) -> anyhow::Result<Box<{NAME}ASyntax>> \{
+        Ok(Box::new({NAME}ASyntax))
     }
 }

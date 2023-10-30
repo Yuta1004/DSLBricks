@@ -79,6 +79,7 @@ dependencies = [
  "anyhow",
  "blockdsl",
  "compiler",
+ "designer",
  "interpreter",
  "lib",
  "processor",

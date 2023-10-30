@@ -1,3 +1,4 @@
+pub use designer;
 pub mod driver {
     pub use compiler;
     pub use interpreter;
