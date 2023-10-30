@@ -320,6 +320,8 @@ name = "processor_lexer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "regex",
+ "strum",
  "thiserror",
 ]
 
