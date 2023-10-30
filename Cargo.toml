@@ -30,6 +30,7 @@ members = [
     "tests",
 
     # Examples
+    "examples/simple_interpreter",
     "examples/calc_interpreter",
 ]
 exclude = []
