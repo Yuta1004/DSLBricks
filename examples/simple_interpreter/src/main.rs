@@ -1,4 +1,4 @@
-use blockdsl::driver::interpreter::Interpreter;
+use blockdsl::driver::Interpreter;
 
 include!(concat!(env!("OUT_DIR"), "/dsl.rs"));
 
