@@ -330,6 +330,9 @@ name = "processor_parser"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "itertools",
+ "processor_lexer",
+ "strum",
  "thiserror",
 ]
 

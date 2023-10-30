@@ -6,3 +6,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
+itertools = "0.11"
+strum = { version = "0.25", features = ["derive"] }
+lexer = { package = "processor_lexer", path = "../processor_lexer" }
