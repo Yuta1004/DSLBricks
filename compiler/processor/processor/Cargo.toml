@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# check = { package = "processor_check", path = "../processor_check" }
+# codegen = { package = "processor_codegen", path = "../processor_codegen" }
 dslgen = { package = "processor_dslgen", path = "../processor_dslgen" }
 langpart = { package = "processor_langpart", path = "../processor_langpart" }
 langpart_macros = { package = "processor_langpart_macros", path = "../processor_langpart_macros" }
