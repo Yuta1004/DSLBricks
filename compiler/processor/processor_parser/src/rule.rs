@@ -2,9 +2,9 @@ use std::any::Any;
 use std::collections::HashMap;
 use std::hash::Hash;
 
-use super::syntax::{ASyntax, Syntax};
+use lexer::Token;
 
-use crate::lexer::Token;
+use super::syntax::{ASyntax, Syntax};
 
 #[derive(Debug)]
 pub enum RuleElem<T: Token> {
@@ -214,10 +214,12 @@ impl<T: Token> RuleSet<T> {
 mod test {
     use std::collections::HashMap;
 
-    use crate::lexer::Token;
-    use crate::parser::rule::{Rule, RuleElem};
-    use crate::parser::{ASyntax, Syntax, LR1};
-    use crate::prelude::*;
+    use strum::EnumIter;
+
+    use lexer::Token;
+
+    use crate::rule::{Rule, RuleElem};
+    use crate::{ASyntax, Syntax, LR1};
 
     pub struct VoidSemantics;
 

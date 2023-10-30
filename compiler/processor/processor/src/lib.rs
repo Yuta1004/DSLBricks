@@ -1,8 +1,11 @@
 pub use dslgen::*;
-pub use langpart;
-pub mod prelude {
-    pub use langpart::prelude::*;
-}
+pub use lexer;
+pub use parser;
 pub mod macros {
-    pub use langpart_macros::*;
+    pub use lexer_macros::*;
+    pub use parser_macros::*;
+}
+pub mod prelude {
+    pub use lexer::prelude::*;
+    pub use parser::prelude::*;
 }

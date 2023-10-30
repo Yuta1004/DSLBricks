@@ -1,5 +1,5 @@
 [package]
-name = "processor_langpart"
+name = "processor_lexer"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,4 +8,3 @@ anyhow = "1.0"
 thiserror = "1.0"
 regex = "1.9.1"
 strum = { version = "0.25", features = ["derive"] }
-itertools = "0.11"

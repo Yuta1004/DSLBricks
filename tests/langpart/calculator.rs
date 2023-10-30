@@ -1,10 +1,10 @@
-use blockdsl::lib::dev::langpart::expr_langpart;
+use blockdsl::lib::dev::dsl::expr_dsl;
 
 #[test]
 fn calculator() {
-    let langpart = expr_langpart();
+    let dsl = expr_dsl();
     let check = |expr: &str, ans: i32| {
-        assert_eq!(langpart.process(expr).unwrap().exec(), ans);
+        assert_eq!(dsl.process(expr).unwrap().exec(), ans);
     };
 
     check("10", 10);

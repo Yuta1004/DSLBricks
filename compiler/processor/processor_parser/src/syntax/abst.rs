@@ -1,8 +1,8 @@
 use thiserror::Error;
 
-use super::Syntax;
+use lexer::Token;
 
-use crate::lexer::Token;
+use super::Syntax;
 
 #[derive(Debug, Error)]
 pub enum ASyntaxError {

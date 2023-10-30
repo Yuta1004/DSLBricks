@@ -1,8 +1,9 @@
 use blockdsl::driver::interpreter::Interpreter;
-use blockdsl::dsl::langpart::parser::{ASyntax, LR1};
-use blockdsl::dsl::macros::*;
-use blockdsl::dsl::prelude::*;
-use blockdsl::dsl::DSL;
+use blockdsl::processor::parser::syntax::ASyntax;
+use blockdsl::processor::parser::LR1;
+use blockdsl::processor::macros::*;
+use blockdsl::processor::prelude::*;
+use blockdsl::processor::DSL;
 
 #[lexer]
 pub enum ExprToken {

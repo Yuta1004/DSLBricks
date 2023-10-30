@@ -1,17 +1,17 @@
 mod pimpl;
 pub mod rule;
 pub mod syntax;
+pub mod prelude;
 
 use std::marker::PhantomData;
 
 use thiserror::Error;
 
+use lexer::Token;
+
 use pimpl::ParserImpl;
 pub use pimpl::LR1;
-pub use syntax::ASyntax;
-use syntax::Syntax;
-
-use crate::lexer::Token;
+use syntax::{ASyntax, Syntax};
 
 #[derive(Error, Debug)]
 pub enum ParseError {
@@ -19,7 +19,7 @@ pub enum ParseError {
     Unknown,
 }
 
-pub(super) struct Parser<A, S, T>
+pub struct Parser<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T>,

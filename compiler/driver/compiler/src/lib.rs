@@ -1,7 +1,7 @@
 use clap::Parser;
 
-use processor::langpart::parser::ASyntax;
-use processor::prelude::*;
+use processor::lexer::Token;
+use processor::parser::syntax::{ASyntax, Syntax};
 use processor::DSL;
 
 #[derive(Parser)]

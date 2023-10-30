@@ -1,10 +1,10 @@
 use strum::IntoEnumIterator;
 
-use super::abst::ASyntax;
+use lexer::Token;
 
-use crate::lexer::Token;
-use crate::parser::rule::{Rule, RuleElem, RuleSet};
-use crate::parser::ParserImpl;
+use super::abst::ASyntax;
+use crate::rule::{Rule, RuleElem, RuleSet};
+use crate::ParserImpl;
 
 pub trait Syntax<A, T>
 where

@@ -159,6 +159,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "dev"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "processor",
+ "strum",
+ "thiserror",
+]
+
+[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -233,7 +243,7 @@ name = "lib"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "processor",
+ "dev",
  "strum",
  "thiserror",
 ]
@@ -276,8 +286,11 @@ name = "processor"
 version = "0.1.0"
 dependencies = [
  "processor_dslgen",
- "processor_langpart",
- "processor_langpart_macros",
+ "processor_lexer",
+ "processor_lexer_macros",
+ "processor_parser",
+ "processor_parser_macros",
+ "strum",
 ]
 
 [[package]]
@@ -285,28 +298,52 @@ name = "processor_dslgen"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "processor_langpart",
+ "processor_lexer",
+ "processor_parser",
  "thiserror",
 ]
 
 [[package]]
-name = "processor_langpart"
+name = "processor_lexer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "itertools",
  "regex",
  "strum",
  "thiserror",
 ]
 
 [[package]]
-name = "processor_langpart_macros"
+name = "processor_lexer_macros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "proc-macro2",
- "processor_langpart",
+ "processor_lexer",
+ "quote",
+ "strum",
+ "syn",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_parser"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "itertools",
+ "processor_lexer",
+ "strum",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_parser_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "processor_parser",
  "quote",
  "strum",
  "syn",

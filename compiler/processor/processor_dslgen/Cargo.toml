@@ -6,4 +6,5 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
-langpart = { package = "processor_langpart", path = "../processor_langpart" }
+lexer = { package = "processor_lexer", path = "../processor_lexer" }
+parser = { package = "processor_parser", path = "../processor_parser" }

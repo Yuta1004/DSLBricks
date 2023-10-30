@@ -1,3 +1,5 @@
+pub mod prelude;
+
 use std::hash::Hash;
 use std::marker::PhantomData;
 
@@ -95,9 +97,9 @@ impl<'a, T: Token> Iterator for LexDriver<'a, T> {
 
 #[cfg(test)]
 mod test {
-    use super::Lexer;
-    use crate::lexer::Token;
-    use crate::prelude::*;
+    pub use strum::EnumIter;
+
+    use super::{Lexer, Token};
 
     #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq)]
     enum TestToken {
