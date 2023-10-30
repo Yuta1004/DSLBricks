@@ -4,7 +4,7 @@ use std::io::Write;
 use clap::Parser;
 
 use processor::lexer::Token;
-use processor::parser::{ASyntax, Syntax};
+use processor::parser::syntax::{ASyntax, Syntax};
 use processor::DSL;
 
 #[derive(Parser)]

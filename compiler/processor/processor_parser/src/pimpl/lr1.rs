@@ -442,7 +442,8 @@ mod test {
     use lexer::{Lexer, Token};
 
     use crate::rule::{Rule, RuleElem};
-    use crate::{ASyntax, Parser, Syntax, LR1};
+    use crate::syntax::{ASyntax, Syntax};
+    use crate::{Parser, LR1};
 
     pub struct VoidSemantics;
 

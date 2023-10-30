@@ -11,7 +11,7 @@ use lexer::Token;
 
 use pimpl::ParserImpl;
 pub use pimpl::LR1;
-pub use syntax::{ASyntax, Syntax};
+use syntax::{ASyntax, Syntax};
 
 #[derive(Error, Debug)]
 pub enum ParseError {
