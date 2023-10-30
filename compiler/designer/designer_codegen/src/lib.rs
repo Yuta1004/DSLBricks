@@ -6,15 +6,18 @@ use design::DSLDesign;
 #[allow(non_snake_case)]
 #[derive(Serialize)]
 struct CodeTemplate {
+    NAME: String,
     TOKEN_DEFS: String,
     SYNTAX_DEFS: String,
     BNF: String,
 }
 
-pub fn gen(_design: Box<dyn DSLDesign>) -> anyhow::Result<String> {
+pub fn gen(design: Box<dyn DSLDesign>) -> anyhow::Result<String> {
+    let name = format!("{:?}", design);
     let token_defs = gen_token_code()?;
     let (syntax_defs, bnf) = gen_syntax_code()?;
     let context = CodeTemplate {
+        NAME: name,
         TOKEN_DEFS: token_defs,
         SYNTAX_DEFS: syntax_defs,
         BNF: bnf,
