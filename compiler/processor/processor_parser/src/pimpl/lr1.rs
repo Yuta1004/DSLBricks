@@ -439,11 +439,10 @@ impl<'a, T: Token> LRItem<'a, T> {
 mod test {
     use strum::EnumIter;
 
-    use lexer::Token;
+    use lexer::{Lexer, Token};
 
     use crate::rule::{Rule, RuleElem};
-    use crate::{ASyntax, Syntax, LR1};
-    use crate::LangPart;
+    use crate::{ASyntax, Parser, Syntax, LR1};
 
     pub struct VoidSemantics;
 
@@ -577,7 +576,6 @@ mod test {
 
     #[test]
     fn input_ok() {
-        let lang = LangPart::<VoidSemantics, TestSyntax, TestToken>::gen().unwrap();
         let inputs = vec![
             "10",
             "10 + 20",
@@ -591,13 +589,12 @@ mod test {
             "((10 + 20) * (30 / 40)) - 50",
         ];
         for input in inputs {
-            assert!(lang.process(input).is_ok(), "{}", input);
+            assert!(parse::<VoidSemantics, TestSyntax, TestToken>(input), "{}", input)
         }
     }
 
     #[test]
     fn input_err() {
-        let lang = LangPart::<VoidSemantics, TestSyntax, TestToken>::gen().unwrap();
         let inputs = vec![
             "()",
             "(10 -",
@@ -608,7 +605,19 @@ mod test {
             "(((10))",
         ];
         for input in inputs {
-            assert!(lang.process(input).is_err(), "{}", input);
+            assert!(!parse::<VoidSemantics, TestSyntax, TestToken>(input), "{}", input)
         }
+    }
+
+    fn parse<A, S, T>(input: &str) -> bool
+    where
+        A: ASyntax<S, T>,
+        S: Syntax<A, T>,
+        T: Token + 'static,
+    {
+        let lexer = Lexer::<T>::new().unwrap();
+        let parser = Parser::<A, S, T>::new();
+
+        parser.parse(&mut lexer.lex(input)).is_ok()
     }
 }
