@@ -7,5 +7,5 @@
 $ cargo test --all
 
 // Example(calculator)
-$ cargo run --example calc_interpreter
+$ cargo run -p calc_interpreter
 ```

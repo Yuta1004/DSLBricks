@@ -28,9 +28,8 @@ members = [
 
     # Test
     "tests",
+
+    # Examples
+    "examples/calc_interpreter",
 ]
 exclude = []
-
-[[example]]
-name = "calc_interpreter"
-path = "examples/calculator/interpreter.rs"

@@ -87,6 +87,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "calc_interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "blockdsl",
+ "strum",
+ "thiserror",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
