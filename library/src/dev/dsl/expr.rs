@@ -1,7 +1,3 @@
-use processor::lexer::Token;
-use processor::parser::{tget, tignore};
-use processor::parser::syntax::Syntax;
-use processor::parser::rule::{Rule, RuleElem};
 use processor::parser::{ASyntax, LR1};
 use processor::prelude::*;
 use processor::macros::*;

@@ -1,6 +1,7 @@
 mod pimpl;
 pub mod rule;
 pub mod syntax;
+pub mod prelude;
 
 use std::marker::PhantomData;
 

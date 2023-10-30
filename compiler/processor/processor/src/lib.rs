@@ -6,5 +6,6 @@ pub mod macros {
     pub use parser_macros::*;
 }
 pub mod prelude {
-    pub use strum::EnumIter;
+    pub use lexer::prelude::*;
+    pub use parser::prelude::*;
 }
