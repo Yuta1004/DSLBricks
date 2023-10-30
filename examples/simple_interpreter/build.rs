@@ -15,7 +15,7 @@ impl DSLDesign for MyDSL {
 
 fn main() {
     let dsl = Box::new(MyDSL);
-    let dsl_rcode = codegen::gen(dsl).unwrap();
+    let dsl_rcode = codegen::gen_rust(dsl).unwrap();
 
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dst_path = Path::new(&out_dir).join("dsl.rs");
