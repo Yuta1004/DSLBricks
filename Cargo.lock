@@ -279,6 +279,7 @@ dependencies = [
  "processor_langpart",
  "processor_langpart_macros",
  "processor_lexer",
+ "processor_lexer_macros",
  "processor_parser",
 ]
 
@@ -322,6 +323,19 @@ dependencies = [
  "anyhow",
  "regex",
  "strum",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_lexer_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "processor_lexer",
+ "quote",
+ "strum",
+ "syn",
  "thiserror",
 ]
 
