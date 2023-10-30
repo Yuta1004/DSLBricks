@@ -159,6 +159,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "dev"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "processor",
+ "strum",
+ "thiserror",
+]
+
+[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -233,7 +243,7 @@ name = "lib"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "processor",
+ "dev",
  "strum",
  "thiserror",
 ]

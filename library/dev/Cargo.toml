@@ -1,5 +1,5 @@
 [package]
-name = "lib"
+name = "dev"
 version = "0.1.0"
 edition = "2021"
 publish = false
@@ -8,4 +8,4 @@ publish = false
 anyhow = "1.0"
 thiserror = "1.0"
 strum = { version = "0.25", features = ["derive"] }
-dev = { path = "dev" }
+processor = { path = "../../compiler/processor/processor" }
