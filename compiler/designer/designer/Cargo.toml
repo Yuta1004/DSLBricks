@@ -1,0 +1,11 @@
+[package]
+name = "designer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+codegen = { package = "designer_codegen", path = "../designer_codegen" }
+check = { package = "designer_check", path = "../designer_check" }
+design = { package = "designer_design", path = "../designer_design" }

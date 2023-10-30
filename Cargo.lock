@@ -87,14 +87,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "builder"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
 name = "cc"
 version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -155,6 +147,41 @@ dependencies = [
  "clap",
  "lib",
  "processor",
+ "thiserror",
+]
+
+[[package]]
+name = "designer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "designer_check",
+ "designer_codegen",
+ "designer_design",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_check"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_codegen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_design"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "thiserror",
 ]
 
