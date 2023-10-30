@@ -1,6 +1,10 @@
-use processor::langpart::parser::{ASyntax, LR1};
-use processor::macros::*;
+use processor::lexer::Token;
+use processor::parser::{tget, tignore};
+use processor::parser::syntax::Syntax;
+use processor::parser::rule::{Rule, RuleElem};
+use processor::parser::{ASyntax, LR1};
 use processor::prelude::*;
+use processor::macros::*;
 use processor::DSL;
 
 #[lexer]
@@ -106,6 +110,6 @@ impl ExprNode {
     }
 }
 
-pub fn expr_langpart() -> DSL<ExprNode, ExprSyntax, ExprToken> {
+pub fn expr_dsl() -> DSL<ExprNode, ExprSyntax, ExprToken> {
     DSL::gen().unwrap()
 }

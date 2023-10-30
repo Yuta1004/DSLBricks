@@ -1,5 +1,8 @@
 use blockdsl::driver::interpreter::Interpreter;
-use blockdsl::dsl::langpart::parser::{ASyntax, LR1};
+use blockdsl::dsl::lexer::Token;
+use blockdsl::dsl::parser::{tget, tignore};
+use blockdsl::dsl::parser::rule::{Rule, RuleElem};
+use blockdsl::dsl::parser::{ASyntax, LR1, Syntax};
 use blockdsl::dsl::macros::*;
 use blockdsl::dsl::prelude::*;
 use blockdsl::dsl::DSL;

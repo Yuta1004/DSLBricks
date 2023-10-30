@@ -4,11 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+strum = { version = "0.25", features = ["derive"] }
 # check = { package = "processor_check", path = "../processor_check" }
 # codegen = { package = "processor_codegen", path = "../processor_codegen" }
 dslgen = { package = "processor_dslgen", path = "../processor_dslgen" }
-langpart = { package = "processor_langpart", path = "../processor_langpart" }
-langpart_macros = { package = "processor_langpart_macros", path = "../processor_langpart_macros" }
 lexer = { package = "processor_lexer", path = "../processor_lexer" }
 lexer_macros = { package = "processor_lexer_macros", path = "../processor_lexer_macros" }
 parser = { package = "processor_parser", path = "../processor_parser" }
