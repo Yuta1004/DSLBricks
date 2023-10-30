@@ -278,6 +278,8 @@ dependencies = [
  "processor_dslgen",
  "processor_langpart",
  "processor_langpart_macros",
+ "processor_lexer",
+ "processor_parser",
 ]
 
 [[package]]
@@ -310,6 +312,22 @@ dependencies = [
  "quote",
  "strum",
  "syn",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_lexer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_parser"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "thiserror",
 ]
 
