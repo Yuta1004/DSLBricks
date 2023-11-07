@@ -7,22 +7,25 @@ use syn::{Data, DeriveInput};
 pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> TokenStream {
     let (parser, token, semantics, rule_table) = parse_attr(attrs);
 
-    let enum_name = &target_ast.ident;
     let data_enum = if let Data::Enum(data_enum) = &target_ast.data {
         data_enum
     } else {
         panic!("\"Tokenize\" proc-macro is only implemented for enum.")
     };
 
-    let mut enum_rule_table = vec![];
-    for variant in &data_enum.variants {
-        let variant = &variant.ident;
-        if let Some(rule) = rule_table.get(&variant.to_string()) {
-            enum_rule_table.push(quote! { #enum_name :: #variant => #rule });
-        } else {
-            panic!("Variant \"{}\" is not mapping for any rule.", variant);
-        }
-    }
+    let enum_name = &target_ast.ident;
+
+    let enum_rule_table: Vec<TokenStream> = (&data_enum.variants)
+        .into_iter()
+        .map(|variant| {
+            let variant = &variant.ident;
+            if let Some(rule) = rule_table.get(&variant.to_string()) {
+                quote! { #enum_name :: #variant => #rule }
+            } else {
+                panic!("Variant \"{}\" is not mapping for any rule.", variant);
+            }
+        })
+        .collect();
 
     quote! {
         #[derive(EnumIter, Clone, Copy)]
@@ -34,6 +37,7 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
             fn to_rule(&self) -> Rule<#token> {
                 match self {
                     #( #enum_rule_table, )*
+                    _ => unimplemented!(),
                 }
             }
         }
@@ -69,10 +73,16 @@ fn parse_attr(
 
 fn parse_bnf(token: &str, bnf: String) -> HashMap<String, TokenStream> {
     let rules_list: Vec<&str> = bnf.trim().split(';').collect();
-    rules_list[..rules_list.len() - 1]
+    let rules_list: HashMap<String, TokenStream> = rules_list[..rules_list.len() - 1]
         .iter()
         .flat_map(|rules| parse_bnf_rules(token, rules))
-        .collect()
+        .collect();
+
+    if rules_list.is_empty() {
+        panic!("BNF must contain some rules.");
+    }
+
+    rules_list
 }
 
 fn parse_bnf_rules(token: &str, rules: &str) -> HashMap<String, TokenStream> {
@@ -83,6 +93,7 @@ fn parse_bnf_rules(token: &str, rules: &str) -> HashMap<String, TokenStream> {
 
     let (left, rights) = (rules[0].trim(), rules[1..].join(""));
     let left = quote! { #left };
+
     rights
         .split('|')
         .into_iter()

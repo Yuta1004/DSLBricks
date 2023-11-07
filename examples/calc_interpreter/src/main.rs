@@ -1,4 +1,4 @@
-use blockdsl::driver::interpreter::Interpreter;
+use blockdsl::driver::Interpreter;
 use blockdsl::processor::parser::syntax::ASyntax;
 use blockdsl::processor::parser::LR1;
 use blockdsl::processor::macros::*;

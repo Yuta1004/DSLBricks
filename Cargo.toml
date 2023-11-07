@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+designer = { package = "designer", path = "compiler/designer/designer" }
 compiler = { package = "compiler", path = "compiler/driver/compiler" }
 interpreter = { package = "interpreter", path = "compiler/driver/interpreter" }
 processor = { package = "processor", path = "compiler/processor/processor" }
@@ -28,9 +29,9 @@ members = [
 
     # Test
     "tests",
+
+    # Examples
+    "examples/simple_interpreter",
+    "examples/calc_interpreter",
 ]
 exclude = []
-
-[[example]]
-name = "calc_interpreter"
-path = "examples/calculator/interpreter.rs"
