@@ -4,18 +4,17 @@ use std::path::Path;
 use blockdsl::designer::codegen;
 use blockdsl::designer::design::{DSLDesign, DSLPart};
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 struct MyDSL;
 
 impl DSLDesign for MyDSL {
-    fn design(&self) -> Vec<Box<dyn DSLPart>> {
+    fn design() -> Vec<Box<dyn DSLPart>> {
         vec![]
     }
 }
 
 fn main() {
-    let dsl = Box::new(MyDSL);
-    let dsl_rcode = codegen::gen_rust(dsl).unwrap();
+    let dsl_rcode = codegen::gen_rust::<MyDSL>().unwrap();
 
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dst_path = Path::new(&out_dir).join("MyDSL.rs");

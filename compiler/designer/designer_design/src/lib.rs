@@ -2,9 +2,9 @@ use std::fmt::Debug;
 
 pub trait DSLDesign
 where
-    Self: Debug,
+    Self: Debug + Default,
 {
-    fn design(&self) -> Vec<Box<dyn DSLPart>>;
+    fn design() -> Vec<Box<dyn DSLPart>>;
 }
 
 pub trait DSLPart
@@ -34,11 +34,11 @@ pub enum SyntaxElem {
 mod test {
     use crate::{DSLDesign, DSLPart, SyntaxElem};
 
-    #[derive(Debug)]
+    #[derive(Debug, Default)]
     struct MyDSL;
 
     impl DSLDesign for MyDSL {
-        fn design(&self) -> Vec<Box<dyn DSLPart>> {
+        fn design() -> Vec<Box<dyn DSLPart>> {
             vec![Box::new(Function)]
         }
     }
@@ -60,7 +60,7 @@ mod test {
 
     #[test]
     fn tokens() {
-        let tokens: Vec<&str> = MyDSL.design()
+        let tokens: Vec<&str> = MyDSL::design()
             .into_iter()
             .map(|part| part.tokens())
             .flatten()
