@@ -16,7 +16,7 @@ where
 {
     pub fn gen() -> anyhow::Result<DSL<A, S, T>> {
         let lexer = Lexer::<T>::new()?;
-        let parser = Parser::<A, S, T>::new();
+        let parser = Parser::<A, S, T>::new()?;
         Ok(DSL(lexer, parser))
     }
 

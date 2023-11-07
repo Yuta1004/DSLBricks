@@ -36,11 +36,11 @@ where
     S: Syntax<A, T>,
     T: Token,
 {
-    pub fn new() -> Parser<A, S, T> {
-        Parser {
+    pub fn new() -> anyhow::Result<Parser<A, S, T>> {
+        Ok(Parser {
             syntax: PhantomData,
-            p_impl: S::Parser::setup(),
-        }
+            p_impl: S::Parser::setup()?,
+        })
     }
 
     pub fn parse<'a, 'b>(
