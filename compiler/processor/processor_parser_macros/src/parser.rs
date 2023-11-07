@@ -7,22 +7,25 @@ use syn::{Data, DeriveInput};
 pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> TokenStream {
     let (parser, token, semantics, rule_table) = parse_attr(attrs);
 
-    let enum_name = &target_ast.ident;
     let data_enum = if let Data::Enum(data_enum) = &target_ast.data {
         data_enum
     } else {
         panic!("\"Tokenize\" proc-macro is only implemented for enum.")
     };
 
-    let mut enum_rule_table = vec![];
-    for variant in &data_enum.variants {
-        let variant = &variant.ident;
-        if let Some(rule) = rule_table.get(&variant.to_string()) {
-            enum_rule_table.push(quote! { #enum_name :: #variant => #rule });
-        } else {
-            panic!("Variant \"{}\" is not mapping for any rule.", variant);
-        }
-    }
+    let enum_name = &target_ast.ident;
+
+    let enum_rule_table: Vec<TokenStream> = (&data_enum.variants)
+        .into_iter()
+        .map(|variant| {
+            let variant = &variant.ident;
+            if let Some(rule) = rule_table.get(&variant.to_string()) {
+                quote! { #enum_name :: #variant => #rule }
+            } else {
+                panic!("Variant \"{}\" is not mapping for any rule.", variant);
+            }
+        })
+        .collect();
 
     quote! {
         #[derive(EnumIter, Clone, Copy)]
@@ -34,6 +37,7 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
             fn to_rule(&self) -> Rule<#token> {
                 match self {
                     #( #enum_rule_table, )*
+                    _ => unimplemented!(),
                 }
             }
         }

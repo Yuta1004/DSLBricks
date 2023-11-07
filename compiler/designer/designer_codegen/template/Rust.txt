@@ -25,6 +25,7 @@ pub enum {NAME}Syntax \{
 pub struct {NAME}ASyntax;
 
 impl ASyntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
+    #[allow(unused_variables, unused_mut)]
     fn mapping(
         syntax: {NAME}Syntax,
         mut tokens: Vec<(Option<Box<Self>>, Option<&str>)>,
