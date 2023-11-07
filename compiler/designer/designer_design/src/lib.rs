@@ -16,12 +16,9 @@ where
     fn tokens(&self) -> Vec<&'static str> {
         self.syntax()
             .into_iter()
-            .map(|elem| {
-                match elem {
-                    SyntaxElem::Const(s) => vec![s],
-                }
+            .flat_map(|elem| match elem {
+                SyntaxElem::Const(s) => vec![s],
             })
-            .flatten()
             .collect()
     }
 }

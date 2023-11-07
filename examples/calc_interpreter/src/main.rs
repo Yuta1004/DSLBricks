@@ -1,7 +1,7 @@
 use blockdsl::driver::Interpreter;
+use blockdsl::processor::macros::*;
 use blockdsl::processor::parser::syntax::ASyntax;
 use blockdsl::processor::parser::LR1;
-use blockdsl::processor::macros::*;
 use blockdsl::processor::prelude::*;
 use blockdsl::processor::DSL;
 

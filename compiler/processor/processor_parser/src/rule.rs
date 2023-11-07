@@ -1,16 +1,12 @@
-use std::any::Any;
 use std::collections::HashMap;
 use std::hash::Hash;
 
 use lexer::Token;
 
-use super::syntax::{ASyntax, Syntax};
-
 #[derive(Debug)]
 pub enum RuleElem<T: Token> {
     NonTerm(String),
     Term(T),
-    SynPart(Box<dyn Any>),
     EOF,
 }
 
@@ -20,7 +16,6 @@ impl<T: Token> Hash for RuleElem<T> {
             RuleElem::NonTerm(s) => s.hash(state),
             RuleElem::Term(t) => t.hash(state),
             RuleElem::EOF => 0.hash(state),
-            _ => {}
         }
     }
 }
@@ -45,14 +40,6 @@ impl<T: Token> RuleElem<T> {
 
     pub fn term(t: T) -> RuleElem<T> {
         RuleElem::Term(t)
-    }
-
-    pub fn synpart<A, S>(s: S) -> RuleElem<T>
-    where
-        A: ASyntax<S, T>,
-        S: Syntax<A, T> + 'static,
-    {
-        RuleElem::SynPart(Box::new(s))
     }
 }
 

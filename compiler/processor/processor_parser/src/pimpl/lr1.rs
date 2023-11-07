@@ -37,7 +37,7 @@ where
     S: Syntax<A, T>,
     T: Token + 'static,
 {
-    fn setup() -> Self {
+    fn setup() -> anyhow::Result<Self> {
         // 1. Pre-process
         let ruleset = S::syntax();
         let first_set = ruleset.first_set();
@@ -134,12 +134,12 @@ where
             }
         }
 
-        LR1 {
+        Ok(LR1 {
             semantics: PhantomData,
             action_table,
             eof_action_table,
             goto_table,
-        }
+        })
     }
 
     fn parse<'a, 'b>(
@@ -590,7 +590,11 @@ mod test {
             "((10 + 20) * (30 / 40)) - 50",
         ];
         for input in inputs {
-            assert!(parse::<VoidSemantics, TestSyntax, TestToken>(input), "{}", input)
+            assert!(
+                parse::<VoidSemantics, TestSyntax, TestToken>(input),
+                "{}",
+                input
+            )
         }
     }
 
@@ -606,7 +610,11 @@ mod test {
             "(((10))",
         ];
         for input in inputs {
-            assert!(!parse::<VoidSemantics, TestSyntax, TestToken>(input), "{}", input)
+            assert!(
+                !parse::<VoidSemantics, TestSyntax, TestToken>(input),
+                "{}",
+                input
+            )
         }
     }
 
@@ -617,7 +625,7 @@ mod test {
         T: Token + 'static,
     {
         let lexer = Lexer::<T>::new().unwrap();
-        let parser = Parser::<A, S, T>::new();
+        let parser = Parser::<A, S, T>::new().unwrap();
 
         parser.parse(&mut lexer.lex(input)).is_ok()
     }

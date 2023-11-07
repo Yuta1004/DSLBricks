@@ -5,8 +5,8 @@ pub use rust::rust;
 #[macro_export]
 macro_rules! build_dsl {
     ($dsl:ident, $genfunc:ident, $file:expr) => {{
-        use std::{env, fs};
         use std::path::Path;
+        use std::{env, fs};
 
         let dsl_code = $genfunc::<$dsl>().unwrap();
         let out_dir = env::current_dir().unwrap();
@@ -20,8 +20,8 @@ macro_rules! build_dsl {
 #[macro_export]
 macro_rules! rbuild_dsl {
     ($dsl:ident) => {{
-        use std::{env, fs};
         use std::path::Path;
+        use std::{env, fs};
 
         use blockdsl::designer::codegen::rust;
 
