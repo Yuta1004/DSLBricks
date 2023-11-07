@@ -1,5 +1,5 @@
 pub use designer;
-pub mod driver {
+pub mod executor {
     pub use compiler::Compiler;
     pub use interpreter::Interpreter;
 }

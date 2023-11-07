@@ -1,4 +1,4 @@
-use blockdsl::driver::Interpreter;
+use blockdsl::executor::Interpreter;
 use blockdsl::processor::macros::*;
 use blockdsl::processor::parser::syntax::ASyntax;
 use blockdsl::processor::parser::LR1;
@@ -110,5 +110,5 @@ impl ExprNode {
 
 fn main() -> anyhow::Result<()> {
     let dsl = DSL::<ExprNode, ExprSyntax, ExprToken>::gen()?;
-    Interpreter::new(dsl).exec()
+    Interpreter::from(dsl).exec()
 }

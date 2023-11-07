@@ -5,8 +5,8 @@ edition = "2021"
 
 [dependencies]
 designer = { package = "designer", path = "compiler/designer/designer" }
-compiler = { package = "compiler", path = "compiler/driver/compiler" }
-interpreter = { package = "interpreter", path = "compiler/driver/interpreter" }
+compiler = { package = "compiler", path = "compiler/executor/compiler" }
+interpreter = { package = "interpreter", path = "compiler/executor/interpreter" }
 processor = { package = "processor", path = "compiler/processor/processor" }
 lib = { package = "lib", path = "library" }
 
@@ -20,8 +20,8 @@ blockdsl = { path = "./" }
 members = [
     # Compiler
     "compiler/designer/designer",
-    "compiler/driver/compiler",
-    "compiler/driver/interpreter",
+    "compiler/executor/compiler",
+    "compiler/executor/interpreter",
     "compiler/processor/processor",
 
     # Library
