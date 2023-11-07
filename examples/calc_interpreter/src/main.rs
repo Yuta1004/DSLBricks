@@ -110,5 +110,5 @@ impl ExprNode {
 
 fn main() -> anyhow::Result<()> {
     let dsl = DSL::<ExprNode, ExprSyntax, ExprToken>::gen()?;
-    Interpreter::new(dsl).exec()
+    Interpreter::from(dsl).exec()
 }
