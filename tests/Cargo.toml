@@ -11,12 +11,12 @@ strum = { version = "0.25", features = ["derive"] }
 blockdsl = { package = "blockdsl", path = "../" }
 
 [[test]]
-name = "driver-c"
-path = "driver/compiler.rs"
+name = "executor-c"
+path = "executor/compiler.rs"
 
 [[test]]
-name = "driver-i"
-path = "driver/interpreter.rs"
+name = "executor-i"
+path = "executor/interpreter.rs"
 
 [[test]]
 name = "langpart"

@@ -1,4 +1,4 @@
-use blockdsl::driver::Interpreter;
+use blockdsl::executor::Interpreter;
 use blockdsl::lib::dev::dsl::*;
 
 #[test]

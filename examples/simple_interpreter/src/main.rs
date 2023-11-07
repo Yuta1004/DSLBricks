@@ -1,5 +1,5 @@
 use blockdsl::designer::codegen::load_dsl;
-use blockdsl::driver::Interpreter;
+use blockdsl::executor::Interpreter;
 
 load_dsl!(MyDSL);
 
