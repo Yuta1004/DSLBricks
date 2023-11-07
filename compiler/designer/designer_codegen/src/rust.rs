@@ -12,7 +12,7 @@ struct CodeTemplate {
     BNF: String,
 }
 
-pub fn gen_rust<T: DSLDesign>() -> anyhow::Result<String> {
+pub fn rust<T: DSLDesign>() -> anyhow::Result<String> {
     let name = format!("{:?}", T::default());
     let token_defs = gen_token_code()?;
     let (syntax_defs, bnf) = gen_syntax_code()?;

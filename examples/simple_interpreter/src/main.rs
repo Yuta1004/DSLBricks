@@ -1,6 +1,7 @@
+use blockdsl::designer::codegen::load_dsl;
 use blockdsl::driver::Interpreter;
 
-include!(concat!(env!("OUT_DIR"), "/MyDSL.rs"));
+load_dsl!(MyDSL);
 
 fn main() -> anyhow::Result<()> {
     let dsl = MyDSL::gen()?;
