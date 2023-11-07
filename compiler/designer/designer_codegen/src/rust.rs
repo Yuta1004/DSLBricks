@@ -34,6 +34,7 @@ fn gen_token_code() -> anyhow::Result<String> {
     Ok("".to_string())
 }
 
-fn gen_syntax_code() -> anyhow::Result<(String, String)> {  // (syntax_defs, bnf)
+fn gen_syntax_code() -> anyhow::Result<(String, String)> {
+    // (syntax_defs, bnf)
     Ok(("".to_string(), "".to_string()))
 }

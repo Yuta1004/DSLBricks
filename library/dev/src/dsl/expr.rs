@@ -1,7 +1,7 @@
+use processor::macros::*;
 use processor::parser::syntax::ASyntax;
 use processor::parser::LR1;
 use processor::prelude::*;
-use processor::macros::*;
 use processor::DSL;
 
 #[lexer]

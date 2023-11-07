@@ -27,7 +27,7 @@ where
         Interpreter(dsl)
     }
 
-    pub fn exec(self: Self) -> anyhow::Result<()> {
+    pub fn exec(self) -> anyhow::Result<()> {
         let _ = InterpreterCLI::parse();
 
         loop {

@@ -590,7 +590,11 @@ mod test {
             "((10 + 20) * (30 / 40)) - 50",
         ];
         for input in inputs {
-            assert!(parse::<VoidSemantics, TestSyntax, TestToken>(input), "{}", input)
+            assert!(
+                parse::<VoidSemantics, TestSyntax, TestToken>(input),
+                "{}",
+                input
+            )
         }
     }
 
@@ -606,7 +610,11 @@ mod test {
             "(((10))",
         ];
         for input in inputs {
-            assert!(!parse::<VoidSemantics, TestSyntax, TestToken>(input), "{}", input)
+            assert!(
+                !parse::<VoidSemantics, TestSyntax, TestToken>(input),
+                "{}",
+                input
+            )
         }
     }
 

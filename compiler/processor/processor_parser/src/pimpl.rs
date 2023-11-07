@@ -2,8 +2,8 @@ mod lr1;
 
 use lexer::Token;
 
-pub use lr1::LR1;
 use super::syntax::{ASyntax, Syntax};
+pub use lr1::LR1;
 
 pub trait ParserImpl<A, S, T>
 where
