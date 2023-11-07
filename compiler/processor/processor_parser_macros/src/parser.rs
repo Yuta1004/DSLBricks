@@ -73,10 +73,16 @@ fn parse_attr(
 
 fn parse_bnf(token: &str, bnf: String) -> HashMap<String, TokenStream> {
     let rules_list: Vec<&str> = bnf.trim().split(';').collect();
-    rules_list[..rules_list.len() - 1]
+    let rules_list: HashMap<String, TokenStream> = rules_list[..rules_list.len() - 1]
         .iter()
         .flat_map(|rules| parse_bnf_rules(token, rules))
-        .collect()
+        .collect();
+
+    if rules_list.is_empty() {
+        panic!("BNF must contain some rules.");
+    }
+
+    rules_list
 }
 
 fn parse_bnf_rules(token: &str, rules: &str) -> HashMap<String, TokenStream> {
@@ -87,6 +93,7 @@ fn parse_bnf_rules(token: &str, rules: &str) -> HashMap<String, TokenStream> {
 
     let (left, rights) = (rules[0].trim(), rules[1..].join(""));
     let left = quote! { #left };
+
     rights
         .split('|')
         .into_iter()
