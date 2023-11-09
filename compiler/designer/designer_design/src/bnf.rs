@@ -1,15 +1,5 @@
 use crate::syntax::checked::{SyntaxElem, RuleSet};
 
-impl From<&SyntaxElem> for String {
-    fn from(value: &SyntaxElem) -> Self {
-        match value {
-            SyntaxElem::Term(s) => format!("\"{}\"", s),
-            SyntaxElem::NonTerm(s) => format!("{}", s),
-            _ => "".to_string()
-        }
-    }
-}
-
 pub(crate) fn convert(ruleset: &RuleSet) -> String {
     ruleset
         .into_iter()
@@ -20,6 +10,16 @@ pub(crate) fn convert(ruleset: &RuleSet) -> String {
         })
         .collect::<Vec<String>>()
         .join(";\n") + ";"
+}
+
+impl From<&SyntaxElem> for String {
+    fn from(value: &SyntaxElem) -> Self {
+        match value {
+            SyntaxElem::Term(s) => format!("\"{}\"", s),
+            SyntaxElem::NonTerm(s) => format!("{}", s),
+            _ => unimplemented!(),
+        }
+    }
 }
 
 #[cfg(test)]
