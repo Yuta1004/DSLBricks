@@ -4,19 +4,32 @@ use std::any::type_name;
 
 pub use bnf::SyntaxElem;
 
-pub trait DSLDesign
+pub trait DSLGeneratable
 where
-    Self: Sized + Default,
+    Self: Sized,
 {
     fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)>;
+}
 
-    fn name() -> String {
-        let full_name = type_name::<Self>();
-        full_name.split("::").last().unwrap().to_string()
+pub struct DSLDesign {
+    pub name: String,
+    syntax: Vec<(&'static str, Vec<SyntaxElem>)>,
+}
+
+impl DSLDesign {
+    pub fn bnf(&self) -> String {
+        bnf::convert(&self.syntax)
     }
+}
 
-    fn bnf(self) -> String {
-        bnf::convert(self)
+impl<T: DSLGeneratable> From<T> for DSLDesign {
+    fn from(def: T) -> Self {
+        let full_name = type_name::<T>();
+        let name = full_name.split("::").last().unwrap().to_string();
+
+        let syntax = def.design();
+
+        DSLDesign { name, syntax }
     }
 }
 
@@ -26,12 +39,12 @@ pub trait DSLPart {
 
 #[cfg(test)]
 mod test {
-    use crate::{DSLDesign, SyntaxElem};
+    use crate::{DSLDesign, DSLGeneratable, SyntaxElem};
 
     #[derive(Default)]
     struct MyDSL;
 
-    impl DSLDesign for MyDSL {
+    impl DSLGeneratable for MyDSL {
         fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)> {
             vec![
                 ("top", vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")]),
@@ -42,7 +55,7 @@ mod test {
 
     #[test]
     fn det_name() {
-        assert_eq!(MyDSL::name(), "MyDSL")
+        assert_eq!(DSLDesign::from(MyDSL).name, "MyDSL")
     }
 
     #[test]
@@ -52,7 +65,7 @@ mod test {
             "top: \"A\";",
         ];
 
-        let result = MyDSL
+        let result = DSLDesign::from(MyDSL)
             .bnf()
             .split("\n")
             .into_iter()

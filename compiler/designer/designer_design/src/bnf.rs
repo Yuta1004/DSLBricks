@@ -1,4 +1,4 @@
-use crate::{DSLDesign, DSLPart};
+use crate::DSLPart;
 
 pub enum SyntaxElem {
     Term(&'static str),
@@ -6,9 +6,9 @@ pub enum SyntaxElem {
     Hole(Box<dyn DSLPart>),
 }
 
-impl Into<String> for SyntaxElem {
-    fn into(self) -> String {
-        match self {
+impl From<&SyntaxElem> for String {
+    fn from(value: &SyntaxElem) -> Self {
+        match value {
             SyntaxElem::Term(s) => format!("\"{}\"", s),
             SyntaxElem::NonTerm(s) => format!("{}", s),
             _ => "".to_string()
@@ -16,9 +16,8 @@ impl Into<String> for SyntaxElem {
     }
 }
 
-pub(crate) fn convert(design: impl DSLDesign) -> String {
+pub(crate) fn convert(design: &Vec<(&'static str, Vec<SyntaxElem>)>) -> String {
     design
-        .design()
         .into_iter()
         .map(|(left, rights)| {
             let rights = rights.into_iter().map(Into::<String>::into).collect::<Vec<String>>();
