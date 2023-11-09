@@ -1,67 +1,45 @@
-use std::fmt::Debug;
+mod bnf;
 
-pub trait DSLDesign
-where
-    Self: Debug + Default,
-{
-    fn design() -> Vec<Box<dyn DSLPart>>;
-}
+use std::any::type_name;
+use std::collections::HashMap;
 
-pub trait DSLPart
-where
-    Self: Debug,
-{
-    fn syntax(&self) -> Vec<SyntaxElem>;
+pub use bnf::SyntaxElem;
 
-    fn tokens(&self) -> Vec<&'static str> {
-        self.syntax()
-            .into_iter()
-            .flat_map(|elem| match elem {
-                SyntaxElem::Const(s) => vec![s],
-            })
-            .collect()
+pub trait DSLDesign {
+    fn design(self) -> HashMap<&'static str, Vec<SyntaxElem>>;
+
+    fn name() -> String {
+        let full_name = type_name::<Self>();
+        full_name.split("::").last().unwrap().to_string()
     }
-}
-
-pub enum SyntaxElem {
-    Const(&'static str),
 }
 
 #[cfg(test)]
 mod test {
-    use crate::{DSLDesign, DSLPart, SyntaxElem};
+    use std::collections::HashMap;
 
-    #[derive(Debug, Default)]
+    use crate::{DSLDesign, SyntaxElem};
+    use crate::bnf::convert;
+
     struct MyDSL;
 
     impl DSLDesign for MyDSL {
-        fn design() -> Vec<Box<dyn DSLPart>> {
-            vec![Box::new(Function)]
-        }
-    }
-
-    #[derive(Debug)]
-    struct Function;
-
-    impl DSLPart for Function {
-        fn syntax(&self) -> Vec<SyntaxElem> {
+        fn design(self) -> HashMap<&'static str, Vec<SyntaxElem>> {
             vec![
-                SyntaxElem::Const("func"),
-                SyntaxElem::Const("("),
-                SyntaxElem::Const(")"),
-                SyntaxElem::Const("{"),
-                SyntaxElem::Const("}"),
+                ("top", vec![SyntaxElem::Const("aaa")])
             ]
+            .into_iter()
+            .collect()
         }
     }
 
     #[test]
-    fn tokens() {
-        let tokens: Vec<&str> = MyDSL::design()
-            .into_iter()
-            .map(|part| part.tokens())
-            .flatten()
-            .collect();
-        assert_eq!(tokens, vec!["func", "(", ")", "{", "}"])
+    fn det_name() {
+        assert_eq!(MyDSL::name(), "MyDSL")
+    }
+
+    #[test]
+    fn convert_bnf() {
+        let _bnf = convert(MyDSL);
     }
 }
