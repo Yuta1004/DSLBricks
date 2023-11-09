@@ -10,9 +10,10 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> checked::RuleSet {
         .map(|rule| {
             let left = rule.left;
             let rights = rule.rights.into_iter().map(checked::SyntaxElem::from).collect();
-            (left, rights)
+            checked::Rule::from((left, rights))
         })
-        .collect()
+        .collect::<Vec<checked::Rule>>()
+        .into()
 }
 
 #[cfg(test)]
@@ -21,10 +22,14 @@ mod test {
 
     #[test]
     fn check_simple() {
-        let except = vec![
-            ("top", vec![checked::SyntaxElem::NonTerm("top"), checked::SyntaxElem::Term("A")]),
-            ("top", vec![checked::SyntaxElem::Term("A")]),
-        ];
+        let except: checked::RuleSet = vec![
+            checked::Rule::from(
+                ("top", vec![checked::SyntaxElem::NonTerm("top"), checked::SyntaxElem::Term("A")])
+            ),
+            checked::Rule::from(
+                ("top", vec![checked::SyntaxElem::Term("A")])
+            ),
+        ].into();
 
         let uc_ruleset = unchecked::RuleSet(vec![
             unchecked::Rule::from(

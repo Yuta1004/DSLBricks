@@ -2,9 +2,11 @@ use crate::syntax::checked::{SyntaxElem, RuleSet};
 
 pub(crate) fn convert(ruleset: &RuleSet) -> String {
     ruleset
-        .into_iter()
-        .map(|(left, rights)| {
-            let rights = rights.into_iter().map(Into::<String>::into).collect::<Vec<String>>();
+        .0
+        .iter()
+        .map(|rule| {
+            let left = rule.left;
+            let rights = rule.rights.iter().map(Into::<String>::into).collect::<Vec<String>>();
             let right = rights.join(" ");
             format!("{}: {}", left, right)
         })
@@ -24,7 +26,7 @@ impl From<&SyntaxElem> for String {
 
 #[cfg(test)]
 mod test {
-    use crate::syntax::checked::SyntaxElem;
+    use crate::syntax::checked::{SyntaxElem, Rule};
     use super::convert;
 
     #[test]
@@ -35,9 +37,13 @@ mod test {
         ];
 
         let ruleset = vec![
-            ("top", vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")]),
-            ("top", vec![SyntaxElem::Term("A")]),
-        ];
+            Rule::from(
+                ("top", vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")])
+            ),
+            Rule::from(
+                ("top", vec![SyntaxElem::Term("A")])
+            ),
+        ].into();
 
         let result = convert(&ruleset)
             .split("\n")
