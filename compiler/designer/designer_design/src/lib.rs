@@ -1,35 +1,42 @@
 mod bnf;
 
 use std::any::type_name;
-use std::collections::HashMap;
 
 pub use bnf::SyntaxElem;
 
-pub trait DSLDesign {
-    fn design(self) -> HashMap<&'static str, Vec<SyntaxElem>>;
+pub trait DSLDesign
+where
+    Self: Sized + Default,
+{
+    fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)>;
 
     fn name() -> String {
         let full_name = type_name::<Self>();
         full_name.split("::").last().unwrap().to_string()
     }
+
+    fn bnf(self) -> String {
+        bnf::convert(self)
+    }
+}
+
+pub trait DSLPart {
+    fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)>;
 }
 
 #[cfg(test)]
 mod test {
-    use std::collections::HashMap;
-
     use crate::{DSLDesign, SyntaxElem};
-    use crate::bnf::convert;
 
+    #[derive(Default)]
     struct MyDSL;
 
     impl DSLDesign for MyDSL {
-        fn design(self) -> HashMap<&'static str, Vec<SyntaxElem>> {
+        fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)> {
             vec![
-                ("top", vec![SyntaxElem::Const("aaa")])
+                ("top", vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")]),
+                ("top", vec![SyntaxElem::Term("A")]),
             ]
-            .into_iter()
-            .collect()
         }
     }
 
@@ -40,6 +47,17 @@ mod test {
 
     #[test]
     fn convert_bnf() {
-        let _bnf = convert(MyDSL);
+        let except = vec![
+            "top: top \"A\";",
+            "top: \"A\";",
+        ];
+
+        let result = MyDSL
+            .bnf()
+            .split("\n")
+            .into_iter()
+            .zip(except.into_iter())
+            .all(|(line, except)| line == except);
+        assert!(result)
     }
 }
