@@ -1,10 +1,4 @@
-use crate::DSLPart;
-
-pub enum SyntaxElem {
-    Term(&'static str),
-    NonTerm(&'static str),
-    Hole(Box<dyn DSLPart>),
-}
+use crate::syntax::checked::SyntaxElem;
 
 impl From<&SyntaxElem> for String {
     fn from(value: &SyntaxElem) -> Self {

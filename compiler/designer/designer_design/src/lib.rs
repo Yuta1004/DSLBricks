@@ -1,19 +1,20 @@
 mod bnf;
+pub mod syntax;
 
 use std::any::type_name;
 
-pub use bnf::SyntaxElem;
+use syntax::{checked, unchecked};
 
 pub trait DSLGeneratable
 where
     Self: Sized,
 {
-    fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)>;
+    fn design(self) -> unchecked::RuleSet;
 }
 
 pub struct DSLDesign {
     pub name: String,
-    syntax: Vec<(&'static str, Vec<SyntaxElem>)>,
+    syntax: checked::RuleSet,
 }
 
 impl DSLDesign {
@@ -27,25 +28,26 @@ impl<T: DSLGeneratable> From<T> for DSLDesign {
         let full_name = type_name::<T>();
         let name = full_name.split("::").last().unwrap().to_string();
 
-        let syntax = def.design();
+        let syntax = syntax::check(def.design());
 
         DSLDesign { name, syntax }
     }
 }
 
 pub trait DSLPart {
-    fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)>;
+    fn design(self) -> unchecked::RuleSet;
 }
 
 #[cfg(test)]
 mod test {
-    use crate::{DSLDesign, DSLGeneratable, SyntaxElem};
+    use crate::syntax::{SyntaxElem, RuleSet};
+    use crate::{DSLDesign, DSLGeneratable};
 
     #[derive(Default)]
     struct MyDSL;
 
     impl DSLGeneratable for MyDSL {
-        fn design(self) -> Vec<(&'static str, Vec<SyntaxElem>)> {
+        fn design(self) -> RuleSet {
             vec![
                 ("top", vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")]),
                 ("top", vec![SyntaxElem::Term("A")]),
