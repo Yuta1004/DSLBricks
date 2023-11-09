@@ -1,4 +1,4 @@
-use crate::DSLPart;
+use crate::part::DSLPart;
 
 pub type Rule = (&'static str, Vec<SyntaxElem>);
 pub type RuleSet = Vec<Rule>;

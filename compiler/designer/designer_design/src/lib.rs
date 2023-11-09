@@ -1,4 +1,5 @@
 mod bnf;
+mod part;
 pub mod syntax;
 
 use std::any::type_name;
@@ -32,10 +33,6 @@ impl<T: DSLGeneratable> From<T> for DSLDesign {
 
         DSLDesign { name, syntax }
     }
-}
-
-pub trait DSLPart {
-    fn design(self) -> unchecked::RuleSet;
 }
 
 #[cfg(test)]
