@@ -44,7 +44,7 @@ mod test {
 
     impl DSLGeneratable for MyDSL {
         fn design(self) -> RuleSet {
-            vec![]
+            RuleSet(vec![])
         }
     }
 

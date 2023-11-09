@@ -6,7 +6,7 @@ struct MyDSL;
 
 impl DSLGeneratable for MyDSL {
     fn design(self) -> RuleSet {
-        vec![]
+        RuleSet::default()
     }
 }
 

@@ -1,4 +1,3 @@
-use crate::part::DSLPart;
 use crate::syntax::unchecked;
 
 pub type Rule = (&'static str, Vec<SyntaxElem>);
@@ -8,7 +7,7 @@ pub type RuleSet = Vec<Rule>;
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
-    Hole(Box<dyn DSLPart>),
+    Hole(&'static str),
 }
 
 impl From<unchecked::SyntaxElem> for SyntaxElem {
