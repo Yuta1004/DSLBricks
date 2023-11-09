@@ -1,7 +1,7 @@
 use serde::Serialize;
 use tinytemplate::{format_unescaped, TinyTemplate};
 
-use design::DSLDesign;
+use design::{DSLGeneratable, DSLDesign};
 
 #[allow(non_snake_case)]
 #[derive(Serialize)]
@@ -12,8 +12,10 @@ struct CodeTemplate {
     BNF: String,
 }
 
-pub fn rust<T: DSLDesign>() -> anyhow::Result<String> {
-    let name = format!("{:?}", T::name());
+pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
+    let dsl = DSLDesign::from(dsl);
+
+    let name = format!("{}", dsl.name);
     let token_defs = gen_token_code()?;
     let (syntax_defs, bnf) = gen_syntax_code()?;
     let context = CodeTemplate {
