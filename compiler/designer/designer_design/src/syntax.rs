@@ -31,14 +31,14 @@ mod test {
             ),
         ].into();
 
-        let uc_ruleset = unchecked::RuleSet(vec![
+        let uc_ruleset: unchecked::RuleSet = vec![
             unchecked::Rule::from(
                 ("top", vec![unchecked::SyntaxElem::NonTerm("top"), unchecked::SyntaxElem::Term("A")])
             ),
             unchecked::Rule::from(
                 ("top", vec![unchecked::SyntaxElem::Term("A")])
             ),
-        ]);
+        ].into();
         let ruleset = super::check(uc_ruleset);
 
         assert_eq!(

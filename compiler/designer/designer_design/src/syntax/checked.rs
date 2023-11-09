@@ -12,7 +12,7 @@ impl From<(&'static str, Vec<SyntaxElem>)> for Rule {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct RuleSet (
     pub(crate) Vec<Rule>,
 );

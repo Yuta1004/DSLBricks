@@ -12,10 +12,16 @@ impl From<(&'static str, Vec<SyntaxElem>)> for Rule {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct RuleSet (
     pub(crate) Vec<Rule>
 );
+
+impl From<Vec<Rule>> for RuleSet {
+    fn from(rules: Vec<Rule>) -> Self {
+        RuleSet(rules)
+    }
+}
 
 #[derive(Debug)]
 pub enum SyntaxElem {
