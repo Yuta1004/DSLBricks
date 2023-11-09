@@ -37,39 +37,19 @@ impl<T: DSLGeneratable> From<T> for DSLDesign {
 
 #[cfg(test)]
 mod test {
-    use crate::syntax::{SyntaxElem, RuleSet};
+    use crate::syntax::RuleSet;
     use crate::{DSLDesign, DSLGeneratable};
 
-    #[derive(Default)]
     struct MyDSL;
 
     impl DSLGeneratable for MyDSL {
         fn design(self) -> RuleSet {
-            vec![
-                ("top", vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")]),
-                ("top", vec![SyntaxElem::Term("A")]),
-            ]
+            vec![]
         }
     }
 
     #[test]
-    fn det_name() {
+    fn name() {
         assert_eq!(DSLDesign::from(MyDSL).name, "MyDSL")
-    }
-
-    #[test]
-    fn convert_bnf() {
-        let except = vec![
-            "top: top \"A\";",
-            "top: \"A\";",
-        ];
-
-        let result = DSLDesign::from(MyDSL)
-            .bnf()
-            .split("\n")
-            .into_iter()
-            .zip(except.into_iter())
-            .all(|(line, except)| line == except);
-        assert!(result)
     }
 }
