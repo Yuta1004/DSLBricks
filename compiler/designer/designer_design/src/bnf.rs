@@ -15,7 +15,7 @@ impl From<&Rule> for String {
         let rights = rule.rights.iter().map(Into::<String>::into).collect::<Vec<String>>();
         let right = rights.join(" ");
 
-        format!("{}: {}", left, right)
+        format!("{}: {} $ IgnoredRule", left, right)
     }
 }
 
@@ -37,8 +37,8 @@ mod test {
     #[test]
     fn bnf() {
         let except = vec![
-            "top: top \"A\";",
-            "top: \"A\";",
+            "top: top \"A\" $ IgnoredRule;",
+            "top: \"A\" $ IgnoredRule;",
         ];
 
         let ruleset = vec![

@@ -19,6 +19,7 @@ pub enum {NAME}Token \{
 )]
 pub enum {NAME}Syntax \{
     {SYNTAX_DEFS}
+    IgnoredRule
 }
 
 #[derive(Debug)]

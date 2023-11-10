@@ -17,7 +17,8 @@ pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
 
     let name = format!("{}", dsl.name);
     let token_defs = gen_token_code()?;
-    let (syntax_defs, bnf) = gen_syntax_code()?;
+    let syntax_defs = gen_syntax_code()?;
+    let bnf = dsl.bnf();
     let context = CodeTemplate {
         NAME: name,
         TOKEN_DEFS: token_defs,
@@ -36,7 +37,6 @@ fn gen_token_code() -> anyhow::Result<String> {
     Ok("".to_string())
 }
 
-fn gen_syntax_code() -> anyhow::Result<(String, String)> {
-    // (syntax_defs, bnf)
-    Ok(("".to_string(), "".to_string()))
+fn gen_syntax_code() -> anyhow::Result<String> {
+    Ok("".to_string())
 }
