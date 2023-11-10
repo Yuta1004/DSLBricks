@@ -3,8 +3,8 @@ pub(crate) mod unchecked;
 
 pub use unchecked::{SyntaxElem, Rule, RuleSet};
 
-pub fn check(uc_ruleset: unchecked::RuleSet) -> checked::RuleSet {
-    uc_ruleset
+pub fn check(uc_ruleset: unchecked::RuleSet) -> (Vec<&'static str>, checked::RuleSet) {
+    let ruleset: checked::RuleSet = uc_ruleset
         .0
         .into_iter()
         .map(|rule| {
@@ -13,7 +13,22 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> checked::RuleSet {
             checked::Rule::from((left, rights))
         })
         .collect::<Vec<checked::Rule>>()
-        .into()
+        .into();
+
+    let tokens = ruleset
+        .0
+        .iter()
+        .flat_map(|rule| rule.rights.iter())
+        .filter_map(|rule| {
+            if let checked::SyntaxElem::Term(regex) = rule {
+                Some(*regex)
+            } else {
+                None
+            }
+        })
+        .collect();
+
+    (tokens, ruleset)
 }
 
 #[cfg(test)]
@@ -39,7 +54,7 @@ mod test {
                 ("top", vec![unchecked::SyntaxElem::Term("A")])
             ),
         ].into();
-        let ruleset = super::check(uc_ruleset);
+        let (_, ruleset) = super::check(uc_ruleset);
 
         assert_eq!(
             format!("{:?}", except),

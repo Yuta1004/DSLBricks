@@ -15,6 +15,7 @@ where
 
 pub struct DSLDesign {
     pub name: String,
+    pub tokens: Vec<&'static str>,
     syntax: checked::RuleSet,
 }
 
@@ -29,9 +30,9 @@ impl<T: DSLGeneratable> From<T> for DSLDesign {
         let full_name = type_name::<T>();
         let name = full_name.split("::").last().unwrap().to_string();
 
-        let syntax = syntax::check(def.design());
+        let (tokens, syntax) = syntax::check(def.design());
 
-        DSLDesign { name, syntax }
+        DSLDesign { name, tokens, syntax }
     }
 }
 
