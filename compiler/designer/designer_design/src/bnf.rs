@@ -1,17 +1,22 @@
-use crate::syntax::checked::{SyntaxElem, RuleSet};
+use crate::syntax::checked::{SyntaxElem, Rule, RuleSet};
 
 pub(crate) fn convert(ruleset: &RuleSet) -> String {
     ruleset
         .0
         .iter()
-        .map(|rule| {
-            let left = rule.left;
-            let rights = rule.rights.iter().map(Into::<String>::into).collect::<Vec<String>>();
-            let right = rights.join(" ");
-            format!("{}: {}", left, right)
-        })
+        .map(Into::<String>::into)
         .collect::<Vec<String>>()
         .join(";\n") + ";"
+}
+
+impl From<&Rule> for String {
+    fn from(rule: &Rule) -> Self {
+        let left = rule.left;
+        let rights = rule.rights.iter().map(Into::<String>::into).collect::<Vec<String>>();
+        let right = rights.join(" ");
+
+        format!("{}: {}", left, right)
+    }
 }
 
 impl From<&SyntaxElem> for String {
