@@ -1,7 +1,7 @@
 use serde::Serialize;
 use tinytemplate::{format_unescaped, TinyTemplate};
 
-use design::{DSLGeneratable, DSLDesign};
+use design::{DSLDesign, DSLGeneratable};
 
 #[allow(non_snake_case)]
 #[derive(Serialize)]

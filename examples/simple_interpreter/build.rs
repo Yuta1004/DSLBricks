@@ -6,9 +6,7 @@ struct MyDSL;
 
 impl DSLGeneratable for MyDSL {
     fn design(self) -> RuleSet {
-        vec![
-            Rule::from(("top", vec![SyntaxElem::Term("a")])),
-        ].into()
+        vec![Rule::from(("top", vec![SyntaxElem::Term("a")]))].into()
     }
 }
 

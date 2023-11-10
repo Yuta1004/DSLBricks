@@ -32,7 +32,11 @@ impl<T: DSLGeneratable> From<T> for DSLDesign {
 
         let (tokens, syntax) = syntax::check(def.design());
 
-        DSLDesign { name, tokens, syntax }
+        DSLDesign {
+            name,
+            tokens,
+            syntax,
+        }
     }
 }
 
