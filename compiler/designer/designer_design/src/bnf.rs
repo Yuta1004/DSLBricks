@@ -29,7 +29,6 @@ impl From<&SyntaxElem> for String {
         match value {
             SyntaxElem::Term(s) => format!("\"{}\"", s),
             SyntaxElem::NonTerm(s) => format!("{}", s),
-            _ => unimplemented!(),
         }
     }
 }

@@ -25,7 +25,6 @@ impl From<Vec<Rule>> for RuleSet {
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
-    Hole(&'static str),
 }
 
 impl From<unchecked::SyntaxElem> for SyntaxElem {
