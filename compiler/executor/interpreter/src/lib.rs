@@ -45,7 +45,7 @@ where
             io::stdin().read_line(&mut line)?;
 
             match self.0.process(&line) {
-                Ok(_) => println!("Ok\n"),
+                Ok((_, remain)) => println!("Ok (remain => {:?})\n", remain),
                 Err(_) => println!("Error!\n"),
             };
         }

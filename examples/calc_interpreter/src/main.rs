@@ -7,7 +7,7 @@ use blockdsl::processor::DSL;
 
 #[lexer]
 pub enum ExprToken {
-    #[token(regex = r"[1-9][0-9]*")]
+    #[token(regex = r"(0|[1-9][0-9]*)")]
     Num,
     #[token(regex = r"\+")]
     Plus,
