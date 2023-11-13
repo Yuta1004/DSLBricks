@@ -8,9 +8,11 @@ struct MyDSL;
 impl DSLGeneratable for MyDSL {
     fn design(self) -> RuleSet {
         vec![
-            Rule::from(("top", vec![SyntaxElem::Term("a")])),
-            Rule::from(("top", vec![SyntaxElem::Term("b")])),
-            Rule::from(("top", vec![SyntaxElem::Term("c")])),
+            Rule::from(("t", vec![SyntaxElem::NonTerm("t"), SyntaxElem::NonTerm("c")])),
+            Rule::from(("t", vec![SyntaxElem::NonTerm("c")])),
+            Rule::from(("c", vec![SyntaxElem::Term("a")])),
+            Rule::from(("c", vec![SyntaxElem::Term("b")])),
+            Rule::from(("c", vec![SyntaxElem::Term("c")])),
         ]
         .into()
     }
