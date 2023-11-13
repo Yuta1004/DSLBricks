@@ -3,23 +3,52 @@ pub(crate) mod unchecked;
 
 pub use unchecked::{Rule, RuleSet, SyntaxElem};
 
-pub fn check(uc_ruleset: unchecked::RuleSet) -> (Vec<&'static str>, checked::RuleSet) {
-    let ruleset: checked::RuleSet = uc_ruleset
-        .0
+pub fn check(uc_ruleset: unchecked::RuleSet) -> (Vec<&'static str>, Vec<String>, checked::RuleSet) {
+    // 1. Mark rules
+    let marked_uc_ruleset = mark(uc_ruleset);
+
+    // 2. Convert unchecked::Rule into check::Rule
+    let ruleset = convert(marked_uc_ruleset);
+
+    // 3-1. Collect token defs
+    let token_defs = collect_token_defs(&ruleset);
+
+    // 3-2. Collect syntax defs
+    let syntax_defs = collect_syntax_defs(&ruleset);
+
+    (token_defs, syntax_defs, ruleset)
+}
+
+fn mark(uc_ruleset: unchecked::RuleSet) ->  Vec<(String, unchecked::Rule)> {
+    let mut id = 0;
+    let mut marked_uc_ruleset = vec![];
+    for rule in uc_ruleset.0.into_iter() {
+        id += 1;
+        let id = format!("{}_{}", rule.left, id);
+        marked_uc_ruleset.push((id, rule));
+    }
+
+    marked_uc_ruleset
+}
+
+fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>) -> checked::RuleSet {
+    marked_uc_ruleset
         .into_iter()
-        .map(|rule| {
+        .map(|(id, rule)| {
             let left = rule.left;
             let rights = rule
                 .rights
                 .into_iter()
                 .map(checked::SyntaxElem::from)
                 .collect();
-            checked::Rule::from(("IgnoredRule", left, rights))
+            checked::Rule::from((id, left, rights))
         })
         .collect::<Vec<checked::Rule>>()
-        .into();
+        .into()
+}
 
-    let tokens = ruleset
+fn collect_token_defs(ruleset: &checked::RuleSet) -> Vec<&'static str> {
+    ruleset
         .0
         .iter()
         .flat_map(|rule| rule.rights.iter())
@@ -30,9 +59,15 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> (Vec<&'static str>, checked::Rul
                 None
             }
         })
-        .collect();
+        .collect()
+}
 
-    (tokens, ruleset)
+fn collect_syntax_defs(ruleset: &checked::RuleSet) -> Vec<String> {
+    ruleset
+        .0
+        .iter()
+        .map(|rule| rule.name.clone())
+        .collect()
 }
 
 #[cfg(test)]
@@ -43,7 +78,7 @@ mod test {
     fn check_simple() {
         let except: checked::RuleSet = vec![
             checked::Rule::from((
-                "top_0",
+                "top_1",
                 "top",
                 vec![
                     checked::SyntaxElem::NonTerm("top"),
@@ -51,7 +86,7 @@ mod test {
                 ],
             )),
             checked::Rule::from((
-                "top_1",
+                "top_2",
                 "top",
                 vec![checked::SyntaxElem::Term("A")]
             )),
@@ -69,7 +104,7 @@ mod test {
             unchecked::Rule::from(("top", vec![unchecked::SyntaxElem::Term("A")])),
         ]
         .into();
-        let (_, ruleset) = super::check(uc_ruleset);
+        let (_, _, ruleset) = super::check(uc_ruleset);
 
         assert_eq!(format!("{:?}", except), format!("{:?}", ruleset),)
     }
