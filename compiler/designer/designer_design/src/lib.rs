@@ -32,17 +32,17 @@ impl DSLDesign {
     }
 }
 
-impl<T: DSLGeneratable> From<T> for DSLDesign {
-    fn from(def: T) -> Self {
+impl DSLDesign {
+    pub fn from<T: DSLGeneratable>(def: T) -> anyhow::Result<Self> {
         let full_name = type_name::<T>();
         let name = full_name.split("::").last().unwrap().to_string();
 
-        let ruleset = syntax::check(def.design()).unwrap();
+        let ruleset = syntax::check(def.design())?;
 
-        DSLDesign {
+        Ok(DSLDesign {
             name,
             syntax: ruleset,
-        }
+        })
     }
 }
 
@@ -62,6 +62,6 @@ mod test {
 
     #[test]
     fn name() {
-        assert_eq!(DSLDesign::from(MyDSL).name, "MyDSL")
+        assert_eq!(DSLDesign::from(MyDSL).unwrap().name, "MyDSL")
     }
 }

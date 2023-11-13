@@ -13,7 +13,7 @@ struct CodeTemplate {
 }
 
 pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
-    let dsl = DSLDesign::from(dsl);
+    let dsl = DSLDesign::from(dsl)?;
 
     let name = format!("{}", dsl.name);
     let token_defs = gen_token_code(&dsl.token_defs())?;
