@@ -1,6 +1,6 @@
 use crate::syntax::checked::{Rule, RuleSet, SyntaxElem};
 
-pub(crate) fn convert(ruleset: &RuleSet) -> String {
+pub(crate) fn gen(ruleset: &RuleSet) -> String {
     ruleset
         .0
         .iter()
@@ -35,7 +35,7 @@ impl From<&SyntaxElem> for String {
 
 #[cfg(test)]
 mod test {
-    use super::convert;
+    use super::gen;
     use crate::syntax::checked::{Rule, SyntaxElem};
 
     #[test]
@@ -56,7 +56,7 @@ mod test {
         ]
         .into();
 
-        let result = convert(&ruleset)
+        let result = gen(&ruleset)
             .split("\n")
             .into_iter()
             .zip(except.into_iter())

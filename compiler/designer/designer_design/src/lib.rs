@@ -21,7 +21,7 @@ pub struct DSLDesign {
 
 impl DSLDesign {
     pub fn bnf(&self) -> String {
-        bnf::convert(&self.syntax)
+        bnf::gen(&self.syntax)
     }
 }
 
