@@ -96,7 +96,6 @@ fn parse_bnf_rules(token: &str, rules: &str) -> HashMap<String, TokenStream> {
 
     rights
         .split('|')
-        .into_iter()
         .map(|rule| {
             let (variant, relems) = parse_bnf_rule(token, rule);
             let rule = quote! {
@@ -110,7 +109,7 @@ fn parse_bnf_rules(token: &str, rules: &str) -> HashMap<String, TokenStream> {
         .collect()
 }
 
-fn parse_bnf_rule<'a, 'b>(token: &'a str, rule: &'b str) -> (&'b str, Vec<TokenStream>) {
+fn parse_bnf_rule<'a>(token: &str, rule: &'a str) -> (&'a str, Vec<TokenStream>) {
     let token: TokenStream = token.parse().unwrap();
     let rule: Vec<&str> = rule.trim().split('$').collect();
     if rule.len() < 2 {
@@ -120,7 +119,6 @@ fn parse_bnf_rule<'a, 'b>(token: &'a str, rule: &'b str) -> (&'b str, Vec<TokenS
     let (rule, variant) = (rule[0], rule[1]);
     let relems = rule
         .split([' ', '\n'])
-        .into_iter()
         .filter(|relem| !relem.is_empty())
         .map(|relem| {
             let relem = relem.trim();
