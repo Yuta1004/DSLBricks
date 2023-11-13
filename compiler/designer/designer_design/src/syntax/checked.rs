@@ -2,13 +2,21 @@ use crate::syntax::unchecked;
 
 #[derive(Debug)]
 pub struct Rule {
+    pub(crate) name: String,
     pub(crate) left: &'static str,
     pub(crate) rights: Vec<SyntaxElem>,
 }
 
-impl From<(&'static str, Vec<SyntaxElem>)> for Rule {
-    fn from((left, rights): (&'static str, Vec<SyntaxElem>)) -> Self {
-        Rule { left, rights }
+impl<T> From<(T, &'static str, Vec<SyntaxElem>)> for Rule
+where
+    T: Into<String>,
+{
+    fn from((name, left, rights): (T, &'static str, Vec<SyntaxElem>)) -> Self {
+        Rule {
+            name: name.into(),
+            left,
+            rights
+        }
     }
 }
 

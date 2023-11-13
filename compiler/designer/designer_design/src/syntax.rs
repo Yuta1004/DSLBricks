@@ -14,7 +14,7 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> (Vec<&'static str>, checked::Rul
                 .into_iter()
                 .map(checked::SyntaxElem::from)
                 .collect();
-            checked::Rule::from((left, rights))
+            checked::Rule::from(("IgnoredRule", left, rights))
         })
         .collect::<Vec<checked::Rule>>()
         .into();
@@ -43,13 +43,18 @@ mod test {
     fn check_simple() {
         let except: checked::RuleSet = vec![
             checked::Rule::from((
+                "top_0",
                 "top",
                 vec![
                     checked::SyntaxElem::NonTerm("top"),
                     checked::SyntaxElem::Term("A"),
                 ],
             )),
-            checked::Rule::from(("top", vec![checked::SyntaxElem::Term("A")])),
+            checked::Rule::from((
+                "top_1",
+                "top",
+                vec![checked::SyntaxElem::Term("A")]
+            )),
         ]
         .into();
 

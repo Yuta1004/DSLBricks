@@ -44,10 +44,15 @@ mod test {
 
         let ruleset = vec![
             Rule::from((
+                "top_0",
                 "top",
                 vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")],
             )),
-            Rule::from(("top", vec![SyntaxElem::Term("A")])),
+            Rule::from((
+                "top_1",
+                "top",
+                vec![SyntaxElem::Term("A")]
+            )),
         ]
         .into();
 
