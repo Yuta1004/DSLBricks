@@ -346,6 +346,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "regex",
+ "serde",
  "strum",
  "thiserror",
 ]
@@ -370,6 +371,8 @@ dependencies = [
  "anyhow",
  "itertools",
  "processor_lexer",
+ "serde",
+ "serde_json",
  "strum",
  "thiserror",
 ]

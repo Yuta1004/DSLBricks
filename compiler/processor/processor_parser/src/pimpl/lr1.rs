@@ -3,6 +3,7 @@ use std::hash::Hash;
 use std::marker::PhantomData;
 
 use itertools::Itertools;
+use serde::Serialize;
 
 use lexer::{Token, LexIterator};
 
@@ -11,7 +12,7 @@ use super::super::syntax::{ASyntax, Syntax};
 use super::super::ParseError;
 use super::ParserImpl;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 enum LRAction<S> {
     Shift(usize),
     Reduce(S, usize, usize), // syntax, goto_id, elems_cnt
@@ -19,6 +20,7 @@ enum LRAction<S> {
     None,
 }
 
+#[derive(Debug, Serialize)]
 pub struct LR1<A, S, T>
 where
     A: ASyntax<S, T>,
@@ -443,6 +445,7 @@ impl<'a, T: Token> LRItem<'a, T> {
 
 #[cfg(test)]
 mod test {
+    use serde::Serialize;
     use strum::EnumIter;
 
     use lexer::{Lexer, Token};
@@ -451,6 +454,7 @@ mod test {
     use crate::syntax::{ASyntax, Syntax};
     use crate::{Parser, LR1};
 
+    #[derive(Debug, Serialize)]
     pub struct VoidSemantics;
 
     impl<S, T> ASyntax<S, T> for VoidSemantics
@@ -463,7 +467,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug)]
+    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize)]
     enum TestToken {
         Num,
         Plus,
@@ -492,7 +496,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Debug)]
+    #[derive(EnumIter, Clone, Copy, Debug, Serialize)]
     pub enum TestSyntax {
         ExprPlus,
         ExprMinus,

@@ -4,9 +4,10 @@ use std::hash::Hash;
 use std::marker::PhantomData;
 
 use regex::{Regex, RegexSet};
+use serde::Serialize;
 use strum::IntoEnumIterator;
 
-pub trait Token: IntoEnumIterator + Copy + Hash + Eq {
+pub trait Token: IntoEnumIterator + Copy + Hash + Eq + Serialize {
     fn to_regex(token: &Self) -> &'static str;
     fn ignore_str() -> &'static str;
 }
@@ -114,11 +115,12 @@ impl<'a, T: Token> Iterator for LexDriver<'a, T> {
 
 #[cfg(test)]
 mod test {
-    pub use strum::EnumIter;
+    use serde::Serialize;
+    use strum::EnumIter;
 
     use super::{Lexer, Token};
 
-    #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq)]
+    #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize)]
     enum TestToken {
         Num,
         Plus,
