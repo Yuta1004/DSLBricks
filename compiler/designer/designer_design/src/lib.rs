@@ -15,12 +15,18 @@ where
 
 pub struct DSLDesign {
     pub name: String,
-    pub token_defs: Vec<&'static str>,
-    pub syntax_defs: Vec<String>,
     syntax: checked::RuleSet,
 }
 
 impl DSLDesign {
+    pub fn token_defs(&self) -> Vec<&'static str> {
+        self.syntax.token_defs()
+    }
+
+    pub fn syntax_defs(&self) -> Vec<String> {
+        self.syntax.syntax_defs()
+    }
+
     pub fn bnf(&self) -> String {
         bnf::gen(&self.syntax)
     }
@@ -31,13 +37,11 @@ impl<T: DSLGeneratable> From<T> for DSLDesign {
         let full_name = type_name::<T>();
         let name = full_name.split("::").last().unwrap().to_string();
 
-        let (token_defs, syntax_defs, syntax) = syntax::check(def.design());
+        let ruleset = syntax::check(def.design()).unwrap();
 
         DSLDesign {
             name,
-            token_defs,
-            syntax_defs,
-            syntax,
+            syntax: ruleset,
         }
     }
 }

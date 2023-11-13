@@ -44,3 +44,26 @@ impl From<Vec<Rule>> for RuleSet {
         RuleSet(rules)
     }
 }
+
+impl RuleSet {
+    pub fn token_defs(&self) -> Vec<&'static str> {
+        self.0
+            .iter()
+            .flat_map(|rule| rule.rights.iter())
+            .filter_map(|rule| {
+                if let SyntaxElem::Term(regex) = rule {
+                    Some(*regex)
+                } else {
+                    None
+                }
+            })
+            .collect()
+    }
+
+    pub fn syntax_defs(&self) -> Vec<String> {
+        self.0
+            .iter()
+            .map(|rule| rule.name.clone())
+            .collect()
+    }
+}
