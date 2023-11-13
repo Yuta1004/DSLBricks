@@ -51,7 +51,7 @@ where
             &top_dummy,
             HashSet::from_iter(vec![&RuleElem::EOF]),
         )];
-        let lr_items = LRItemSet::new(0, HashSet::from_iter(top_dummy.into_iter()));
+        let lr_items = LRItemSet::new(0, HashSet::from_iter(top_dummy));
         let lr_items = lr_items.expand_closure(&ruleset, &first_set);
 
         // 3. Generate a DFA
@@ -278,7 +278,7 @@ impl<'a, T: Token> LRItemSet<'a, T> {
                 .flat_map(|item| item.expand_closure(ruleset, first_set))
                 .collect();
             let new_items = LRItem::<'a, T>::unify_all(new_items);
-            let new_items = HashSet::from_iter(new_items.into_iter());
+            let new_items = HashSet::from_iter(new_items);
 
             let bef_len = lr_items.len();
             lr_items = LRItem::<'a, T>::unity_set(lr_items, new_items.clone());
@@ -431,7 +431,7 @@ impl<'a, T: Token> LRItem<'a, T> {
         let mut items_a = Vec::from_iter(items_a);
         let items_b = Vec::from_iter(items_b);
         items_a.extend(items_b);
-        HashSet::from_iter(Self::unify_all(items_a).into_iter())
+        HashSet::from_iter(Self::unify_all(items_a))
     }
 }
 
