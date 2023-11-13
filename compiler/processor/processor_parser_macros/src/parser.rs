@@ -28,7 +28,7 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
         .collect();
 
     quote! {
-        #[derive(EnumIter, Clone, Copy)]
+        #[derive(EnumIter, Clone, Copy, Serialize, Deserialize)]
         #target_ast
 
         impl Syntax<#semantics, #token> for #enum_name {
