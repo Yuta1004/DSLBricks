@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+serde = { version = "1.0", features = ["derive"] }
 strum = { version = "0.25", features = ["derive"] }
 # check = { package = "processor_check", path = "../processor_check" }
 # codegen = { package = "processor_codegen", path = "../processor_codegen" }

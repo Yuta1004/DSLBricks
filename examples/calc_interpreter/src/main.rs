@@ -51,7 +51,7 @@ pub enum ExprSyntax {
     Fact2Num,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum ExprNode {
     Plus(Box<ExprNode>, Box<ExprNode>),
     Minus(Box<ExprNode>, Box<ExprNode>),

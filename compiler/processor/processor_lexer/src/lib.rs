@@ -4,43 +4,35 @@ use std::hash::Hash;
 use std::marker::PhantomData;
 
 use regex::{Regex, RegexSet};
+use serde::{Serialize, Deserialize};
 use strum::IntoEnumIterator;
 
-pub trait Token: IntoEnumIterator + Copy + Hash + Eq {
+pub trait Token: IntoEnumIterator + Copy + Hash + Eq + Serialize {
     fn to_regex(token: &Self) -> &'static str;
     fn ignore_str() -> &'static str;
 }
 
-pub struct Lexer<T: Token> {
-    ty: PhantomData<T>,
-    regex_set: RegexSet,
-    regex_map: Vec<(Regex, T)>,
-    regex_istr: Regex,
-}
+#[derive(Serialize, Deserialize)]
+pub struct Lexer<T: Token>(PhantomData<T>);
 
 impl<T: Token + 'static> Lexer<T> {
     pub fn new() -> anyhow::Result<Lexer<T>> {
         let regex_set: Vec<&str> = T::iter().map(|token| T::to_regex(&token)).collect();
-        let regex_set = RegexSet::new(regex_set)?;
+        let _ = RegexSet::new(regex_set)?;
+        let _ = Regex::new(T::ignore_str())?;
+
+        Ok(Lexer(PhantomData))
+    }
+
+    pub fn lex<'a>(&self, input: &'a str) -> impl LexIterator<'a, T> + 'a {
+        let regex_set: Vec<&str> = T::iter().map(|token| T::to_regex(&token)).collect();
+        let regex_set = RegexSet::new(regex_set).unwrap();
 
         let regex_map: Vec<(Regex, T)> = T::iter()
             .map(|token| (Regex::new(T::to_regex(&token)).unwrap(), token))
             .collect();
 
-        let regex_istr = Regex::new(T::ignore_str())?;
-
-        Ok(Lexer {
-            ty: PhantomData,
-            regex_set,
-            regex_map,
-            regex_istr,
-        })
-    }
-
-    pub fn lex<'a>(&self, input: &'a str) -> impl LexIterator<'a, T> + 'a {
-        let regex_set = self.regex_set.clone();
-        let regex_map = self.regex_map.clone();
-        let regex_istr = self.regex_istr.clone();
+        let regex_istr = Regex::new(T::ignore_str()).unwrap();
 
         LexDriver::<'a, T>::new(
             regex_set, regex_map, regex_istr, input,
@@ -114,11 +106,12 @@ impl<'a, T: Token> Iterator for LexDriver<'a, T> {
 
 #[cfg(test)]
 mod test {
-    pub use strum::EnumIter;
+    use serde::{Serialize, Deserialize};
+    use strum::EnumIter;
 
     use super::{Lexer, Token};
 
-    #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq)]
+    #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
     enum TestToken {
         Num,
         Plus,

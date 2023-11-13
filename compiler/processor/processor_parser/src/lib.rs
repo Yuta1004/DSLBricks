@@ -6,6 +6,7 @@ pub mod prelude;
 use std::fmt::Display;
 use std::marker::PhantomData;
 
+use serde::{Serialize, Deserialize};
 use thiserror::Error;
 
 use lexer::{Token, LexIterator};
@@ -14,7 +15,7 @@ use pimpl::ParserImpl;
 pub use pimpl::LR1;
 use syntax::{ASyntax, Syntax};
 
-#[derive(Debug, Error)]
+#[derive(Debug, Error, Serialize, Deserialize)]
 pub struct ParseError(String);
 
 impl Display for ParseError {
@@ -29,13 +30,17 @@ impl From<String> for ParseError {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Parser<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
     T: Token,
 {
+    // PhantomData
     syntax: PhantomData<S>,
+
+    // Parser Body
     p_impl: S::Parser,
 }
 

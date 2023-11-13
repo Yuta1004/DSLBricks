@@ -1,3 +1,4 @@
+use serde::Serialize;
 use thiserror::Error;
 
 use lexer::Token;
@@ -12,9 +13,9 @@ pub enum ASyntaxError {
 
 pub trait ASyntax<S, T>
 where
+    Self: Sized + Serialize,
     S: Syntax<Self, T>,
     T: Token,
-    Self: Sized,
 {
     #[allow(unused_variables)]
     fn mapping(

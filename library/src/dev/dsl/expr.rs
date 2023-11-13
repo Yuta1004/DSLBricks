@@ -4,6 +4,7 @@ use processor::parser::LR1;
 use processor::prelude::*;
 use processor::DSL;
 
+
 #[lexer]
 pub enum ExprToken {
     #[token(regex = r"(0|[1-9][0-9]*)")]
@@ -50,7 +51,7 @@ pub enum ExprSyntax {
     Fact2Num,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum ExprNode {
     Plus(Box<ExprNode>, Box<ExprNode>),
     Minus(Box<ExprNode>, Box<ExprNode>),
