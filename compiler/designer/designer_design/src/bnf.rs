@@ -41,16 +41,16 @@ mod test {
 
     #[test]
     fn bnf() {
-        let except = vec!["top: top \"A\" $ IgnoredRule;", "top: \"A\" $ IgnoredRule;"];
+        let except = vec!["top: top \"A\" $ top_1;", "top: \"A\" $ top_2;"];
 
         let ruleset = vec![
             Rule::from((
-                "top_0",
+                "top_1",
                 "top",
                 vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")],
             )),
             Rule::from((
-                "top_1",
+                "top_2",
                 "top",
                 vec![SyntaxElem::Term("A")]
             )),
