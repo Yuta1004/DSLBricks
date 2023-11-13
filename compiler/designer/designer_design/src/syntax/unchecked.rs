@@ -1,6 +1,13 @@
 use crate::DSLGeneratable;
 
 #[derive(Debug)]
+pub enum SyntaxElem {
+    Term(&'static str),
+    NonTerm(&'static str),
+    Hole(Box<dyn DSLGeneratable>, ()),
+}
+
+#[derive(Debug)]
 pub struct Rule {
     pub(crate) left: &'static str,
     pub(crate) rights: Vec<SyntaxElem>,
@@ -19,11 +26,4 @@ impl From<Vec<Rule>> for RuleSet {
     fn from(rules: Vec<Rule>) -> Self {
         RuleSet(rules)
     }
-}
-
-#[derive(Debug)]
-pub enum SyntaxElem {
-    Term(&'static str),
-    NonTerm(&'static str),
-    Hole(Box<dyn DSLGeneratable>, ()),
 }
