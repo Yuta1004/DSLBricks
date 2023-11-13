@@ -41,8 +41,8 @@ where
 impl<A, S, T> ParserImpl<A, S, T> for LR1<A, S, T>
 where
     A: ASyntax<S, T>,
-    S: Syntax<A, T>,
-    T: Token + 'static,
+    S: Syntax<A, T> + for<'de> Deserialize<'de>,
+    T: Token + for<'de> Deserialize<'de> + 'static,
 {
     fn setup() -> anyhow::Result<Self> {
         // 1. Pre-process

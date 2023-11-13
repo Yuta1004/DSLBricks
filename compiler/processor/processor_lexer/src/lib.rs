@@ -7,7 +7,7 @@ use regex::{Regex, RegexSet};
 use serde::{Serialize, Deserialize};
 use strum::IntoEnumIterator;
 
-pub trait Token: IntoEnumIterator + Copy + Hash + Eq + Serialize + for<'de> Deserialize<'de> {
+pub trait Token: IntoEnumIterator + Copy + Hash + Eq + Serialize {
     fn to_regex(token: &Self) -> &'static str;
     fn ignore_str() -> &'static str;
 }

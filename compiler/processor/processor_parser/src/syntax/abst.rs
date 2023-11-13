@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::Serialize;
 use thiserror::Error;
 
 use lexer::Token;
@@ -13,7 +13,7 @@ pub enum ASyntaxError {
 
 pub trait ASyntax<S, T>
 where
-    Self: Sized + Serialize + for<'de> Deserialize<'de>,
+    Self: Sized + Serialize,
     S: Syntax<Self, T>,
     T: Token,
 {
