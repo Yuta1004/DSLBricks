@@ -1,6 +1,6 @@
 mod lr1;
 
-use lexer::Token;
+use lexer::{Token, LexIterator};
 
 use super::syntax::{ASyntax, Syntax};
 pub use lr1::LR1;
@@ -15,6 +15,6 @@ where
     fn setup() -> anyhow::Result<Self>;
     fn parse<'a, 'b>(
         &self,
-        lexer: &'a mut impl Iterator<Item = (&'b str, T)>,
+        lexer: &'a mut impl LexIterator<'b, T>,
     ) -> anyhow::Result<Box<A>>;
 }

@@ -1,4 +1,4 @@
-use lexer::{Lexer, Token};
+use lexer::{Lexer, Token, LexIterator};
 use parser::syntax::{ASyntax, Syntax};
 use parser::Parser;
 
@@ -20,8 +20,12 @@ where
         Ok(DSL(lexer, parser))
     }
 
-    pub fn process(&self, input: &str) -> anyhow::Result<Box<A>> {
+    pub fn process<'a>(&self, input: &'a str) -> anyhow::Result<(Box<A>, Option<&'a str>)> {
         let DSL(lexer, parser) = self;
-        parser.parse(&mut lexer.lex(input))
+        let mut lexer = lexer.lex(input);
+        match parser.parse(&mut lexer) {
+            Ok(result) => Ok((result, lexer.remain())),
+            Err(err) => Err(err),
+        }
     }
 }

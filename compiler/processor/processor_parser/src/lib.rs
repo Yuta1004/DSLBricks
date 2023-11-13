@@ -7,7 +7,7 @@ use std::marker::PhantomData;
 
 use thiserror::Error;
 
-use lexer::Token;
+use lexer::{Token, LexIterator};
 
 use pimpl::ParserImpl;
 pub use pimpl::LR1;
@@ -45,7 +45,7 @@ where
 
     pub fn parse<'a, 'b>(
         &self,
-        lexer: &'a mut impl Iterator<Item = (&'b str, T)>,
+        lexer: &'a mut impl LexIterator<'b, T>,
     ) -> anyhow::Result<Box<A>> {
         self.p_impl.parse(lexer)
     }

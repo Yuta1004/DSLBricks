@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 
 use itertools::Itertools;
 
-use lexer::Token;
+use lexer::{Token, LexIterator};
 
 use super::super::rule::{Rule, RuleElem, RuleSet};
 use super::super::syntax::{ASyntax, Syntax};
@@ -144,7 +144,7 @@ where
 
     fn parse<'a, 'b>(
         &self,
-        lexer: &'a mut impl Iterator<Item = (&'b str, T)>,
+        lexer: &'a mut impl LexIterator<'b, T>,
     ) -> anyhow::Result<Box<A>> {
         let mut stack = vec![0];
         let mut result = vec![];

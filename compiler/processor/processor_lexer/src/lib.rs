@@ -37,14 +37,22 @@ impl<T: Token + 'static> Lexer<T> {
         })
     }
 
-    pub fn lex<'a>(&self, input: &'a str) -> Box<dyn Iterator<Item = (&'a str, T)> + 'a> {
+    pub fn lex<'a>(&self, input: &'a str) -> impl LexIterator<'a, T> + 'a {
         let regex_set = self.regex_set.clone();
         let regex_map = self.regex_map.clone();
         let regex_istr = self.regex_istr.clone();
-        Box::new(LexDriver::<'a, T>::new(
+
+        LexDriver::<'a, T>::new(
             regex_set, regex_map, regex_istr, input,
-        ))
+        )
     }
+}
+
+pub trait LexIterator<'a, T: Token>
+where
+    Self: Iterator<Item = (&'a str, T)>,
+{
+    fn remain(&self) -> Option<&'a str>;
 }
 
 struct LexDriver<'a, T: Token> {
@@ -68,6 +76,15 @@ impl<'a, T: Token> LexDriver<'a, T> {
             regex_map,
             regex_istr,
             input,
+        }
+    }
+}
+
+impl<'a, T: Token> LexIterator<'a, T> for LexDriver<'a, T> {
+    fn remain(&self) -> Option<&'a str> {
+        match self.input {
+            "" => None,
+            s => Some(s),
         }
     }
 }
