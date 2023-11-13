@@ -1,14 +1,14 @@
 mod bnf;
-mod part;
 pub mod syntax;
 
 use std::any::type_name;
+use std::fmt::Debug;
 
 use syntax::{checked, unchecked};
 
 pub trait DSLGeneratable
 where
-    Self: Sized,
+    Self: Debug,
 {
     fn design(self) -> unchecked::RuleSet;
 }
@@ -45,6 +45,7 @@ mod test {
     use crate::syntax::RuleSet;
     use crate::{DSLDesign, DSLGeneratable};
 
+    #[derive(Debug)]
     struct MyDSL;
 
     impl DSLGeneratable for MyDSL {

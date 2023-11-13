@@ -2,6 +2,7 @@ use blockdsl::designer::codegen::rbuild_dsl;
 use blockdsl::designer::design::syntax::{Rule, RuleSet, SyntaxElem};
 use blockdsl::designer::design::DSLGeneratable;
 
+#[derive(Debug)]
 struct MyDSL;
 
 impl DSLGeneratable for MyDSL {

@@ -1,4 +1,4 @@
-use crate::part::DSLPart;
+use crate::DSLGeneratable;
 
 #[derive(Debug)]
 pub struct Rule {
@@ -25,5 +25,5 @@ impl From<Vec<Rule>> for RuleSet {
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
-    Hole(Box<dyn DSLPart>, ()),
+    Hole(Box<dyn DSLGeneratable>, ()),
 }
