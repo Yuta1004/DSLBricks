@@ -49,11 +49,7 @@ mod test {
                 "top",
                 vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")],
             )),
-            Rule::from((
-                "top_2",
-                "top",
-                vec![SyntaxElem::Term("A")]
-            )),
+            Rule::from(("top_2", "top", vec![SyntaxElem::Term("A")])),
         ]
         .into();
 

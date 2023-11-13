@@ -13,7 +13,7 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet>
     Ok(ruleset)
 }
 
-fn mark(uc_ruleset: unchecked::RuleSet) ->  Vec<(String, unchecked::Rule)> {
+fn mark(uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
     let mut id = 0;
     let mut marked_uc_ruleset = vec![];
     for rule in uc_ruleset.0.into_iter() {
@@ -56,11 +56,7 @@ mod test {
                     checked::SyntaxElem::Term("A"),
                 ],
             )),
-            checked::Rule::from((
-                "top_2",
-                "top",
-                vec![checked::SyntaxElem::Term("A")]
-            )),
+            checked::Rule::from(("top_2", "top", vec![checked::SyntaxElem::Term("A")])),
         ]
         .into();
 

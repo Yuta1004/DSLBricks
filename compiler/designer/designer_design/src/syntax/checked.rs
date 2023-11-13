@@ -31,7 +31,7 @@ where
         Rule {
             name: name.into(),
             left,
-            rights
+            rights,
         }
     }
 }
@@ -61,9 +61,6 @@ impl RuleSet {
     }
 
     pub fn syntax_defs(&self) -> Vec<String> {
-        self.0
-            .iter()
-            .map(|rule| rule.name.clone())
-            .collect()
+        self.0.iter().map(|rule| rule.name.clone()).collect()
     }
 }

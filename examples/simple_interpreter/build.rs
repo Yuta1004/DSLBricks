@@ -11,7 +11,8 @@ impl DSLGeneratable for MyDSL {
             Rule::from(("top", vec![SyntaxElem::Term("a")])),
             Rule::from(("top", vec![SyntaxElem::Term("b")])),
             Rule::from(("top", vec![SyntaxElem::Term("c")])),
-        ].into()
+        ]
+        .into()
     }
 }
 
