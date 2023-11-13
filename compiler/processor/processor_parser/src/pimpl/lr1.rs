@@ -174,7 +174,10 @@ where
                         result.push((Some(A::mapping(*syntax, result0)?), None));
                     }
                     LRAction::None => {
-                        let remain = lexer.remain().unwrap().to_owned();
+                        let remain = match lexer.remain() {
+                            Some(remain) => remain.to_string(),
+                            None => "".to_string(),
+                        };
                         return Err(ParseError::from(remain).into());
                     }
                     LRAction::Accept => return Ok(result.pop().unwrap().0.unwrap()),
