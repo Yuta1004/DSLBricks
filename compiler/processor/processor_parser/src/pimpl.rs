@@ -1,6 +1,6 @@
 mod lr1;
 
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
 use lexer::{Token, LexIterator};
 
@@ -9,7 +9,7 @@ pub use lr1::LR1;
 
 pub trait ParserImpl<A, S, T>
 where
-    Self: Sized + Serialize,
+    Self: Sized + Serialize + for<'de> Deserialize<'de>,
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
     T: Token,

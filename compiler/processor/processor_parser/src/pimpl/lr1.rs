@@ -3,7 +3,7 @@ use std::hash::Hash;
 use std::marker::PhantomData;
 
 use itertools::Itertools;
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
 use lexer::{Token, LexIterator};
 
@@ -12,7 +12,7 @@ use super::super::syntax::{ASyntax, Syntax};
 use super::super::ParseError;
 use super::ParserImpl;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 enum LRAction<S> {
     Shift(usize),
     Reduce(S, usize, usize), // syntax, goto_id, elems_cnt
@@ -20,14 +20,19 @@ enum LRAction<S> {
     None,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct LR1<A, S, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T>,
-    T: Token,
+    // A: ASyntax<S, T>,
+    // S: Syntax<A, T>,
+    // T: Token,
+    // see => https://github.com/serde-rs/serde/issues/2418
+    T: Eq + Hash,
 {
+    // PhantomData
     semantics: PhantomData<A>,
+
+    // LR Tables
     action_table: Vec<HashMap<T, LRAction<S>>>,
     eof_action_table: Vec<LRAction<S>>,
     goto_table: Vec<Vec<usize>>,
@@ -445,7 +450,7 @@ impl<'a, T: Token> LRItem<'a, T> {
 
 #[cfg(test)]
 mod test {
-    use serde::Serialize;
+    use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
     use lexer::{Lexer, Token};
@@ -454,7 +459,7 @@ mod test {
     use crate::syntax::{ASyntax, Syntax};
     use crate::{Parser, LR1};
 
-    #[derive(Debug, Serialize)]
+    #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
 
     impl<S, T> ASyntax<S, T> for VoidSemantics
@@ -467,7 +472,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize)]
+    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize, Deserialize)]
     enum TestToken {
         Num,
         Plus,
@@ -496,7 +501,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Debug, Serialize)]
+    #[derive(EnumIter, Clone, Copy, Debug, Serialize, Deserialize)]
     pub enum TestSyntax {
         ExprPlus,
         ExprMinus,

@@ -201,7 +201,7 @@ impl<T: Token> RuleSet<T> {
 mod test {
     use std::collections::HashMap;
 
-    use serde::Serialize;
+    use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
     use lexer::Token;
@@ -209,7 +209,7 @@ mod test {
     use crate::rule::{Rule, RuleElem};
     use crate::{ASyntax, Syntax, LR1};
 
-    #[derive(Debug, Serialize)]
+    #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
 
     impl<S, T> ASyntax<S, T> for VoidSemantics
@@ -222,7 +222,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize)]
+    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize, Deserialize)]
     enum TestToken {
         Num,
         Plus,
@@ -251,7 +251,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Debug, Serialize)]
+    #[derive(EnumIter, Clone, Copy, Debug, Serialize, Deserialize)]
     pub enum TestSyntax {
         ExprPlus,
         ExprMinus,

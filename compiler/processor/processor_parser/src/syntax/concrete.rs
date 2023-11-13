@@ -1,4 +1,4 @@
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use strum::IntoEnumIterator;
 
 use lexer::Token;
@@ -9,7 +9,7 @@ use crate::ParserImpl;
 
 pub trait Syntax<A, T>
 where
-    Self: IntoEnumIterator + Clone + Copy + Sized + Serialize,
+    Self: IntoEnumIterator + Clone + Copy + Sized + Serialize + for<'de> Deserialize<'de>,
     A: ASyntax<Self, T>,
     T: Token,
 {
