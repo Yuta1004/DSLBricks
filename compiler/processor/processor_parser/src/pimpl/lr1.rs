@@ -173,7 +173,10 @@ where
                         result0.reverse();
                         result.push((Some(A::mapping(*syntax, result0)?), None));
                     }
-                    LRAction::None => return Err(ParseError::Unknown.into()),
+                    LRAction::None => {
+                        let remain = lexer.remain().unwrap().to_owned();
+                        return Err(ParseError::from(remain).into());
+                    }
                     LRAction::Accept => return Ok(result.pop().unwrap().0.unwrap()),
                 }
             }

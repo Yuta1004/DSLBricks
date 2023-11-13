@@ -3,6 +3,7 @@ pub mod rule;
 pub mod syntax;
 pub mod prelude;
 
+use std::fmt::Display;
 use std::marker::PhantomData;
 
 use thiserror::Error;
@@ -13,10 +14,19 @@ use pimpl::ParserImpl;
 pub use pimpl::LR1;
 use syntax::{ASyntax, Syntax};
 
-#[derive(Error, Debug)]
-pub enum ParseError {
-    #[error("Failed to parse!! (unknown)")]
-    Unknown,
+#[derive(Debug, Error)]
+pub struct ParseError(String);
+
+impl Display for ParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl From<String> for ParseError {
+    fn from(remain: String) -> Self {
+        ParseError(remain)
+    }
 }
 
 pub struct Parser<A, S, T>

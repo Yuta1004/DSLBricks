@@ -38,7 +38,7 @@ where
         let _ = InterpreterCLI::parse();
 
         loop {
-            print!("$ ");
+            print!(">> ");
             io::stdout().flush().unwrap();
 
             let mut line = String::new();
@@ -46,7 +46,7 @@ where
 
             match self.0.process(&line) {
                 Ok((_, remain)) => println!("Ok (remain => {:?})\n", remain),
-                Err(_) => println!("Error!\n"),
+                Err(err) => println!("Error at \"{}\"\n", format!("{}", err).trim()),
             };
         }
     }
