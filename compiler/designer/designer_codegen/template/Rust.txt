@@ -18,9 +18,9 @@ pub enum {NAME}Token \{
     semantics => {NAME}ASyntax,
     bnf => {BNF}
 )]
+#[allow(non_camel_case_types)]
 pub enum {NAME}Syntax \{
     {SYNTAX_DEFS}
-    IgnoredRule
 }
 
 #[derive(Debug)]

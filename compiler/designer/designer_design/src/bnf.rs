@@ -12,6 +12,7 @@ pub(crate) fn gen(ruleset: &RuleSet) -> String {
 
 impl From<&Rule> for String {
     fn from(rule: &Rule) -> Self {
+        let name = &rule.name;
         let left = rule.left;
         let rights = rule
             .rights
@@ -20,7 +21,7 @@ impl From<&Rule> for String {
             .collect::<Vec<String>>();
         let right = rights.join(" ");
 
-        format!("{}: {} $ IgnoredRule", left, right)
+        format!("{}: {} $ {}", left, right, name)
     }
 }
 
