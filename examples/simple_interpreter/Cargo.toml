@@ -6,8 +6,9 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
+serde = "1.0"
 strum = { version = "0.25", features = ["derive"] }
-blockdsl = { package = "blockdsl", path = "../../" }
+blockdsl_compiler = { package = "blockdsl_compiler", path = "../../compiler" }
 
 [build-dependencies]
-blockdsl = { package = "blockdsl", path = "../../" }
+blockdsl_compiler = { package = "blockdsl_compiler", path = "../../compiler" }
