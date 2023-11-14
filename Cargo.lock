@@ -93,6 +93,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockdsl",
+ "serde",
  "strum",
  "thiserror",
 ]
@@ -281,6 +282,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "processor",
+ "serde",
  "strum",
  "thiserror",
 ]
@@ -327,6 +329,7 @@ dependencies = [
  "processor_lexer_macros",
  "processor_parser",
  "processor_parser_macros",
+ "serde",
  "strum",
 ]
 
@@ -337,6 +340,7 @@ dependencies = [
  "anyhow",
  "processor_lexer",
  "processor_parser",
+ "serde",
  "thiserror",
 ]
 
@@ -346,6 +350,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "regex",
+ "serde",
  "strum",
  "thiserror",
 ]
@@ -370,6 +375,7 @@ dependencies = [
  "anyhow",
  "itertools",
  "processor_lexer",
+ "serde",
  "strum",
  "thiserror",
 ]

@@ -4,7 +4,7 @@ use syn::{Data, DeriveInput, ExprLit, Lit};
 
 pub(super) fn lexer_attr_macro_impl(ast: TokenStream) -> TokenStream {
     quote! {
-        #[derive(Tokenize, EnumIter, Clone, Copy, Hash, PartialEq, Eq)]
+        #[derive(Tokenize, EnumIter, Clone, Copy, Hash, PartialEq, Eq, Serialize, Deserialize)]
         #ast
     }
 }

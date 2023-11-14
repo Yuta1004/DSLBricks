@@ -4,7 +4,7 @@ use blockdsl::lib::dev::dsl::expr_dsl;
 fn calculator() {
     let dsl = expr_dsl();
     let check = |expr: &str, ans: i32| {
-        assert_eq!(dsl.process(expr).unwrap().exec(), ans);
+        assert_eq!(dsl.process(expr).unwrap().0.exec(), ans);
     };
 
     check("10", 10);
