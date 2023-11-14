@@ -3,7 +3,6 @@ resolver = "2"
 members = [
     "compiler",
     "library",
-    "tests",
     "examples/simple_interpreter",
     "examples/calc_interpreter",
 ]

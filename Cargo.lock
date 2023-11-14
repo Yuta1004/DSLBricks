@@ -542,17 +542,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tests"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "blockdsl_compiler",
- "blockdsl_lib",
- "strum",
- "thiserror",
-]
-
-[[package]]
 name = "thiserror"
 version = "1.0.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
