@@ -7,6 +7,7 @@ use blockdsl::processor::DSL;
 type {NAME} = DSL::<{NAME}ASyntax, {NAME}Syntax, {NAME}Token>;
 
 #[lexer]
+#[allow(non_camel_case_types)]
 pub enum {NAME}Token \{
     {TOKEN_DEFS}
 }
@@ -17,6 +18,7 @@ pub enum {NAME}Token \{
     semantics => {NAME}ASyntax,
     bnf => {BNF}
 )]
+#[allow(non_camel_case_types)]
 pub enum {NAME}Syntax \{
     {SYNTAX_DEFS}
 }

@@ -1,12 +1,20 @@
 use blockdsl::designer::codegen::rbuild_dsl;
-use blockdsl::designer::design::{DSLDesign, DSLPart};
+use blockdsl::designer::design::syntax::{Rule, RuleSet, SyntaxElem};
+use blockdsl::designer::design::DSLGeneratable;
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct MyDSL;
 
-impl DSLDesign for MyDSL {
-    fn design() -> Vec<Box<dyn DSLPart>> {
-        vec![]
+impl DSLGeneratable for MyDSL {
+    fn design(self) -> RuleSet {
+        vec![
+            Rule::from(("t", vec![SyntaxElem::NonTerm("t"), SyntaxElem::NonTerm("c")])),
+            Rule::from(("t", vec![SyntaxElem::NonTerm("c")])),
+            Rule::from(("c", vec![SyntaxElem::Term("a")])),
+            Rule::from(("c", vec![SyntaxElem::Term("b")])),
+            Rule::from(("c", vec![SyntaxElem::Term("c")])),
+        ]
+        .into()
     }
 }
 

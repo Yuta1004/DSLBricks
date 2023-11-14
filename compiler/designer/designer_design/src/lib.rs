@@ -1,67 +1,67 @@
+mod bnf;
+pub mod syntax;
+
+use std::any::type_name;
 use std::fmt::Debug;
 
-pub trait DSLDesign
-where
-    Self: Debug + Default,
-{
-    fn design() -> Vec<Box<dyn DSLPart>>;
-}
+use syntax::{checked, unchecked};
 
-pub trait DSLPart
+pub trait DSLGeneratable
 where
     Self: Debug,
 {
-    fn syntax(&self) -> Vec<SyntaxElem>;
+    fn design(self) -> unchecked::RuleSet;
+}
 
-    fn tokens(&self) -> Vec<&'static str> {
-        self.syntax()
-            .into_iter()
-            .flat_map(|elem| match elem {
-                SyntaxElem::Const(s) => vec![s],
-            })
-            .collect()
+pub struct DSLDesign {
+    pub name: String,
+    syntax: checked::RuleSet,
+}
+
+impl DSLDesign {
+    pub fn token_defs(&self) -> Vec<&'static str> {
+        self.syntax.token_defs()
+    }
+
+    pub fn syntax_defs(&self) -> Vec<String> {
+        self.syntax.syntax_defs()
+    }
+
+    pub fn bnf(&self) -> String {
+        bnf::gen(&self.syntax)
     }
 }
 
-pub enum SyntaxElem {
-    Const(&'static str),
+impl DSLDesign {
+    pub fn from<T: DSLGeneratable>(def: T) -> anyhow::Result<Self> {
+        let full_name = type_name::<T>();
+        let name = full_name.split("::").last().unwrap().to_string();
+
+        let ruleset = syntax::check(def.design())?;
+
+        Ok(DSLDesign {
+            name,
+            syntax: ruleset,
+        })
+    }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::{DSLDesign, DSLPart, SyntaxElem};
-
-    #[derive(Debug, Default)]
-    struct MyDSL;
-
-    impl DSLDesign for MyDSL {
-        fn design() -> Vec<Box<dyn DSLPart>> {
-            vec![Box::new(Function)]
-        }
-    }
+    use crate::syntax::RuleSet;
+    use crate::{DSLDesign, DSLGeneratable};
 
     #[derive(Debug)]
-    struct Function;
+    struct MyDSL;
 
-    impl DSLPart for Function {
-        fn syntax(&self) -> Vec<SyntaxElem> {
-            vec![
-                SyntaxElem::Const("func"),
-                SyntaxElem::Const("("),
-                SyntaxElem::Const(")"),
-                SyntaxElem::Const("{"),
-                SyntaxElem::Const("}"),
-            ]
+    impl DSLGeneratable for MyDSL {
+        fn design(self) -> RuleSet {
+            vec![].into()
         }
     }
 
     #[test]
-    fn tokens() {
-        let tokens: Vec<&str> = MyDSL::design()
-            .into_iter()
-            .map(|part| part.tokens())
-            .flatten()
-            .collect();
-        assert_eq!(tokens, vec!["func", "(", ")", "{", "}"])
+    fn name() {
+        assert_eq!(DSLDesign::from(MyDSL).unwrap().name, "MyDSL")
     }
 }

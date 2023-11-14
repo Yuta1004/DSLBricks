@@ -8,7 +8,7 @@ macro_rules! build_dsl {
         use std::path::Path;
         use std::{env, fs};
 
-        let dsl_code = $genfunc::<$dsl>().unwrap();
+        let dsl_code = $genfunc($dsl).unwrap();
         let out_dir = env::current_dir().unwrap();
         let dst_path = Path::new(&out_dir).join(concat!(stringify!($file)));
         fs::write(&dst_path, dsl_code).unwrap();
@@ -25,7 +25,7 @@ macro_rules! rbuild_dsl {
 
         use blockdsl::designer::codegen::rust;
 
-        let dsl_code = rust::<$dsl>().unwrap();
+        let dsl_code = rust($dsl).unwrap();
         let out_dir = env::var_os("OUT_DIR").unwrap();
         let dst_path = Path::new(&out_dir).join(concat!(stringify!($dsl), ".rs"));
         fs::write(&dst_path, dsl_code).unwrap();
