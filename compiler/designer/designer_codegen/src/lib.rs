@@ -23,7 +23,7 @@ macro_rules! rbuild_dsl {
         use std::path::Path;
         use std::{env, fs};
 
-        use blockdsl::designer::codegen::rust;
+        use blockdsl_compiler::designer::codegen::rust;
 
         let dsl_code = rust($dsl).unwrap();
         let out_dir = env::var_os("OUT_DIR").unwrap();

@@ -1,5 +1,5 @@
-use blockdsl::executor::Interpreter;
-use blockdsl::lib::dev::dsl::*;
+use blockdsl_compiler::executor::Interpreter;
+use blockdsl_lib::dev::dsl::*;
 
 #[test]
 fn interpreter() {

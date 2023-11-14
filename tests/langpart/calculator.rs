@@ -1,4 +1,4 @@
-use blockdsl::lib::dev::dsl::expr_dsl;
+use blockdsl_lib::dev::dsl::expr_dsl;
 
 #[test]
 fn calculator() {

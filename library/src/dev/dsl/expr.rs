@@ -1,9 +1,8 @@
-use processor::macros::*;
-use processor::parser::syntax::ASyntax;
-use processor::parser::LR1;
-use processor::prelude::*;
-use processor::DSL;
-
+use blockdsl_compiler::processor::macros::*;
+use blockdsl_compiler::processor::parser::syntax::ASyntax;
+use blockdsl_compiler::processor::parser::LR1;
+use blockdsl_compiler::processor::prelude::*;
+use blockdsl_compiler::processor::DSL;
 
 #[lexer]
 pub enum ExprToken {

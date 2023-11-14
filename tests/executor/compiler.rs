@@ -1,5 +1,5 @@
-use blockdsl::executor::Compiler;
-use blockdsl::lib::dev::dsl::*;
+use blockdsl_compiler::executor::Compiler;
+use blockdsl_lib::dev::dsl::*;
 
 #[test]
 fn compiler() {

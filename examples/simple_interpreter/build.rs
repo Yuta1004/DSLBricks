@@ -1,6 +1,6 @@
-use blockdsl::designer::codegen::rbuild_dsl;
-use blockdsl::designer::design::syntax::{Rule, RuleSet, SyntaxElem};
-use blockdsl::designer::design::DSLGeneratable;
+use blockdsl_compiler::designer::codegen::rbuild_dsl;
+use blockdsl_compiler::designer::design::syntax::{Rule, RuleSet, SyntaxElem};
+use blockdsl_compiler::designer::design::DSLGeneratable;
 
 #[derive(Debug)]
 struct MyDSL;
