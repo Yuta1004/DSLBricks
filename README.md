@@ -14,7 +14,9 @@ $ cargo run -p calc_interpreter
 
 ### bin
 
+none
+
 ### lib
 
-- compiler
-- library
+- [compiler](./compiler/README.md)
+- [library](./library/README.md)
