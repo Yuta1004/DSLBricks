@@ -23,7 +23,7 @@ pub enum {NAME}Syntax \{
     {SYNTAX_DEFS}
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct {NAME}ASyntax;
 
 impl ASyntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
