@@ -1,9 +1,17 @@
 [workspace]
 resolver = "2"
 members = [
+    # Compiler
     "compiler",
+
+    # Library
     "library",
+
+    # Examples
     "examples/simple_interpreter",
     "examples/calc_interpreter",
+
+    # Tools
+    # "tools/...",
 ]
 exclude = []
