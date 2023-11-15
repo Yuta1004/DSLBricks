@@ -5,6 +5,7 @@ use clap::Parser;
 
 use processor::lexer::TokenSet;
 use processor::parser::syntax::{ASyntax, Syntax};
+use processor::parser::ParseError;
 use processor::DSL;
 
 #[derive(Parser)]
@@ -44,9 +45,14 @@ where
             let mut line = String::new();
             io::stdin().read_line(&mut line)?;
 
-            match self.0.process(&line) {
-                Ok((_, remain)) => println!("Ok (remain => {:?})\n", remain),
-                Err(err) => println!("Error at \"{}\"\n", format!("{}", err).trim()),
+            let dsl = &self.0;
+            match dsl.process(&line) {
+                Ok(_) => println!("Ok\n"),
+                Err(err) => {
+                    let pos = ParseError::from(err).pos;
+                    println!("   {}^ here", " ".repeat(pos.1 as usize));
+                    println!("Error at line {}\n", pos.0 + 1);
+                }
             };
         }
     }
