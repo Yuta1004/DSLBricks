@@ -529,6 +529,19 @@ mod test {
     impl Syntax<VoidSemantics, TestToken> for TestSyntax {
         type Parser = LR1<VoidSemantics, TestSyntax, TestToken>;
 
+        fn iter() -> Box<dyn Iterator<Item = Self>> {
+            Box::new(vec![
+                TestSyntax::ExprPlus,
+                TestSyntax::ExprMinus,
+                TestSyntax::Expr2Term,
+                TestSyntax::TermMul,
+                TestSyntax::TermDiv,
+                TestSyntax::Term2Fact,
+                TestSyntax::Fact2Expr,
+                TestSyntax::Fact2Num,
+            ].into_iter())
+        }
+
         fn to_rule(&self) -> Rule<TestToken> {
             let expr_plus = Rule::from((
                 RuleElem::nonterm("expr"),
