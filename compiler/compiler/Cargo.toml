@@ -1,0 +1,14 @@
+[package]
+name = "compiler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+designer = { path = "../designer/designer", optional = true }
+processor = { path = "../processor/processor", optional = true }
+exec_compiler = { path = "../executor/compiler" }
+exec_interpreter = { path = "../executor/interpreter" }
+
+[features]
+default = ["designer", "processor"]
+with-serde = ["designer/with-serde", "processor/with-serde"]

@@ -7,4 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 serde = "1.0"
-blockdsl_compiler = { package = "blockdsl_compiler", path = "../compiler" }
+compiler = { path = "../compiler/compiler" }

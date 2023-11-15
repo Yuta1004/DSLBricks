@@ -73,21 +73,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "630be753d4e58660abd17930c71b647fe46c27ea6b63cc59e1e3851406972e42"
 
 [[package]]
-name = "blockdsl_compiler"
-version = "0.1.0"
-dependencies = [
- "compiler",
- "designer",
- "interpreter",
- "processor",
-]
-
-[[package]]
 name = "blockdsl_lib"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "blockdsl_compiler",
+ "compiler",
  "serde",
  "thiserror",
 ]
@@ -97,7 +87,7 @@ name = "calc_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "blockdsl_compiler",
+ "compiler",
  "serde",
  "thiserror",
 ]
@@ -159,10 +149,10 @@ checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 name = "compiler"
 version = "0.1.0"
 dependencies = [
- "anyhow",
- "clap",
+ "designer",
+ "exec_compiler",
+ "exec_interpreter",
  "processor",
- "thiserror",
 ]
 
 [[package]]
@@ -231,6 +221,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "exec_compiler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "processor",
+ "thiserror",
+]
+
+[[package]]
+name = "exec_interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "processor",
+ "thiserror",
+]
+
+[[package]]
 name = "heck"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -241,16 +251,6 @@ name = "hermit-abi"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "443144c8cdadd93ebf52ddb4056d257f5b52c04d3c804e657d19eb73fc33668b"
-
-[[package]]
-name = "interpreter"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "processor",
- "thiserror",
-]
 
 [[package]]
 name = "is-terminal"
@@ -473,7 +473,7 @@ name = "simple_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "blockdsl_compiler",
+ "compiler",
  "serde",
  "thiserror",
 ]

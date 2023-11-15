@@ -1,5 +1,5 @@
-use blockdsl_compiler::designer::codegen::load_dsl;
-use blockdsl_compiler::executor::Interpreter;
+use compiler::load_dsl;
+use compiler::executor::Interpreter;
 
 load_dsl!(MyDSL);
 

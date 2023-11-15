@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
     # Compiler
-    "compiler",
+    "compiler/compiler",
 
     # Library
     "library",

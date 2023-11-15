@@ -7,4 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-blockdsl_compiler = { package = "blockdsl_compiler", path = "../../compiler", features = ["with-serde"] }
+compiler = { path = "../../compiler/compiler", features = ["with-serde"] }
