@@ -6,6 +6,7 @@ pub mod macros {
     pub use parser_macros::*;
 }
 pub mod prelude {
+    #[cfg(feature = "with-serde")]
     pub use serde::{Serialize, Deserialize};
     pub use lexer::prelude::*;
     pub use parser::prelude::*;
