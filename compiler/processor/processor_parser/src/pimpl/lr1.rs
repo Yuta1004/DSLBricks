@@ -452,7 +452,6 @@ impl<'a, T: TokenSet> LRItem<'a, T> {
 #[cfg(test)]
 mod test {
     use serde::{Serialize, Deserialize};
-    use strum::EnumIter;
 
     use lexer::{Lexer, TokenSet};
 
@@ -473,7 +472,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize, Deserialize)]
+    #[derive(Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize, Deserialize)]
     enum TestToken {
         Num,
         Plus,
@@ -514,7 +513,7 @@ mod test {
         }
     }
 
-    #[derive(EnumIter, Clone, Copy, Debug, Serialize, Deserialize)]
+    #[derive(Clone, Copy, Debug, Serialize, Deserialize)]
     pub enum TestSyntax {
         ExprPlus,
         ExprMinus,
