@@ -12,6 +12,18 @@ pub trait TokenSet: IntoEnumIterator + Copy + Hash + Eq + Serialize {
     fn ignore_str() -> &'static str;
 }
 
+#[derive(Debug, Copy, Clone)]
+pub struct Token<'a, T: TokenSet> {
+    pub kind: T,
+    pub raw: &'a str,
+}
+
+impl<'a, T: TokenSet> From<(T, &'a str)> for Token<'a, T> {
+    fn from((kind, raw): (T, &'a str)) -> Self {
+        Token { kind, raw }
+    }
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct Lexer<T: TokenSet>(PhantomData<T>);
 
@@ -42,7 +54,7 @@ impl<T: TokenSet + 'static> Lexer<T> {
 
 pub trait LexIterator<'a, T: TokenSet>
 where
-    Self: Iterator<Item = (&'a str, T)>,
+    Self: Iterator<Item = Token<'a, T>>,
 {
     fn remain(&self) -> Option<&'a str>;
 }
@@ -82,7 +94,7 @@ impl<'a, T: TokenSet> LexIterator<'a, T> for LexDriver<'a, T> {
 }
 
 impl<'a, T: TokenSet> Iterator for LexDriver<'a, T> {
-    type Item = (&'a str, T);
+    type Item = Token<'a, T>;
 
     fn next(&mut self) -> Option<Self::Item> {
         // Skip spaces
@@ -100,7 +112,7 @@ impl<'a, T: TokenSet> Iterator for LexDriver<'a, T> {
             .next()?;
         self.input = &self.input[s.len()..];
 
-        Some((s, *token))
+        Some(Token::from((*token, s)))
     }
 }
 
@@ -109,7 +121,7 @@ mod test {
     use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
-    use super::{Lexer, TokenSet};
+    use super::{Lexer, Token, TokenSet};
 
     #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
     enum TestToken {
@@ -135,21 +147,21 @@ mod test {
     }
 
     fn check<'a>(
-        expected: &Vec<(&str, TestToken)>,
-        lexer: impl Iterator<Item = (&'a str, TestToken)>,
+        expected: &Vec<(TestToken, &'a str)>,
+        lexer: impl Iterator<Item = Token<'a, TestToken>>,
     ) -> bool {
         lexer
             .into_iter()
             .zip(expected.iter())
-            .all(|(a, b)| a.0 == b.0 && a.1 == b.1)
+            .all(|(a, b)| a.kind == b.0 && a.raw == b.1)
     }
 
     #[test]
     fn input_ok_1() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10"),
+            (TestToken::Plus, "+"),
+            (TestToken::Num, "20"),
         ];
         let lexer = gen_lexer();
 
@@ -159,9 +171,9 @@ mod test {
     #[test]
     fn input_ok_2() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10"),
+            (TestToken::Plus, "+"),
+            (TestToken::Num, "20"),
         ];
         let lexer = gen_lexer();
 
@@ -171,9 +183,9 @@ mod test {
     #[test]
     fn input_ok_3() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10"),
+            (TestToken::Plus, "+"),
+            (TestToken::Num, "20"),
         ];
         let lexer = gen_lexer();
 
@@ -186,9 +198,9 @@ mod test {
     #[test]
     fn input_ok_4() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10"),
+            (TestToken::Plus, "+"),
+            (TestToken::Num, "20"),
         ];
         let lexer = gen_lexer();
 

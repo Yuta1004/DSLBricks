@@ -160,7 +160,7 @@ where
             loop {
                 let top = stack[stack.len() - 1];
                 let action = match input {
-                    Some((s, token)) => (self.action_table[top].get(&token).unwrap(), Some(s)),
+                    Some(token) => (self.action_table[top].get(&token.kind).unwrap(), Some(token.raw)),
                     None => (&self.eof_action_table[top], None),
                 };
                 match action.0 {
