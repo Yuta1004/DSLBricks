@@ -151,11 +151,10 @@ impl<'a, T: TokenSet> LexDriver<'a, T> {
 #[cfg(test)]
 mod test {
     use serde::{Serialize, Deserialize};
-    use strum::EnumIter;
 
     use super::{Lexer, Token, TokenSet};
 
-    #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
+    #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
     enum TestToken {
         Num,
         Plus,

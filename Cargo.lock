@@ -89,7 +89,6 @@ dependencies = [
  "anyhow",
  "blockdsl_compiler",
  "serde",
- "strum",
  "thiserror",
 ]
 
@@ -323,7 +322,6 @@ dependencies = [
  "processor_parser",
  "processor_parser_macros",
  "serde",
- "strum",
 ]
 
 [[package]]
@@ -344,7 +342,6 @@ dependencies = [
  "anyhow",
  "regex",
  "serde",
- "strum",
  "thiserror",
 ]
 
@@ -356,7 +353,6 @@ dependencies = [
  "proc-macro2",
  "processor_lexer",
  "quote",
- "strum",
  "syn 2.0.26",
  "thiserror",
 ]
