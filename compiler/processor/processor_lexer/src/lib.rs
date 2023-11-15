@@ -4,9 +4,22 @@ use std::hash::Hash;
 use std::marker::PhantomData;
 
 use regex::{Regex, RegexSet};
+
+#[cfg(feature = "with-serde")]
 use serde::{Serialize, Deserialize};
 
+#[cfg(feature = "with-serde")]
 pub trait TokenSet: Copy + Clone + Hash + Eq + Serialize {
+    // for Enum
+    fn iter() -> Box<dyn Iterator<Item = Self>>;
+
+    // for Variants
+    fn to_regex(token: &Self) -> &'static str;
+    fn ignore_str() -> &'static str;
+}
+
+#[cfg(not(feature = "with-serde"))]
+pub trait TokenSet: Copy + Clone + Hash + Eq {
     // for Enum
     fn iter() -> Box<dyn Iterator<Item = Self>>;
 
@@ -28,7 +41,7 @@ impl <'a, T: TokenSet> Token<'a, T> {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
 pub struct Lexer<T: TokenSet>(PhantomData<T>);
 
 impl<T: TokenSet + 'static> Lexer<T> {
