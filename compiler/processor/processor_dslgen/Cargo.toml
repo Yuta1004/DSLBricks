@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0"
-thiserror = "1.0"
-serde = { version = "1.0", features = ["derive"], optional = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true, features = ["derive"], optional = true }
 lexer = { package = "processor_lexer", path = "../processor_lexer" }
 parser = { package = "processor_parser", path = "../processor_parser" }
 
