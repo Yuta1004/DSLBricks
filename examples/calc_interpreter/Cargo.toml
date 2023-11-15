@@ -6,5 +6,5 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
-serde = "1.0"
-blockdsl_compiler = { package = "blockdsl_compiler", path = "../../compiler" }
+serde = { version = "1.0", features = ["derive"] }
+blockdsl_compiler = { package = "blockdsl_compiler", path = "../../compiler", features = ["with-serde"] }

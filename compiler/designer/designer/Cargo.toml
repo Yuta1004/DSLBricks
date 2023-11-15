@@ -6,6 +6,10 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
-codegen = { package = "designer_codegen", path = "../designer_codegen" }
+codegen = { package = "designer_codegen", path = "../designer_codegen", optional = true }
 check = { package = "designer_check", path = "../designer_check" }
 design = { package = "designer_design", path = "../designer_design" }
+
+[features]
+default = ["codegen"]
+with-serde = ["codegen/with-serde"]

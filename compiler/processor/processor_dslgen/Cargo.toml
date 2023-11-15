@@ -6,6 +6,10 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
-serde = "1.0"
+serde = { version = "1.0", features = ["derive"], optional = true }
 lexer = { package = "processor_lexer", path = "../processor_lexer" }
 parser = { package = "processor_parser", path = "../processor_parser" }
+
+[features]
+default = []
+with-serde = ["serde"]

@@ -1,10 +1,11 @@
+#[cfg(feature = "with-serde")]
 use serde::{Serialize, Deserialize};
 
 use lexer::{Lexer, TokenSet, LexIterator};
 use parser::syntax::{ASyntax, Syntax};
 use parser::Parser;
 
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
 pub struct DSL<A, S, T>(Lexer<T>, Parser<A, S, T>)
 where
     A: ASyntax<S, T>,
