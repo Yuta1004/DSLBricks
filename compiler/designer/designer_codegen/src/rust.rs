@@ -10,6 +10,7 @@ struct CodeTemplate {
     TOKEN_DEFS: String,
     SYNTAX_DEFS: String,
     BNF: String,
+    DERIVE_SERDE: String,
 }
 
 pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
@@ -19,11 +20,17 @@ pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
     let token_defs = gen_token_code(&dsl.token_defs())?;
     let syntax_defs = gen_syntax_code(&dsl.syntax_defs())?;
     let bnf = dsl.bnf();
+    let derive_serde = if cfg!(feature = "with-serde") {
+        "#[derive(Serialize, Deserialize)]".to_string()
+    } else {
+        "".to_string()
+    };
     let context = CodeTemplate {
         NAME: name,
         TOKEN_DEFS: token_defs,
         SYNTAX_DEFS: syntax_defs,
         BNF: bnf,
+        DERIVE_SERDE: derive_serde,
     };
 
     let mut tt = TinyTemplate::new();

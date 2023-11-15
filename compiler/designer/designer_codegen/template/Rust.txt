@@ -24,6 +24,7 @@ pub enum {NAME}Syntax \{
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+{DERIVE_SERDE}
 pub struct {NAME}ASyntax;
 
 impl ASyntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
