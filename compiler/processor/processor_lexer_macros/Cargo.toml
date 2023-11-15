@@ -9,7 +9,6 @@ quote = "1.0"
 syn = { version ="2.0", features = ["full", "extra-traits"] }
 anyhow = "1.0"
 thiserror = "1.0"
-strum = { version = "0.25", features = ["derive"] }
 lexer = { package = "processor_lexer", path = "../processor_lexer" }
 
 [lib]

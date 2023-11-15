@@ -15,6 +15,15 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
 
     let enum_name = &target_ast.ident;
 
+    let enum_variants = data_enum
+        .variants
+        .clone()
+        .into_iter()
+        .map(|variant| {
+            let variant = variant.ident.clone();
+            quote! { #enum_name :: #variant }
+        });
+
     let enum_rule_table: Vec<TokenStream> = (&data_enum.variants)
         .into_iter()
         .map(|variant| {
@@ -28,11 +37,17 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
         .collect();
 
     quote! {
-        #[derive(EnumIter, Clone, Copy, Serialize, Deserialize)]
+        #[derive(Clone, Copy, Serialize, Deserialize)]
         #target_ast
 
         impl Syntax<#semantics, #token> for #enum_name {
             type Parser = #parser <#semantics, #enum_name, #token>;
+
+            fn iter() -> Box<dyn Iterator<Item = Self>> {
+                Box::new(vec![
+                    #( #enum_variants, )*
+                ].into_iter())
+            }
 
             fn to_rule(&self) -> Rule<#token> {
                 match self {

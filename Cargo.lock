@@ -89,7 +89,6 @@ dependencies = [
  "anyhow",
  "blockdsl_compiler",
  "serde",
- "strum",
  "thiserror",
 ]
 
@@ -100,7 +99,6 @@ dependencies = [
  "anyhow",
  "blockdsl_compiler",
  "serde",
- "strum",
  "thiserror",
 ]
 
@@ -323,7 +321,6 @@ dependencies = [
  "processor_parser",
  "processor_parser_macros",
  "serde",
- "strum",
 ]
 
 [[package]]
@@ -344,7 +341,6 @@ dependencies = [
  "anyhow",
  "regex",
  "serde",
- "strum",
  "thiserror",
 ]
 
@@ -356,7 +352,6 @@ dependencies = [
  "proc-macro2",
  "processor_lexer",
  "quote",
- "strum",
  "syn 2.0.26",
  "thiserror",
 ]
@@ -370,7 +365,6 @@ dependencies = [
  "processor_lexer",
  "serde",
  "serde_json",
- "strum",
  "thiserror",
 ]
 
@@ -382,7 +376,6 @@ dependencies = [
  "proc-macro2",
  "processor_parser",
  "quote",
- "strum",
  "syn 1.0.109",
  "thiserror",
 ]
@@ -439,12 +432,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rustversion"
-version = "1.0.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ffc183a10b4478d04cbbbfc96d0873219d962dd5accaff2ffbd4ceb7df837f4"
-
-[[package]]
 name = "ryu"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -488,7 +475,6 @@ dependencies = [
  "anyhow",
  "blockdsl_compiler",
  "serde",
- "strum",
  "thiserror",
 ]
 
@@ -497,28 +483,6 @@ name = "strsim"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
-
-[[package]]
-name = "strum"
-version = "0.25.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "290d54ea6f91c969195bdbcd7442c8c2a2ba87da8bf60a7ee86a235d4bc1e125"
-dependencies = [
- "strum_macros",
-]
-
-[[package]]
-name = "strum_macros"
-version = "0.25.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6069ca09d878a33f883cc06aaa9718ede171841d3832450354410b718b097232"
-dependencies = [
- "heck",
- "proc-macro2",
- "quote",
- "rustversion",
- "syn 2.0.26",
-]
 
 [[package]]
 name = "syn"

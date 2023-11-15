@@ -1,5 +1,4 @@
 use serde::Serialize;
-use strum::IntoEnumIterator;
 
 use lexer::TokenSet;
 
@@ -9,13 +8,14 @@ use crate::ParserImpl;
 
 pub trait Syntax<A, T>
 where
-    Self: IntoEnumIterator + Clone + Copy + Sized + Serialize,
+    Self: Clone + Copy + Sized + Serialize,
     A: ASyntax<Self, T>,
     T: TokenSet,
 {
     type Parser: ParserImpl<A, Self, T>;
 
-    fn to_rule(&self) -> Rule<T>;
+    // for Enum
+    fn iter() -> Box<dyn Iterator<Item = Self>>;
 
     fn syntax() -> RuleSet<T> {
         let rules: Vec<Rule<T>> = Self::iter().map(|rtoken| rtoken.to_rule()).collect();
@@ -27,4 +27,7 @@ where
 
         RuleSet::from((start, rules))
     }
+
+    // for Variants
+    fn to_rule(&self) -> Rule<T>;
 }
