@@ -6,7 +6,9 @@ pub mod prelude;
 use std::fmt::Display;
 use std::marker::PhantomData;
 
+use anyhow::Error;
 use serde::{Serialize, Deserialize};
+use serde_json;
 use thiserror::Error;
 
 use lexer::{TokenSet, LexIterator};
@@ -17,18 +19,24 @@ use syntax::{ASyntax, Syntax};
 
 #[derive(Debug, Error, Serialize, Deserialize)]
 pub struct ParseError {
-    pos: (u32, u32),
+    pub pos: (u32, u32),
 }
 
 impl Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.pos)
+        write!(f, "{}", serde_json::to_string(self).unwrap())
     }
 }
 
 impl From<(u32, u32)> for ParseError {
     fn from(pos: (u32, u32)) -> Self {
         ParseError { pos }
+    }
+}
+
+impl From<Error> for ParseError {
+    fn from(err: Error) -> Self {
+        serde_json::from_str(&err.to_string()).unwrap()
     }
 }
 
