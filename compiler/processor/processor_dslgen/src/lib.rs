@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 
-use lexer::{Lexer, Token, LexIterator};
+use lexer::{Lexer, TokenSet, LexIterator};
 use parser::syntax::{ASyntax, Syntax};
 use parser::Parser;
 
@@ -9,13 +9,13 @@ pub struct DSL<A, S, T>(Lexer<T>, Parser<A, S, T>)
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
-    T: Token;
+    T: TokenSet;
 
 impl<A, S, T> DSL<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + 'static,
-    T: Token + 'static,
+    T: TokenSet + 'static,
 {
     pub fn gen() -> anyhow::Result<DSL<A, S, T>> {
         let lexer = Lexer::<T>::new()?;

@@ -7,15 +7,15 @@ use regex::{Regex, RegexSet};
 use serde::{Serialize, Deserialize};
 use strum::IntoEnumIterator;
 
-pub trait Token: IntoEnumIterator + Copy + Hash + Eq + Serialize {
+pub trait TokenSet: IntoEnumIterator + Copy + Hash + Eq + Serialize {
     fn to_regex(token: &Self) -> &'static str;
     fn ignore_str() -> &'static str;
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Lexer<T: Token>(PhantomData<T>);
+pub struct Lexer<T: TokenSet>(PhantomData<T>);
 
-impl<T: Token + 'static> Lexer<T> {
+impl<T: TokenSet + 'static> Lexer<T> {
     pub fn new() -> anyhow::Result<Lexer<T>> {
         let regex_set: Vec<&str> = T::iter().map(|token| T::to_regex(&token)).collect();
         let _ = RegexSet::new(regex_set)?;
@@ -40,14 +40,14 @@ impl<T: Token + 'static> Lexer<T> {
     }
 }
 
-pub trait LexIterator<'a, T: Token>
+pub trait LexIterator<'a, T: TokenSet>
 where
     Self: Iterator<Item = (&'a str, T)>,
 {
     fn remain(&self) -> Option<&'a str>;
 }
 
-struct LexDriver<'a, T: Token> {
+struct LexDriver<'a, T: TokenSet> {
     ty: PhantomData<T>,
     regex_set: RegexSet,
     regex_map: Vec<(Regex, T)>,
@@ -55,7 +55,7 @@ struct LexDriver<'a, T: Token> {
     input: &'a str,
 }
 
-impl<'a, T: Token> LexDriver<'a, T> {
+impl<'a, T: TokenSet> LexDriver<'a, T> {
     fn new(
         regex_set: RegexSet,
         regex_map: Vec<(Regex, T)>,
@@ -72,7 +72,7 @@ impl<'a, T: Token> LexDriver<'a, T> {
     }
 }
 
-impl<'a, T: Token> LexIterator<'a, T> for LexDriver<'a, T> {
+impl<'a, T: TokenSet> LexIterator<'a, T> for LexDriver<'a, T> {
     fn remain(&self) -> Option<&'a str> {
         match self.input {
             "" => None,
@@ -81,7 +81,7 @@ impl<'a, T: Token> LexIterator<'a, T> for LexDriver<'a, T> {
     }
 }
 
-impl<'a, T: Token> Iterator for LexDriver<'a, T> {
+impl<'a, T: TokenSet> Iterator for LexDriver<'a, T> {
     type Item = (&'a str, T);
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -109,7 +109,7 @@ mod test {
     use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
-    use super::{Lexer, Token};
+    use super::{Lexer, TokenSet};
 
     #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
     enum TestToken {
@@ -117,7 +117,7 @@ mod test {
         Plus,
     }
 
-    impl Token for TestToken {
+    impl TokenSet for TestToken {
         fn to_regex(token: &Self) -> &'static str {
             match token {
                 TestToken::Num => r"^[1-9][0-9]*",

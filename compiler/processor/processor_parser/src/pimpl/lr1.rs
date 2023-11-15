@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use itertools::Itertools;
 use serde::{Serialize, Deserialize};
 
-use lexer::{Token, LexIterator};
+use lexer::{TokenSet, LexIterator};
 
 use super::super::rule::{Rule, RuleElem, RuleSet};
 use super::super::syntax::{ASyntax, Syntax};
@@ -25,7 +25,7 @@ pub struct LR1<A, S, T>
 where
     // A: ASyntax<S, T>,
     // S: Syntax<A, T>,
-    // T: Token,
+    // T: TokenSet,
     // see => https://github.com/serde-rs/serde/issues/2418
     T: Eq + Hash,
 {
@@ -42,7 +42,7 @@ impl<A, S, T> ParserImpl<A, S, T> for LR1<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + for<'de> Deserialize<'de>,
-    T: Token + for<'de> Deserialize<'de> + 'static,
+    T: TokenSet + for<'de> Deserialize<'de> + 'static,
 {
     fn setup() -> anyhow::Result<Self> {
         // 1. Pre-process
@@ -195,9 +195,9 @@ where
 }
 
 #[derive(Debug)]
-struct LRItemDFA<'a, T: Token>(Vec<LRItemSet<'a, T>>);
+struct LRItemDFA<'a, T: TokenSet>(Vec<LRItemSet<'a, T>>);
 
-impl<'a, T: Token> LRItemDFA<'a, T> {
+impl<'a, T: TokenSet> LRItemDFA<'a, T> {
     fn gen(
         init_set: LRItemSet<'a, T>,
         ruleset: &'a RuleSet<T>,
@@ -240,27 +240,27 @@ impl<'a, T: Token> LRItemDFA<'a, T> {
 }
 
 #[derive(Clone, Debug)]
-struct LRItemSet<'a, T: Token> {
+struct LRItemSet<'a, T: TokenSet> {
     id: i32,
     next: HashMap<&'a RuleElem<T>, i32>,
     lr_items: HashSet<LRItem<'a, T>>,
 }
 
-impl<'a, T: Token> PartialEq for LRItemSet<'a, T> {
+impl<'a, T: TokenSet> PartialEq for LRItemSet<'a, T> {
     fn eq(&self, other: &LRItemSet<'a, T>) -> bool {
         self.lr_items == other.lr_items
     }
 }
 
-impl<'a, T: Token> PartialEq<HashSet<LRItem<'a, T>>> for LRItemSet<'a, T> {
+impl<'a, T: TokenSet> PartialEq<HashSet<LRItem<'a, T>>> for LRItemSet<'a, T> {
     fn eq(&self, other: &HashSet<LRItem<'a, T>>) -> bool {
         &self.lr_items == other
     }
 }
 
-impl<'a, T: Token> Eq for LRItemSet<'a, T> {}
+impl<'a, T: TokenSet> Eq for LRItemSet<'a, T> {}
 
-impl<'a, T: Token> LRItemSet<'a, T> {
+impl<'a, T: TokenSet> LRItemSet<'a, T> {
     fn new(id: i32, lr_items: HashSet<LRItem<'a, T>>) -> Self {
         LRItemSet {
             id,
@@ -337,28 +337,28 @@ impl<'a, T: Token> LRItemSet<'a, T> {
 }
 
 #[derive(Clone, Debug)]
-struct LRItem<'a, T: Token> {
+struct LRItem<'a, T: TokenSet> {
     rule: &'a Rule<T>,
     dot_pos: usize,
     la_tokens: HashSet<&'a RuleElem<T>>,
 }
 
-impl<'a, T: Token> Hash for LRItem<'a, T> {
+impl<'a, T: TokenSet> Hash for LRItem<'a, T> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.rule.hash(state);
         self.dot_pos.hash(state);
     }
 }
 
-impl<'a, T: Token> PartialEq for LRItem<'a, T> {
+impl<'a, T: TokenSet> PartialEq for LRItem<'a, T> {
     fn eq(&self, other: &Self) -> bool {
         self.rule == other.rule && self.dot_pos == other.dot_pos
     }
 }
 
-impl<'a, T: Token> Eq for LRItem<'a, T> {}
+impl<'a, T: TokenSet> Eq for LRItem<'a, T> {}
 
-impl<'a, T: Token> LRItem<'a, T> {
+impl<'a, T: TokenSet> LRItem<'a, T> {
     fn new(rule: &'a Rule<T>, la_tokens: HashSet<&'a RuleElem<T>>) -> LRItem<'a, T> {
         LRItem {
             rule,
@@ -453,7 +453,7 @@ mod test {
     use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
-    use lexer::{Lexer, Token};
+    use lexer::{Lexer, TokenSet};
 
     use crate::rule::{Rule, RuleElem};
     use crate::syntax::{ASyntax, Syntax};
@@ -465,7 +465,7 @@ mod test {
     impl<S, T> ASyntax<S, T> for VoidSemantics
     where
         S: Syntax<Self, T>,
-        T: Token,
+        T: TokenSet,
     {
         fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
             Ok(Box::new(VoidSemantics {}))
@@ -483,7 +483,7 @@ mod test {
         BracketB,
     }
 
-    impl Token for TestToken {
+    impl TokenSet for TestToken {
         fn to_regex(token: &Self) -> &'static str {
             match token {
                 TestToken::Num => r"^[1-9][0-9]*",
@@ -637,7 +637,7 @@ mod test {
     where
         A: ASyntax<S, T>,
         S: Syntax<A, T>,
-        T: Token + 'static,
+        T: TokenSet + 'static,
     {
         let lexer = Lexer::<T>::new().unwrap();
         let parser = Parser::<A, S, T>::new().unwrap();

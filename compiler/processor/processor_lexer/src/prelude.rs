@@ -4,4 +4,4 @@ pub use strum::EnumIter;
 
 /* original crates */
 // lexer
-pub use crate::Token;
+pub use crate::TokenSet;

@@ -1,16 +1,16 @@
 use std::collections::HashMap;
 use std::hash::Hash;
 
-use lexer::Token;
+use lexer::TokenSet;
 
 #[derive(Debug)]
-pub enum RuleElem<T: Token> {
+pub enum RuleElem<T: TokenSet> {
     NonTerm(String),
     Term(T),
     EOF,
 }
 
-impl<T: Token> Hash for RuleElem<T> {
+impl<T: TokenSet> Hash for RuleElem<T> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         match self {
             RuleElem::NonTerm(s) => s.hash(state),
@@ -20,7 +20,7 @@ impl<T: Token> Hash for RuleElem<T> {
     }
 }
 
-impl<T: Token> PartialEq for RuleElem<T> {
+impl<T: TokenSet> PartialEq for RuleElem<T> {
     fn eq(&self, other: &Self) -> bool {
         match (self, other) {
             (RuleElem::NonTerm(s1), RuleElem::NonTerm(s2)) => s1 == s2,
@@ -31,9 +31,9 @@ impl<T: Token> PartialEq for RuleElem<T> {
     }
 }
 
-impl<T: Token> Eq for RuleElem<T> {}
+impl<T: TokenSet> Eq for RuleElem<T> {}
 
-impl<T: Token> RuleElem<T> {
+impl<T: TokenSet> RuleElem<T> {
     pub fn nonterm<U: Into<String>>(t: U) -> RuleElem<T> {
         RuleElem::NonTerm(t.into())
     }
@@ -44,19 +44,19 @@ impl<T: Token> RuleElem<T> {
 }
 
 #[derive(PartialEq, Eq, Hash, Debug)]
-pub struct Rule<T: Token> {
+pub struct Rule<T: TokenSet> {
     pub id: i32,
     pub left: RuleElem<T>,
     pub right: Vec<RuleElem<T>>,
 }
 
-impl<T: Token> From<(RuleElem<T>, Vec<RuleElem<T>>)> for Rule<T> {
+impl<T: TokenSet> From<(RuleElem<T>, Vec<RuleElem<T>>)> for Rule<T> {
     fn from((left, right): (RuleElem<T>, Vec<RuleElem<T>>)) -> Self {
         Rule { id: 0, left, right }
     }
 }
 
-impl<T: Token> Rule<T> {
+impl<T: TokenSet> Rule<T> {
     pub fn nonterms(&self) -> Vec<&RuleElem<T>> {
         let mut l_nonterms = vec![&self.left];
         let r_nonterms: Vec<&RuleElem<T>> = self
@@ -77,14 +77,14 @@ impl<T: Token> Rule<T> {
 }
 
 #[derive(Debug)]
-pub struct RuleSet<T: Token> {
+pub struct RuleSet<T: TokenSet> {
     pub top: String,
     pub rules: Vec<Rule<T>>,
 }
 
 impl<T, U> From<(U, Vec<Rule<T>>)> for RuleSet<T>
 where
-    T: Token,
+    T: TokenSet,
     U: Into<String>,
 {
     fn from((top, mut rules): (U, Vec<Rule<T>>)) -> Self {
@@ -99,7 +99,7 @@ where
     }
 }
 
-impl<T: Token> RuleSet<T> {
+impl<T: TokenSet> RuleSet<T> {
     pub fn nonterms(&self) -> Vec<&RuleElem<T>> {
         self.rules.iter().flat_map(|rule| rule.nonterms()).collect()
     }
@@ -204,7 +204,7 @@ mod test {
     use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
-    use lexer::Token;
+    use lexer::TokenSet;
 
     use crate::rule::{Rule, RuleElem};
     use crate::{ASyntax, Syntax, LR1};
@@ -215,7 +215,7 @@ mod test {
     impl<S, T> ASyntax<S, T> for VoidSemantics
     where
         S: Syntax<Self, T>,
-        T: Token,
+        T: TokenSet,
     {
         fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
             Ok(Box::new(VoidSemantics {}))
@@ -233,7 +233,7 @@ mod test {
         BracketB,
     }
 
-    impl Token for TestToken {
+    impl TokenSet for TestToken {
         fn to_regex(token: &Self) -> &'static str {
             match token {
                 TestToken::Num => r"^[1-9][0-9]*",

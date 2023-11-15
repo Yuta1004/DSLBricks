@@ -3,7 +3,7 @@ use std::io::Write;
 
 use clap::Parser;
 
-use processor::lexer::Token;
+use processor::lexer::TokenSet;
 use processor::parser::syntax::{ASyntax, Syntax};
 use processor::DSL;
 
@@ -15,13 +15,13 @@ pub struct Interpreter<A, S, T>(DSL<A, S, T>)
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + 'static,
-    T: Token + 'static;
+    T: TokenSet + 'static;
 
 impl<A, S, T> From<DSL<A, S, T>> for Interpreter<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + 'static,
-    T: Token + 'static,
+    T: TokenSet + 'static,
 {
     fn from(dsl: DSL<A, S, T>) -> Self {
         Interpreter(dsl)
@@ -32,7 +32,7 @@ impl<A, S, T> Interpreter<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T> + 'static,
-    T: Token + 'static,
+    T: TokenSet + 'static,
 {
     pub fn exec(self) -> anyhow::Result<()> {
         let _ = InterpreterCLI::parse();

@@ -1,7 +1,7 @@
 use serde::Serialize;
 use strum::IntoEnumIterator;
 
-use lexer::Token;
+use lexer::TokenSet;
 
 use super::abst::ASyntax;
 use crate::rule::{Rule, RuleElem, RuleSet};
@@ -11,7 +11,7 @@ pub trait Syntax<A, T>
 where
     Self: IntoEnumIterator + Clone + Copy + Sized + Serialize,
     A: ASyntax<Self, T>,
-    T: Token,
+    T: TokenSet,
 {
     type Parser: ParserImpl<A, Self, T>;
 

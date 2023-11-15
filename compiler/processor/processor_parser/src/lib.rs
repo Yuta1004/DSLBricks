@@ -9,7 +9,7 @@ use std::marker::PhantomData;
 use serde::{Serialize, Deserialize};
 use thiserror::Error;
 
-use lexer::{Token, LexIterator};
+use lexer::{TokenSet, LexIterator};
 
 use pimpl::ParserImpl;
 pub use pimpl::LR1;
@@ -35,7 +35,7 @@ pub struct Parser<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
-    T: Token,
+    T: TokenSet,
 {
     // PhantomData
     syntax: PhantomData<S>,
@@ -49,7 +49,7 @@ impl<A, S, T> Parser<A, S, T>
 where
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
-    T: Token,
+    T: TokenSet,
 {
     pub fn new() -> anyhow::Result<Parser<A, S, T>> {
         Ok(Parser {
