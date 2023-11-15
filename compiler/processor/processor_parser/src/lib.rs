@@ -16,17 +16,19 @@ pub use pimpl::LR1;
 use syntax::{ASyntax, Syntax};
 
 #[derive(Debug, Error, Serialize, Deserialize)]
-pub struct ParseError(String);
+pub struct ParseError {
+    pos: (u32, u32),
+}
 
 impl Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{:?}", self.pos)
     }
 }
 
-impl From<String> for ParseError {
-    fn from(remain: String) -> Self {
-        ParseError(remain)
+impl From<(u32, u32)> for ParseError {
+    fn from(pos: (u32, u32)) -> Self {
+        ParseError { pos }
     }
 }
 

@@ -57,6 +57,7 @@ pub trait LexIterator<'a, T: TokenSet>
 where
     Self: Iterator<Item = Token<'a, T>>,
 {
+    fn pos(&self) -> (u32, u32);
     fn remain(&self) -> Option<&'a str>;
 }
 
@@ -93,6 +94,10 @@ impl<'a, T: TokenSet> LexDriver<'a, T> {
 }
 
 impl<'a, T: TokenSet> LexIterator<'a, T> for LexDriver<'a, T> {
+    fn pos(&self) -> (u32, u32) {
+        self.pos
+    }
+
     fn remain(&self) -> Option<&'a str> {
         match self.input {
             "" => None,

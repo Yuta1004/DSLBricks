@@ -181,11 +181,12 @@ where
                         result.push((Some(A::mapping(*syntax, result0)?), None));
                     }
                     LRAction::None => {
-                        let remain = match lexer.remain() {
-                            Some(remain) => remain.to_string(),
-                            None => "".to_string(),
+                        let pos = lexer.pos();
+                        let pos = match action.1 {
+                            Some(raw) => (pos.0, pos.1 - (raw.len() as u32)),
+                            None => pos,
                         };
-                        return Err(ParseError::from(remain).into());
+                        return Err(ParseError::from(pos).into());
                     }
                     LRAction::Accept => return Ok(result.pop().unwrap().0.unwrap()),
                 }
