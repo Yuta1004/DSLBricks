@@ -1,4 +1,4 @@
-use compiler::designer::codegen::load_dsl;
+use compiler::load_dsl;
 use compiler::executor::Interpreter;
 
 load_dsl!(MyDSL);

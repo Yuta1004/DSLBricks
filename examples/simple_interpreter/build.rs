@@ -1,4 +1,4 @@
-use compiler::designer::codegen::rbuild_dsl;
+use compiler::build_dsl;
 use compiler::designer::design::syntax::{Rule, RuleSet, SyntaxElem};
 use compiler::designer::design::DSLGeneratable;
 
@@ -19,5 +19,5 @@ impl DSLGeneratable for MyDSL {
 }
 
 fn main() {
-    rbuild_dsl!(MyDSL);
+    build_dsl!(MyDSL);
 }
