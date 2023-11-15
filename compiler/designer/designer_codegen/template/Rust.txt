@@ -1,3 +1,7 @@
+{{ if DERIVE_SERDE }}
+use serde::\{Serialize, Deserialize};
+{{ endif }}
+
 use blockdsl_compiler::processor::parser::syntax::ASyntax;
 use blockdsl_compiler::processor::parser::LR1;
 use blockdsl_compiler::processor::macros::*;
@@ -23,7 +27,7 @@ pub enum {NAME}Syntax \{
     {SYNTAX_DEFS}
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug)]
 {DERIVE_SERDE}
 pub struct {NAME}ASyntax;
 
