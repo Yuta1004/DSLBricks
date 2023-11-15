@@ -55,7 +55,7 @@ pub(super) fn tokenize_proc_macro_impl(ast: DeriveInput) -> TokenStream {
         .collect();
 
     quote! {
-        impl Token for #enum_name {
+        impl TokenSet for #enum_name {
             fn to_regex(token: &Self) -> &'static str {
                 match token {
                     #( #enum_regex_table, )*

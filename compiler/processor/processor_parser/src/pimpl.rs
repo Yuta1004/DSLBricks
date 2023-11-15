@@ -2,7 +2,7 @@ mod lr1;
 
 use serde::{Serialize, Deserialize};
 
-use lexer::{Token, LexIterator};
+use lexer::{TokenSet, LexIterator};
 
 use super::syntax::{ASyntax, Syntax};
 pub use lr1::LR1;
@@ -12,7 +12,7 @@ where
     Self: Sized + Serialize + for<'de> Deserialize<'de>,
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
-    T: Token,
+    T: TokenSet,
 {
     fn setup() -> anyhow::Result<Self>;
     fn parse<'a, 'b>(

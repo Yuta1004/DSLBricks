@@ -7,15 +7,28 @@ use regex::{Regex, RegexSet};
 use serde::{Serialize, Deserialize};
 use strum::IntoEnumIterator;
 
-pub trait Token: IntoEnumIterator + Copy + Hash + Eq + Serialize {
+pub trait TokenSet: IntoEnumIterator + Copy + Clone + Hash + Eq + Serialize {
     fn to_regex(token: &Self) -> &'static str;
     fn ignore_str() -> &'static str;
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct Lexer<T: Token>(PhantomData<T>);
+#[derive(Debug, Copy, Clone)]
+pub struct Token<'a, T: TokenSet> {
+    pub kind: T,
+    pub raw: &'a str,
+    pub pos: (u32, u32),
+}
 
-impl<T: Token + 'static> Lexer<T> {
+impl <'a, T: TokenSet> Token<'a, T> {
+    fn new(kind: T, raw: &'a str, pos: (u32, u32)) -> Self {
+        Token { kind, raw, pos }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Lexer<T: TokenSet>(PhantomData<T>);
+
+impl<T: TokenSet + 'static> Lexer<T> {
     pub fn new() -> anyhow::Result<Lexer<T>> {
         let regex_set: Vec<&str> = T::iter().map(|token| T::to_regex(&token)).collect();
         let _ = RegexSet::new(regex_set)?;
@@ -40,22 +53,29 @@ impl<T: Token + 'static> Lexer<T> {
     }
 }
 
-pub trait LexIterator<'a, T: Token>
+pub trait LexIterator<'a, T: TokenSet>
 where
-    Self: Iterator<Item = (&'a str, T)>,
+    Self: Iterator<Item = Token<'a, T>>,
 {
+    fn pos(&self) -> (u32, u32);
     fn remain(&self) -> Option<&'a str>;
 }
 
-struct LexDriver<'a, T: Token> {
+struct LexDriver<'a, T: TokenSet> {
+    // PhantomData
     ty: PhantomData<T>,
+
+    // Regex
     regex_set: RegexSet,
     regex_map: Vec<(Regex, T)>,
     regex_istr: Regex,
+
+    // State
     input: &'a str,
+    pos: (u32, u32),
 }
 
-impl<'a, T: Token> LexDriver<'a, T> {
+impl<'a, T: TokenSet> LexDriver<'a, T> {
     fn new(
         regex_set: RegexSet,
         regex_map: Vec<(Regex, T)>,
@@ -68,11 +88,16 @@ impl<'a, T: Token> LexDriver<'a, T> {
             regex_map,
             regex_istr,
             input,
+            pos: (0, 0),
         }
     }
 }
 
-impl<'a, T: Token> LexIterator<'a, T> for LexDriver<'a, T> {
+impl<'a, T: TokenSet> LexIterator<'a, T> for LexDriver<'a, T> {
+    fn pos(&self) -> (u32, u32) {
+        self.pos
+    }
+
     fn remain(&self) -> Option<&'a str> {
         match self.input {
             "" => None,
@@ -81,26 +106,42 @@ impl<'a, T: Token> LexIterator<'a, T> for LexDriver<'a, T> {
     }
 }
 
-impl<'a, T: Token> Iterator for LexDriver<'a, T> {
-    type Item = (&'a str, T);
+impl<'a, T: TokenSet> Iterator for LexDriver<'a, T> {
+    type Item = Token<'a, T>;
 
     fn next(&mut self) -> Option<Self::Item> {
         // Skip spaces
-        if let Some(s) = self.regex_istr.find(self.input) {
-            self.input = &self.input[s.len()..];
+        if let Some(acc_s) = self.regex_istr.find(self.input) {
+            self.update_state(acc_s.as_str());
         }
 
         // Found the token
-        let (s, token): (&str, &T) = self
+        let (token, acc_s): (T, &str) = self
             .regex_set
             .matches(self.input)
             .into_iter()
             .map(|idx| &self.regex_map[idx])
-            .map(|(regex, token)| (regex.find(self.input).unwrap().as_str(), token))
+            .map(|(regex, token)| (*token, regex.find(self.input).unwrap().as_str()))
             .next()?;
-        self.input = &self.input[s.len()..];
+        let pos = self.pos;
+        self.update_state(acc_s);
 
-        Some((s, *token))
+        Some(Token::new(token, acc_s, pos))
+    }
+}
+
+impl<'a, T: TokenSet> LexDriver<'a, T> {
+    fn update_state(&mut self, acc_s: &str) {
+        let (mut rows, mut cols) = self.pos;
+        for c in acc_s.chars() {
+            match c {
+                '\n' => { rows += 1; cols = 0; },
+                _ => { cols += 1; },
+            }
+        }
+
+        self.input = &self.input[acc_s.len()..];
+        self.pos = (rows, cols);
     }
 }
 
@@ -109,7 +150,7 @@ mod test {
     use serde::{Serialize, Deserialize};
     use strum::EnumIter;
 
-    use super::{Lexer, Token};
+    use super::{Lexer, Token, TokenSet};
 
     #[derive(EnumIter, Clone, Copy, Debug, Hash, PartialEq, Eq, Serialize, Deserialize)]
     enum TestToken {
@@ -117,7 +158,7 @@ mod test {
         Plus,
     }
 
-    impl Token for TestToken {
+    impl TokenSet for TestToken {
         fn to_regex(token: &Self) -> &'static str {
             match token {
                 TestToken::Num => r"^[1-9][0-9]*",
@@ -135,21 +176,23 @@ mod test {
     }
 
     fn check<'a>(
-        expected: &Vec<(&str, TestToken)>,
-        lexer: impl Iterator<Item = (&'a str, TestToken)>,
+        expected: &Vec<(TestToken, &'a str, (u32, u32))>,
+        lexer: impl Iterator<Item = Token<'a, TestToken>>,
     ) -> bool {
         lexer
             .into_iter()
             .zip(expected.iter())
-            .all(|(a, b)| a.0 == b.0 && a.1 == b.1)
+            .all(|(a, b)| {
+                a.kind == b.0 && a.raw == b.1 && a.pos == b.2
+            })
     }
 
     #[test]
     fn input_ok_1() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10", (0, 0)),
+            (TestToken::Plus, "+", (0, 2)),
+            (TestToken::Num, "20", (0, 3)),
         ];
         let lexer = gen_lexer();
 
@@ -159,41 +202,41 @@ mod test {
     #[test]
     fn input_ok_2() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10", (0, 12)),
+            (TestToken::Plus, "+", (0, 15)),
+            (TestToken::Num, "20", (1, 6)),
         ];
         let lexer = gen_lexer();
 
-        assert!(check(&expected, lexer.lex("            10 +      20     ")));
+        assert!(check(&expected, lexer.lex("            10 +\n      20     ")));
     }
 
     #[test]
     fn input_ok_3() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10", (0, 12)),
+            (TestToken::Plus, "+", (0, 15)),
+            (TestToken::Num, "20", (1, 6)),
         ];
         let lexer = gen_lexer();
 
         assert!(check(
             &expected,
-            lexer.lex("            10 +      20ffff30 - 40 * 50")
+            lexer.lex("            10 +\n      20ffff30 - 40 * 50")
         ));
     }
 
     #[test]
     fn input_ok_4() {
         let expected = vec![
-            ("10", TestToken::Num),
-            ("+", TestToken::Plus),
-            ("20", TestToken::Num),
+            (TestToken::Num, "10", (0, 0)),
+            (TestToken::Plus, "+", (0, 3)),
+            (TestToken::Num, "20", (0, 5)),
         ];
         let lexer = gen_lexer();
 
         assert!(check(&expected, lexer.lex("10 + 20")));
-        assert!(check(&expected, lexer.lex("10    + 20")));
-        assert!(check(&expected, lexer.lex("   10    + 20   ")));
+        assert!(check(&expected, lexer.lex("10 + 20")));
+        assert!(check(&expected, lexer.lex("10 + 20")));
     }
 }

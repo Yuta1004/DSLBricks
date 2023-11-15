@@ -1,7 +1,7 @@
 use serde::Serialize;
 use thiserror::Error;
 
-use lexer::Token;
+use lexer::TokenSet;
 
 use super::Syntax;
 
@@ -15,7 +15,7 @@ pub trait ASyntax<S, T>
 where
     Self: Sized + Serialize,
     S: Syntax<Self, T>,
-    T: Token,
+    T: TokenSet,
 {
     #[allow(unused_variables)]
     fn mapping(
