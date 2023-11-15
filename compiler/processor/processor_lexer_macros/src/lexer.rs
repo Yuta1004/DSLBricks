@@ -4,7 +4,7 @@ use syn::{Data, DeriveInput, ExprLit, Lit};
 
 pub(super) fn lexer_attr_macro_impl(ast: TokenStream) -> TokenStream {
     quote! {
-        #[derive(Tokenize, EnumIter, Clone, Copy, Hash, PartialEq, Eq, Serialize, Deserialize)]
+        #[derive(Tokenize, Clone, Copy, Hash, PartialEq, Eq, Serialize, Deserialize)]
         #ast
     }
 }
@@ -17,6 +17,15 @@ pub(super) fn tokenize_proc_macro_impl(ast: DeriveInput) -> TokenStream {
     };
 
     let enum_name = ast.ident;
+
+    let enum_variants = data_enum
+        .variants
+        .clone()
+        .into_iter()
+        .map(|variant| {
+            let variant = variant.ident.clone();
+            quote! { #enum_name :: #variant }
+        });
 
     let enum_regex_table: Vec<TokenStream> = data_enum
         .variants
@@ -56,6 +65,12 @@ pub(super) fn tokenize_proc_macro_impl(ast: DeriveInput) -> TokenStream {
 
     quote! {
         impl TokenSet for #enum_name {
+            fn iter() -> Box<dyn Iterator<Item = Self>> {
+                Box::new(vec![
+                    #( #enum_variants, )*
+                ].into_iter())
+            }
+
             fn to_regex(token: &Self) -> &'static str {
                 match token {
                     #( #enum_regex_table, )*

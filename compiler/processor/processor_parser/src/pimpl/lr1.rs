@@ -485,6 +485,18 @@ mod test {
     }
 
     impl TokenSet for TestToken {
+        fn iter() -> Box<dyn Iterator<Item = Self>> {
+            Box::new(vec![
+                    TestToken::Num,
+                TestToken::Plus,
+                TestToken::Minus,
+                TestToken::Mul,
+                TestToken::Div,
+                TestToken::BracketA,
+                TestToken::BracketB,
+            ].into_iter())
+        }
+
         fn to_regex(token: &Self) -> &'static str {
             match token {
                 TestToken::Num => r"^[1-9][0-9]*",

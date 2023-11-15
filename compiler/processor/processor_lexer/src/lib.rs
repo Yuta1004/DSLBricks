@@ -5,9 +5,12 @@ use std::marker::PhantomData;
 
 use regex::{Regex, RegexSet};
 use serde::{Serialize, Deserialize};
-use strum::IntoEnumIterator;
 
-pub trait TokenSet: IntoEnumIterator + Copy + Clone + Hash + Eq + Serialize {
+pub trait TokenSet: Copy + Clone + Hash + Eq + Serialize {
+    // for Enum
+    fn iter() -> Box<dyn Iterator<Item = Self>>;
+
+    // for Variants
     fn to_regex(token: &Self) -> &'static str;
     fn ignore_str() -> &'static str;
 }
@@ -159,6 +162,10 @@ mod test {
     }
 
     impl TokenSet for TestToken {
+        fn iter() -> Box<dyn Iterator<Item = Self>> {
+            Box::new(vec![TestToken::Num, TestToken::Plus].into_iter())
+        }
+
         fn to_regex(token: &Self) -> &'static str {
             match token {
                 TestToken::Num => r"^[1-9][0-9]*",
