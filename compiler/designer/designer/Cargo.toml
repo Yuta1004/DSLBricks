@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0"
-thiserror = "1.0"
+anyhow = { workspace = true }
+thiserror = { workspace = true }
 codegen = { package = "designer_codegen", path = "../designer_codegen", optional = true }
 check = { package = "designer_check", path = "../designer_check" }
 design = { package = "designer_design", path = "../designer_design" }

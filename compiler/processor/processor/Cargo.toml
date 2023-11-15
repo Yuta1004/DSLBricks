@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-serde = { version = "1.0", features = ["derive"], optional = true }
+serde = { workspace = true, features = ["derive"], optional = true }
 # check = { package = "processor_check", path = "../processor_check" }
 # codegen = { package = "processor_codegen", path = "../processor_codegen" }
 dslgen = { package = "processor_dslgen", path = "../processor_dslgen", optional = true }
