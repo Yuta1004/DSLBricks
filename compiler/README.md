@@ -1,5 +1,9 @@
 # Compiler
 
+## Features
+
+- with-serde
+
 ## Crates
 
 ### bin
