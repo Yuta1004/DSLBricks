@@ -1,10 +1,13 @@
+use std::collections::HashSet;
+use std::hash::Hash;
+
 use crate::DSLGeneratable;
 
 #[derive(Debug)]
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
-    Hole(Box<dyn DSLGeneratable>, ()),
+    Hole(Box<dyn DSLGeneratable>),
 }
 
 #[derive(Debug)]
@@ -27,3 +30,45 @@ impl From<Vec<Rule>> for RuleSet {
         RuleSet(rules)
     }
 }
+
+impl RuleSet {
+    pub(crate) fn expand(mut self) -> RuleSet {
+        let expanded= self
+            .0
+            .iter()
+            .flat_map(|rule| {
+                rule.rights
+                    .iter()
+                    .flat_map(|selem| {
+                        if let SyntaxElem::Hole(design) = selem {
+                            Some(design)
+                        } else {
+                            None
+                        }
+                    })
+                    .collect::<Vec<&Box<dyn DSLGeneratable>>>()
+            })
+            .collect::<HashSet<&Box<dyn DSLGeneratable>>>()
+            .into_iter()
+            .flat_map(|design| design.design().expand().0)
+            .collect::<Vec<Rule>>();
+
+        self.0.extend(expanded);
+
+        self
+    }
+}
+
+impl Hash for Box<dyn DSLGeneratable> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.name().hash(state)
+    }
+}
+
+impl PartialEq for Box<dyn DSLGeneratable> {
+    fn eq(&self, other: &Self) -> bool {
+        self.name() == other.name()
+    }
+}
+
+impl Eq for Box<dyn DSLGeneratable> {}

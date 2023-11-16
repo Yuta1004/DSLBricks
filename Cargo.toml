@@ -8,7 +8,6 @@ members = [
     "library",
 
     # Examples
-    "examples/simple_interpreter",
     "examples/calc_interpreter",
 
     # Tools

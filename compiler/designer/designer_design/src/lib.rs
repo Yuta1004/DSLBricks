@@ -1,7 +1,5 @@
-mod bnf;
 pub mod syntax;
 
-use std::any::type_name;
 use std::fmt::Debug;
 
 use syntax::{checked, unchecked};
@@ -10,16 +8,25 @@ pub trait DSLGeneratable
 where
     Self: Debug,
 {
-    fn design(self) -> unchecked::RuleSet;
+    fn name(&self) -> &'static str;
+    fn start(&self) -> &'static str;
+    fn design(&self) -> unchecked::RuleSet;
 }
 
 pub struct DSLDesign {
-    pub name: String,
+    pub name: &'static str,
     syntax: checked::RuleSet,
 }
 
 impl DSLDesign {
-    pub fn token_defs(&self) -> Vec<&'static str> {
+    pub fn from<T: DSLGeneratable>(def: T) -> anyhow::Result<Self> {
+        Ok(DSLDesign {
+            name: def.name(),
+            syntax: syntax::check(def.design())?,
+        })
+    }
+
+    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
         self.syntax.token_defs()
     }
 
@@ -28,40 +35,6 @@ impl DSLDesign {
     }
 
     pub fn bnf(&self) -> String {
-        bnf::gen(&self.syntax)
-    }
-}
-
-impl DSLDesign {
-    pub fn from<T: DSLGeneratable>(def: T) -> anyhow::Result<Self> {
-        let full_name = type_name::<T>();
-        let name = full_name.split("::").last().unwrap().to_string();
-
-        let ruleset = syntax::check(def.design())?;
-
-        Ok(DSLDesign {
-            name,
-            syntax: ruleset,
-        })
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use crate::syntax::RuleSet;
-    use crate::{DSLDesign, DSLGeneratable};
-
-    #[derive(Debug)]
-    struct MyDSL;
-
-    impl DSLGeneratable for MyDSL {
-        fn design(self) -> RuleSet {
-            vec![].into()
-        }
-    }
-
-    #[test]
-    fn name() {
-        assert_eq!(DSLDesign::from(MyDSL).unwrap().name, "MyDSL")
+        (&self.syntax).into()
     }
 }

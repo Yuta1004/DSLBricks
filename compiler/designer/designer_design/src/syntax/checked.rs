@@ -1,17 +1,14 @@
-use crate::syntax::unchecked;
-
 #[derive(Debug)]
 pub enum SyntaxElem {
-    Term(&'static str),
+    Term(String, &'static str),
     NonTerm(&'static str),
 }
 
-impl From<unchecked::SyntaxElem> for SyntaxElem {
-    fn from(selem: unchecked::SyntaxElem) -> Self {
-        match selem {
-            unchecked::SyntaxElem::Term(s) => SyntaxElem::Term(s),
-            unchecked::SyntaxElem::NonTerm(s) => SyntaxElem::NonTerm(s),
-            _ => unimplemented!(),
+impl Into<String> for &SyntaxElem {
+    fn into(self) -> String {
+        match self {
+            SyntaxElem::Term(id, _) => format!("\"{}\"", id),
+            SyntaxElem::NonTerm(left) => format!("{}", left),
         }
     }
 }
@@ -36,6 +33,21 @@ where
     }
 }
 
+impl Into<String> for &Rule {
+    fn into(self) -> String {
+        let name = &self.name;
+        let left = self.left;
+        let rights = self
+            .rights
+            .iter()
+            .map(Into::<String>::into)
+            .collect::<Vec<String>>();
+        let right = rights.join(" ");
+
+        format!("{}: {} $ {}", left, right, name)
+    }
+}
+
 #[derive(Debug)]
 pub struct RuleSet(pub(crate) Vec<Rule>);
 
@@ -45,14 +57,25 @@ impl From<Vec<Rule>> for RuleSet {
     }
 }
 
+impl Into<String> for &RuleSet {
+    fn into(self) -> String {
+        self.0
+            .iter()
+            .map(Into::<String>::into)
+            .collect::<Vec<String>>()
+            .join(";\n")
+            + ";"
+    }
+}
+
 impl RuleSet {
-    pub fn token_defs(&self) -> Vec<&'static str> {
+    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
         self.0
             .iter()
             .flat_map(|rule| rule.rights.iter())
             .filter_map(|rule| {
-                if let SyntaxElem::Term(regex) = rule {
-                    Some(*regex)
+                if let SyntaxElem::Term(id, regex) = rule {
+                    Some((id, *regex))
                 } else {
                     None
                 }
