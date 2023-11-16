@@ -1,4 +1,3 @@
-mod bnf;
 pub mod syntax;
 
 use std::fmt::Debug;
@@ -36,6 +35,6 @@ impl DSLDesign {
     }
 
     pub fn bnf(&self) -> String {
-        bnf::gen(&self.syntax)
+        (&self.syntax).into()
     }
 }
