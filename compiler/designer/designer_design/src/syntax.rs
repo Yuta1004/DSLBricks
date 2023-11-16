@@ -28,6 +28,7 @@ impl CheckContext {
 pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet> {
     let mut context = CheckContext::default();
 
+    let uc_ruleset = uc_ruleset.expand();
     let token_set = collect_tokens(&mut context, &uc_ruleset);
     let marked_uc_rules = mark(&mut context, uc_ruleset);
 

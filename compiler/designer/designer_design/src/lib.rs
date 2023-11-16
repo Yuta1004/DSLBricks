@@ -10,26 +10,13 @@ pub trait DSLGeneratable
 where
     Self: Debug,
 {
-    fn design(self) -> unchecked::RuleSet;
+    fn name(&self) -> &'static str;
+    fn design(&self) -> unchecked::RuleSet;
 }
 
 pub struct DSLDesign {
     pub name: String,
     syntax: checked::RuleSet,
-}
-
-impl DSLDesign {
-    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
-        self.syntax.token_defs()
-    }
-
-    pub fn syntax_defs(&self) -> Vec<String> {
-        self.syntax.syntax_defs()
-    }
-
-    pub fn bnf(&self) -> String {
-        bnf::gen(&self.syntax)
-    }
 }
 
 impl DSLDesign {
@@ -44,6 +31,18 @@ impl DSLDesign {
             syntax: ruleset,
         })
     }
+
+    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
+        self.syntax.token_defs()
+    }
+
+    pub fn syntax_defs(&self) -> Vec<String> {
+        self.syntax.syntax_defs()
+    }
+
+    pub fn bnf(&self) -> String {
+        bnf::gen(&self.syntax)
+    }
 }
 
 #[cfg(test)]
@@ -55,7 +54,11 @@ mod test {
     struct MyDSL;
 
     impl DSLGeneratable for MyDSL {
-        fn design(self) -> RuleSet {
+        fn name(&self) -> &'static str {
+            "MyDSL"
+        }
+
+        fn design(&self) -> RuleSet {
             vec![].into()
         }
     }

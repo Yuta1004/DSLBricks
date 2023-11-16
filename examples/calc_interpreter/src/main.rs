@@ -1,9 +1,9 @@
 use compiler::load_dsl;
 use compiler::executor::Interpreter;
 
-load_dsl!(MyDSL);
+load_dsl!(Expression);
 
 fn main() -> anyhow::Result<()> {
-    let dsl = MyDSL::gen()?;
+    let dsl = Expression::gen()?;
     Interpreter::from(dsl).exec()
 }
