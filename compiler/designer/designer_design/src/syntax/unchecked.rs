@@ -1,5 +1,4 @@
 use std::collections::HashSet;
-use std::hash::Hash;
 
 use crate::DSLGeneratable;
 
@@ -58,17 +57,3 @@ impl RuleSet {
         self
     }
 }
-
-impl Hash for Box<dyn DSLGeneratable> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.name().hash(state)
-    }
-}
-
-impl PartialEq for Box<dyn DSLGeneratable> {
-    fn eq(&self, other: &Self) -> bool {
-        self.name() == other.name()
-    }
-}
-
-impl Eq for Box<dyn DSLGeneratable> {}
