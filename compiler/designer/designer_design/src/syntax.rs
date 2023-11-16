@@ -1,22 +1,43 @@
 pub(crate) mod checked;
 pub(crate) mod unchecked;
 
+use std::collections::HashMap;
+
 pub use unchecked::{Rule, RuleSet, SyntaxElem};
 
 pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet> {
-    // 1. Mark rules
+    // 1. Collect tokens
+    let token_set = collect_tokens(&uc_ruleset);
+
+    // 2. Mark rules
     let marked_uc_ruleset = mark(uc_ruleset);
 
-    // 2. Convert unchecked::Rule into check::Rule
-    let ruleset = convert(marked_uc_ruleset);
+    // 3. Convert unchecked::Rule into check::Rule
+    let ruleset = convert(marked_uc_ruleset, token_set);
 
     Ok(ruleset)
+}
+
+fn collect_tokens(uc_ruleset: &unchecked::RuleSet) -> HashMap<&'static str, String> {
+    let mut id = 0;
+    let mut token_set = HashMap::new();
+    for rule in uc_ruleset.0.iter() {
+        for selem in rule.rights.iter() {
+            if let SyntaxElem::Term(regex) = selem {
+                id += 1;
+                let id = format!("token_{}", id);
+                token_set.insert(*regex, id);
+            }
+        }
+    }
+
+    token_set
 }
 
 fn mark(uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
     let mut id = 0;
     let mut marked_uc_ruleset = vec![];
-    for rule in uc_ruleset.0.into_iter() {
+    for rule in uc_ruleset.0 {
         id += 1;
         let id = format!("{}_{}", rule.left, id);
         marked_uc_ruleset.push((id, rule));
@@ -25,7 +46,20 @@ fn mark(uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
     marked_uc_ruleset
 }
 
-fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>) -> checked::RuleSet {
+fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>, token_set: HashMap<&'static str, String>) -> checked::RuleSet {
+    let convert = |rule: unchecked::SyntaxElem| {
+        match rule {
+            unchecked::SyntaxElem::Term(regex) => {
+                let id = token_set.get(regex).unwrap();
+                checked::SyntaxElem::Term(id.clone(), regex)
+            }
+            unchecked::SyntaxElem::NonTerm(left) => {
+                checked::SyntaxElem::NonTerm(left)
+            }
+            _ => unimplemented!()
+        }
+    };
+
     marked_uc_ruleset
         .into_iter()
         .map(|(id, rule)| {
@@ -33,7 +67,7 @@ fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>) -> checked::RuleSe
             let rights = rule
                 .rights
                 .into_iter()
-                .map(checked::SyntaxElem::from)
+                .map(convert)
                 .collect();
             checked::Rule::from((id, left, rights))
         })
@@ -53,10 +87,14 @@ mod test {
                 "top",
                 vec![
                     checked::SyntaxElem::NonTerm("top"),
-                    checked::SyntaxElem::Term("A"),
+                    checked::SyntaxElem::Term("token_1".to_string(), "A"),
                 ],
             )),
-            checked::Rule::from(("top_2", "top", vec![checked::SyntaxElem::Term("A")])),
+            checked::Rule::from((
+                "top_2",
+                "top",
+                vec![checked::SyntaxElem::Term("token_1".to_string(), "A")]
+            )),
         ]
         .into();
 

@@ -19,7 +19,7 @@ pub struct DSLDesign {
 }
 
 impl DSLDesign {
-    pub fn token_defs(&self) -> Vec<&'static str> {
+    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
         self.syntax.token_defs()
     }
 

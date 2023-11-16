@@ -1,19 +1,7 @@
-use crate::syntax::unchecked;
-
 #[derive(Debug)]
 pub enum SyntaxElem {
-    Term(&'static str),
+    Term(String, &'static str),
     NonTerm(&'static str),
-}
-
-impl From<unchecked::SyntaxElem> for SyntaxElem {
-    fn from(selem: unchecked::SyntaxElem) -> Self {
-        match selem {
-            unchecked::SyntaxElem::Term(s) => SyntaxElem::Term(s),
-            unchecked::SyntaxElem::NonTerm(s) => SyntaxElem::NonTerm(s),
-            _ => unimplemented!(),
-        }
-    }
 }
 
 #[derive(Debug)]
@@ -46,13 +34,13 @@ impl From<Vec<Rule>> for RuleSet {
 }
 
 impl RuleSet {
-    pub fn token_defs(&self) -> Vec<&'static str> {
+    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
         self.0
             .iter()
             .flat_map(|rule| rule.rights.iter())
             .filter_map(|rule| {
-                if let SyntaxElem::Term(regex) = rule {
-                    Some(*regex)
+                if let SyntaxElem::Term(id, regex) = rule {
+                    Some((id, *regex))
                 } else {
                     None
                 }

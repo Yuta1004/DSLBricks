@@ -28,8 +28,8 @@ impl From<&Rule> for String {
 impl From<&SyntaxElem> for String {
     fn from(value: &SyntaxElem) -> Self {
         match value {
-            SyntaxElem::Term(s) => format!("\"{}\"", s),
-            SyntaxElem::NonTerm(s) => format!("{}", s),
+            SyntaxElem::Term(id, _) => format!("\"{}\"", id),
+            SyntaxElem::NonTerm(left) => format!("{}", left),
         }
     }
 }
@@ -47,9 +47,16 @@ mod test {
             Rule::from((
                 "top_1",
                 "top",
-                vec![SyntaxElem::NonTerm("top"), SyntaxElem::Term("A")],
+                vec![
+                    SyntaxElem::NonTerm("top"),
+                    SyntaxElem::Term("token_1".to_string(), "A")
+                ],
             )),
-            Rule::from(("top_2", "top", vec![SyntaxElem::Term("A")])),
+            Rule::from((
+                "top_2",
+                "top",
+                vec![SyntaxElem::Term("token_1".to_string(), "A")]
+            )),
         ]
         .into();
 

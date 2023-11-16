@@ -40,10 +40,12 @@ pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
     Ok(tt.render("Rust", &context)?)
 }
 
-fn gen_token_code(token_defs: &Vec<&str>) -> anyhow::Result<String> {
+fn gen_token_code(token_defs: &Vec<(&String, &str)>) -> anyhow::Result<String> {
     let token_variants_code = token_defs
         .iter()
-        .map(|token| format!("#[token(regex=\"{}\")]\n{},", token, token))
+        .map(|(id, regex)| {
+            format!("#[token(regex=r\"{}\")]\n{},", regex, id)
+        })
         .collect::<Vec<String>>()
         .join("\n");
     Ok(token_variants_code)
