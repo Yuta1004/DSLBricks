@@ -44,7 +44,7 @@ impl DSLGeneratable for CalcUnit {
     fn design(&self) -> RuleSet {
         vec![
             Rule::from(("unit", vec![SyntaxElem::Term(r"(0|[1-9][0-9]*)")])),
-            Rule::from(("unit", vec![SyntaxElem::Term(r"[a-z](_|[a-z0-9])+")])),
+            Rule::from(("unit", vec![SyntaxElem::Term(r"[a-z](_|[a-z0-9])*")])),
         ]
         .into()
     }
