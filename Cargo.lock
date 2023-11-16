@@ -183,6 +183,7 @@ name = "designer_constraint_ctime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "designer_design",
  "thiserror",
 ]
 
