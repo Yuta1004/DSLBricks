@@ -11,6 +11,7 @@ where
     Self: Debug,
 {
     fn name(&self) -> &'static str;
+    fn start(&self) -> &'static str;
     fn design(&self) -> unchecked::RuleSet;
 }
 
@@ -56,6 +57,10 @@ mod test {
     impl DSLGeneratable for MyDSL {
         fn name(&self) -> &'static str {
             "MyDSL"
+        }
+
+        fn start(&self) -> &'static str {
+            ""
         }
 
         fn design(&self) -> RuleSet {

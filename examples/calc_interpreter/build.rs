@@ -10,6 +10,10 @@ impl DSLGeneratable for Expression {
         "Expression"
     }
 
+    fn start(&self) -> &'static str {
+        "expr"
+    }
+
     fn design(&self) -> RuleSet {
         vec![
             Rule::from(("expr", vec![SyntaxElem::NonTerm("expr"), SyntaxElem::Term(r"\+"), SyntaxElem::NonTerm("term")])),
@@ -31,6 +35,10 @@ struct CalcUnit;
 impl DSLGeneratable for CalcUnit {
     fn name(&self) -> &'static str {
         "CalcUnit"
+    }
+
+    fn start(&self) -> &'static str {
+        "unit"
     }
 
     fn design(&self) -> RuleSet {

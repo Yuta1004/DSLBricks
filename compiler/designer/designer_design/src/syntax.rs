@@ -69,7 +69,9 @@ fn convert(marked_uc_rules: Vec<(String, unchecked::Rule)>, token_set: HashMap<&
             unchecked::SyntaxElem::NonTerm(left) => {
                 checked::SyntaxElem::NonTerm(left)
             }
-            _ => unimplemented!()
+            unchecked::SyntaxElem::Hole(design) => {
+                checked::SyntaxElem::NonTerm(design.start())
+            }
         }
     };
 
