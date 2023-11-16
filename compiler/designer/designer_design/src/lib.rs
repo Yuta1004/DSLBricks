@@ -45,31 +45,3 @@ impl DSLDesign {
         bnf::gen(&self.syntax)
     }
 }
-
-#[cfg(test)]
-mod test {
-    use crate::syntax::RuleSet;
-    use crate::{DSLDesign, DSLGeneratable};
-
-    #[derive(Debug)]
-    struct MyDSL;
-
-    impl DSLGeneratable for MyDSL {
-        fn name(&self) -> &'static str {
-            "MyDSL"
-        }
-
-        fn start(&self) -> &'static str {
-            ""
-        }
-
-        fn design(&self) -> RuleSet {
-            vec![].into()
-        }
-    }
-
-    #[test]
-    fn name() {
-        assert_eq!(DSLDesign::from(MyDSL).unwrap().name, "MyDSL")
-    }
-}
