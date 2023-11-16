@@ -1,7 +1,6 @@
 mod bnf;
 pub mod syntax;
 
-use std::any::type_name;
 use std::fmt::Debug;
 
 use syntax::{checked, unchecked};
@@ -16,20 +15,15 @@ where
 }
 
 pub struct DSLDesign {
-    pub name: String,
+    pub name: &'static str,
     syntax: checked::RuleSet,
 }
 
 impl DSLDesign {
     pub fn from<T: DSLGeneratable>(def: T) -> anyhow::Result<Self> {
-        let full_name = type_name::<T>();
-        let name = full_name.split("::").last().unwrap().to_string();
-
-        let ruleset = syntax::check(def.design())?;
-
         Ok(DSLDesign {
-            name,
-            syntax: ruleset,
+            name: def.name(),
+            syntax: syntax::check(def.design())?,
         })
     }
 
