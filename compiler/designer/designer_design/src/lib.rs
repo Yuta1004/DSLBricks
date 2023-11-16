@@ -1,6 +1,8 @@
+pub mod macros;
 pub mod syntax;
 
 use std::fmt::Debug;
+use std::hash::Hash;
 
 use syntax::{checked, unchecked};
 
@@ -12,6 +14,20 @@ where
     fn start(&self) -> &'static str;
     fn design(&self) -> unchecked::RuleSet;
 }
+
+impl Hash for Box<dyn DSLGeneratable> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.name().hash(state)
+    }
+}
+
+impl PartialEq for Box<dyn DSLGeneratable> {
+    fn eq(&self, other: &Self) -> bool {
+        self.name() == other.name()
+    }
+}
+
+impl Eq for Box<dyn DSLGeneratable> {}
 
 pub struct DSLDesign {
     pub name: &'static str,
