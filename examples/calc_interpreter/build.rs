@@ -1,6 +1,7 @@
 use compiler::build_dsl;
-use compiler::designer::design::syntax::{Rule, RuleSet, SyntaxElem};
-use compiler::designer::design::{rule, DSLGeneratable};
+use compiler::designer::design::macros::*;
+use compiler::designer::design::syntax::RuleSet;
+use compiler::designer::design::DSLGeneratable;
 
 #[derive(Debug)]
 struct Expression;
@@ -43,8 +44,8 @@ impl DSLGeneratable for CalcUnit {
 
     fn design(&self) -> RuleSet {
         vec![
-            rule! { unit -> r"(0|[1-9][0-9]*)" },
-            rule! { unit -> r"[a-z](_|[a-z0-9])*" }
+            rule! { unit -> "(0|[1-9][0-9]*)" },
+            rule! { unit -> "[a-z](_|[a-z0-9])*" }
         ]
         .into()
     }
