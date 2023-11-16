@@ -41,11 +41,11 @@ mod test {
 
     #[test]
     fn bnf() {
-        let except = vec!["top: top \"A\" $ top_1;", "top: \"A\" $ top_2;"];
+        let except = vec!["top: top \"token_1\" $ top_0;", "top: \"token_1\" $ top_1;"];
 
         let ruleset = vec![
             Rule::from((
-                "top_1",
+                "top_0",
                 "top",
                 vec![
                     SyntaxElem::NonTerm("top"),
@@ -53,18 +53,17 @@ mod test {
                 ],
             )),
             Rule::from((
-                "top_2",
+                "top_1",
                 "top",
                 vec![SyntaxElem::Term("token_1".to_string(), "A")]
             )),
         ]
         .into();
 
-        let result = gen(&ruleset)
+        gen(&ruleset)
             .split("\n")
             .into_iter()
             .zip(except.into_iter())
-            .all(|(line, except)| line == except);
-        assert!(result)
+            .for_each(|(line, except)| assert_eq!(line, except));
     }
 }

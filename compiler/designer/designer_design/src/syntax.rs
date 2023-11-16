@@ -5,12 +5,34 @@ use std::collections::HashMap;
 
 pub use unchecked::{Rule, RuleSet, SyntaxElem};
 
+#[derive(Debug, Default)]
+struct CheckContext {
+    token_id: i32,
+    rule_id: i32,
+}
+
+impl CheckContext {
+    fn issue_token_id(&mut self) -> i32 {
+        let token_id = self.token_id;
+        self.token_id += 1;
+        token_id
+    }
+
+    fn issue_rule_id(&mut self) -> i32 {
+        let rule_id = self.rule_id;
+        self.rule_id += 1;
+        rule_id
+    }
+}
+
 pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet> {
+    let mut context = CheckContext::default();
+
     // 1. Collect tokens
-    let token_set = collect_tokens(&uc_ruleset);
+    let token_set = collect_tokens(&mut context, &uc_ruleset);
 
     // 2. Mark rules
-    let marked_uc_ruleset = mark(uc_ruleset);
+    let marked_uc_ruleset = mark(&mut context, uc_ruleset);
 
     // 3. Convert unchecked::Rule into check::Rule
     let ruleset = convert(marked_uc_ruleset, token_set);
@@ -18,14 +40,12 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet>
     Ok(ruleset)
 }
 
-fn collect_tokens(uc_ruleset: &unchecked::RuleSet) -> HashMap<&'static str, String> {
-    let mut id = 0;
+fn collect_tokens(context: &mut CheckContext, uc_ruleset: &unchecked::RuleSet) -> HashMap<&'static str, String> {
     let mut token_set = HashMap::new();
     for rule in uc_ruleset.0.iter() {
         for selem in rule.rights.iter() {
             if let SyntaxElem::Term(regex) = selem {
-                id += 1;
-                let id = format!("token_{}", id);
+                let id = format!("token_{}", context.issue_token_id());
                 token_set.insert(*regex, id);
             }
         }
@@ -34,12 +54,10 @@ fn collect_tokens(uc_ruleset: &unchecked::RuleSet) -> HashMap<&'static str, Stri
     token_set
 }
 
-fn mark(uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
-    let mut id = 0;
+fn mark(context: &mut CheckContext, uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
     let mut marked_uc_ruleset = vec![];
     for rule in uc_ruleset.0 {
-        id += 1;
-        let id = format!("{}_{}", rule.left, id);
+        let id = format!("{}_{}", rule.left, context.issue_rule_id());
         marked_uc_ruleset.push((id, rule));
     }
 
@@ -83,7 +101,7 @@ mod test {
     fn check_simple() {
         let except: checked::RuleSet = vec![
             checked::Rule::from((
-                "top_1",
+                "top_0",
                 "top",
                 vec![
                     checked::SyntaxElem::NonTerm("top"),
@@ -91,7 +109,7 @@ mod test {
                 ],
             )),
             checked::Rule::from((
-                "top_2",
+                "top_1",
                 "top",
                 vec![checked::SyntaxElem::Term("token_1".to_string(), "A")]
             )),
