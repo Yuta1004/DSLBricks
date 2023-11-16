@@ -28,23 +28,17 @@ impl CheckContext {
 pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet> {
     let mut context = CheckContext::default();
 
-    // 1. Collect tokens
     let token_set = collect_tokens(&mut context, &uc_ruleset);
+    let marked_uc_rules = mark(&mut context, uc_ruleset);
 
-    // 2. Mark rules
-    let marked_uc_ruleset = mark(&mut context, uc_ruleset);
-
-    // 3. Convert unchecked::Rule into check::Rule
-    let ruleset = convert(marked_uc_ruleset, token_set);
-
-    Ok(ruleset)
+    convert(marked_uc_rules, token_set)
 }
 
 fn collect_tokens(context: &mut CheckContext, uc_ruleset: &unchecked::RuleSet) -> HashMap<&'static str, String> {
     let mut token_set = HashMap::new();
     for rule in uc_ruleset.0.iter() {
         for selem in rule.rights.iter() {
-            if let SyntaxElem::Term(regex) = selem {
+            if let unchecked::SyntaxElem::Term(regex) = selem {
                 let id = format!("token_{}", context.issue_token_id());
                 token_set.insert(*regex, id);
             }
@@ -64,7 +58,7 @@ fn mark(context: &mut CheckContext, uc_ruleset: unchecked::RuleSet) -> Vec<(Stri
     marked_uc_ruleset
 }
 
-fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>, token_set: HashMap<&'static str, String>) -> checked::RuleSet {
+fn convert(marked_uc_rules: Vec<(String, unchecked::Rule)>, token_set: HashMap<&'static str, String>) -> anyhow::Result<checked::RuleSet> {
     let convert = |rule: unchecked::SyntaxElem| {
         match rule {
             unchecked::SyntaxElem::Term(regex) => {
@@ -78,7 +72,7 @@ fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>, token_set: HashMap
         }
     };
 
-    marked_uc_ruleset
+    let ruleset = marked_uc_rules
         .into_iter()
         .map(|(id, rule)| {
             let left = rule.left;
@@ -90,7 +84,9 @@ fn convert(marked_uc_ruleset: Vec<(String, unchecked::Rule)>, token_set: HashMap
             checked::Rule::from((id, left, rights))
         })
         .collect::<Vec<checked::Rule>>()
-        .into()
+        .into();
+
+    Ok(ruleset)
 }
 
 #[cfg(test)]
