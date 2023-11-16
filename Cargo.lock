@@ -160,17 +160,10 @@ name = "designer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "designer_check",
  "designer_codegen",
+ "designer_constraint_ctime",
+ "designer_constraint_rtime",
  "designer_design",
- "thiserror",
-]
-
-[[package]]
-name = "designer_check"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 
@@ -183,6 +176,22 @@ dependencies = [
  "serde",
  "thiserror",
  "tinytemplate",
+]
+
+[[package]]
+name = "designer_constraint_ctime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_constraint_rtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
 ]
 
 [[package]]
