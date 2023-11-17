@@ -19,7 +19,7 @@ fn parse_args(ast: TokenStream) -> (TokenStream, TokenStream) {
     let mut args = ast_s.split(",");
 
     let cfg_cond: TokenStream = args.next().unwrap().parse().unwrap();
-    let trait_bounds: TokenStream = args.next().unwrap().parse().unwrap();
+    let trait_bounds: TokenStream = args.collect::<Vec<&str>>().join(",").parse().unwrap();
 
     (quote!(#cfg_cond), quote!(#trait_bounds))
 }
@@ -45,7 +45,7 @@ fn rebuild_tokenstream(trait_bounds: TokenStream, ast: TokenStream) -> TokenStre
     let ast_heads = ast_heads.into_iter().collect::<TokenStream>();
 
     // Part 2 : where ...
-    let ast_bounds = quote! { where Self: #trait_bounds, };
+    let ast_bounds = quote! { where #trait_bounds, };
 
     // Part 3 : { ... }
     let ast_body = if let Some(_) = where_t {

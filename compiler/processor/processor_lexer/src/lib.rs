@@ -8,7 +8,7 @@ use serde::{Serialize, Deserialize};
 
 use util_macros::cfg_where;
 
-#[cfg_where(feature = "with-serde", Serialize)]
+#[cfg_where(feature = "with-serde", Self: Serialize)]
 pub trait TokenSet
 where
     Self: Copy + Clone + Hash + Eq,

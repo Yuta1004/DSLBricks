@@ -8,7 +8,7 @@ use super::abst::ASyntax;
 use crate::rule::{Rule, RuleElem, RuleSet};
 use crate::ParserImpl;
 
-#[cfg_where(feature = "with-serde", Serialize)]
+#[cfg_where(feature = "with-serde", Self: Serialize)]
 pub trait Syntax<A, T>
 where
     Self: Clone + Copy + Sized,

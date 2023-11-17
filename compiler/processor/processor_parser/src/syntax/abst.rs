@@ -13,7 +13,7 @@ pub enum ASyntaxError {
     NotImplemented,
 }
 
-#[cfg_where(feature = "with-serde", Serialize)]
+#[cfg_where(feature = "with-serde", Self: Serialize)]
 pub trait ASyntax<S, T>
 where
     Self: Sized,
