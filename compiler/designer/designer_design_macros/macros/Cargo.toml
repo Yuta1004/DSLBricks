@@ -1,0 +1,10 @@
+[package]
+name = "designer_design_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+macros_decralative = { package = "designer_design_macros_declarative", path = "../macros_declarative" }
+macros_procedural = { package = "designer_design_macros_procedural", path = "../macros_procedural" }

@@ -164,6 +164,7 @@ dependencies = [
  "designer_constraint_ctime",
  "designer_constraint_rtime",
  "designer_design",
+ "designer_design_macros",
  "thiserror",
 ]
 
@@ -200,6 +201,36 @@ name = "designer_design"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_design_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "designer_design_macros_declarative",
+ "designer_design_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_design_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "designer_design",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_design_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 
