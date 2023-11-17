@@ -1,0 +1,9 @@
+[package]
+name = "designer_design_macros_declarative"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+design = { package = "designer_design", path = "../../designer_design" }

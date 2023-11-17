@@ -11,7 +11,7 @@ macro_rules! build_dsl {
         use std::path::Path;
         use std::{env, fs};
 
-        use compiler::designer::codegen::rust;
+        use $crate::designer::codegen::rust;
 
         let dsl_code = rust($dsl).unwrap();
         let out_dir = env::var_os("OUT_DIR").unwrap();

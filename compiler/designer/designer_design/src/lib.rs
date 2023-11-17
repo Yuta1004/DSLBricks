@@ -1,4 +1,3 @@
-pub mod macros;
 pub mod syntax;
 
 use std::fmt::Debug;

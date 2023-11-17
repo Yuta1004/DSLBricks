@@ -1,5 +1,4 @@
-pub use crate::syntax::{Rule, SyntaxElem};
-pub use crate::rule;
+pub use design::syntax::{Rule, SyntaxElem};
 
 #[macro_export]
 macro_rules! rule {

@@ -10,6 +10,7 @@ codegen = { package = "designer_codegen", path = "../designer_codegen", optional
 constraint_ctime = { package = "designer_constraint_ctime", path = "../designer_constraint_ctime" }
 constraint_rtime = { package = "designer_constraint_rtime", path = "../designer_constraint_rtime" }
 design = { package = "designer_design", path = "../designer_design" }
+design_macros = { package = "designer_design_macros", path = "../designer_design_macros/macros" }
 
 [features]
 default = ["codegen"]
