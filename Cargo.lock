@@ -88,7 +88,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "compiler",
- "serde",
  "thiserror",
 ]
 
@@ -380,6 +379,7 @@ name = "processor_lexer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "processor_util_macros",
  "regex",
  "serde",
  "thiserror",
@@ -422,6 +422,7 @@ dependencies = [
  "anyhow",
  "itertools",
  "processor_lexer",
+ "processor_util_macros",
  "serde",
  "serde_json",
  "thiserror",
@@ -455,6 +456,35 @@ dependencies = [
  "processor_parser",
  "quote",
  "syn 1.0.109",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_util_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "processor_util_macros_declarative",
+ "processor_util_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_util_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "processor_util_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.32",
  "thiserror",
 ]
 

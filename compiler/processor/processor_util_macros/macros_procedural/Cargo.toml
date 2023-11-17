@@ -1,5 +1,5 @@
 [package]
-name = "processor_lexer_macros_procedural"
+name = "processor_util_macros_procedural"
 version = "0.1.0"
 edition = "2021"
 
@@ -12,7 +12,3 @@ thiserror = { workspace = true }
 
 [lib]
 proc-macro = true
-
-[features]
-default = []
-with-serde = []

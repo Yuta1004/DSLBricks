@@ -7,9 +7,9 @@ edition = "2021"
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
-lexer = { package = "processor_lexer", path = "../processor_lexer" }
-parser = { package = "processor_parser", path = "../processor_parser" }
+lexer = { package = "processor_lexer", path = "../processor_lexer", optional = true }
+parser = { package = "processor_parser", path = "../processor_parser", optional = true }
 
 [features]
-default = []
-with-serde = ["serde"]
+default = ["lexer", "parser"]
+with-serde = ["serde", "lexer/with-serde", "parser/with-serde"]

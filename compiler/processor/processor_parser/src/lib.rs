@@ -39,7 +39,8 @@ impl From<Error> for ParseError {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug)]
+#[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
 pub struct Parser<A, S, T>
 where
     A: ASyntax<S, T>,

@@ -6,6 +6,7 @@ use itertools::Itertools;
 use serde::{Serialize, Deserialize};
 
 use lexer::{TokenSet, LexIterator};
+use util_macros::cfg_where;
 
 use super::super::rule::{Rule, RuleElem, RuleSet};
 use super::super::syntax::{ASyntax, Syntax};
@@ -38,11 +39,12 @@ where
     goto_table: Vec<Vec<usize>>,
 }
 
+#[cfg_where(feature = "with-serde", S: for<'de> Deserialize<'de>, T: for<'de> Deserialize<'de>)]
 impl<A, S, T> ParserImpl<A, S, T> for LR1<A, S, T>
 where
     A: ASyntax<S, T>,
-    S: Syntax<A, T> + for<'de> Deserialize<'de>,
-    T: TokenSet + for<'de> Deserialize<'de> + 'static,
+    S: Syntax<A, T>,
+    T: TokenSet + 'static,
 {
     fn setup() -> anyhow::Result<Self> {
         // 1. Pre-process
