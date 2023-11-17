@@ -3,12 +3,8 @@
 ## Command
 
 ```
-// Unit Test
-$ cargo test
-
-// Integration Test
-$ cd tests/default && cargo test
-$ cd tests/with-serde && cargo test
+// Test
+$ make test
 
 // Example
 $ cargo run -p calc_interpreter
