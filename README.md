@@ -3,10 +3,10 @@
 ## Command
 
 ```
-// Test(all)
-$ cargo test --all
+// Test
+$ make test
 
-// Example(calculator)
+// Example
 $ cargo run -p calc_interpreter
 ```
 

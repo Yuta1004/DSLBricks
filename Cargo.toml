@@ -13,7 +13,11 @@ members = [
     # Tools
     # "tools/...",
 ]
-exclude = []
+exclude = [
+    # Tests
+    "tests/default",
+    "tests/with_serde",
+]
 
 [workspace.dependencies]
 anyhow = "1.0.75"
