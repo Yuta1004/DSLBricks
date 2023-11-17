@@ -2,6 +2,7 @@
 use serde::\{Serialize, Deserialize};
 {{ endif }}
 
+use compiler::processor::parser::macros::*;
 use compiler::processor::parser::syntax::ASyntax;
 use compiler::processor::parser::LR1;
 use compiler::processor::macros::*;

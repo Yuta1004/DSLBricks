@@ -1,5 +1,5 @@
 [package]
-name = "processor_parser_macros"
+name = "processor_parser_macros_procedural"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,7 +9,7 @@ quote = "1.0"
 syn = { version ="1.0", features = ["full", "extra-traits"] }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-parser = { package = "processor_parser", path = "../processor_parser" }
+parser = { package = "processor_parser", path = "../../processor_parser" }
 
 [lib]
 proc-macro = true

@@ -1,9 +1,11 @@
 pub use dslgen::*;
 pub use lexer;
-pub use parser;
+pub mod parser {
+    pub use parser::*;
+    pub use parser_macros as macros;
+}
 pub mod macros {
     pub use lexer_macros::*;
-    pub use parser_macros::*;
 }
 pub mod prelude {
     #[cfg(feature = "with-serde")]
