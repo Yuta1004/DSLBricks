@@ -6,5 +6,6 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
+lexer = { package = "processor_lexer", path = "../../processor_lexer" }
 macros_decralative = { package = "processor_lexer_macros_declarative", path = "../macros_declarative" }
 macros_procedural = { package = "processor_lexer_macros_procedural", path = "../macros_procedural" }

@@ -390,6 +390,7 @@ name = "processor_lexer_macros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "processor_lexer",
  "processor_lexer_macros_declarative",
  "processor_lexer_macros_procedural",
  "thiserror",
@@ -409,7 +410,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "proc-macro2",
- "processor_lexer",
  "quote",
  "syn 2.0.32",
  "thiserror",
@@ -432,6 +432,7 @@ name = "processor_parser_macros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "processor_parser",
  "processor_parser_macros_declarative",
  "processor_parser_macros_procedural",
  "thiserror",

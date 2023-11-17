@@ -1,7 +1,6 @@
 mod pimpl;
 pub mod rule;
 pub mod syntax;
-pub mod prelude;
 
 use std::fmt::Display;
 use std::marker::PhantomData;

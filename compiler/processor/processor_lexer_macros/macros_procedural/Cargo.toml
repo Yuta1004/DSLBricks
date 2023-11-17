@@ -9,7 +9,6 @@ quote = "1.0"
 syn = { version ="2.0", features = ["full", "extra-traits"] }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-lexer = { package = "processor_lexer", path = "../../processor_lexer" }
 
 [lib]
 proc-macro = true
