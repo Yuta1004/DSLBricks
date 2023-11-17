@@ -6,18 +6,13 @@ use regex::{Regex, RegexSet};
 #[cfg(feature = "with-serde")]
 use serde::{Serialize, Deserialize};
 
-#[cfg(feature = "with-serde")]
-pub trait TokenSet: Copy + Clone + Hash + Eq + Serialize {
-    // for Enum
-    fn iter() -> Box<dyn Iterator<Item = Self>>;
+use util_macros::cfg_where;
 
-    // for Variants
-    fn to_regex(token: &Self) -> &'static str;
-    fn ignore_str() -> &'static str;
-}
-
-#[cfg(not(feature = "with-serde"))]
-pub trait TokenSet: Copy + Clone + Hash + Eq {
+#[cfg_where(feature = "with-serde", Serialize)]
+pub trait TokenSet
+where
+    Self: Copy + Clone + Hash + Eq,
+{
     // for Enum
     fn iter() -> Box<dyn Iterator<Item = Self>>;
 
