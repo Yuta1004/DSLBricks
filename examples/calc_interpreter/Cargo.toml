@@ -6,8 +6,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 thiserror = "1.0"
-serde = { version = "1.0", features = ["derive"] }
 compiler = { path = "../../compiler/compiler" }
 
 [build-dependencies]
-compiler = { path = "../../compiler/compiler", features = ["with-serde"] }
+compiler = { path = "../../compiler/compiler" }
