@@ -13,6 +13,12 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
         panic!("\"Tokenize\" proc-macro is only implemented for enum.")
     };
 
+    let extra_derives = if cfg!(feature = "with-serde") {
+        quote! { Serialize, Deserialize }
+    } else {
+        quote! { }
+    };
+
     let enum_name = &target_ast.ident;
 
     let enum_variants = data_enum
@@ -37,7 +43,7 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
         .collect();
 
     quote! {
-        #[derive(Clone, Copy, Serialize, Deserialize)]
+        #[derive(Clone, Copy, #extra_derives)]
         #target_ast
 
         impl Syntax<#semantics, #token> for #enum_name {

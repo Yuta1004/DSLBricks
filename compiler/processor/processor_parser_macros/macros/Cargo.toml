@@ -8,4 +8,8 @@ anyhow = { workspace = true }
 thiserror = { workspace = true }
 parser = { package = "processor_parser", path = "../../processor_parser" }
 macros_decralative = { package = "processor_parser_macros_declarative", path = "../macros_declarative" }
-macros_procedural = { package = "processor_parser_macros_procedural", path = "../macros_procedural" }
+macros_procedural = { package = "processor_parser_macros_procedural", path = "../macros_procedural", optional = true }
+
+[features]
+default = ["macros_procedural"]
+with-serde = ["macros_procedural/with-serde"]

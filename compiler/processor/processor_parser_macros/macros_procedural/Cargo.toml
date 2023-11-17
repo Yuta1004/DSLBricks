@@ -13,3 +13,7 @@ parser = { package = "processor_parser", path = "../../processor_parser" }
 
 [lib]
 proc-macro = true
+
+[features]
+default = []
+with-serde = []

@@ -12,3 +12,7 @@ thiserror = { workspace = true }
 
 [lib]
 proc-macro = true
+
+[features]
+default = []
+with-serde = []

@@ -3,8 +3,14 @@ use quote::quote;
 use syn::{Data, DeriveInput, ExprLit, Lit};
 
 pub(super) fn lexer_attr_macro_impl(ast: TokenStream) -> TokenStream {
+    let extra_derives = if cfg!(feature = "with-serde") {
+        quote! { Serialize, Deserialize }
+    } else {
+        quote! { }
+    };
+
     quote! {
-        #[derive(Tokenize, Clone, Copy, Hash, PartialEq, Eq, Serialize, Deserialize)]
+        #[derive(Tokenize, Clone, Copy, Hash, PartialEq, Eq, #extra_derives)]
         #ast
     }
 }
