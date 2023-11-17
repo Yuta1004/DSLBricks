@@ -1,15 +1,19 @@
 mod lr1;
 
-use serde::{Serialize, Deserialize};
+#[cfg(feature = "with-serde")]
+use serde::Serialize;
+use serde::Deserialize;
 
 use lexer::{TokenSet, LexIterator};
+use util_macros::cfg_where;
 
 use super::syntax::{ASyntax, Syntax};
 pub use lr1::LR1;
 
+#[cfg_where(feature = "with-serde", Serialize)]
 pub trait ParserImpl<A, S, T>
 where
-    Self: Sized + Serialize + for<'de> Deserialize<'de>,
+    Self: Sized + for<'de> Deserialize<'de>,
     A: ASyntax<S, T>,
     S: Syntax<A, T>,
     T: TokenSet,

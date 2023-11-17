@@ -1,14 +1,17 @@
+#[cfg(feature = "with-serde")]
 use serde::Serialize;
 
 use lexer::TokenSet;
+use util_macros::cfg_where;
 
 use super::abst::ASyntax;
 use crate::rule::{Rule, RuleElem, RuleSet};
 use crate::ParserImpl;
 
+#[cfg_where(feature = "with-serde", Serialize)]
 pub trait Syntax<A, T>
 where
-    Self: Clone + Copy + Sized + Serialize,
+    Self: Clone + Copy + Sized,
     A: ASyntax<Self, T>,
     T: TokenSet,
 {

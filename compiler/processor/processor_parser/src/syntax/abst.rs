@@ -1,7 +1,9 @@
+#[cfg(feature = "with-serde")]
 use serde::Serialize;
 use thiserror::Error;
 
 use lexer::TokenSet;
+use util_macros::cfg_where;
 
 use super::Syntax;
 
@@ -11,9 +13,10 @@ pub enum ASyntaxError {
     NotImplemented,
 }
 
+#[cfg_where(feature = "with-serde", Serialize)]
 pub trait ASyntax<S, T>
 where
-    Self: Sized + Serialize,
+    Self: Sized,
     S: Syntax<Self, T>,
     T: TokenSet,
 {

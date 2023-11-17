@@ -8,11 +8,11 @@ serde = { workspace = true, features = ["derive"], optional = true }
 # check = { package = "processor_check", path = "../processor_check" }
 # codegen = { package = "processor_codegen", path = "../processor_codegen" }
 dslgen = { package = "processor_dslgen", path = "../processor_dslgen", optional = true }
-lexer = { package = "processor_lexer", path = "../processor_lexer" }
+lexer = { package = "processor_lexer", path = "../processor_lexer", optional = true }
 lexer_macros = { package = "processor_lexer_macros", path = "../processor_lexer_macros/macros" }
-parser = { package = "processor_parser", path = "../processor_parser" }
+parser = { package = "processor_parser", path = "../processor_parser", optional = true }
 parser_macros = { package = "processor_parser_macros", path = "../processor_parser_macros/macros" }
 
 [features]
-default = ["dslgen"]
-with-serde = ["serde", "dslgen/with-serde"]
+default = ["dslgen", "lexer", "parser"]
+with-serde = ["serde", "dslgen/with-serde", "lexer/with-serde", "parser/with-serde"]

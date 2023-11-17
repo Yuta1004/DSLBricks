@@ -423,6 +423,7 @@ dependencies = [
  "anyhow",
  "itertools",
  "processor_lexer",
+ "processor_util_macros",
  "serde",
  "serde_json",
  "thiserror",
