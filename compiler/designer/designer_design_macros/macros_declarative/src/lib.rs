@@ -13,6 +13,10 @@ macro_rules! rule {
         SyntaxElem::Hole(Box::new($design))
     };
 
+    (@call [{$design:expr}]) => {
+        SyntaxElem::Hole($design)
+    };
+
     (@call $nonterm:ident) => {
         SyntaxElem::NonTerm(stringify!($nonterm))
     };
