@@ -17,6 +17,7 @@ use crate::constraints::ctime::*;
 ///
 /// ## 性質
 /// - Executable
+#[derive(Clone)]
 #[impl_constraints(Executable)]
 pub struct Block {
     stmts: Vec<Rule>,
@@ -74,6 +75,7 @@ impl DSLGeneratable for Block {
 ///
 /// ## 性質
 /// - Executable
+#[derive(Clone)]
 #[impl_constraints(Executable)]
 pub struct ExprStatement {
     expr: Option<Rule>,
@@ -123,6 +125,7 @@ impl DSLGeneratable for ExprStatement {
 ///
 /// ## 性質
 /// - Executable
+#[derive(Clone)]
 #[impl_constraints(Executable)]
 pub struct If {
     cond: Option<Rule>,
