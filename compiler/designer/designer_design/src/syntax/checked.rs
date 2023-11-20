@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(PartialEq, Eq)]
 pub enum SyntaxElem {
     Term(String, &'static str),
     NonTerm(&'static str),
@@ -13,7 +13,7 @@ impl Into<String> for &SyntaxElem {
     }
 }
 
-#[derive(Debug)]
+#[derive(PartialEq, Eq)]
 pub struct Rule {
     pub(crate) name: String,
     pub(crate) left: &'static str,
@@ -48,7 +48,7 @@ impl Into<String> for &Rule {
     }
 }
 
-#[derive(Debug)]
+#[derive(PartialEq, Eq)]
 pub struct RuleSet(pub(crate) Vec<Rule>);
 
 impl From<Vec<Rule>> for RuleSet {

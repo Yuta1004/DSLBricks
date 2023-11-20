@@ -128,6 +128,6 @@ mod test {
         .into();
         let ruleset = super::check(uc_ruleset).unwrap();
 
-        assert_eq!(format!("{:?}", except), format!("{:?}", ruleset),)
+        assert!(except == ruleset);
     }
 }

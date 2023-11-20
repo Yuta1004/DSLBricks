@@ -2,14 +2,12 @@ use std::collections::HashSet;
 
 use crate::DSLGeneratable;
 
-#[derive(Debug)]
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
     Hole(Box<dyn DSLGeneratable>),
 }
 
-#[derive(Debug)]
 pub struct Rule {
     pub(crate) left: &'static str,
     pub(crate) rights: Vec<SyntaxElem>,
@@ -21,7 +19,6 @@ impl From<(&'static str, Vec<SyntaxElem>)> for Rule {
     }
 }
 
-#[derive(Debug)]
 pub struct RuleSet(pub(crate) Vec<Rule>);
 
 impl From<Vec<Rule>> for RuleSet {

@@ -1,14 +1,10 @@
 pub mod syntax;
 
-use std::fmt::Debug;
 use std::hash::Hash;
 
 use syntax::{checked, unchecked};
 
-pub trait DSLGeneratable
-where
-    Self: Debug,
-{
+pub trait DSLGeneratable {
     fn name(&self) -> &'static str;
     fn start(&self) -> &'static str;
     fn design(&self) -> unchecked::RuleSet;
