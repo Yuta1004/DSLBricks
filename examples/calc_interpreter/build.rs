@@ -24,7 +24,7 @@ impl DSLGeneratable for Expression {
             rule! { term -> term r"/" fact },
             rule! { term -> fact },
             rule! { fact -> r"\(" expr r"\)" },
-            rule! { fact -> [{ Box::new(CalcUnit) }] },
+            rule! { fact -> [CalcUnit] },
         ]
         .into()
     }

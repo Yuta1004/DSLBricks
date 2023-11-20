@@ -10,7 +10,7 @@ macro_rules! rule {
     };
 
     (@call [$design:ident]) => {
-        SyntaxElem::Hole(Box::new($design))
+        SyntaxElem::Hole($design.into())
     };
 
     (@call [{$design:expr}]) => {
