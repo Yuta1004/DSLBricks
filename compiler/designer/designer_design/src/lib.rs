@@ -24,15 +24,6 @@ impl PartialEq for Box<dyn DSLGeneratable> {
 
 impl Eq for Box<dyn DSLGeneratable> {}
 
-impl<T> From<T> for Box<dyn DSLGeneratable>
-where
-    T: DSLGeneratable + 'static,
-{
-    fn from(val: T) -> Self {
-        Box::new(val)
-    }
-}
-
 pub struct DSLDesign {
     pub name: &'static str,
     syntax: checked::RuleSet,

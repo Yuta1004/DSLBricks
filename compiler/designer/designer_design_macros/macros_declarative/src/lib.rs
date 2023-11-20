@@ -1,3 +1,5 @@
+pub use std::rc::Rc;
+
 pub use design::syntax::{Rule, SyntaxElem};
 
 #[macro_export]
@@ -10,7 +12,7 @@ macro_rules! rule {
     };
 
     (@call [$design:ident]) => {
-        SyntaxElem::Hole($design.into())
+        SyntaxElem::Hole(Rc::new(Box::new($design)))
     };
 
     (@call [{$design:expr}]) => {
