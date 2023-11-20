@@ -8,10 +8,7 @@ declare_constraints! {
 
     // Calculatable : 計算可能
     new Calculatable;
-}
 
-// 2. 自動導出可能な制約
-declare_constraints! {
-    // RValue : 右辺値として評価可能
-    compose RValue <= StaticValue;
+    // Executable : 実行可能
+    new Executable;
 }
