@@ -1,8 +1,8 @@
 // 制約
-mod constraints;
+pub mod constraints;
 
 // 構文部品
-mod block;
+pub mod block;
 
 // テンプレート
 mod template;

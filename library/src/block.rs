@@ -1,3 +1,3 @@
-mod primitive;
-mod expression;
-mod statement;
+pub mod primitive;
+pub mod expression;
+pub mod statement;
