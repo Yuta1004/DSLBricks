@@ -62,6 +62,54 @@ impl DSLGeneratable for Block {
     }
 }
 
+/// # 式-文
+///
+/// ## 概要
+///
+/// - C 言語の 式-文を表現します
+///
+/// ## はめ込み要素
+///
+/// - expr (Calculatable) : 式として使用する構文部品
+///
+/// ## 性質
+/// - Executable
+#[impl_constraints(Executable)]
+pub struct ExprStatement {
+    expr: Option<Rule>,
+}
+
+impl ExprStatement {
+    pub fn new() -> ExprStatement {
+        ExprStatement {
+            expr: None,
+        }
+    }
+
+    pub fn set_expr<T>(mut self, expr: T) -> ExprStatement
+    where
+        T: Calculatable + 'static,
+    {
+        self.expr = Some(rule! { stmt -> [expr] ";" });
+        self
+    }
+}
+
+impl DSLGeneratable for ExprStatement {
+    fn name(&self) -> &'static str {
+        "std.statement.c.ExprStatement"
+    }
+
+    fn start(&self) -> &'static str {
+        "stmt"
+    }
+
+    fn design(&self) -> RuleSet {
+        assert!(self.expr.is_some());
+        vec![self.expr.clone().unwrap()].into()
+    }
+}
+
 /// # if 文
 ///
 /// ## 概要
