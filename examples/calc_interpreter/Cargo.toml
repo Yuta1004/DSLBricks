@@ -10,3 +10,4 @@ compiler = { path = "../../compiler/compiler" }
 
 [build-dependencies]
 compiler = { path = "../../compiler/compiler" }
+library = { path = "../../library" }
