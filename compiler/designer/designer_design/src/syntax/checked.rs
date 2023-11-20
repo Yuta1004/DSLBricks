@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 #[derive(PartialEq, Eq)]
 pub enum SyntaxElem {
     Term(String, &'static str),
@@ -80,6 +82,8 @@ impl RuleSet {
                     None
                 }
             })
+            .collect::<HashSet<(&String, &str)>>()
+            .into_iter()
             .collect()
     }
 
