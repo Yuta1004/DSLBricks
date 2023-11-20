@@ -3,7 +3,6 @@ use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
 
-#[derive(Debug)]
 struct MyDSL;
 
 impl DSLGeneratable for MyDSL {
