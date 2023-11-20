@@ -15,6 +15,7 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 /// - Calculatable
+#[derive(Clone)]
 #[impl_constraints(StaticValue, Calculatable)]
 pub struct Integer;
 
@@ -44,6 +45,7 @@ impl DSLGeneratable for Integer {
 ///
 /// - StaticValue
 /// - Calculatable
+#[derive(Clone)]
 #[impl_constraints(StaticValue, Calculatable)]
 pub struct Float;
 
@@ -72,6 +74,7 @@ impl DSLGeneratable for Float {
 /// ## 性質
 ///
 /// - StaticValue
+#[derive(Clone)]
 #[impl_constraints(StaticValue)]
 pub struct String;
 

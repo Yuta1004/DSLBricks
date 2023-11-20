@@ -18,6 +18,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
+#[derive(Clone)]
 #[impl_constraints(Calculatable)]
 pub struct Arithmetic {
     units: Vec<Rule>,
