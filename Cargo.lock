@@ -73,21 +73,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "630be753d4e58660abd17930c71b647fe46c27ea6b63cc59e1e3851406972e42"
 
 [[package]]
-name = "blockdsl_lib"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "compiler",
- "serde",
- "thiserror",
-]
-
-[[package]]
 name = "calc_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "compiler",
+ "library",
  "thiserror",
 ]
 
@@ -183,7 +174,28 @@ name = "designer_constraint_ctime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "designer_constraint_ctime_declarative",
+ "designer_constraint_ctime_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_constraint_ctime_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "designer_design",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_constraint_ctime_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 
@@ -325,6 +337,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
 
 [[package]]
+name = "library"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "compiler",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "linux-raw-sys"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -335,6 +357,16 @@ name = "memchr"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
+
+[[package]]
+name = "minic_interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "compiler",
+ "library",
+ "thiserror",
+]
 
 [[package]]
 name = "once_cell"

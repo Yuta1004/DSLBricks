@@ -1,7 +1,9 @@
-#[derive(Debug)]
+use std::collections::HashSet;
+
+#[derive(PartialEq, Eq)]
 pub enum SyntaxElem {
     Term(String, &'static str),
-    NonTerm(&'static str),
+    NonTerm(String),
 }
 
 impl Into<String> for &SyntaxElem {
@@ -13,21 +15,21 @@ impl Into<String> for &SyntaxElem {
     }
 }
 
-#[derive(Debug)]
+#[derive(PartialEq, Eq)]
 pub struct Rule {
     pub(crate) name: String,
-    pub(crate) left: &'static str,
+    pub(crate) left: String,
     pub(crate) rights: Vec<SyntaxElem>,
 }
 
-impl<T> From<(T, &'static str, Vec<SyntaxElem>)> for Rule
+impl<T> From<(T, T, Vec<SyntaxElem>)> for Rule
 where
     T: Into<String>,
 {
-    fn from((name, left, rights): (T, &'static str, Vec<SyntaxElem>)) -> Self {
+    fn from((name, left, rights): (T, T, Vec<SyntaxElem>)) -> Self {
         Rule {
             name: name.into(),
-            left,
+            left: left.into(),
             rights,
         }
     }
@@ -36,7 +38,7 @@ where
 impl Into<String> for &Rule {
     fn into(self) -> String {
         let name = &self.name;
-        let left = self.left;
+        let left = &self.left;
         let rights = self
             .rights
             .iter()
@@ -48,7 +50,7 @@ impl Into<String> for &Rule {
     }
 }
 
-#[derive(Debug)]
+#[derive(PartialEq, Eq)]
 pub struct RuleSet(pub(crate) Vec<Rule>);
 
 impl From<Vec<Rule>> for RuleSet {
@@ -80,6 +82,8 @@ impl RuleSet {
                     None
                 }
             })
+            .collect::<HashSet<(&String, &str)>>()
+            .into_iter()
             .collect()
     }
 

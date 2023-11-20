@@ -5,11 +5,11 @@ macro_rules! declare_constraints {
     };
 
     (@call new $constraint:ident) => {
-        pub trait $constraint {}
+        pub trait $constraint: DSLGeneratable {}
     };
 
     (@call compose $target:ident $($constraint:ident)*) => {
-        pub trait $target {}
+        pub trait $target: DSLGeneratable {}
 
         impl <T: DSLGeneratable> $target for T
         where

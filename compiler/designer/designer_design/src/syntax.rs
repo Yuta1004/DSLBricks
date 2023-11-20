@@ -52,7 +52,7 @@ fn collect_tokens(context: &mut CheckContext, uc_ruleset: &unchecked::RuleSet) -
 fn mark(context: &mut CheckContext, uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
     let mut marked_uc_ruleset = vec![];
     for rule in uc_ruleset.0 {
-        let id = format!("{}_{}", rule.left, context.issue_rule_id());
+        let id = format!("rule_{}", context.issue_rule_id());
         marked_uc_ruleset.push((id, rule));
     }
 
@@ -60,17 +60,19 @@ fn mark(context: &mut CheckContext, uc_ruleset: unchecked::RuleSet) -> Vec<(Stri
 }
 
 fn convert(marked_uc_rules: Vec<(String, unchecked::Rule)>, token_set: HashMap<&'static str, String>) -> anyhow::Result<checked::RuleSet> {
-    let convert = |rule: unchecked::SyntaxElem| {
+    let convert = |namespace: &str, rule: unchecked::SyntaxElem| {
         match rule {
             unchecked::SyntaxElem::Term(regex) => {
                 let id = token_set.get(regex).unwrap();
                 checked::SyntaxElem::Term(id.clone(), regex)
             }
             unchecked::SyntaxElem::NonTerm(left) => {
+                let left = format!("{}.{}", namespace, left);
                 checked::SyntaxElem::NonTerm(left)
             }
             unchecked::SyntaxElem::Hole(design) => {
-                checked::SyntaxElem::NonTerm(design.start())
+                let left = format!("{}.{}", design.name(), design.start());
+                checked::SyntaxElem::NonTerm(left)
             }
         }
     };
@@ -78,11 +80,11 @@ fn convert(marked_uc_rules: Vec<(String, unchecked::Rule)>, token_set: HashMap<&
     let ruleset = marked_uc_rules
         .into_iter()
         .map(|(id, rule)| {
-            let left = rule.left;
+            let left = format!("{}.{}", rule.namespace, rule.left);
             let rights = rule
                 .rights
                 .into_iter()
-                .map(convert)
+                .map(|selem| convert(rule.namespace, selem))
                 .collect();
             checked::Rule::from((id, left, rights))
         })
@@ -100,16 +102,16 @@ mod test {
     fn check_simple() {
         let except: checked::RuleSet = vec![
             checked::Rule::from((
-                "top_0",
-                "top",
+                "rule_0",
+                ".top",
                 vec![
-                    checked::SyntaxElem::NonTerm("top"),
+                    checked::SyntaxElem::NonTerm(".top".to_string()),
                     checked::SyntaxElem::Term("token_1".to_string(), "A"),
                 ],
             )),
             checked::Rule::from((
-                "top_1",
-                "top",
+                "rule_1",
+                ".top",
                 vec![checked::SyntaxElem::Term("token_1".to_string(), "A")]
             )),
         ]
@@ -128,6 +130,6 @@ mod test {
         .into();
         let ruleset = super::check(uc_ruleset).unwrap();
 
-        assert_eq!(format!("{:?}", except), format!("{:?}", ruleset),)
+        assert!(except == ruleset);
     }
 }

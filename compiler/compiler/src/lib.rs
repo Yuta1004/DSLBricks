@@ -7,7 +7,7 @@ pub mod executor {
 
 #[macro_export]
 macro_rules! build_dsl {
-    ($dsl:ident) => {{
+    ($dsl:expr) => {{
         use std::path::Path;
         use std::{env, fs};
 
@@ -15,13 +15,13 @@ macro_rules! build_dsl {
 
         let dsl_code = rust($dsl).unwrap();
         let out_dir = env::var_os("OUT_DIR").unwrap();
-        let dst_path = Path::new(&out_dir).join(concat!(stringify!($dsl), ".rs"));
+        let dst_path = Path::new(&out_dir).join("DSL.rs");
         fs::write(&dst_path, dsl_code).unwrap();
 
         println!("cargo:rerun-if-changed=build.rs");
     }};
 
-    ($dsl:ident, $genfunc:ident, $file:expr) => {{
+    ($dsl:expr, $genfunc:ident, $file:expr) => {{
         use std::path::Path;
         use std::{env, fs};
 
@@ -36,7 +36,7 @@ macro_rules! build_dsl {
 
 #[macro_export]
 macro_rules! load_dsl {
-    ($dsl:ident) => {
-        include!(concat!(env!("OUT_DIR"), "/", stringify!($dsl), ".rs"));
+    () => {
+        include!(concat!(env!("OUT_DIR"), "/DSL.rs"));
     };
 }

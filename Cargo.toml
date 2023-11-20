@@ -9,6 +9,7 @@ members = [
 
     # Examples
     "examples/calc_interpreter",
+    "examples/minic_interpreter",
 
     # Tools
     # "tools/...",

@@ -1,31 +1,59 @@
+use std::rc::Rc;
 use std::collections::HashSet;
 
 use crate::DSLGeneratable;
 
-#[derive(Debug)]
+#[derive(Clone)]
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
-    Hole(Box<dyn DSLGeneratable>),
+    Hole(Rc<Box<dyn DSLGeneratable>>),
 }
 
-#[derive(Debug)]
+#[derive(Clone)]
 pub struct Rule {
+    pub(crate) namespace: &'static str,
     pub(crate) left: &'static str,
     pub(crate) rights: Vec<SyntaxElem>,
 }
 
 impl From<(&'static str, Vec<SyntaxElem>)> for Rule {
     fn from((left, rights): (&'static str, Vec<SyntaxElem>)) -> Self {
-        Rule { left, rights }
+        Rule {
+            namespace: "",
+            left,
+            rights
+        }
     }
 }
 
-#[derive(Debug)]
+impl From<(&'static str, Rule)> for Rule {
+    fn from((namespace, rule): (&'static str, Rule)) -> Self {
+        Rule {
+            namespace,
+            left: rule.left,
+            rights: rule.rights,
+        }
+    }
+}
+
+#[derive(Clone)]
 pub struct RuleSet(pub(crate) Vec<Rule>);
 
 impl From<Vec<Rule>> for RuleSet {
     fn from(rules: Vec<Rule>) -> Self {
+        RuleSet(rules)
+    }
+}
+
+impl From<(&'static str, RuleSet)> for RuleSet {
+    fn from((namespace, ruleset): (&'static str, RuleSet)) -> Self {
+        let rules = ruleset
+            .0
+            .into_iter()
+            .map(|rule| Rule::from((namespace, rule)))
+            .collect();
+
         RuleSet(rules)
     }
 }
@@ -45,11 +73,11 @@ impl RuleSet {
                             None
                         }
                     })
-                    .collect::<Vec<&Box<dyn DSLGeneratable>>>()
+                    .collect::<Vec<&Rc<Box<dyn DSLGeneratable>>>>()
             })
-            .collect::<HashSet<&Box<dyn DSLGeneratable>>>()
+            .collect::<HashSet<&Rc<Box<dyn DSLGeneratable>>>>()
             .into_iter()
-            .flat_map(|design| design.design().expand().0)
+            .flat_map(|design| design.fully_named_design().expand().0)
             .collect::<Vec<Rule>>();
 
         self.0.extend(expanded);
