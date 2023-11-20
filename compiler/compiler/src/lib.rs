@@ -7,7 +7,7 @@ pub mod executor {
 
 #[macro_export]
 macro_rules! build_dsl {
-    ($dsl:ident) => {{
+    ($dsl:expr) => {{
         use std::path::Path;
         use std::{env, fs};
 
@@ -21,7 +21,7 @@ macro_rules! build_dsl {
         println!("cargo:rerun-if-changed=build.rs");
     }};
 
-    ($dsl:ident, $genfunc:ident, $file:expr) => {{
+    ($dsl:expr, $genfunc:ident, $file:expr) => {{
         use std::path::Path;
         use std::{env, fs};
 
