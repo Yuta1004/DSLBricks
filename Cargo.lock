@@ -174,7 +174,28 @@ name = "designer_constraint_ctime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "designer_constraint_ctime_declarative",
+ "designer_constraint_ctime_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_constraint_ctime_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "designer_design",
+ "thiserror",
+]
+
+[[package]]
+name = "designer_constraint_ctime_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 

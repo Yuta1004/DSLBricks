@@ -1,3 +1,4 @@
+use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
@@ -15,6 +16,7 @@ use crate::constraints::ctime::*;
 /// - StaticValue
 /// - Calculatable
 #[derive(Debug)]
+#[impl_constraints(StaticValue, Calculatable)]
 pub struct Integer;
 
 impl DSLGeneratable for Integer {
@@ -33,10 +35,6 @@ impl DSLGeneratable for Integer {
     }
 }
 
-impl StaticValue for Integer {}
-
-impl Calculatable for Integer {}
-
 /// # 小数
 ///
 /// ## 概要
@@ -48,6 +46,7 @@ impl Calculatable for Integer {}
 /// - StaticValue
 /// - Calculatable
 #[derive(Debug)]
+#[impl_constraints(StaticValue, Calculatable)]
 pub struct Float;
 
 impl DSLGeneratable for Float {
@@ -66,10 +65,6 @@ impl DSLGeneratable for Float {
     }
 }
 
-impl StaticValue for Float {}
-
-impl Calculatable for Float {}
-
 /// # 文字列
 ///
 /// ## 概要
@@ -80,6 +75,7 @@ impl Calculatable for Float {}
 ///
 /// - StaticValue
 #[derive(Debug)]
+#[impl_constraints(StaticValue)]
 pub struct String;
 
 impl DSLGeneratable for String {
@@ -98,8 +94,6 @@ impl DSLGeneratable for String {
     }
 }
 
-impl StaticValue for String {}
-
 /// # 真理値
 ///
 /// ## 概要
@@ -110,6 +104,7 @@ impl StaticValue for String {}
 ///
 /// - StaticValue
 #[derive(Debug)]
+#[impl_constraints(StaticValue)]
 pub struct Boolean;
 
 impl DSLGeneratable for Boolean {
@@ -127,5 +122,3 @@ impl DSLGeneratable for Boolean {
         ].into()
     }
 }
-
-impl StaticValue for Boolean {}
