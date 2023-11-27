@@ -31,5 +31,6 @@ fn main() {
             .add_stmt(if_stmt)
             .add_stmt(block_stmt)
             .add_stmt(expr_stmt)
+            .unwrap()
     }
 }

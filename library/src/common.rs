@@ -13,4 +13,8 @@ where
             Rc::from_raw(Rc::into_raw(self))
         }
     }
+
+    fn unwrap(self: Rc<Self>) -> Self {
+        Rc::into_inner(self).unwrap()
+    }
 }

@@ -8,5 +8,6 @@ fn main() {
         Arithmetic::new()
             .add_unit(Integer::new())
             .add_unit(Float::new())
+            .unwrap()
     }
 }

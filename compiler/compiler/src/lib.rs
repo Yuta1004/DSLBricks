@@ -14,8 +14,7 @@ macro_rules! build_dsl {
 
         use $crate::designer::codegen::rust;
 
-        let dsl = Rc::into_inner($dsl).unwrap();
-        let dsl_code = rust(dsl).unwrap();
+        let dsl_code = rust($dsl).unwrap();
         let out_dir = env::var_os("OUT_DIR").unwrap();
         let dst_path = Path::new(&out_dir).join("DSL.rs");
         fs::write(&dst_path, dsl_code).unwrap();
