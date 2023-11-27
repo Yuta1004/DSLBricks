@@ -12,7 +12,7 @@ macro_rules! rule {
     };
 
     (@call [$design:ident]) => {
-        SyntaxElem::Hole(Rc::new(Box::new($design)))
+        SyntaxElem::Hole(Rc::new($design))
     };
 
     (@call [{$design:expr}]) => {
