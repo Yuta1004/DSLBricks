@@ -8,7 +8,7 @@ where
 {
     fn new() -> Rc<Self>;
 
-    fn into(self: Rc<Self>) -> Rc<dyn DSLGeneratable> {
+    fn as_dyn(self: Rc<Self>) -> Rc<dyn DSLGeneratable> {
         unsafe {
             Rc::from_raw(Rc::into_raw(self))
         }

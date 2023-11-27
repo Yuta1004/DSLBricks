@@ -39,7 +39,7 @@ impl Block {
     where
         T: DSLBlock + Executable + 'static,
     {
-        self.stmts.borrow_mut().push(rule! { stmt -> [{stmt.into()}] });
+        self.stmts.borrow_mut().push(rule! { stmt -> [{stmt.as_dyn()}] });
         self
     }
 }
@@ -99,7 +99,7 @@ impl ExprStatement {
         T: DSLBlock + Calculatable + 'static,
     {
         Rc::new(ExprStatement {
-            expr: Some(rule! { stmt -> [{expr.into()}] ";" })
+            expr: Some(rule! { stmt -> [{expr.as_dyn()}] ";" })
         })
     }
 }
@@ -153,7 +153,7 @@ impl If {
         T: DSLBlock + Calculatable + 'static,
     {
         Rc::new(If {
-            cond: Some(rule! { cond -> [{cond.into()}] }),
+            cond: Some(rule! { cond -> [{cond.as_dyn()}] }),
             stmts: RefCell::clone(&self.stmts),
         })
     }
@@ -162,7 +162,7 @@ impl If {
     where
         T: DSLBlock + Executable + 'static,
     {
-        self.stmts.borrow_mut().push(rule! { stmt -> [{stmt.into()}] });
+        self.stmts.borrow_mut().push(rule! { stmt -> [{stmt.as_dyn()}] });
         self
     }
 }
