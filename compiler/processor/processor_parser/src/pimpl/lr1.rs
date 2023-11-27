@@ -3,9 +3,9 @@ use std::hash::Hash;
 use std::marker::PhantomData;
 
 use itertools::Itertools;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use lexer::{TokenSet, LexIterator};
+use lexer::{LexIterator, TokenSet};
 use util_macros::cfg_where;
 
 use super::super::rule::{Rule, RuleElem, RuleSet};
@@ -151,10 +151,7 @@ where
         })
     }
 
-    fn parse<'a, 'b>(
-        &self,
-        lexer: &'a mut impl LexIterator<'b, T>,
-    ) -> anyhow::Result<Box<A>> {
+    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<A>> {
         let mut stack = vec![0];
         let mut result = vec![];
         loop {
@@ -162,7 +159,10 @@ where
             loop {
                 let top = stack[stack.len() - 1];
                 let action = match input {
-                    Some(token) => (self.action_table[top].get(&token.kind).unwrap(), Some(token.raw)),
+                    Some(token) => (
+                        self.action_table[top].get(&token.kind).unwrap(),
+                        Some(token.raw),
+                    ),
                     None => (&self.eof_action_table[top], None),
                 };
                 match action.0 {
@@ -453,7 +453,7 @@ impl<'a, T: TokenSet> LRItem<'a, T> {
 
 #[cfg(test)]
 mod test {
-    use serde::{Serialize, Deserialize};
+    use serde::{Deserialize, Serialize};
 
     use lexer::{Lexer, TokenSet};
 
@@ -487,15 +487,18 @@ mod test {
 
     impl TokenSet for TestToken {
         fn iter() -> Box<dyn Iterator<Item = Self>> {
-            Box::new(vec![
+            Box::new(
+                vec![
                     TestToken::Num,
-                TestToken::Plus,
-                TestToken::Minus,
-                TestToken::Mul,
-                TestToken::Div,
-                TestToken::BracketA,
-                TestToken::BracketB,
-            ].into_iter())
+                    TestToken::Plus,
+                    TestToken::Minus,
+                    TestToken::Mul,
+                    TestToken::Div,
+                    TestToken::BracketA,
+                    TestToken::BracketB,
+                ]
+                .into_iter(),
+            )
         }
 
         fn to_regex(token: &Self) -> &'static str {
@@ -531,16 +534,19 @@ mod test {
         type Parser = LR1<VoidSemantics, TestSyntax, TestToken>;
 
         fn iter() -> Box<dyn Iterator<Item = Self>> {
-            Box::new(vec![
-                TestSyntax::ExprPlus,
-                TestSyntax::ExprMinus,
-                TestSyntax::Expr2Term,
-                TestSyntax::TermMul,
-                TestSyntax::TermDiv,
-                TestSyntax::Term2Fact,
-                TestSyntax::Fact2Expr,
-                TestSyntax::Fact2Num,
-            ].into_iter())
+            Box::new(
+                vec![
+                    TestSyntax::ExprPlus,
+                    TestSyntax::ExprMinus,
+                    TestSyntax::Expr2Term,
+                    TestSyntax::TermMul,
+                    TestSyntax::TermDiv,
+                    TestSyntax::Term2Fact,
+                    TestSyntax::Fact2Expr,
+                    TestSyntax::Fact2Num,
+                ]
+                .into_iter(),
+            )
         }
 
         fn to_rule(&self) -> Rule<TestToken> {

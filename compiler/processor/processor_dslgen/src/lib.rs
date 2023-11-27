@@ -1,7 +1,7 @@
 #[cfg(feature = "with-serde")]
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use lexer::{Lexer, TokenSet, LexIterator};
+use lexer::{LexIterator, Lexer, TokenSet};
 use parser::syntax::{ASyntax, Syntax};
 use parser::Parser;
 

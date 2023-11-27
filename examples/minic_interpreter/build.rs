@@ -1,32 +1,34 @@
+use std::rc::Rc;
+
 use compiler::build_dsl;
-use library::block::expression::util::Arithmetic;
-use library::block::primitive::{Integer, Float};
-use library::block::statement::c::{Block, ExprStatement, If};
-use library::block::statement::StatementSet;
+use library::expression::util::Arithmetic;
+use library::prelude::*;
+use library::primitive::{Float, Integer};
+use library::statement::c::{Block, ExprStatement, If};
+use library::statement::StatementSet;
 
 fn main() {
     // 算術式
     let arithmetic = Arithmetic::new()
-        .add_unit(Integer)
-        .add_unit(Float);
+        .add_unit(Integer::new())
+        .add_unit(Float::new());
 
     // 式-文
-    let expr_stmt = ExprStatement::new()
-        .set_expr(arithmetic.clone());
+    let expr_stmt = ExprStatement::new().set_expr(Rc::clone(&arithmetic));
 
     // ブロック
-    let block_stmt = Block::new()
-        .add_stmt(expr_stmt.clone());
+    let block_stmt = Block::new().add_stmt(Rc::clone(&expr_stmt));
 
     // if 文
     let if_stmt = If::new()
-        .set_cond(arithmetic)
-        .add_stmt(block_stmt.clone());
+        .set_cond(Rc::clone(&arithmetic))
+        .add_stmt(Rc::clone(&block_stmt));
 
     build_dsl! {
         StatementSet::new()
             .add_stmt(if_stmt)
             .add_stmt(block_stmt)
             .add_stmt(expr_stmt)
+            .unwrap()
     }
 }

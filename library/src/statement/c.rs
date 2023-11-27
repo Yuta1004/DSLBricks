@@ -1,8 +1,12 @@
+use std::cell::RefCell;
+use std::rc::Rc;
+
 use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
+use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
 /// # ブロック
@@ -17,24 +21,27 @@ use crate::constraints::ctime::*;
 ///
 /// ## 性質
 /// - Executable
-#[derive(Clone)]
 #[impl_constraints(Executable)]
 pub struct Block {
-    stmts: Vec<Rule>,
+    stmts: RefCell<Vec<Rule>>,
+}
+
+impl DSLBlock for Block {
+    fn new() -> Rc<Self> {
+        Rc::new(Block {
+            stmts: RefCell::new(vec![]),
+        })
+    }
 }
 
 impl Block {
-    pub fn new() -> Block {
-        Block {
-            stmts: vec![],
-        }
-    }
-
-    pub fn add_stmt<T>(mut self, stmt: T) -> Block
+    pub fn add_stmt<T>(self: Rc<Self>, stmt: Rc<T>) -> Rc<Self>
     where
-        T: Executable + 'static,
+        T: DSLBlock + Executable + 'static,
     {
-        self.stmts.push(rule! { stmt -> [stmt] });
+        self.stmts
+            .borrow_mut()
+            .push(rule! { stmt -> [{stmt.as_dyn()}] });
         self
     }
 }
@@ -49,7 +56,7 @@ impl DSLGeneratable for Block {
     }
 
     fn design(&self) -> RuleSet {
-        assert!(self.stmts.len() > 0);
+        assert!(self.stmts.borrow().len() > 0);
 
         let mut base = vec![
             rule! { block -> r"\{" stmts r"\}" },
@@ -57,7 +64,7 @@ impl DSLGeneratable for Block {
             rule! { stmts -> stmts stmt },
             rule! { stmts -> stmt },
         ];
-        base.extend(self.stmts.clone());
+        base.extend(self.stmts.borrow().clone());
 
         base.into()
     }
@@ -75,25 +82,25 @@ impl DSLGeneratable for Block {
 ///
 /// ## 性質
 /// - Executable
-#[derive(Clone)]
 #[impl_constraints(Executable)]
 pub struct ExprStatement {
     expr: Option<Rule>,
 }
 
-impl ExprStatement {
-    pub fn new() -> ExprStatement {
-        ExprStatement {
-            expr: None,
-        }
+impl DSLBlock for ExprStatement {
+    fn new() -> Rc<Self> {
+        Rc::new(ExprStatement { expr: None })
     }
+}
 
-    pub fn set_expr<T>(mut self, expr: T) -> ExprStatement
+impl ExprStatement {
+    pub fn set_expr<T>(self: Rc<Self>, expr: Rc<T>) -> Rc<Self>
     where
-        T: Calculatable + 'static,
+        T: DSLBlock + Calculatable + 'static,
     {
-        self.expr = Some(rule! { stmt -> [expr] ";" });
-        self
+        Rc::new(ExprStatement {
+            expr: Some(rule! { stmt -> [{expr.as_dyn()}] ";" }),
+        })
     }
 }
 
@@ -125,34 +132,39 @@ impl DSLGeneratable for ExprStatement {
 ///
 /// ## 性質
 /// - Executable
-#[derive(Clone)]
 #[impl_constraints(Executable)]
 pub struct If {
     cond: Option<Rule>,
-    stmts: Vec<Rule>,
+    stmts: RefCell<Vec<Rule>>,
+}
+
+impl DSLBlock for If {
+    fn new() -> Rc<Self> {
+        Rc::new(If {
+            cond: None,
+            stmts: RefCell::new(vec![]),
+        })
+    }
 }
 
 impl If {
-    pub fn new() -> If {
-        If {
-            cond: None,
-            stmts: vec![],
-        }
+    pub fn set_cond<T>(self: Rc<Self>, cond: Rc<T>) -> Rc<Self>
+    where
+        T: DSLBlock + Calculatable + 'static,
+    {
+        Rc::new(If {
+            cond: Some(rule! { cond -> [{cond.as_dyn()}] }),
+            stmts: RefCell::clone(&self.stmts),
+        })
     }
 
-    pub fn set_cond<T>(mut self, cond: T) -> If
+    pub fn add_stmt<T>(self: Rc<Self>, stmt: Rc<T>) -> Rc<Self>
     where
-        T: Calculatable + 'static,
+        T: DSLBlock + Executable + 'static,
     {
-        self.cond = Some(rule! { cond -> [cond] });
-        self
-    }
-
-    pub fn add_stmt<T>(mut self, stmt: T) -> If
-    where
-        T: Executable + 'static,
-    {
-        self.stmts.push(rule! { stmt -> [stmt] });
+        self.stmts
+            .borrow_mut()
+            .push(rule! { stmt -> [{stmt.as_dyn()}] });
         self
     }
 }
@@ -168,7 +180,7 @@ impl DSLGeneratable for If {
 
     fn design(&self) -> RuleSet {
         assert!(self.cond.is_some());
-        assert!(self.stmts.len() > 0);
+        assert!(self.stmts.borrow().len() > 0);
 
         let mut base = vec![
             rule! { if -> "if" r"\(" cond r"\)" stmt },
@@ -177,7 +189,7 @@ impl DSLGeneratable for If {
             rule! { else -> "else" stmt },
         ];
         base.push(self.cond.clone().unwrap());
-        base.extend(self.stmts.clone());
+        base.extend(self.stmts.borrow().clone());
 
         base.into()
     }

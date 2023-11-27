@@ -1,8 +1,11 @@
+use std::rc::Rc;
+
 use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
 
+use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
 /// # 整数
@@ -15,9 +18,14 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 /// - Calculatable
-#[derive(Clone)]
 #[impl_constraints(StaticValue, Calculatable)]
 pub struct Integer;
+
+impl DSLBlock for Integer {
+    fn new() -> Rc<Integer> {
+        Rc::new(Integer)
+    }
+}
 
 impl DSLGeneratable for Integer {
     fn name(&self) -> &'static str {
@@ -29,9 +37,7 @@ impl DSLGeneratable for Integer {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ integer -> r"(-?[1-9][0-9]*|0)" }
-        ].into()
+        vec![rule! { integer -> r"(-?[1-9][0-9]*|0)" }].into()
     }
 }
 
@@ -45,9 +51,14 @@ impl DSLGeneratable for Integer {
 ///
 /// - StaticValue
 /// - Calculatable
-#[derive(Clone)]
 #[impl_constraints(StaticValue, Calculatable)]
 pub struct Float;
+
+impl DSLBlock for Float {
+    fn new() -> Rc<Self> {
+        Rc::new(Float)
+    }
+}
 
 impl DSLGeneratable for Float {
     fn name(&self) -> &'static str {
@@ -59,9 +70,7 @@ impl DSLGeneratable for Float {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }
-        ].into()
+        vec![rule! { float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }].into()
     }
 }
 
@@ -74,9 +83,14 @@ impl DSLGeneratable for Float {
 /// ## 性質
 ///
 /// - StaticValue
-#[derive(Clone)]
 #[impl_constraints(StaticValue)]
 pub struct String;
+
+impl DSLBlock for String {
+    fn new() -> Rc<Self> {
+        Rc::new(String)
+    }
+}
 
 impl DSLGeneratable for String {
     fn name(&self) -> &'static str {
@@ -88,9 +102,7 @@ impl DSLGeneratable for String {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ string -> r#"".*""# }
-        ].into()
+        vec![rule! { string -> r#"".*""# }].into()
     }
 }
 
@@ -103,9 +115,14 @@ impl DSLGeneratable for String {
 /// ## 性質
 ///
 /// - StaticValue
-#[derive(Debug)]
 #[impl_constraints(StaticValue)]
 pub struct Boolean;
+
+impl DSLBlock for Boolean {
+    fn new() -> Rc<Self> {
+        Rc::new(Boolean)
+    }
+}
 
 impl DSLGeneratable for Boolean {
     fn name(&self) -> &'static str {
@@ -117,8 +134,6 @@ impl DSLGeneratable for Boolean {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ boolean -> r"(true|false)" }
-        ].into()
+        vec![rule! { boolean -> r"(true|false)" }].into()
     }
 }

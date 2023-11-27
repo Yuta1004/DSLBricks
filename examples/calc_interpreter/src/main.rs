@@ -1,5 +1,5 @@
-use compiler::load_dsl;
 use compiler::executor::Interpreter;
+use compiler::load_dsl;
 
 load_dsl!();
 

@@ -43,9 +43,7 @@ pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
 fn gen_token_code(token_defs: &Vec<(&String, &str)>) -> anyhow::Result<String> {
     let token_variants_code = token_defs
         .iter()
-        .map(|(id, regex)| {
-            format!("#[token(regex=r\"{}\")]\n{},", regex, id)
-        })
+        .map(|(id, regex)| format!("#[token(regex=r\"{}\")]\n{},", regex, id))
         .collect::<Vec<String>>()
         .join("\n");
     Ok(token_variants_code)

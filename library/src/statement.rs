@@ -1,10 +1,13 @@
 pub mod c;
 
+use std::cell::RefCell;
+
 use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
+use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
 /// # 集合(文)
@@ -22,21 +25,25 @@ use crate::constraints::ctime::*;
 /// - Executable
 #[impl_constraints(Executable)]
 pub struct StatementSet {
-    stmts: Vec<Rule>,
+    stmts: RefCell<Vec<Rule>>,
+}
+
+impl DSLBlock for StatementSet {
+    fn new() -> Rc<Self> {
+        Rc::new(StatementSet {
+            stmts: RefCell::new(vec![]),
+        })
+    }
 }
 
 impl StatementSet {
-    pub fn new() -> StatementSet {
-        StatementSet {
-            stmts: vec![],
-        }
-    }
-
-    pub fn add_stmt<T>(mut self, stmt: T) -> StatementSet
+    pub fn add_stmt<T>(self: Rc<Self>, stmt: Rc<T>) -> Rc<Self>
     where
-        T: Executable + 'static,
+        T: DSLBlock + Executable,
     {
-        self.stmts.push(rule! { stmts -> [stmt] });
+        self.stmts
+            .borrow_mut()
+            .push(rule! { stmts -> [{stmt.as_dyn()}] });
         self
     }
 }
@@ -51,6 +58,6 @@ impl DSLGeneratable for StatementSet {
     }
 
     fn design(&self) -> RuleSet {
-        self.stmts.clone().into()
+        self.stmts.borrow().clone().into()
     }
 }

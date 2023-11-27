@@ -6,11 +6,11 @@ use std::fmt::Display;
 use std::marker::PhantomData;
 
 use anyhow::Error;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_json;
 use thiserror::Error;
 
-use lexer::{TokenSet, LexIterator};
+use lexer::{LexIterator, TokenSet};
 
 use pimpl::ParserImpl;
 pub use pimpl::LR1;
@@ -68,10 +68,7 @@ where
         })
     }
 
-    pub fn parse<'a, 'b>(
-        &self,
-        lexer: &'a mut impl LexIterator<'b, T>,
-    ) -> anyhow::Result<Box<A>> {
+    pub fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<A>> {
         self.p_impl.parse(lexer)
     }
 }

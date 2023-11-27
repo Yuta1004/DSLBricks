@@ -1,10 +1,13 @@
 pub mod util;
 
+use std::cell::RefCell;
+
 use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
+use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
 /// # 集合(式)
@@ -20,24 +23,27 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
-#[derive(Clone)]
 #[impl_constraints(Calculatable)]
 pub struct ExpressionSet {
-    exprs: Vec<Rule>,
+    exprs: RefCell<Vec<Rule>>,
+}
+
+impl DSLBlock for ExpressionSet {
+    fn new() -> Rc<Self> {
+        Rc::new(ExpressionSet {
+            exprs: RefCell::new(vec![]),
+        })
+    }
 }
 
 impl ExpressionSet {
-    pub fn new() -> ExpressionSet {
-        ExpressionSet {
-            exprs: vec![],
-        }
-    }
-
-    pub fn add_expr<T>(mut self, expr: T) -> ExpressionSet
+    pub fn add_expr<T>(self: Rc<Self>, expr: Rc<T>) -> Rc<Self>
     where
-        T: Calculatable + 'static,
+        T: DSLBlock + Calculatable,
     {
-        self.exprs.push(rule! { exprs -> [expr] });
+        self.exprs
+            .borrow_mut()
+            .push(rule! { exprs -> [{expr.as_dyn()}] });
         self
     }
 }
@@ -52,6 +58,6 @@ impl DSLGeneratable for ExpressionSet {
     }
 
     fn design(&self) -> RuleSet {
-        self.exprs.clone().into()
+        self.exprs.borrow().clone().into()
     }
 }

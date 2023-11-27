@@ -35,7 +35,10 @@ pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet>
     convert(marked_uc_rules, token_set)
 }
 
-fn collect_tokens(context: &mut CheckContext, uc_ruleset: &unchecked::RuleSet) -> HashMap<&'static str, String> {
+fn collect_tokens(
+    context: &mut CheckContext,
+    uc_ruleset: &unchecked::RuleSet,
+) -> HashMap<&'static str, String> {
     let mut token_set = HashMap::new();
     for rule in uc_ruleset.0.iter() {
         for selem in rule.rights.iter() {
@@ -49,7 +52,10 @@ fn collect_tokens(context: &mut CheckContext, uc_ruleset: &unchecked::RuleSet) -
     token_set
 }
 
-fn mark(context: &mut CheckContext, uc_ruleset: unchecked::RuleSet) -> Vec<(String, unchecked::Rule)> {
+fn mark(
+    context: &mut CheckContext,
+    uc_ruleset: unchecked::RuleSet,
+) -> Vec<(String, unchecked::Rule)> {
     let mut marked_uc_ruleset = vec![];
     for rule in uc_ruleset.0 {
         let id = format!("rule_{}", context.issue_rule_id());
@@ -59,21 +65,22 @@ fn mark(context: &mut CheckContext, uc_ruleset: unchecked::RuleSet) -> Vec<(Stri
     marked_uc_ruleset
 }
 
-fn convert(marked_uc_rules: Vec<(String, unchecked::Rule)>, token_set: HashMap<&'static str, String>) -> anyhow::Result<checked::RuleSet> {
-    let convert = |namespace: &str, rule: unchecked::SyntaxElem| {
-        match rule {
-            unchecked::SyntaxElem::Term(regex) => {
-                let id = token_set.get(regex).unwrap();
-                checked::SyntaxElem::Term(id.clone(), regex)
-            }
-            unchecked::SyntaxElem::NonTerm(left) => {
-                let left = format!("{}.{}", namespace, left);
-                checked::SyntaxElem::NonTerm(left)
-            }
-            unchecked::SyntaxElem::Hole(design) => {
-                let left = format!("{}.{}", design.name(), design.start());
-                checked::SyntaxElem::NonTerm(left)
-            }
+fn convert(
+    marked_uc_rules: Vec<(String, unchecked::Rule)>,
+    token_set: HashMap<&'static str, String>,
+) -> anyhow::Result<checked::RuleSet> {
+    let convert = |namespace: &str, rule: unchecked::SyntaxElem| match rule {
+        unchecked::SyntaxElem::Term(regex) => {
+            let id = token_set.get(regex).unwrap();
+            checked::SyntaxElem::Term(id.clone(), regex)
+        }
+        unchecked::SyntaxElem::NonTerm(left) => {
+            let left = format!("{}.{}", namespace, left);
+            checked::SyntaxElem::NonTerm(left)
+        }
+        unchecked::SyntaxElem::Hole(design) => {
+            let left = format!("{}.{}", design.name(), design.start());
+            checked::SyntaxElem::NonTerm(left)
         }
     };
 
@@ -112,7 +119,7 @@ mod test {
             checked::Rule::from((
                 "rule_1",
                 ".top",
-                vec![checked::SyntaxElem::Term("token_1".to_string(), "A")]
+                vec![checked::SyntaxElem::Term("token_1".to_string(), "A")],
             )),
         ]
         .into();

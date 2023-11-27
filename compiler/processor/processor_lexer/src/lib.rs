@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use regex::{Regex, RegexSet};
 
 #[cfg(feature = "with-serde")]
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use util_macros::cfg_where;
 
@@ -28,7 +28,7 @@ pub struct Token<'a, T: TokenSet> {
     pub pos: (u32, u32),
 }
 
-impl <'a, T: TokenSet> Token<'a, T> {
+impl<'a, T: TokenSet> Token<'a, T> {
     fn new(kind: T, raw: &'a str, pos: (u32, u32)) -> Self {
         Token { kind, raw, pos }
     }
@@ -56,9 +56,7 @@ impl<T: TokenSet + 'static> Lexer<T> {
 
         let regex_istr = Regex::new(T::ignore_str()).unwrap();
 
-        LexDriver::<'a, T>::new(
-            regex_set, regex_map, regex_istr, input,
-        )
+        LexDriver::<'a, T>::new(regex_set, regex_map, regex_istr, input)
     }
 }
 
@@ -144,8 +142,13 @@ impl<'a, T: TokenSet> LexDriver<'a, T> {
         let (mut rows, mut cols) = self.pos;
         for c in acc_s.chars() {
             match c {
-                '\n' => { rows += 1; cols = 0; },
-                _ => { cols += 1; },
+                '\n' => {
+                    rows += 1;
+                    cols = 0;
+                }
+                _ => {
+                    cols += 1;
+                }
             }
         }
 
@@ -156,7 +159,7 @@ impl<'a, T: TokenSet> LexDriver<'a, T> {
 
 #[cfg(test)]
 mod test {
-    use serde::{Serialize, Deserialize};
+    use serde::{Deserialize, Serialize};
 
     use super::{Lexer, Token, TokenSet};
 
@@ -194,9 +197,7 @@ mod test {
         lexer
             .into_iter()
             .zip(expected.iter())
-            .all(|(a, b)| {
-                a.kind == b.0 && a.raw == b.1 && a.pos == b.2
-            })
+            .all(|(a, b)| a.kind == b.0 && a.raw == b.1 && a.pos == b.2)
     }
 
     #[test]
@@ -220,7 +221,10 @@ mod test {
         ];
         let lexer = gen_lexer();
 
-        assert!(check(&expected, lexer.lex("            10 +\n      20     ")));
+        assert!(check(
+            &expected,
+            lexer.lex("            10 +\n      20     ")
+        ));
     }
 
     #[test]

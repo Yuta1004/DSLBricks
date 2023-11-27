@@ -9,6 +9,7 @@ pub mod executor {
 macro_rules! build_dsl {
     ($dsl:expr) => {{
         use std::path::Path;
+        use std::rc::Rc;
         use std::{env, fs};
 
         use $crate::designer::codegen::rust;
