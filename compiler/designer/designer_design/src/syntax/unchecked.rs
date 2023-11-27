@@ -7,7 +7,7 @@ use crate::DSLGeneratable;
 pub enum SyntaxElem {
     Term(&'static str),
     NonTerm(&'static str),
-    Hole(Rc<Box<dyn DSLGeneratable>>),
+    Hole(Rc<dyn DSLGeneratable>),
 }
 
 #[derive(Clone)]
@@ -73,9 +73,9 @@ impl RuleSet {
                             None
                         }
                     })
-                    .collect::<Vec<&Rc<Box<dyn DSLGeneratable>>>>()
+                    .collect::<Vec<&Rc<dyn DSLGeneratable>>>()
             })
-            .collect::<HashSet<&Rc<Box<dyn DSLGeneratable>>>>()
+            .collect::<HashSet<&Rc<dyn DSLGeneratable>>>()
             .into_iter()
             .flat_map(|design| design.fully_named_design().expand().0)
             .collect::<Vec<Rule>>();

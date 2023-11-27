@@ -14,19 +14,19 @@ pub trait DSLGeneratable {
     }
 }
 
-impl Hash for Box<dyn DSLGeneratable> {
+impl Hash for dyn DSLGeneratable {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.name().hash(state)
     }
 }
 
-impl PartialEq for Box<dyn DSLGeneratable> {
+impl PartialEq for dyn DSLGeneratable {
     fn eq(&self, other: &Self) -> bool {
         self.name() == other.name()
     }
 }
 
-impl Eq for Box<dyn DSLGeneratable> {}
+impl Eq for dyn DSLGeneratable {}
 
 pub struct DSLDesign {
     pub name: &'static str,
