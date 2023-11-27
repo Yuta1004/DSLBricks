@@ -5,7 +5,7 @@ use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
-use crate::constraints::ctime::*;
+use crate::block::constraints::ctime::*;
 
 /// # 集合(文)
 ///
