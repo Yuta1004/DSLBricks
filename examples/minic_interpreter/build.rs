@@ -1,11 +1,11 @@
 use std::rc::Rc;
 
 use compiler::build_dsl;
-use library::block::prelude::*;
-use library::block::expression::util::Arithmetic;
-use library::block::primitive::{Integer, Float};
-use library::block::statement::c::{Block, ExprStatement, If};
-use library::block::statement::StatementSet;
+use library::prelude::*;
+use library::expression::util::Arithmetic;
+use library::primitive::{Integer, Float};
+use library::statement::c::{Block, ExprStatement, If};
+use library::statement::StatementSet;
 
 fn main() {
     // 算術式

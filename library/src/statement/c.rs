@@ -6,8 +6,8 @@ use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
-use crate::block::common::DSLBlock;
-use crate::block::constraints::ctime::*;
+use crate::common::DSLBlock;
+use crate::constraints::ctime::*;
 
 /// # ブロック
 ///
