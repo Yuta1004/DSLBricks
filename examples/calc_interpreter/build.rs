@@ -1,7 +1,7 @@
 use compiler::build_dsl;
-use library::prelude::*;
 use library::expression::util::Arithmetic;
-use library::primitive::{Integer, Float};
+use library::prelude::*;
+use library::primitive::{Float, Integer};
 
 fn main() {
     build_dsl! {

@@ -39,7 +39,9 @@ impl Block {
     where
         T: DSLBlock + Executable + 'static,
     {
-        self.stmts.borrow_mut().push(rule! { stmt -> [{stmt.as_dyn()}] });
+        self.stmts
+            .borrow_mut()
+            .push(rule! { stmt -> [{stmt.as_dyn()}] });
         self
     }
 }
@@ -87,9 +89,7 @@ pub struct ExprStatement {
 
 impl DSLBlock for ExprStatement {
     fn new() -> Rc<Self> {
-        Rc::new(ExprStatement {
-            expr: None,
-        })
+        Rc::new(ExprStatement { expr: None })
     }
 }
 
@@ -99,7 +99,7 @@ impl ExprStatement {
         T: DSLBlock + Calculatable + 'static,
     {
         Rc::new(ExprStatement {
-            expr: Some(rule! { stmt -> [{expr.as_dyn()}] ";" })
+            expr: Some(rule! { stmt -> [{expr.as_dyn()}] ";" }),
         })
     }
 }
@@ -162,7 +162,9 @@ impl If {
     where
         T: DSLBlock + Executable + 'static,
     {
-        self.stmts.borrow_mut().push(rule! { stmt -> [{stmt.as_dyn()}] });
+        self.stmts
+            .borrow_mut()
+            .push(rule! { stmt -> [{stmt.as_dyn()}] });
         self
     }
 }

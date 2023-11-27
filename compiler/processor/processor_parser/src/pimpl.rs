@@ -1,9 +1,9 @@
 mod lr1;
 
 #[cfg(feature = "with-serde")]
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-use lexer::{TokenSet, LexIterator};
+use lexer::{LexIterator, TokenSet};
 use util_macros::cfg_where;
 
 use super::syntax::{ASyntax, Syntax};
@@ -18,8 +18,5 @@ where
     T: TokenSet,
 {
     fn setup() -> anyhow::Result<Self>;
-    fn parse<'a, 'b>(
-        &self,
-        lexer: &'a mut impl LexIterator<'b, T>,
-    ) -> anyhow::Result<Box<A>>;
+    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<A>>;
 }

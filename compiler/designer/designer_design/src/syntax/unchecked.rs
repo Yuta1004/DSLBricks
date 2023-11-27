@@ -1,5 +1,5 @@
-use std::rc::Rc;
 use std::collections::HashSet;
+use std::rc::Rc;
 
 use crate::DSLGeneratable;
 
@@ -22,7 +22,7 @@ impl From<(&'static str, Vec<SyntaxElem>)> for Rule {
         Rule {
             namespace: "",
             left,
-            rights
+            rights,
         }
     }
 }
@@ -60,7 +60,7 @@ impl From<(&'static str, RuleSet)> for RuleSet {
 
 impl RuleSet {
     pub(crate) fn expand(mut self) -> RuleSet {
-        let expanded= self
+        let expanded = self
             .0
             .iter()
             .flat_map(|rule| {

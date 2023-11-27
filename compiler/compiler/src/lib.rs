@@ -8,8 +8,8 @@ pub mod executor {
 #[macro_export]
 macro_rules! build_dsl {
     ($dsl:expr) => {{
-        use std::rc::Rc;
         use std::path::Path;
+        use std::rc::Rc;
         use std::{env, fs};
 
         use $crate::designer::codegen::rust;

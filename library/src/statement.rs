@@ -41,7 +41,9 @@ impl StatementSet {
     where
         T: DSLBlock + Executable,
     {
-        self.stmts.borrow_mut().push(rule! { stmts -> [{stmt.as_dyn()}] });
+        self.stmts
+            .borrow_mut()
+            .push(rule! { stmts -> [{stmt.as_dyn()}] });
         self
     }
 }

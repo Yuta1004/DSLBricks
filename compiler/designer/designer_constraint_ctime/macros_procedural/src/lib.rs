@@ -10,7 +10,8 @@ pub fn impl_constraints(
     let args: TokenStream = args.into();
     let input = parse_macro_input!(input as DeriveInput);
 
-    let impls = args.to_string()
+    let impls = args
+        .to_string()
         .split(",")
         .map(|constraint| {
             let target = &input.ident;

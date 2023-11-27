@@ -1,9 +1,9 @@
 use std::rc::Rc;
 
 use compiler::build_dsl;
-use library::prelude::*;
 use library::expression::util::Arithmetic;
-use library::primitive::{Integer, Float};
+use library::prelude::*;
+use library::primitive::{Float, Integer};
 use library::statement::c::{Block, ExprStatement, If};
 use library::statement::StatementSet;
 
@@ -14,12 +14,10 @@ fn main() {
         .add_unit(Float::new());
 
     // 式-文
-    let expr_stmt = ExprStatement::new()
-        .set_expr(Rc::clone(&arithmetic));
+    let expr_stmt = ExprStatement::new().set_expr(Rc::clone(&arithmetic));
 
     // ブロック
-    let block_stmt = Block::new()
-        .add_stmt(Rc::clone(&expr_stmt));
+    let block_stmt = Block::new().add_stmt(Rc::clone(&expr_stmt));
 
     // if 文
     let if_stmt = If::new()

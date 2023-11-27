@@ -40,7 +40,10 @@ impl Arithmetic {
     where
         T: DSLBlock + Calculatable,
     {
-        self.as_ref().units.borrow_mut().push(rule! { unit -> [{unit.as_dyn()}] });
+        self.as_ref()
+            .units
+            .borrow_mut()
+            .push(rule! { unit -> [{unit.as_dyn()}] });
         self
     }
 }

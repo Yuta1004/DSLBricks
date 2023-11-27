@@ -16,19 +16,15 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
     let extra_derives = if cfg!(feature = "with-serde") {
         quote! { Serialize, Deserialize }
     } else {
-        quote! { }
+        quote! {}
     };
 
     let enum_name = &target_ast.ident;
 
-    let enum_variants = data_enum
-        .variants
-        .clone()
-        .into_iter()
-        .map(|variant| {
-            let variant = variant.ident.clone();
-            quote! { #enum_name :: #variant }
-        });
+    let enum_variants = data_enum.variants.clone().into_iter().map(|variant| {
+        let variant = variant.ident.clone();
+        quote! { #enum_name :: #variant }
+    });
 
     let enum_rule_table: Vec<TokenStream> = (&data_enum.variants)
         .into_iter()

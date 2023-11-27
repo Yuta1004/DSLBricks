@@ -6,7 +6,7 @@ pub(super) fn lexer_attr_macro_impl(ast: TokenStream) -> TokenStream {
     let extra_derives = if cfg!(feature = "with-serde") {
         quote! { Serialize, Deserialize }
     } else {
-        quote! { }
+        quote! {}
     };
 
     quote! {
@@ -24,14 +24,10 @@ pub(super) fn tokenize_proc_macro_impl(ast: DeriveInput) -> TokenStream {
 
     let enum_name = ast.ident;
 
-    let enum_variants = data_enum
-        .variants
-        .clone()
-        .into_iter()
-        .map(|variant| {
-            let variant = variant.ident.clone();
-            quote! { #enum_name :: #variant }
-        });
+    let enum_variants = data_enum.variants.clone().into_iter().map(|variant| {
+        let variant = variant.ident.clone();
+        quote! { #enum_name :: #variant }
+    });
 
     let enum_regex_table: Vec<TokenStream> = data_enum
         .variants

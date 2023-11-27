@@ -41,7 +41,9 @@ impl ExpressionSet {
     where
         T: DSLBlock + Calculatable,
     {
-        self.exprs.borrow_mut().push(rule! { exprs -> [{expr.as_dyn()}] });
+        self.exprs
+            .borrow_mut()
+            .push(rule! { exprs -> [{expr.as_dyn()}] });
         self
     }
 }

@@ -37,9 +37,7 @@ impl DSLGeneratable for Integer {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ integer -> r"(-?[1-9][0-9]*|0)" }
-        ].into()
+        vec![rule! { integer -> r"(-?[1-9][0-9]*|0)" }].into()
     }
 }
 
@@ -72,9 +70,7 @@ impl DSLGeneratable for Float {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }
-        ].into()
+        vec![rule! { float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }].into()
     }
 }
 
@@ -106,9 +102,7 @@ impl DSLGeneratable for String {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ string -> r#"".*""# }
-        ].into()
+        vec![rule! { string -> r#"".*""# }].into()
     }
 }
 
@@ -140,8 +134,6 @@ impl DSLGeneratable for Boolean {
     }
 
     fn design(&self) -> RuleSet {
-        vec![
-            rule!{ boolean -> r"(true|false)" }
-        ].into()
+        vec![rule! { boolean -> r"(true|false)" }].into()
     }
 }
