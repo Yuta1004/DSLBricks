@@ -29,17 +29,17 @@ pub struct Block {
 }
 
 impl Block {
-    fn design(&self) -> RuleSet {
+    fn design(&self) -> Vec<Rule> {
         assert!(self.stmt.borrow().len() > 0);
 
-        let mut base = vec![
+        let mut rules = vec![
             rule! { Block -> r"\{" stmts r"\}" },
             rule! { Block -> stmt },
             rule! { stmts -> stmts stmt },
             rule! { stmts -> stmt },
         ];
-        base.extend(self.stmt.borrow().clone());
-        base.into()
+        rules.extend(self.stmt.borrow().clone());
+        rules
     }
 }
 
@@ -63,13 +63,13 @@ pub struct ExprStatement {
 }
 
 impl ExprStatement {
-    fn design(&self) -> RuleSet {
+    fn design(&self) -> Vec<Rule> {
         assert!(self.expr.borrow().is_some());
 
         vec![
             rule! { ExprStatement -> expr ";" },
             self.expr.borrow().clone().unwrap()
-        ].into()
+        ]
     }
 }
 
@@ -96,18 +96,18 @@ pub struct If {
 }
 
 impl If {
-    fn design(&self) -> RuleSet {
+    fn design(&self) -> Vec<Rule> {
         assert!(self.cond.borrow().is_some());
         assert!(self.stmt.borrow().len() > 0);
 
-        let mut base = vec![
+        let mut rules = vec![
             rule! { If -> "if" r"\(" cond r"\)" stmt },
             rule! { If -> "if" r"\(" cond r"\)" stmt else },
             rule! { else -> "else" if },
             rule! { else -> "else" stmt },
         ];
-        base.push(self.cond.borrow().clone().unwrap());
-        base.extend(self.stmt.borrow().clone());
-        base.into()
+        rules.push(self.cond.borrow().clone().unwrap());
+        rules.extend(self.stmt.borrow().clone());
+        rules
     }
 }

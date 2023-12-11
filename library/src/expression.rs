@@ -31,11 +31,11 @@ pub struct ExpressionSet {
 }
 
 impl ExpressionSet {
-    fn design(&self) -> RuleSet {
-        let mut base = vec![
+    fn design(&self) -> Vec<Rule> {
+        let mut rules = vec![
             rule! { ExpressionSet -> expr },
         ];
-        base.extend(self.expr.borrow().clone());
-        base.into()
+        rules.extend(self.expr.borrow().clone());
+        rules.into()
     }
 }

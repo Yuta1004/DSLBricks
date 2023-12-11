@@ -30,8 +30,8 @@ pub struct Arithmetic {
 }
 
 impl Arithmetic {
-    fn design(&self) -> RuleSet {
-        let mut base = vec![
+    fn design(&self) -> Vec<Rule> {
+        let mut rules = vec![
             rule! { Arithmetic -> expr },
             rule! { expr -> expr r"\+" term },
             rule! { expr -> expr r"-" term },
@@ -42,7 +42,7 @@ impl Arithmetic {
             rule! { fact -> r"\(" expr r"\)" },
             rule! { fact -> unit },
         ];
-        base.extend(self.unit.borrow().clone());
-        base.into()
+        rules.extend(self.unit.borrow().clone());
+        rules
     }
 }

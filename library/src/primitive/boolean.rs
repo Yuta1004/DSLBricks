@@ -20,7 +20,7 @@ use crate::constraints::ctime::*;
 pub struct Boolean;
 
 impl Boolean {
-    fn design(&self) -> RuleSet {
-        vec![rule! { Boolean -> r"(true|false)" }].into()
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { Boolean -> r"(true|false)" }]
     }
 }

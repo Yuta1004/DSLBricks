@@ -8,10 +8,6 @@ pub trait DSLGeneratable {
     fn name(&self) -> &'static str;
     fn start(&self) -> &'static str;
     fn design(&self) -> unchecked::RuleSet;
-
-    fn fully_named_design(&self) -> unchecked::RuleSet {
-        (self.name(), self.design()).into()
-    }
 }
 
 impl Hash for dyn DSLGeneratable {
@@ -37,7 +33,7 @@ impl DSLDesign {
     pub fn from<T: DSLGeneratable>(def: T) -> anyhow::Result<Self> {
         Ok(DSLDesign {
             name: def.name(),
-            syntax: syntax::check(def.fully_named_design())?,
+            syntax: syntax::check(def.design())?,
         })
     }
 

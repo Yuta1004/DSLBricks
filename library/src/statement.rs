@@ -31,11 +31,11 @@ pub struct StatementSet {
 }
 
 impl StatementSet {
-    fn design(&self) -> RuleSet {
-        let mut base = vec![
+    fn design(&self) -> Vec<Rule> {
+        let mut rules = vec![
             rule! { StatementSet -> stmt },
         ];
-        base.extend(self.stmt.borrow().clone());
-        base.into()
+        rules.extend(self.stmt.borrow().clone());
+        rules
     }
 }

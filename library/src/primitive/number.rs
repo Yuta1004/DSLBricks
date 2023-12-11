@@ -21,8 +21,8 @@ use crate::constraints::ctime::*;
 pub struct Integer;
 
 impl Integer {
-    fn design(&self) -> RuleSet {
-        vec![rule! { Integer -> r"(-?[1-9][0-9]*|0)" }].into()
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { Integer -> r"(-?[1-9][0-9]*|0)" }]
     }
 }
 
@@ -41,7 +41,7 @@ impl Integer {
 pub struct Float;
 
 impl Float {
-    fn design(&self) -> RuleSet {
-        vec![rule! { Float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }].into()
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { Float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }]
     }
 }

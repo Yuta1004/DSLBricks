@@ -20,7 +20,7 @@ use crate::constraints::ctime::*;
 pub struct String;
 
 impl String {
-    fn design(&self) -> RuleSet {
-        vec![rule! { String -> r#"".*""# }].into()
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { String -> r#"".*""# }]
     }
 }

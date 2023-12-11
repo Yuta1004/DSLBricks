@@ -40,16 +40,9 @@ impl From<(&'static str, Rule)> for Rule {
 #[derive(Clone)]
 pub struct RuleSet(pub(crate) Vec<Rule>);
 
-impl From<Vec<Rule>> for RuleSet {
-    fn from(rules: Vec<Rule>) -> Self {
-        RuleSet(rules)
-    }
-}
-
-impl From<(&'static str, RuleSet)> for RuleSet {
-    fn from((namespace, ruleset): (&'static str, RuleSet)) -> Self {
-        let rules = ruleset
-            .0
+impl From<(&'static str, Vec<Rule>)> for RuleSet {
+    fn from((namespace, rules): (&'static str, Vec<Rule>)) -> Self {
+        let rules = rules
             .into_iter()
             .map(|rule| Rule::from((namespace, rule)))
             .collect();
@@ -77,7 +70,7 @@ impl RuleSet {
             })
             .collect::<HashSet<&Rc<dyn DSLGeneratable>>>()
             .into_iter()
-            .flat_map(|design| design.fully_named_design().expand().0)
+            .flat_map(|design| design.design().expand().0)
             .collect::<Vec<Rule>>();
 
         self.0.extend(expanded);

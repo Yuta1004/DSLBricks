@@ -26,7 +26,7 @@ impl<'a> Into<TokenStream> for InitArgument<'a> {
                         }
 
                         fn design(&self) -> RuleSet {
-                            #struct_name::design(self)
+                            (self.name(), #struct_name::design(self)).into()
                         }
                     }
                 }
