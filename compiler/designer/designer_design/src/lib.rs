@@ -37,7 +37,7 @@ impl DSLDesign {
         })
     }
 
-    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
+    pub fn token_defs(&self) -> Vec<(&String, &'static str)> {
         self.syntax.token_defs()
     }
 

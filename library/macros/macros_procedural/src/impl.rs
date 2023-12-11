@@ -7,9 +7,9 @@ enum InitArgument<'a> {
     Property(&'a str, &'a str),  // struct_name, property
 }
 
-impl<'a> Into<TokenStream> for InitArgument<'a> {
-    fn into(self) -> TokenStream {
-        match self {
+impl<'a> From<InitArgument<'a>> for TokenStream {
+    fn from(arg: InitArgument<'a>) -> TokenStream {
+        match arg {
             InitArgument::NameSpace(struct_name, namespace) => {
                 let start = struct_name;
                 let struct_name: TokenStream = struct_name.parse().unwrap();
@@ -48,23 +48,22 @@ pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
 
     let impls = args
         .to_string()
-        .split(",")
+        .split(',')
         .flat_map(|arg| {
-            let arg = arg.split("=").collect::<Vec<&str>>();
+            let arg = arg.split('=').collect::<Vec<&str>>();
             let left = arg[0].trim();
             let right = arg[1].trim();
 
             match left {
                 "namespace" => vec![InitArgument::NameSpace(&struct_name, right)],
                 "property" => right
-                    .split("+")
-                    .into_iter()
+                    .split('+')
                     .map(|property| InitArgument::Property(&struct_name, property))
                     .collect::<Vec<InitArgument>>(),
                 _ => panic!("Argument \"{}\" is not implemented.", left),
             }
         })
-        .map(|arg| Into::<TokenStream>::into(arg))
+        .map(Into::<TokenStream>::into)
         .collect::<Vec<TokenStream>>();
 
     quote! {
@@ -94,11 +93,11 @@ struct Field {
     constraints: TokenStream,
 }
 
-impl Into<(TokenStream, TokenStream)> for Field {
-    fn into(self) -> (TokenStream, TokenStream) {
-        match self.is_multiple {
-            true => Field::into_multiple(self),
-            false => Field::into_single(self),
+impl From<Field> for (TokenStream, TokenStream) {
+    fn from(field: Field) -> (TokenStream, TokenStream) {
+        match field.is_multiple {
+            true => Field::into_multiple(field),
+            false => Field::into_single(field),
         }
     }
 }
@@ -208,5 +207,4 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
             }
         }
     }
-    .into()
 }

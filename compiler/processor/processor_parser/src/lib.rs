@@ -7,7 +7,6 @@ use std::marker::PhantomData;
 
 use anyhow::Error;
 use serde::{Deserialize, Serialize};
-use serde_json;
 use thiserror::Error;
 
 use lexer::{LexIterator, TokenSet};
