@@ -7,6 +7,8 @@ use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
+use macros::DSLBlockBuilder;
+
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
@@ -23,28 +25,18 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Executable
+#[derive(DSLBlockBuilder)]
 #[impl_constraints(Executable)]
 pub struct StatementSet {
-    stmts: RefCell<Vec<Rule>>,
+    #[component(multiple = Executable)]
+    stmt: RefCell<Vec<Rule>>,
 }
 
 impl DSLBlock for StatementSet {
     fn new() -> Rc<Self> {
         Rc::new(StatementSet {
-            stmts: RefCell::new(vec![]),
+            stmt: RefCell::new(vec![]),
         })
-    }
-}
-
-impl StatementSet {
-    pub fn add_stmt<T>(self: Rc<Self>, stmt: Rc<T>) -> Rc<Self>
-    where
-        T: DSLBlock + Executable,
-    {
-        self.stmts
-            .borrow_mut()
-            .push(rule! { stmts -> [{stmt.as_dyn()}] });
-        self
     }
 }
 
@@ -58,6 +50,6 @@ impl DSLGeneratable for StatementSet {
     }
 
     fn design(&self) -> RuleSet {
-        self.stmts.borrow().clone().into()
+        self.stmt.borrow().clone().into()
     }
 }

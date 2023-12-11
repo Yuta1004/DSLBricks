@@ -7,6 +7,8 @@ use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
+use macros::DSLBlockBuilder;
+
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
@@ -23,28 +25,18 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
+#[derive(DSLBlockBuilder)]
 #[impl_constraints(Calculatable)]
 pub struct ExpressionSet {
-    exprs: RefCell<Vec<Rule>>,
+    #[component(multiple = Calculatable)]
+    expr: RefCell<Vec<Rule>>,
 }
 
 impl DSLBlock for ExpressionSet {
     fn new() -> Rc<Self> {
         Rc::new(ExpressionSet {
-            exprs: RefCell::new(vec![]),
+            expr: RefCell::new(vec![]),
         })
-    }
-}
-
-impl ExpressionSet {
-    pub fn add_expr<T>(self: Rc<Self>, expr: Rc<T>) -> Rc<Self>
-    where
-        T: DSLBlock + Calculatable,
-    {
-        self.exprs
-            .borrow_mut()
-            .push(rule! { exprs -> [{expr.as_dyn()}] });
-        self
     }
 }
 
@@ -54,10 +46,10 @@ impl DSLGeneratable for ExpressionSet {
     }
 
     fn start(&self) -> &'static str {
-        "exprs"
+        "expr"
     }
 
     fn design(&self) -> RuleSet {
-        self.exprs.borrow().clone().into()
+        self.expr.borrow().clone().into()
     }
 }

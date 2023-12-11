@@ -6,6 +6,8 @@ use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
+use macros::DSLBlockBuilder;
+
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
@@ -22,29 +24,18 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
+#[derive(DSLBlockBuilder)]
 #[impl_constraints(Calculatable)]
 pub struct Arithmetic {
-    units: RefCell<Vec<Rule>>,
+    #[component(multiple = Calculatable)]
+    unit: RefCell<Vec<Rule>>,
 }
 
 impl DSLBlock for Arithmetic {
     fn new() -> Rc<Self> {
         Rc::new(Arithmetic {
-            units: RefCell::new(vec![]),
+            unit: RefCell::new(vec![]),
         })
-    }
-}
-
-impl Arithmetic {
-    pub fn add_unit<T>(self: Rc<Self>, unit: Rc<T>) -> Rc<Self>
-    where
-        T: DSLBlock + Calculatable,
-    {
-        self.as_ref()
-            .units
-            .borrow_mut()
-            .push(rule! { unit -> [{unit.as_dyn()}] });
-        self
     }
 }
 
@@ -69,7 +60,7 @@ impl DSLGeneratable for Arithmetic {
             rule! { fact -> r"\(" expr r"\)" },
             rule! { fact -> unit },
         ];
-        base.extend(self.units.borrow().clone());
+        base.extend(self.unit.borrow().clone());
 
         base.into()
     }
