@@ -164,8 +164,7 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
         .clone()
         .into_iter()
         .map(|field| {
-            let mut new_field = None;
-            for attr in field.attrs {
+            if let Some(attr) = field.attrs.get(0) {
                 let arg = attr.parse_args::<syn::ExprAssign>().unwrap();
                 let left = arg.left.into_token_stream();
                 let right = arg.right.into_token_stream();
@@ -177,13 +176,14 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
                 };
                 let constraints = right;
 
-                new_field = Some(Field {
+                Field {
                     is_multiple,
                     name: field.ident.to_token_stream().to_string(),
                     constraints,
-                })
+                }
+            } else {
+                panic!("Argument \"single\" or \"multiple\" is missing.");
             }
-            new_field.unwrap()
         })
         .collect::<Vec<Field>>();
 
