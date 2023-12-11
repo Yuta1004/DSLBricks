@@ -19,7 +19,7 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 /// - Calculatable
-#[dslblock(StaticValue + Calculatable)]
+#[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Integer;
 
 impl DSLBlock for Integer {
@@ -28,17 +28,9 @@ impl DSLBlock for Integer {
     }
 }
 
-impl DSLGeneratable for Integer {
-    fn name(&self) -> &'static str {
-        "std.primitive.Integer"
-    }
-
-    fn start(&self) -> &'static str {
-        "integer"
-    }
-
+impl Integer {
     fn design(&self) -> RuleSet {
-        vec![rule! { integer -> r"(-?[1-9][0-9]*|0)" }].into()
+        vec![rule! { Integer -> r"(-?[1-9][0-9]*|0)" }].into()
     }
 }
 
@@ -52,7 +44,7 @@ impl DSLGeneratable for Integer {
 ///
 /// - StaticValue
 /// - Calculatable
-#[dslblock(StaticValue + Calculatable)]
+#[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Float;
 
 impl DSLBlock for Float {
@@ -61,16 +53,8 @@ impl DSLBlock for Float {
     }
 }
 
-impl DSLGeneratable for Float {
-    fn name(&self) -> &'static str {
-        "std.primitive.Float"
-    }
-
-    fn start(&self) -> &'static str {
-        "float"
-    }
-
+impl Float {
     fn design(&self) -> RuleSet {
-        vec![rule! { float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }].into()
+        vec![rule! { Float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }].into()
     }
 }

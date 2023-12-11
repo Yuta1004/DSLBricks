@@ -18,7 +18,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - StaticValue
-#[dslblock(StaticValue)]
+#[dslblock(namespace = std.primitive, property = StaticValue)]
 pub struct String;
 
 impl DSLBlock for String {
@@ -27,16 +27,8 @@ impl DSLBlock for String {
     }
 }
 
-impl DSLGeneratable for String {
-    fn name(&self) -> &'static str {
-        "std.primitive.String"
-    }
-
-    fn start(&self) -> &'static str {
-        "string"
-    }
-
+impl String {
     fn design(&self) -> RuleSet {
-        vec![rule! { string -> r#"".*""# }].into()
+        vec![rule! { String -> r#"".*""# }].into()
     }
 }

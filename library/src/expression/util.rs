@@ -23,7 +23,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
-#[dslblock(Calculatable)]
+#[dslblock(namespace = std.expression.util, property = Calculatable)]
 pub struct Arithmetic {
     #[component(multiple = Calculatable)]
     unit: RefCell<Vec<Rule>>,
@@ -37,18 +37,10 @@ impl DSLBlock for Arithmetic {
     }
 }
 
-impl DSLGeneratable for Arithmetic {
-    fn name(&self) -> &'static str {
-        "std.expression.util.Arithmetic"
-    }
-
-    fn start(&self) -> &'static str {
-        "arithmetic"
-    }
-
+impl Arithmetic {
     fn design(&self) -> RuleSet {
         let mut base = vec![
-            rule! { arithmetic -> expr },
+            rule! { Arithmetic -> expr },
             rule! { expr -> expr r"\+" term },
             rule! { expr -> expr r"-" term },
             rule! { expr -> term },
@@ -59,7 +51,6 @@ impl DSLGeneratable for Arithmetic {
             rule! { fact -> unit },
         ];
         base.extend(self.unit.borrow().clone());
-
         base.into()
     }
 }

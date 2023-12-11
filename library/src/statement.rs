@@ -24,7 +24,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Executable
-#[dslblock(Executable)]
+#[dslblock(namespace = std.statement, property = Executable)]
 pub struct StatementSet {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
@@ -38,16 +38,12 @@ impl DSLBlock for StatementSet {
     }
 }
 
-impl DSLGeneratable for StatementSet {
-    fn name(&self) -> &'static str {
-        "std.statement.StatementSet"
-    }
-
-    fn start(&self) -> &'static str {
-        "stmts"
-    }
-
+impl StatementSet {
     fn design(&self) -> RuleSet {
-        self.stmt.borrow().clone().into()
+        let mut base = vec![
+            rule! { StatementSet -> stmt },
+        ];
+        base.extend(self.stmt.borrow().clone());
+        base.into()
     }
 }

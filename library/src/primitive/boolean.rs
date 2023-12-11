@@ -18,7 +18,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - StaticValue
-#[dslblock(StaticValue)]
+#[dslblock(namespace = std.primitive, property = StaticValue)]
 pub struct Boolean;
 
 impl DSLBlock for Boolean {
@@ -27,16 +27,8 @@ impl DSLBlock for Boolean {
     }
 }
 
-impl DSLGeneratable for Boolean {
-    fn name(&self) -> &'static str {
-        "std.primitive.Boolean"
-    }
-
-    fn start(&self) -> &'static str {
-        "boolean"
-    }
-
+impl Boolean {
     fn design(&self) -> RuleSet {
-        vec![rule! { boolean -> r"(true|false)" }].into()
+        vec![rule! { Boolean -> r"(true|false)" }].into()
     }
 }

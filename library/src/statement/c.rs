@@ -22,7 +22,7 @@ use crate::constraints::ctime::*;
 ///
 /// ## 性質
 /// - Executable
-#[dslblock(Executable)]
+#[dslblock(namespace = std.statement.c, property = Executable)]
 pub struct Block {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
@@ -36,26 +36,17 @@ impl DSLBlock for Block {
     }
 }
 
-impl DSLGeneratable for Block {
-    fn name(&self) -> &'static str {
-        "std.statement.c.Block"
-    }
-
-    fn start(&self) -> &'static str {
-        "block"
-    }
-
+impl Block {
     fn design(&self) -> RuleSet {
         assert!(self.stmt.borrow().len() > 0);
 
         let mut base = vec![
-            rule! { block -> r"\{" stmts r"\}" },
-            rule! { block -> stmt },
+            rule! { Block -> r"\{" stmts r"\}" },
+            rule! { Block -> stmt },
             rule! { stmts -> stmts stmt },
             rule! { stmts -> stmt },
         ];
         base.extend(self.stmt.borrow().clone());
-
         base.into()
     }
 }
@@ -72,7 +63,7 @@ impl DSLGeneratable for Block {
 ///
 /// ## 性質
 /// - Executable
-#[dslblock(Executable)]
+#[dslblock(namespace = std.statement.c, property = Executable)]
 pub struct ExprStatement {
     #[component(single = Calculatable)]
     expr: RefCell<Option<Rule>>,
@@ -86,20 +77,12 @@ impl DSLBlock for ExprStatement {
     }
 }
 
-impl DSLGeneratable for ExprStatement {
-    fn name(&self) -> &'static str {
-        "std.statement.c.ExprStatement"
-    }
-
-    fn start(&self) -> &'static str {
-        "stmt"
-    }
-
+impl ExprStatement {
     fn design(&self) -> RuleSet {
         assert!(self.expr.borrow().is_some());
 
         vec![
-            rule! { stmt -> expr ";" },
+            rule! { ExprStatement -> expr ";" },
             self.expr.borrow().clone().unwrap()
         ].into()
     }
@@ -118,7 +101,7 @@ impl DSLGeneratable for ExprStatement {
 ///
 /// ## 性質
 /// - Executable
-#[dslblock(Executable)]
+#[dslblock(namespace = std.statement.c, property = Executable)]
 pub struct If {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,
@@ -135,28 +118,19 @@ impl DSLBlock for If {
     }
 }
 
-impl DSLGeneratable for If {
-    fn name(&self) -> &'static str {
-        "std.statement.c.If"
-    }
-
-    fn start(&self) -> &'static str {
-        "if"
-    }
-
+impl If {
     fn design(&self) -> RuleSet {
         assert!(self.cond.borrow().is_some());
         assert!(self.stmt.borrow().len() > 0);
 
         let mut base = vec![
-            rule! { if -> "if" r"\(" cond r"\)" stmt },
-            rule! { if -> "if" r"\(" cond r"\)" stmt else },
+            rule! { If -> "if" r"\(" cond r"\)" stmt },
+            rule! { If -> "if" r"\(" cond r"\)" stmt else },
             rule! { else -> "else" if },
             rule! { else -> "else" stmt },
         ];
         base.push(self.cond.borrow().clone().unwrap());
         base.extend(self.stmt.borrow().clone());
-
         base.into()
     }
 }

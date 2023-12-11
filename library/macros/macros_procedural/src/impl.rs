@@ -2,23 +2,75 @@ use proc_macro2::TokenStream;
 use quote::{quote, ToTokens, format_ident};
 use syn::{DeriveInput, Data};
 
+enum InitArgument<'a> {
+    NameSpace(&'a str, &'a str),     // struct_name, namespace
+    Property(&'a str, &'a str), // struct_name, property
+}
+
+impl<'a> Into<TokenStream> for InitArgument<'a> {
+    fn into(self) -> TokenStream {
+        match self {
+            InitArgument::NameSpace(struct_name, namespace) => {
+                let start = struct_name;
+                let struct_name: TokenStream = struct_name.parse().unwrap();
+                let fullname = format!("{}.{}", namespace, struct_name);
+
+                quote! {
+                    impl DSLGeneratable for #struct_name {
+                        fn name(&self) -> &'static str {
+                            #fullname
+                        }
+
+                        fn start(&self) -> &'static str {
+                            #start
+                        }
+
+                        fn design(&self) -> RuleSet {
+                            #struct_name::design(self)
+                        }
+                    }
+                }
+            },
+            InitArgument::Property(struct_name, property) => {
+                let struct_name: TokenStream = struct_name.parse().unwrap();
+                let property: TokenStream = property.parse().unwrap();
+
+                quote! { impl #property for #struct_name {} }
+            },
+        }
+    }
+}
+
 pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
-    let struct_name = &ast.ident;
+    let struct_name = ast.ident.to_string();
 
     let impls = args
         .to_string()
-        .split("+")
-        .map(|constraint| {
-            let constraint: TokenStream = constraint.parse().unwrap();
-            quote! { impl #constraint for #struct_name {} }
+        .split(",")
+        .flat_map(|arg| {
+            let arg = arg.split("=").collect::<Vec<&str>>();
+            let left = arg[0].trim();
+            let right = arg[1].trim();
+
+            match left {
+                "namespace" => vec![InitArgument::NameSpace(&struct_name, right)],
+                "property" => {
+                    right.split("+")
+                        .into_iter()
+                        .map(|property| InitArgument::Property(&struct_name, property))
+                        .collect::<Vec<InitArgument>>()
+                },
+                _ => panic!("Argument \"{}\" is not implemented.", left),
+            }
         })
+        .map(|arg| Into::<TokenStream>::into(arg))
         .collect::<Vec<TokenStream>>();
 
     quote! {
         #[derive(DSLBlockBuilder)]
         #ast
         #( #impls )*
-    }.into()
+    }
 }
 
 #[derive(Debug)]
