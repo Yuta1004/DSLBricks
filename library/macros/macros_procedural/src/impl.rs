@@ -26,6 +26,7 @@ impl<'a> Into<TokenStream> for InitArgument<'a> {
                         }
 
                         fn design(&self) -> RuleSet {
+                            self.assert();
                             (self.name(), #struct_name::design(self)).into()
                         }
                     }
@@ -94,8 +95,8 @@ struct Field {
     constraints: TokenStream,
 }
 
-impl Into<TokenStream> for Field {
-    fn into(self) -> TokenStream {
+impl Into<(TokenStream, TokenStream)> for Field {
+    fn into(self) -> (TokenStream, TokenStream) {
         match self.is_multiple {
             true => Field::into_multiple(self),
             false => Field::into_single(self),
@@ -104,13 +105,13 @@ impl Into<TokenStream> for Field {
 }
 
 impl Field {
-    fn into_single(self) -> TokenStream {
+    fn into_single(self) -> (TokenStream, TokenStream) {
         let fname = format_ident!("set_{}", self.name);
         let rname = format_ident!("ref_{}", self.name);
         let name: TokenStream = self.name.parse().unwrap();
         let constraints = self.constraints;
 
-        quote! {
+        let setter = quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
                 T: #constraints + 'static,
@@ -121,15 +122,18 @@ impl Field {
                 }
                 self
             }
-        }
+        };
+        let assertion = quote! { assert!(self.#name.borrow().is_some()); };
+
+        (setter, assertion)
     }
 
-    fn into_multiple(self) -> TokenStream {
+    fn into_multiple(self) -> (TokenStream, TokenStream) {
         let fname = format_ident!("add_{}", self.name);
         let name: TokenStream = self.name.parse().unwrap();
         let constraints = self.constraints;
 
-        quote! {
+        let setter = quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
                 T: #constraints + 'static,
@@ -139,7 +143,10 @@ impl Field {
                     .push(rule! { #name -> [#name] });
                 self
             }
-        }
+        };
+        let assertion = quote! { assert!(self.#name.borrow().len() > 0); };
+
+        (setter, assertion)
     }
 }
 
@@ -178,12 +185,24 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
             }
             new_field.unwrap()
         })
-        .map(|field| Into::<TokenStream>::into(field))
-        .collect::<Vec<TokenStream>>();
+        .collect::<Vec<Field>>();
+
+    let (setters, assertions) = struct_fields
+        .into_iter()
+        .fold((vec![], vec![]), |(mut setters, mut assertions), field| {
+            let (setter, assertion) = Into::<(TokenStream, TokenStream)>::into(field);
+            setters.push(setter);
+            assertions.push(assertion);
+            (setters, assertions)
+        });
 
     quote! {
         impl #struct_name {
-            #( #struct_fields )*
+            #( #setters )*
+
+            fn assert(&self) {
+                #( #assertions )*
+            }
         }
     }.into()
 }

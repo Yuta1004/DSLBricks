@@ -30,8 +30,6 @@ pub struct Block {
 
 impl Block {
     fn design(&self) -> Vec<Rule> {
-        assert!(self.stmt.borrow().len() > 0);
-
         let mut rules = vec![
             rule! { Block -> r"\{" stmts r"\}" },
             rule! { Block -> stmt },
@@ -64,8 +62,6 @@ pub struct ExprStatement {
 
 impl ExprStatement {
     fn design(&self) -> Vec<Rule> {
-        assert!(self.expr.borrow().is_some());
-
         vec![
             rule! { ExprStatement -> expr ";" },
             self.expr.borrow().clone().unwrap()
@@ -97,9 +93,6 @@ pub struct If {
 
 impl If {
     fn design(&self) -> Vec<Rule> {
-        assert!(self.cond.borrow().is_some());
-        assert!(self.stmt.borrow().len() > 0);
-
         let mut rules = vec![
             rule! { If -> "if" r"\(" cond r"\)" stmt },
             rule! { If -> "if" r"\(" cond r"\)" stmt else },
