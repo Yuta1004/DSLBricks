@@ -7,7 +7,6 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
-use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
 
 /// # ブロック

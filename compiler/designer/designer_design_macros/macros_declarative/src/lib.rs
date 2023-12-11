@@ -12,11 +12,7 @@ macro_rules! rule {
     };
 
     (@call [$design:ident]) => {
-        SyntaxElem::Hole(Rc::new($design))
-    };
-
-    (@call [{$design:expr}]) => {
-        SyntaxElem::Hole($design)
+        SyntaxElem::Hole(unsafe { Rc::from_raw(Rc::into_raw($design)) })
     };
 
     (@call $nonterm:ident) => {

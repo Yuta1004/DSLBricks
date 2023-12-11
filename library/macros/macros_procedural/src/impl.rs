@@ -70,8 +70,20 @@ pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
     quote! {
         #[derive(DSLBlockBuilder)]
         #ast
-        impl DSLBlock for #struct_namet {}
         #( #impls )*
+
+        impl #struct_namet {
+            pub fn new() -> Rc<Self>
+            where
+                Self: Default,
+            {
+                Rc::new(Self::default())
+            }
+
+            pub fn unwrap(self: Rc<Self>) -> Self {
+                Rc::into_inner(self).unwrap()
+            }
+        }
     }
 }
 
@@ -101,11 +113,11 @@ impl Field {
         quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
-                T: DSLBlock + #constraints + 'static,
+                T: #constraints + 'static,
             {
                 {
                     let #rname = &mut *self.#name.borrow_mut();
-                    *#rname = Some(rule! { #name -> [{#name.as_dyn()}] });
+                    *#rname = Some(rule! { #name -> [#name] });
                 }
                 self
             }
@@ -120,11 +132,11 @@ impl Field {
         quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
-                T: DSLBlock + #constraints + 'static,
+                T: #constraints + 'static,
             {
                 self.#name
                     .borrow_mut()
-                    .push(rule! { #name -> [{#name.as_dyn()}] });
+                    .push(rule! { #name -> [#name] });
                 self
             }
         }
