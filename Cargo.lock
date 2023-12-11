@@ -342,7 +342,37 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "compiler",
+ "library_macros",
  "serde",
+ "thiserror",
+]
+
+[[package]]
+name = "library_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "library_macros_declarative",
+ "library_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "library_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "library_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 

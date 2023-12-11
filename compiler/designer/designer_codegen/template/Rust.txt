@@ -8,6 +8,7 @@ use compiler::processor::parser::syntax::ASyntax;
 use compiler::processor::parser::LR1;
 use compiler::processor::DSL as DSLDef;
 
+#[allow(clippy::upper_case_acronyms)]
 type {NAME} = DSLDef::<{NAME}ASyntax, {NAME}Syntax, {NAME}Token>;
 
 #[lexer]

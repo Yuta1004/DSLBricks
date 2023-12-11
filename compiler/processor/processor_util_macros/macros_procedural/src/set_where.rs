@@ -16,7 +16,7 @@ pub(super) fn set_where(args: TokenStream, ast: TokenStream) -> TokenStream {
 
 fn parse_args(ast: TokenStream) -> (TokenStream, TokenStream) {
     let ast_s = ast.to_string();
-    let mut args = ast_s.split(",");
+    let mut args = ast_s.split(',');
 
     let cfg_cond: TokenStream = args.next().unwrap().parse().unwrap();
     let trait_bounds: TokenStream = args.collect::<Vec<&str>>().join(",").parse().unwrap();
@@ -30,13 +30,13 @@ fn rebuild_tokenstream(trait_bounds: TokenStream, ast: TokenStream) -> TokenStre
     // Part 1 : pub trait <Ident>
     let mut ast_heads = vec![];
     let (mut where_t, mut block_t) = (None, None);
-    while let Some(token) = ast.next() {
+    for token in ast.by_ref() {
         let token_s = token.clone().span().source_text().unwrap();
         if token_s.starts_with("where") {
             where_t = Some(token);
             break;
         }
-        if token_s.starts_with("{") {
+        if token_s.starts_with('{') {
             block_t = Some(token);
             break;
         }
@@ -48,7 +48,7 @@ fn rebuild_tokenstream(trait_bounds: TokenStream, ast: TokenStream) -> TokenStre
     let ast_bounds = quote! { where #trait_bounds, };
 
     // Part 3 : { ... }
-    let ast_body = if let Some(_) = where_t {
+    let ast_body = if where_t.is_some() {
         ast.collect::<TokenStream>()
     } else if let Some(block) = block_t {
         block.into()

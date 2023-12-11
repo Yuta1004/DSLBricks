@@ -16,7 +16,7 @@ struct CodeTemplate {
 pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
     let dsl = DSLDesign::from(dsl)?;
 
-    let name = format!("{}", "DSL");
+    let name = "DSL".to_string();
     let token_defs = gen_token_code(&dsl.token_defs())?;
     let syntax_defs = gen_syntax_code(&dsl.syntax_defs())?;
     let bnf = dsl.bnf();
@@ -40,7 +40,7 @@ pub fn rust(dsl: impl DSLGeneratable) -> anyhow::Result<String> {
     Ok(tt.render("Rust", &context)?)
 }
 
-fn gen_token_code(token_defs: &Vec<(&String, &str)>) -> anyhow::Result<String> {
+fn gen_token_code(token_defs: &[(&String, &str)]) -> anyhow::Result<String> {
     let token_variants_code = token_defs
         .iter()
         .map(|(id, regex)| format!("#[token(regex=r\"{}\")]\n{},", regex, id))
@@ -49,7 +49,7 @@ fn gen_token_code(token_defs: &Vec<(&String, &str)>) -> anyhow::Result<String> {
     Ok(token_variants_code)
 }
 
-fn gen_syntax_code(syntax_defs: &Vec<String>) -> anyhow::Result<String> {
+fn gen_syntax_code(syntax_defs: &[String]) -> anyhow::Result<String> {
     let syntax_variants_code = syntax_defs
         .iter()
         .map(|name| format!("{},", name))

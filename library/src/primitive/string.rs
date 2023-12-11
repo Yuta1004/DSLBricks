@@ -1,11 +1,9 @@
-use std::rc::Rc;
-
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
 
-use crate::common::DSLBlock;
+use macros::*;
+
 use crate::constraints::ctime::*;
 
 /// # 文字列
@@ -17,25 +15,12 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - StaticValue
-#[impl_constraints(StaticValue)]
+#[derive(Default)]
+#[dslblock(namespace = std.primitive, property = StaticValue)]
 pub struct String;
 
-impl DSLBlock for String {
-    fn new() -> Rc<Self> {
-        Rc::new(String)
-    }
-}
-
-impl DSLGeneratable for String {
-    fn name(&self) -> &'static str {
-        "std.primitive.String"
-    }
-
-    fn start(&self) -> &'static str {
-        "string"
-    }
-
-    fn design(&self) -> RuleSet {
-        vec![rule! { string -> r#"".*""# }].into()
+impl String {
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { String -> r#"".*""# }]
     }
 }

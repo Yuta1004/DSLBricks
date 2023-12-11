@@ -2,7 +2,6 @@ use std::rc::Rc;
 
 use compiler::build_dsl;
 use library::expression::util::Arithmetic;
-use library::prelude::*;
 use library::primitive::number::{Float, Integer};
 use library::statement::c::{Block, ExprStatement, If};
 use library::statement::StatementSet;

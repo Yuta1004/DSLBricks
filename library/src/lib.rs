@@ -1,6 +1,3 @@
-// 共通定義
-pub(crate) mod common;
-
 // 制約
 pub mod constraints;
 
@@ -12,8 +9,3 @@ pub mod expression;
 
 // 文 (if, for, ...)
 pub mod statement;
-
-// aaa
-pub mod prelude {
-    pub use super::common::DSLBlock;
-}

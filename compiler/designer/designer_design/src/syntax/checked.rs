@@ -6,11 +6,11 @@ pub enum SyntaxElem {
     NonTerm(String),
 }
 
-impl Into<String> for &SyntaxElem {
-    fn into(self) -> String {
-        match self {
+impl From<&SyntaxElem> for String {
+    fn from(selem: &SyntaxElem) -> String {
+        match selem {
             SyntaxElem::Term(id, _) => format!("\"{}\"", id),
-            SyntaxElem::NonTerm(left) => format!("{}", left),
+            SyntaxElem::NonTerm(left) => left.to_string(),
         }
     }
 }
@@ -35,11 +35,11 @@ where
     }
 }
 
-impl Into<String> for &Rule {
-    fn into(self) -> String {
-        let name = &self.name;
-        let left = &self.left;
-        let rights = self
+impl From<&Rule> for String {
+    fn from(rule: &Rule) -> String {
+        let name = &rule.name;
+        let left = &rule.left;
+        let rights = rule
             .rights
             .iter()
             .map(Into::<String>::into)
@@ -59,9 +59,9 @@ impl From<Vec<Rule>> for RuleSet {
     }
 }
 
-impl Into<String> for &RuleSet {
-    fn into(self) -> String {
-        self.0
+impl From<&RuleSet> for String {
+    fn from(ruleset: &RuleSet) -> String {
+        ruleset.0
             .iter()
             .map(Into::<String>::into)
             .collect::<Vec<String>>()
@@ -71,7 +71,7 @@ impl Into<String> for &RuleSet {
 }
 
 impl RuleSet {
-    pub fn token_defs<'a>(&'a self) -> Vec<(&'a String, &'static str)> {
+    pub fn token_defs(&self) -> Vec<(&String, &'static str)> {
         self.0
             .iter()
             .flat_map(|rule| rule.rights.iter())

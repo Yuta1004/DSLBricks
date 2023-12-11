@@ -1,11 +1,9 @@
-use std::rc::Rc;
-
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
 
-use crate::common::DSLBlock;
+use macros::*;
+
 use crate::constraints::ctime::*;
 
 /// # 真理値
@@ -17,25 +15,12 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - StaticValue
-#[impl_constraints(StaticValue)]
+#[derive(Default)]
+#[dslblock(namespace = std.primitive, property = StaticValue)]
 pub struct Boolean;
 
-impl DSLBlock for Boolean {
-    fn new() -> Rc<Self> {
-        Rc::new(Boolean)
-    }
-}
-
-impl DSLGeneratable for Boolean {
-    fn name(&self) -> &'static str {
-        "std.primitive.Boolean"
-    }
-
-    fn start(&self) -> &'static str {
-        "boolean"
-    }
-
-    fn design(&self) -> RuleSet {
-        vec![rule! { boolean -> r"(true|false)" }].into()
+impl Boolean {
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { Boolean -> r"(true|false)" }]
     }
 }

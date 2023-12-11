@@ -1,6 +1,5 @@
 use compiler::build_dsl;
 use library::expression::util::Arithmetic;
-use library::prelude::*;
 use library::primitive::number::{Float, Integer};
 
 fn main() {

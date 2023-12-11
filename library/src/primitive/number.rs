@@ -1,11 +1,9 @@
-use std::rc::Rc;
-
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
 
-use crate::common::DSLBlock;
+use macros::*;
+
 use crate::constraints::ctime::*;
 
 /// # 整数
@@ -18,26 +16,13 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 /// - Calculatable
-#[impl_constraints(StaticValue, Calculatable)]
+#[derive(Default)]
+#[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Integer;
 
-impl DSLBlock for Integer {
-    fn new() -> Rc<Integer> {
-        Rc::new(Integer)
-    }
-}
-
-impl DSLGeneratable for Integer {
-    fn name(&self) -> &'static str {
-        "std.primitive.Integer"
-    }
-
-    fn start(&self) -> &'static str {
-        "integer"
-    }
-
-    fn design(&self) -> RuleSet {
-        vec![rule! { integer -> r"(-?[1-9][0-9]*|0)" }].into()
+impl Integer {
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { Integer -> r"(-?[1-9][0-9]*|0)" }]
     }
 }
 
@@ -51,25 +36,12 @@ impl DSLGeneratable for Integer {
 ///
 /// - StaticValue
 /// - Calculatable
-#[impl_constraints(StaticValue, Calculatable)]
+#[derive(Default)]
+#[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Float;
 
-impl DSLBlock for Float {
-    fn new() -> Rc<Self> {
-        Rc::new(Float)
-    }
-}
-
-impl DSLGeneratable for Float {
-    fn name(&self) -> &'static str {
-        "std.primitive.Float"
-    }
-
-    fn start(&self) -> &'static str {
-        "float"
-    }
-
-    fn design(&self) -> RuleSet {
-        vec![rule! { float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }].into()
+impl Float {
+    fn design(&self) -> Vec<Rule> {
+        vec![rule! { Float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }]
     }
 }

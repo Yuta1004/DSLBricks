@@ -124,7 +124,7 @@ mod test {
         ]
         .into();
 
-        let uc_ruleset: unchecked::RuleSet = vec![
+        let uc_rules = vec![
             unchecked::Rule::from((
                 "top",
                 vec![
@@ -133,8 +133,8 @@ mod test {
                 ],
             )),
             unchecked::Rule::from(("top", vec![unchecked::SyntaxElem::Term("A")])),
-        ]
-        .into();
+        ];
+        let uc_ruleset = ("", uc_rules).into();
         let ruleset = super::check(uc_ruleset).unwrap();
 
         assert!(except == ruleset);
