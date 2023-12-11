@@ -64,7 +64,7 @@ impl ExprStatement {
     fn design(&self) -> Vec<Rule> {
         vec![
             rule! { ExprStatement -> expr ";" },
-            self.expr.borrow().clone().unwrap()
+            self.expr.borrow().clone().unwrap(),
         ]
     }
 }

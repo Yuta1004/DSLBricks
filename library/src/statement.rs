@@ -32,9 +32,7 @@ pub struct StatementSet {
 
 impl StatementSet {
     fn design(&self) -> Vec<Rule> {
-        let mut rules = vec![
-            rule! { StatementSet -> stmt },
-        ];
+        let mut rules = vec![rule! { StatementSet -> stmt }];
         rules.extend(self.stmt.borrow().clone());
         rules
     }

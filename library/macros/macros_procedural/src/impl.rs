@@ -1,10 +1,10 @@
 use proc_macro2::TokenStream;
-use quote::{quote, ToTokens, format_ident};
-use syn::{DeriveInput, Data};
+use quote::{format_ident, quote, ToTokens};
+use syn::{Data, DeriveInput};
 
 enum InitArgument<'a> {
-    NameSpace(&'a str, &'a str),     // struct_name, namespace
-    Property(&'a str, &'a str), // struct_name, property
+    NameSpace(&'a str, &'a str), // struct_name, namespace
+    Property(&'a str, &'a str),  // struct_name, property
 }
 
 impl<'a> Into<TokenStream> for InitArgument<'a> {
@@ -31,13 +31,13 @@ impl<'a> Into<TokenStream> for InitArgument<'a> {
                         }
                     }
                 }
-            },
+            }
             InitArgument::Property(struct_name, property) => {
                 let struct_name: TokenStream = struct_name.parse().unwrap();
                 let property: TokenStream = property.parse().unwrap();
 
                 quote! { impl #property for #struct_name {} }
-            },
+            }
         }
     }
 }
@@ -56,12 +56,11 @@ pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
 
             match left {
                 "namespace" => vec![InitArgument::NameSpace(&struct_name, right)],
-                "property" => {
-                    right.split("+")
-                        .into_iter()
-                        .map(|property| InitArgument::Property(&struct_name, property))
-                        .collect::<Vec<InitArgument>>()
-                },
+                "property" => right
+                    .split("+")
+                    .into_iter()
+                    .map(|property| InitArgument::Property(&struct_name, property))
+                    .collect::<Vec<InitArgument>>(),
                 _ => panic!("Argument \"{}\" is not implemented.", left),
             }
         })
@@ -172,7 +171,10 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
                 let is_multiple = match left.to_string().as_str() {
                     "single" => false,
                     "multiple" => true,
-                    _ => panic!("Argument \"{}\" is not supported in this implementation.", left),
+                    _ => panic!(
+                        "Argument \"{}\" is not supported in this implementation.",
+                        left
+                    ),
                 };
                 let constraints = right;
 
@@ -187,14 +189,15 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
         })
         .collect::<Vec<Field>>();
 
-    let (setters, assertions) = struct_fields
-        .into_iter()
-        .fold((vec![], vec![]), |(mut setters, mut assertions), field| {
-            let (setter, assertion) = Into::<(TokenStream, TokenStream)>::into(field);
-            setters.push(setter);
-            assertions.push(assertion);
-            (setters, assertions)
-        });
+    let (setters, assertions) =
+        struct_fields
+            .into_iter()
+            .fold((vec![], vec![]), |(mut setters, mut assertions), field| {
+                let (setter, assertion) = Into::<(TokenStream, TokenStream)>::into(field);
+                setters.push(setter);
+                assertions.push(assertion);
+                (setters, assertions)
+            });
 
     quote! {
         impl #struct_name {
@@ -204,5 +207,6 @@ pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
                 #( #assertions )*
             }
         }
-    }.into()
+    }
+    .into()
 }
