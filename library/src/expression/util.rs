@@ -1,12 +1,11 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
-use macros::DSLBlockBuilder;
+use macros::*;
 
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
@@ -24,8 +23,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
-#[derive(DSLBlockBuilder)]
-#[impl_constraints(Calculatable)]
+#[dslblock(Calculatable)]
 pub struct Arithmetic {
     #[component(multiple = Calculatable)]
     unit: RefCell<Vec<Rule>>,

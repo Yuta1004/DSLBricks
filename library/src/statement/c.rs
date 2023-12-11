@@ -1,12 +1,11 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
-use macros::DSLBlockBuilder;
+use macros::*;
 
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
@@ -23,8 +22,7 @@ use crate::constraints::ctime::*;
 ///
 /// ## 性質
 /// - Executable
-#[derive(DSLBlockBuilder)]
-#[impl_constraints(Executable)]
+#[dslblock(Executable)]
 pub struct Block {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
@@ -74,8 +72,7 @@ impl DSLGeneratable for Block {
 ///
 /// ## 性質
 /// - Executable
-#[derive(DSLBlockBuilder)]
-#[impl_constraints(Executable)]
+#[dslblock(Executable)]
 pub struct ExprStatement {
     #[component(single = Calculatable)]
     expr: RefCell<Option<Rule>>,
@@ -121,8 +118,7 @@ impl DSLGeneratable for ExprStatement {
 ///
 /// ## 性質
 /// - Executable
-#[derive(DSLBlockBuilder)]
-#[impl_constraints(Executable)]
+#[dslblock(Executable)]
 pub struct If {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,

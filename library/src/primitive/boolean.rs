@@ -1,9 +1,10 @@
 use std::rc::Rc;
 
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
+
+use macros::*;
 
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
@@ -17,7 +18,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - StaticValue
-#[impl_constraints(StaticValue)]
+#[dslblock(StaticValue)]
 pub struct Boolean;
 
 impl DSLBlock for Boolean {

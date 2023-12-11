@@ -2,6 +2,25 @@ use proc_macro2::TokenStream;
 use quote::{quote, ToTokens, format_ident};
 use syn::{DeriveInput, Data};
 
+pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
+    let struct_name = &ast.ident;
+
+    let impls = args
+        .to_string()
+        .split("+")
+        .map(|constraint| {
+            let constraint: TokenStream = constraint.parse().unwrap();
+            quote! { impl #constraint for #struct_name {} }
+        })
+        .collect::<Vec<TokenStream>>();
+
+    quote! {
+        #[derive(DSLBlockBuilder)]
+        #ast
+        #( #impls )*
+    }.into()
+}
+
 #[derive(Debug)]
 struct Field {
     is_multiple: bool,

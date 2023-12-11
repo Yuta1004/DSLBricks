@@ -2,12 +2,11 @@ pub mod c;
 
 use std::cell::RefCell;
 
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
 
-use macros::DSLBlockBuilder;
+use macros::*;
 
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
@@ -25,8 +24,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Executable
-#[derive(DSLBlockBuilder)]
-#[impl_constraints(Executable)]
+#[dslblock(Executable)]
 pub struct StatementSet {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,

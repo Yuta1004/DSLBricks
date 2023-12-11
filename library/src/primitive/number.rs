@@ -1,9 +1,10 @@
 use std::rc::Rc;
 
-use compiler::designer::constraint::ctime::impl_constraints;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
+
+use macros::*;
 
 use crate::common::DSLBlock;
 use crate::constraints::ctime::*;
@@ -18,7 +19,7 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 /// - Calculatable
-#[impl_constraints(StaticValue, Calculatable)]
+#[dslblock(StaticValue + Calculatable)]
 pub struct Integer;
 
 impl DSLBlock for Integer {
@@ -51,7 +52,7 @@ impl DSLGeneratable for Integer {
 ///
 /// - StaticValue
 /// - Calculatable
-#[impl_constraints(StaticValue, Calculatable)]
+#[dslblock(StaticValue + Calculatable)]
 pub struct Float;
 
 impl DSLBlock for Float {
