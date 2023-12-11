@@ -1,5 +1,3 @@
-use std::rc::Rc;
-
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
@@ -18,14 +16,9 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - StaticValue
+#[derive(Default)]
 #[dslblock(namespace = std.primitive, property = StaticValue)]
 pub struct Boolean;
-
-impl DSLBlock for Boolean {
-    fn new() -> Rc<Self> {
-        Rc::new(Boolean)
-    }
-}
 
 impl Boolean {
     fn design(&self) -> RuleSet {

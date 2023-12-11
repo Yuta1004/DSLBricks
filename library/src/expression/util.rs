@@ -23,18 +23,11 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
+#[derive(Default)]
 #[dslblock(namespace = std.expression.util, property = Calculatable)]
 pub struct Arithmetic {
     #[component(multiple = Calculatable)]
     unit: RefCell<Vec<Rule>>,
-}
-
-impl DSLBlock for Arithmetic {
-    fn new() -> Rc<Self> {
-        Rc::new(Arithmetic {
-            unit: RefCell::new(vec![]),
-        })
-    }
 }
 
 impl Arithmetic {

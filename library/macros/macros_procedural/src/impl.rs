@@ -42,7 +42,8 @@ impl<'a> Into<TokenStream> for InitArgument<'a> {
 }
 
 pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
-    let struct_name = ast.ident.to_string();
+    let struct_namet = &ast.ident;
+    let struct_name = struct_namet.to_string();
 
     let impls = args
         .to_string()
@@ -69,6 +70,7 @@ pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
     quote! {
         #[derive(DSLBlockBuilder)]
         #ast
+        impl DSLBlock for #struct_namet {}
         #( #impls )*
     }
 }

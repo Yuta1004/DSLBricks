@@ -22,18 +22,11 @@ use crate::constraints::ctime::*;
 ///
 /// ## 性質
 /// - Executable
+#[derive(Default)]
 #[dslblock(namespace = std.statement.c, property = Executable)]
 pub struct Block {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
-}
-
-impl DSLBlock for Block {
-    fn new() -> Rc<Self> {
-        Rc::new(Block {
-            stmt: RefCell::new(vec![]),
-        })
-    }
 }
 
 impl Block {
@@ -63,18 +56,11 @@ impl Block {
 ///
 /// ## 性質
 /// - Executable
+#[derive(Default)]
 #[dslblock(namespace = std.statement.c, property = Executable)]
 pub struct ExprStatement {
     #[component(single = Calculatable)]
     expr: RefCell<Option<Rule>>,
-}
-
-impl DSLBlock for ExprStatement {
-    fn new() -> Rc<Self> {
-        Rc::new(ExprStatement {
-            expr: RefCell::new(None)
-        })
-    }
 }
 
 impl ExprStatement {
@@ -101,21 +87,13 @@ impl ExprStatement {
 ///
 /// ## 性質
 /// - Executable
+#[derive(Default)]
 #[dslblock(namespace = std.statement.c, property = Executable)]
 pub struct If {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
-}
-
-impl DSLBlock for If {
-    fn new() -> Rc<Self> {
-        Rc::new(If {
-            cond: RefCell::new(None),
-            stmt: RefCell::new(vec![]),
-        })
-    }
 }
 
 impl If {

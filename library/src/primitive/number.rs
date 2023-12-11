@@ -1,5 +1,3 @@
-use std::rc::Rc;
-
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
@@ -19,14 +17,9 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 /// - Calculatable
+#[derive(Default)]
 #[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Integer;
-
-impl DSLBlock for Integer {
-    fn new() -> Rc<Integer> {
-        Rc::new(Integer)
-    }
-}
 
 impl Integer {
     fn design(&self) -> RuleSet {
@@ -44,14 +37,9 @@ impl Integer {
 ///
 /// - StaticValue
 /// - Calculatable
+#[derive(Default)]
 #[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Float;
-
-impl DSLBlock for Float {
-    fn new() -> Rc<Self> {
-        Rc::new(Float)
-    }
-}
 
 impl Float {
     fn design(&self) -> RuleSet {

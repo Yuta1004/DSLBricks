@@ -24,18 +24,11 @@ use crate::constraints::ctime::*;
 /// ## 性質
 ///
 /// - Calculatable
+#[derive(Default)]
 #[dslblock(namespace = std.expression, property = Calculatable)]
 pub struct ExpressionSet {
     #[component(multiple = Calculatable)]
     expr: RefCell<Vec<Rule>>,
-}
-
-impl DSLBlock for ExpressionSet {
-    fn new() -> Rc<Self> {
-        Rc::new(ExpressionSet {
-            expr: RefCell::new(vec![]),
-        })
-    }
 }
 
 impl ExpressionSet {
