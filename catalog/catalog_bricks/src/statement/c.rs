@@ -7,6 +7,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # ブロック
@@ -28,7 +29,7 @@ pub struct Block {
     stmt: RefCell<Vec<Rule>>,
 }
 
-impl Block {
+impl DSLBrickDesign for Block {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
             rule! { Block -> r"\{" stmts r"\}" },
@@ -38,6 +39,12 @@ impl Block {
         ];
         rules.extend(self.stmt.borrow().clone());
         rules
+    }
+}
+
+impl DSLBrickAssertion for Block {
+    fn assert(&self) {
+        assert!(self.stmt.borrow().len() > 0)
     }
 }
 
@@ -60,12 +67,18 @@ pub struct ExprStatement {
     expr: RefCell<Option<Rule>>,
 }
 
-impl ExprStatement {
+impl DSLBrickDesign for ExprStatement {
     fn design(&self) -> Vec<Rule> {
         vec![
             rule! { ExprStatement -> expr ";" },
             self.expr.borrow().clone().unwrap(),
         ]
+    }
+}
+
+impl DSLBrickAssertion for ExprStatement {
+    fn assert(&self) {
+        assert!(self.expr.borrow().is_some());
     }
 }
 
@@ -91,7 +104,7 @@ pub struct If {
     stmt: RefCell<Vec<Rule>>,
 }
 
-impl If {
+impl DSLBrickDesign for If {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
             rule! { If -> "if" r"\(" cond r"\)" stmt },
@@ -102,5 +115,12 @@ impl If {
         rules.push(self.cond.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());
         rules
+    }
+}
+
+impl DSLBrickAssertion for If {
+    fn assert(&self) {
+        assert!(self.cond.borrow().is_some());
+        assert!(self.stmt.borrow().len() > 0);
     }
 }

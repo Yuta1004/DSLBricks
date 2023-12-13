@@ -1,3 +1,7 @@
+// 共通定義
+pub mod common;
+pub use common as prelude;
+
 // 制約
 pub mod constraints;
 

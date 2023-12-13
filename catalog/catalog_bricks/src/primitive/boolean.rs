@@ -4,6 +4,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 真理値
@@ -19,8 +20,14 @@ use crate::constraints::ctime::*;
 #[dslbrick(namespace = std.primitive, property = StaticValue)]
 pub struct Boolean;
 
-impl Boolean {
+impl DSLBrickDesign for Boolean {
     fn design(&self) -> Vec<Rule> {
         vec![rule! { Boolean -> r"(true|false)" }]
+    }
+}
+
+impl DSLBrickAssertion for Boolean {
+    fn assert(&self) {
+        // do nothing
     }
 }

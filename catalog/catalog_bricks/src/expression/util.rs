@@ -7,6 +7,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 算術式
@@ -29,7 +30,7 @@ pub struct Arithmetic {
     unit: RefCell<Vec<Rule>>,
 }
 
-impl Arithmetic {
+impl DSLBrickDesign for Arithmetic {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
             rule! { Arithmetic -> expr },
@@ -44,5 +45,11 @@ impl Arithmetic {
         ];
         rules.extend(self.unit.borrow().clone());
         rules
+    }
+}
+
+impl DSLBrickAssertion for Arithmetic {
+    fn assert(&self) {
+        assert!(self.unit.borrow().len() > 0);
     }
 }

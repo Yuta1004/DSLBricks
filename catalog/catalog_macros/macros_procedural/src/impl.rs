@@ -1,6 +1,6 @@
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
-use syn::{Data, DeriveInput};
+use syn::{ItemFn, ItemStruct};
 
 enum InitArgument<'a> {
     NameSpace(&'a str, &'a str), // struct_name, namespace
@@ -16,18 +16,13 @@ impl<'a> From<InitArgument<'a>> for TokenStream {
                 let fullname = format!("{}.{}", namespace, struct_name);
 
                 quote! {
-                    impl DSLGeneratable for #struct_name {
+                    impl DSLBrickMeta for #struct_name {
                         fn name(&self) -> &'static str {
                             #fullname
                         }
 
                         fn start(&self) -> &'static str {
                             #start
-                        }
-
-                        fn design(&self) -> RuleSet {
-                            self.assert();
-                            (self.name(), #struct_name::design(self)).into()
                         }
                     }
                 }
@@ -42,7 +37,7 @@ impl<'a> From<InitArgument<'a>> for TokenStream {
     }
 }
 
-pub(super) fn dsl_brick_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
+pub(super) fn dslbrick_attr_macro_impl(args: TokenStream, ast: ItemStruct) -> TokenStream {
     let struct_namet = &ast.ident;
     let struct_name = struct_namet.to_string();
 
@@ -67,22 +62,9 @@ pub(super) fn dsl_brick_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
         .collect::<Vec<TokenStream>>();
 
     quote! {
-        #[derive(DSLBrickBuilder)]
+        #[derive(DSLBrickBuilder, DSLBrickBaker)]
         #ast
         #( #impls )*
-
-        impl #struct_namet {
-            pub fn new() -> Rc<Self>
-            where
-                Self: Default,
-            {
-                Rc::new(Self::default())
-            }
-
-            pub fn unwrap(self: Rc<Self>) -> Self {
-                Rc::into_inner(self).unwrap()
-            }
-        }
     }
 }
 
@@ -93,8 +75,8 @@ struct Field {
     constraints: TokenStream,
 }
 
-impl From<Field> for (TokenStream, TokenStream) {
-    fn from(field: Field) -> (TokenStream, TokenStream) {
+impl From<Field> for TokenStream {
+    fn from(field: Field) -> TokenStream {
         match field.is_multiple {
             true => Field::into_multiple(field),
             false => Field::into_single(field),
@@ -103,16 +85,16 @@ impl From<Field> for (TokenStream, TokenStream) {
 }
 
 impl Field {
-    fn into_single(self) -> (TokenStream, TokenStream) {
+    fn into_single(self) -> TokenStream {
         let fname = format_ident!("set_{}", self.name);
         let rname = format_ident!("ref_{}", self.name);
         let name: TokenStream = self.name.parse().unwrap();
         let constraints = self.constraints;
 
-        let setter = quote! {
+        quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
-                T: #constraints + 'static,
+                T: DSLGeneratable + #constraints + 'static,
             {
                 {
                     let #rname = &mut *self.#name.borrow_mut();
@@ -120,44 +102,32 @@ impl Field {
                 }
                 self
             }
-        };
-        let assertion = quote! { assert!(self.#name.borrow().is_some()); };
-
-        (setter, assertion)
+        }
     }
 
-    fn into_multiple(self) -> (TokenStream, TokenStream) {
+    fn into_multiple(self) -> TokenStream {
         let fname = format_ident!("add_{}", self.name);
         let name: TokenStream = self.name.parse().unwrap();
         let constraints = self.constraints;
 
-        let setter = quote! {
+        quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
-                T: #constraints + 'static,
+                T: DSLGeneratable + #constraints + 'static,
             {
                 self.#name
                     .borrow_mut()
                     .push(rule! { #name -> [#name] });
                 self
             }
-        };
-        let assertion = quote! { assert!(self.#name.borrow().len() > 0); };
-
-        (setter, assertion)
+        }
     }
 }
 
-pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream {
-    let data_struct = if let Data::Struct(data_struct) = ast.data {
-        data_struct
-    } else {
-        panic!("\"DSLBrickBuilder proc-macro is only implemented for struct.\"");
-    };
-
+pub(super) fn dslbrick_builder_proc_macro_impl(ast: ItemStruct) -> TokenStream {
     let struct_name = ast.ident;
 
-    let struct_fields = data_struct
+    let struct_fields = ast
         .fields
         .clone()
         .into_iter()
@@ -175,11 +145,12 @@ pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
                         left
                     ),
                 };
+                let name = field.ident.to_token_stream().to_string();
                 let constraints = right;
 
                 Field {
                     is_multiple,
-                    name: field.ident.to_token_stream().to_string(),
+                    name,
                     constraints,
                 }
             } else {
@@ -188,23 +159,44 @@ pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
         })
         .collect::<Vec<Field>>();
 
-    let (setters, assertions) =
-        struct_fields
-            .into_iter()
-            .fold((vec![], vec![]), |(mut setters, mut assertions), field| {
-                let (setter, assertion) = Into::<(TokenStream, TokenStream)>::into(field);
-                setters.push(setter);
-                assertions.push(assertion);
-                (setters, assertions)
-            });
+    let setters = struct_fields
+        .into_iter()
+        .map(Into::<TokenStream>::into);
 
     quote! {
         impl #struct_name {
             #( #setters )*
+        }
+    }
+}
 
-            fn assert(&self) {
-                #( #assertions )*
+pub(super) fn dslbrick_baker_proc_macro_impl(ast: ItemStruct) -> TokenStream {
+    let struct_name = ast.ident;
+
+    quote! {
+        impl DSLGeneratable for #struct_name
+        where
+            Self: DSLBrick,
+        {
+            fn name(&self) -> &'static str {
+                DSLBrickMeta::name(self)
+            }
+
+            fn start(&self) -> &'static str {
+                DSLBrickMeta::start(self)
+            }
+
+            fn design(&self) -> RuleSet {
+                DSLBrickAssertion::assert(self);
+
+                let name = DSLBrickMeta::name(self);
+                let design = DSLBrickDesign::design(self);
+                (name, design).into()
             }
         }
     }
+}
+
+pub(super) fn combine_brick_attr_macro_impl(_: ItemFn) -> TokenStream {
+    unimplemented!()
 }

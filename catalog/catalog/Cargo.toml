@@ -1,0 +1,10 @@
+[package]
+name = "catalog"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+catalog_macros = { path = "../catalog_macros/macros" }
+catalog_bricks = { path = "../catalog_bricks" }

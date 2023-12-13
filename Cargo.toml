@@ -5,7 +5,7 @@ members = [
     "compiler/compiler",
 
     # Library
-    "catalog",
+    "catalog/catalog",
 
     # Examples
     "examples/calc_interpreter",
