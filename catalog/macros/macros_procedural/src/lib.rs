@@ -18,3 +18,9 @@ pub fn derive_dsl_brick_builder(input: proc_macro::TokenStream) -> proc_macro::T
     let ast = parse_macro_input!(input as DeriveInput);
     r#impl::dsl_brick_builder_proc_macro_impl(ast).into()
 }
+
+#[proc_macro_derive(DSLBrickBaker)]
+pub fn derive_dsl_brick_baker(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let ast = parse_macro_input!(input as DeriveInput);
+    r#impl::dsl_brick_baker_proc_macro_impl(ast).into()
+}

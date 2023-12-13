@@ -62,31 +62,9 @@ pub(super) fn dsl_brick_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
         .collect::<Vec<TokenStream>>();
 
     quote! {
-        #[derive(DSLBrickBuilder)]
+        #[derive(DSLBrickBuilder, DSLBrickBaker)]
         #ast
-
         #( #impls )*
-
-        impl DSLGeneratable for #struct_namet
-        where
-            Self: DSLBrick,
-        {
-            fn name(&self) -> &'static str {
-                DSLBrickMeta::name(self)
-            }
-
-            fn start(&self) -> &'static str {
-                DSLBrickMeta::start(self)
-            }
-
-            fn design(&self) -> RuleSet {
-                DSLBrickAssertion::assert(self);
-
-                let name = DSLBrickMeta::name(self);
-                let design = DSLBrickDesign::design(self);
-                (name, design).into()
-            }
-        }
     }
 }
 
@@ -193,6 +171,39 @@ pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
     quote! {
         impl #struct_name {
             #( #setters )*
+        }
+    }
+}
+
+pub(super) fn dsl_brick_baker_proc_macro_impl(ast: DeriveInput) -> TokenStream {
+    if let Data::Struct(_) = ast.data {
+        // do nothing
+    } else {
+        panic!("\"DSLBrickBaker proc-macro is only implemented for struct.\"");
+    };
+
+    let struct_name = ast.ident;
+
+    quote! {
+        impl DSLGeneratable for #struct_name
+        where
+            Self: DSLBrick,
+        {
+            fn name(&self) -> &'static str {
+                DSLBrickMeta::name(self)
+            }
+
+            fn start(&self) -> &'static str {
+                DSLBrickMeta::start(self)
+            }
+
+            fn design(&self) -> RuleSet {
+                DSLBrickAssertion::assert(self);
+
+                let name = DSLBrickMeta::name(self);
+                let design = DSLBrickDesign::design(self);
+                (name, design).into()
+            }
         }
     }
 }
