@@ -77,8 +77,48 @@ name = "calc_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "catalog",
  "compiler",
- "library",
+ "thiserror",
+]
+
+[[package]]
+name = "catalog"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "catalog_macros",
+ "compiler",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
+name = "catalog_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "catalog_macros_declarative",
+ "catalog_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "catalog_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "catalog_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 
@@ -337,46 +377,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
 
 [[package]]
-name = "library"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "compiler",
- "library_macros",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "library_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "library_macros_declarative",
- "library_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "library_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "library_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
- "thiserror",
-]
-
-[[package]]
 name = "linux-raw-sys"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -393,8 +393,8 @@ name = "minic_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "catalog",
  "compiler",
- "library",
  "thiserror",
 ]
 

@@ -1,5 +1,5 @@
 [package]
-name = "library_macros_declarative"
+name = "catalog_macros_declarative"
 version = "0.1.0"
 edition = "2021"
 

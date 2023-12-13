@@ -1,6 +1,6 @@
+use catalog::expression::util::Arithmetic;
+use catalog::primitive::number::{Float, Integer};
 use compiler::build_dsl;
-use library::expression::util::Arithmetic;
-use library::primitive::number::{Float, Integer};
 
 fn main() {
     build_dsl! {

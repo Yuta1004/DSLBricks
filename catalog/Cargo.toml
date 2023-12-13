@@ -1,5 +1,5 @@
 [package]
-name = "library"
+name = "catalog"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,4 +8,4 @@ anyhow = "1.0"
 thiserror = "1.0"
 serde = "1.0"
 compiler = { path = "../compiler/compiler" }
-macros = { package = "library_macros", path = "./macros/macros" }
+macros = { package = "catalog_macros", path = "./macros/macros" }
