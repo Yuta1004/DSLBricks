@@ -1,6 +1,6 @@
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
-use syn::{Data, DeriveInput, ItemFn};
+use syn::{ItemFn, ItemStruct};
 
 enum InitArgument<'a> {
     NameSpace(&'a str, &'a str), // struct_name, namespace
@@ -37,7 +37,7 @@ impl<'a> From<InitArgument<'a>> for TokenStream {
     }
 }
 
-pub(super) fn dsl_brick_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
+pub(super) fn dslbrick_attr_macro_impl(args: TokenStream, ast: ItemStruct) -> TokenStream {
     let struct_namet = &ast.ident;
     let struct_name = struct_namet.to_string();
 
@@ -124,16 +124,10 @@ impl Field {
     }
 }
 
-pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream {
-    let data_struct = if let Data::Struct(data_struct) = ast.data {
-        data_struct
-    } else {
-        panic!("\"DSLBrickBuilder proc-macro is only implemented for struct.\"");
-    };
-
+pub(super) fn dslbrick_builder_proc_macro_impl(ast: ItemStruct) -> TokenStream {
     let struct_name = ast.ident;
 
-    let struct_fields = data_struct
+    let struct_fields = ast
         .fields
         .clone()
         .into_iter()
@@ -151,11 +145,12 @@ pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
                         left
                     ),
                 };
+                let name = field.ident.to_token_stream().to_string();
                 let constraints = right;
 
                 Field {
                     is_multiple,
-                    name: field.ident.to_token_stream().to_string(),
+                    name,
                     constraints,
                 }
             } else {
@@ -175,13 +170,7 @@ pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream
     }
 }
 
-pub(super) fn dsl_brick_baker_proc_macro_impl(ast: DeriveInput) -> TokenStream {
-    if let Data::Struct(_) = ast.data {
-        // do nothing
-    } else {
-        panic!("\"DSLBrickBaker proc-macro is only implemented for struct.\"");
-    };
-
+pub(super) fn dslbrick_baker_proc_macro_impl(ast: ItemStruct) -> TokenStream {
     let struct_name = ast.ident;
 
     quote! {
@@ -208,6 +197,6 @@ pub(super) fn dsl_brick_baker_proc_macro_impl(ast: DeriveInput) -> TokenStream {
     }
 }
 
-pub(super) fn combine_brick_attr_macro_impl(ast: ItemFn) -> TokenStream {
-    quote! { #ast }
+pub(super) fn combine_brick_attr_macro_impl(_: ItemFn) -> TokenStream {
+    unimplemented!()
 }
