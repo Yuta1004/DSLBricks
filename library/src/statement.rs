@@ -24,7 +24,7 @@ use crate::constraints::ctime::*;
 ///
 /// - Executable
 #[derive(Default)]
-#[dslblock(namespace = std.statement, property = Executable)]
+#[dslbrick(namespace = std.statement, property = Executable)]
 pub struct StatementSet {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,

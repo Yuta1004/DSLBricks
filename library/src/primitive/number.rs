@@ -17,7 +17,7 @@ use crate::constraints::ctime::*;
 /// - StaticValue
 /// - Calculatable
 #[derive(Default)]
-#[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
+#[dslbrick(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Integer;
 
 impl Integer {
@@ -37,7 +37,7 @@ impl Integer {
 /// - StaticValue
 /// - Calculatable
 #[derive(Default)]
-#[dslblock(namespace = std.primitive, property = StaticValue + Calculatable)]
+#[dslbrick(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Float;
 
 impl Float {

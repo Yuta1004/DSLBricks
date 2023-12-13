@@ -1,4 +1,4 @@
-# DSL Generator with Syntax-Block
+# DSL Generator with Syntax-Brick
 
 ## Command
 
@@ -7,14 +7,16 @@
 $ make test
 
 // Example
-$ cargo run -p calc_interpreter
+$ cargo run --bin calc_interpreter
+$ cargo run --bin minic_interpreter
 ```
 
 ## Crates
 
 ### bin
 
-none
+- calc_interpreter
+- minic_interpreter
 
 ### lib
 

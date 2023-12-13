@@ -16,7 +16,7 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 #[derive(Default)]
-#[dslblock(namespace = std.primitive, property = StaticValue)]
+#[dslbrick(namespace = std.primitive, property = StaticValue)]
 pub struct String;
 
 impl String {
