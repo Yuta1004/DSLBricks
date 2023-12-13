@@ -10,5 +10,4 @@ none
 
 - **catalog**
 - bricks
-- declang
 - macros

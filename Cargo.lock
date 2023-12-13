@@ -88,7 +88,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "catalog_bricks",
- "catalog_declang",
  "catalog_macros",
  "thiserror",
 ]
@@ -100,14 +99,6 @@ dependencies = [
  "anyhow",
  "catalog_macros",
  "compiler",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_declang"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 
