@@ -115,10 +115,41 @@ checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 name = "compiler"
 version = "0.1.0"
 dependencies = [
+ "compiler_macros",
  "designer",
  "exec_compiler",
  "exec_interpreter",
  "processor",
+]
+
+[[package]]
+name = "compiler_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "compiler_macros_declarative",
+ "compiler_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "compiler_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "designer",
+ "thiserror",
+]
+
+[[package]]
+name = "compiler_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "thiserror",
 ]
 
 [[package]]

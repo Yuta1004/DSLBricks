@@ -6,4 +6,8 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-designer = { path = "../../../designer/designer" }
+designer = { path = "../../../designer/designer", optional = true }
+
+[features]
+default = []
+build = ["designer"]
