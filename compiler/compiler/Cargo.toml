@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+macros = { package = "compiler_macros", path = "./macros/macros" }
 designer = { path = "../designer/designer", optional = true }
 processor = { path = "../processor/processor", optional = true }
 exec_compiler = { path = "../executor/compiler" }
