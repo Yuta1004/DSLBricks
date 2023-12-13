@@ -4,6 +4,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 文字列
@@ -19,7 +20,7 @@ use crate::constraints::ctime::*;
 #[dslbrick(namespace = std.primitive, property = StaticValue)]
 pub struct String;
 
-impl String {
+impl DSLBrickDesign for String {
     fn design(&self) -> Vec<Rule> {
         vec![rule! { String -> r#"".*""# }]
     }

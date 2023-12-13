@@ -4,6 +4,7 @@ use catalog::expression::util::Arithmetic;
 use catalog::primitive::number::{Float, Integer};
 use catalog::statement::c::{Block, ExprStatement, If};
 use catalog::statement::StatementSet;
+use catalog::prelude::*;
 use compiler::build_dsl;
 
 fn main() {

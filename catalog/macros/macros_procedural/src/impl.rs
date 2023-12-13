@@ -16,18 +16,13 @@ impl<'a> From<InitArgument<'a>> for TokenStream {
                 let fullname = format!("{}.{}", namespace, struct_name);
 
                 quote! {
-                    impl DSLGeneratable for #struct_name {
+                    impl DSLBrickMeta for #struct_name {
                         fn name(&self) -> &'static str {
                             #fullname
                         }
 
                         fn start(&self) -> &'static str {
                             #start
-                        }
-
-                        fn design(&self) -> RuleSet {
-                            self.assert();
-                            (self.name(), #struct_name::design(self)).into()
                         }
                     }
                 }
@@ -71,16 +66,22 @@ pub(super) fn dsl_brick_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
         #ast
         #( #impls )*
 
-        impl #struct_namet {
-            pub fn new() -> Rc<Self>
-            where
-                Self: Default,
-            {
-                Rc::new(Self::default())
+        impl DSLGeneratable for #struct_namet
+        where
+            Self: DSLBrick,
+        {
+            fn name(&self) -> &'static str {
+                DSLBrickMeta::name(self)
             }
 
-            pub fn unwrap(self: Rc<Self>) -> Self {
-                Rc::into_inner(self).unwrap()
+            fn start(&self) -> &'static str {
+                DSLBrickMeta::start(self)
+            }
+
+            fn design(&self) -> RuleSet {
+                let name = DSLBrickMeta::name(self);
+                let design = DSLBrickDesign::design(self);
+                (name, design).into()
             }
         }
     }
@@ -112,7 +113,7 @@ impl Field {
         let setter = quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
-                T: #constraints + 'static,
+                T: DSLGeneratable + #constraints + 'static,
             {
                 {
                     let #rname = &mut *self.#name.borrow_mut();
@@ -134,7 +135,7 @@ impl Field {
         let setter = quote! {
             pub fn #fname<T>(self: Rc<Self>, #name: Rc<T>) -> Rc<Self>
             where
-                T: #constraints + 'static,
+                T: DSLGeneratable + #constraints + 'static,
             {
                 self.#name
                     .borrow_mut()

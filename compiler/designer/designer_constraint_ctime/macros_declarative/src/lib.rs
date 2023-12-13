@@ -5,13 +5,13 @@ macro_rules! declare_constraints {
     };
 
     (@call new $constraint:ident) => {
-        pub trait $constraint: DSLGeneratable {}
+        pub trait $constraint {}
     };
 
     (@call compose $target:ident $($constraint:ident)*) => {
-        pub trait $target: DSLGeneratable {}
+        pub trait $target {}
 
-        impl <T: DSLGeneratable> $target for T
+        impl <T> $target for T
         where
             T: $($constraint +)*
         {}
@@ -20,8 +20,6 @@ macro_rules! declare_constraints {
 
 #[cfg(test)]
 mod test {
-    use design::DSLGeneratable;
-
     declare_constraints! {
         new Constraint1;
         new Constraint2;

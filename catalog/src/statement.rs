@@ -8,6 +8,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 集合(文)
@@ -30,7 +31,7 @@ pub struct StatementSet {
     stmt: RefCell<Vec<Rule>>,
 }
 
-impl StatementSet {
+impl DSLBrickDesign for StatementSet {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![rule! { StatementSet -> stmt }];
         rules.extend(self.stmt.borrow().clone());

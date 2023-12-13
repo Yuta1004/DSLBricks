@@ -4,6 +4,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 整数
@@ -20,7 +21,7 @@ use crate::constraints::ctime::*;
 #[dslbrick(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Integer;
 
-impl Integer {
+impl DSLBrickDesign for Integer {
     fn design(&self) -> Vec<Rule> {
         vec![rule! { Integer -> r"(-?[1-9][0-9]*|0)" }]
     }
@@ -40,7 +41,7 @@ impl Integer {
 #[dslbrick(namespace = std.primitive, property = StaticValue + Calculatable)]
 pub struct Float;
 
-impl Float {
+impl DSLBrickDesign for Float {
     fn design(&self) -> Vec<Rule> {
         vec![rule! { Float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }]
     }

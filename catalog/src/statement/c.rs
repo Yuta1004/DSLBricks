@@ -7,6 +7,7 @@ use compiler::designer::design::DSLGeneratable;
 
 use macros::*;
 
+use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # ブロック
@@ -28,7 +29,7 @@ pub struct Block {
     stmt: RefCell<Vec<Rule>>,
 }
 
-impl Block {
+impl DSLBrickDesign for Block {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
             rule! { Block -> r"\{" stmts r"\}" },
@@ -60,7 +61,7 @@ pub struct ExprStatement {
     expr: RefCell<Option<Rule>>,
 }
 
-impl ExprStatement {
+impl DSLBrickDesign for ExprStatement {
     fn design(&self) -> Vec<Rule> {
         vec![
             rule! { ExprStatement -> expr ";" },
@@ -91,7 +92,7 @@ pub struct If {
     stmt: RefCell<Vec<Rule>>,
 }
 
-impl If {
+impl DSLBrickDesign for If {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
             rule! { If -> "if" r"\(" cond r"\)" stmt },

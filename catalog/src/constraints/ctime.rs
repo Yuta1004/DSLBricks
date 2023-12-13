@@ -1,5 +1,4 @@
 use compiler::designer::constraint::ctime::declare_constraints;
-use compiler::designer::design::DSLGeneratable;
 
 // 1. ユーザに宣言を要請する制約
 declare_constraints! {
