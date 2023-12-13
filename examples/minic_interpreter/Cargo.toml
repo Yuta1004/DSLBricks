@@ -9,5 +9,5 @@ thiserror = "1.0"
 compiler = { path = "../../compiler/compiler" }
 
 [build-dependencies]
-compiler = { path = "../../compiler/compiler" }
+compiler = { path = "../../compiler/compiler", features = ["build"] }
 catalog = { path = "../../catalog/catalog" }
