@@ -326,6 +326,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "editor"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -369,6 +377,14 @@ dependencies = [
  "anyhow",
  "clap",
  "processor",
+ "thiserror",
+]
+
+[[package]]
+name = "gen_template"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
  "thiserror",
 ]
 

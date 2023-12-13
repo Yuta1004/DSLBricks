@@ -12,7 +12,8 @@ members = [
     "examples/minic_interpreter",
 
     # Tools
-    # "tools/...",
+    "src/editor",
+    "src/gen_template",
 ]
 exclude = [
     # Tests
