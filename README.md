@@ -20,5 +20,5 @@ $ cargo run --bin minic_interpreter
 
 ### lib
 
+- [catalog](./catalog/README.md)
 - [compiler](./compiler/README.md)
-- [library](./library/README.md)

@@ -1,10 +1,10 @@
 use std::rc::Rc;
 
+use catalog::expression::util::Arithmetic;
+use catalog::primitive::number::{Float, Integer};
+use catalog::statement::c::{Block, ExprStatement, If};
+use catalog::statement::StatementSet;
 use compiler::build_dsl;
-use library::expression::util::Arithmetic;
-use library::primitive::number::{Float, Integer};
-use library::statement::c::{Block, ExprStatement, If};
-use library::statement::StatementSet;
 
 fn main() {
     // 算術式
