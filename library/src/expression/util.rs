@@ -23,7 +23,7 @@ use crate::constraints::ctime::*;
 ///
 /// - Calculatable
 #[derive(Default)]
-#[dslblock(namespace = std.expression.util, property = Calculatable)]
+#[dslbrick(namespace = std.expression.util, property = Calculatable)]
 pub struct Arithmetic {
     #[component(multiple = Calculatable)]
     unit: RefCell<Vec<Rule>>,

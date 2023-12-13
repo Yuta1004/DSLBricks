@@ -22,7 +22,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslblock(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.c, property = Executable)]
 pub struct Block {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
@@ -54,7 +54,7 @@ impl Block {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslblock(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.c, property = Executable)]
 pub struct ExprStatement {
     #[component(single = Calculatable)]
     expr: RefCell<Option<Rule>>,
@@ -83,7 +83,7 @@ impl ExprStatement {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslblock(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.c, property = Executable)]
 pub struct If {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,

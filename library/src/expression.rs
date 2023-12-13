@@ -24,7 +24,7 @@ use crate::constraints::ctime::*;
 ///
 /// - Calculatable
 #[derive(Default)]
-#[dslblock(namespace = std.expression, property = Calculatable)]
+#[dslbrick(namespace = std.expression, property = Calculatable)]
 pub struct ExpressionSet {
     #[component(multiple = Calculatable)]
     expr: RefCell<Vec<Rule>>,

@@ -42,7 +42,7 @@ impl<'a> From<InitArgument<'a>> for TokenStream {
     }
 }
 
-pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
+pub(super) fn dsl_brick_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> TokenStream {
     let struct_namet = &ast.ident;
     let struct_name = struct_namet.to_string();
 
@@ -67,7 +67,7 @@ pub(super) fn dsl_block_attr_macro_impl(args: TokenStream, ast: DeriveInput) -> 
         .collect::<Vec<TokenStream>>();
 
     quote! {
-        #[derive(DSLBlockBuilder)]
+        #[derive(DSLBrickBuilder)]
         #ast
         #( #impls )*
 
@@ -148,11 +148,11 @@ impl Field {
     }
 }
 
-pub(super) fn dsl_block_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream {
+pub(super) fn dsl_brick_builder_proc_macro_impl(ast: DeriveInput) -> TokenStream {
     let data_struct = if let Data::Struct(data_struct) = ast.data {
         data_struct
     } else {
-        panic!("\"DSLBlockBuilder proc-macro is only implemented for struct.\"");
+        panic!("\"DSLBrickBuilder proc-macro is only implemented for struct.\"");
     };
 
     let struct_name = ast.ident;
