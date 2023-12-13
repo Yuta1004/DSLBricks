@@ -38,3 +38,9 @@ impl DSLBrickDesign for StatementSet {
         rules
     }
 }
+
+impl DSLBrickAssertion for StatementSet {
+    fn assert(&self) {
+        assert!(self.stmt.borrow().len() > 0);
+    }
+}

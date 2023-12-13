@@ -27,6 +27,13 @@ impl DSLBrickDesign for Integer {
     }
 }
 
+impl DSLBrickAssertion for Integer {
+    fn assert(&self) {
+        // do nothing
+    }
+}
+
+
 /// # 小数
 ///
 /// ## 概要
@@ -44,5 +51,11 @@ pub struct Float;
 impl DSLBrickDesign for Float {
     fn design(&self) -> Vec<Rule> {
         vec![rule! { Float -> r"(-?[1-9][0-9]*|0)\.[0-9]+" }]
+    }
+}
+
+impl DSLBrickAssertion for Float {
+    fn assert(&self) {
+        // do nothing
     }
 }

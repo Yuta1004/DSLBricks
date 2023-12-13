@@ -25,3 +25,9 @@ impl DSLBrickDesign for String {
         vec![rule! { String -> r#"".*""# }]
     }
 }
+
+impl DSLBrickAssertion for String {
+    fn assert(&self) {
+        // do nothing
+    }
+}

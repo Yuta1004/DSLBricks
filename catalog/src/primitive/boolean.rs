@@ -25,3 +25,9 @@ impl DSLBrickDesign for Boolean {
         vec![rule! { Boolean -> r"(true|false)" }]
     }
 }
+
+impl DSLBrickAssertion for Boolean {
+    fn assert(&self) {
+        // do nothing
+    }
+}

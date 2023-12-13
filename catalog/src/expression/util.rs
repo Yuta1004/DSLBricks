@@ -47,3 +47,9 @@ impl DSLBrickDesign for Arithmetic {
         rules
     }
 }
+
+impl DSLBrickAssertion for Arithmetic {
+    fn assert(&self) {
+        assert!(self.unit.borrow().len() > 0);
+    }
+}

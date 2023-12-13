@@ -38,3 +38,9 @@ impl DSLBrickDesign for ExpressionSet {
         rules
     }
 }
+
+impl DSLBrickAssertion for ExpressionSet {
+    fn assert(&self) {
+        assert!(self.expr.borrow().len() > 0);
+    }
+}

@@ -42,6 +42,12 @@ impl DSLBrickDesign for Block {
     }
 }
 
+impl DSLBrickAssertion for Block {
+    fn assert(&self) {
+        assert!(self.stmt.borrow().len() > 0)
+    }
+}
+
 /// # 式-文
 ///
 /// ## 概要
@@ -67,6 +73,12 @@ impl DSLBrickDesign for ExprStatement {
             rule! { ExprStatement -> expr ";" },
             self.expr.borrow().clone().unwrap(),
         ]
+    }
+}
+
+impl DSLBrickAssertion for ExprStatement {
+    fn assert(&self) {
+        assert!(self.expr.borrow().is_some());
     }
 }
 
@@ -103,5 +115,12 @@ impl DSLBrickDesign for If {
         rules.push(self.cond.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());
         rules
+    }
+}
+
+impl DSLBrickAssertion for If {
+    fn assert(&self) {
+        assert!(self.cond.borrow().is_some());
+        assert!(self.stmt.borrow().len() > 0);
     }
 }
