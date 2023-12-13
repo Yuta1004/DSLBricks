@@ -5,8 +5,10 @@ use catalog::primitive::number::{Float, Integer};
 use catalog::statement::c::{Block, ExprStatement, If};
 use catalog::statement::StatementSet;
 use catalog::prelude::*;
+use catalog::macros::combine_bricks;
 use compiler::build_dsl;
 
+#[combine_bricks]
 fn main() {
     // 算術式
     let arithmetic = Arithmetic::new()
@@ -32,3 +34,45 @@ fn main() {
             .unwrap()
     }
 }
+
+/*
+combine_bricks! {
+    integer := Integer
+    float := Float
+
+    if := If {
+        unit:
+    }
+}
+
+#[combine_bricks]
+fn main() {
+    let integer = Integer;
+    let float = Float;
+
+    let arithmetic = Arithmetic {
+        unit: integer + float,
+    };
+
+    let expr_stmt = ExprStatement {
+        expr: arithmetic,
+    };
+
+    let block_stmt = Block {
+        stmt: expr_stmt + if_stmt,
+    };
+
+    let if_stmt = If {
+        cond: arithmetic,
+        stmt: block_stmt,
+    };
+
+    StatementSet {
+        stmt: if_stmt + block_stmt + expr_stmt,
+    }
+}
+
+fn main() {
+}
+
+*/

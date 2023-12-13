@@ -1,6 +1,6 @@
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
-use syn::{Data, DeriveInput};
+use syn::{Data, DeriveInput, ItemFn};
 
 enum InitArgument<'a> {
     NameSpace(&'a str, &'a str), // struct_name, namespace
@@ -206,4 +206,8 @@ pub(super) fn dsl_brick_baker_proc_macro_impl(ast: DeriveInput) -> TokenStream {
             }
         }
     }
+}
+
+pub(super) fn combine_brick_attr_macro_impl(ast: ItemFn) -> TokenStream {
+    quote! { #ast }
 }
