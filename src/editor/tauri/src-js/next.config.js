@@ -7,6 +7,7 @@ const nextConfig = {
     images: {
         unoptimized: true,
     },
+    transpilePackages: ["react-blockly"],
 };
 
 module.exports = nextConfig;

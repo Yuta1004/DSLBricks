@@ -1,7 +1,14 @@
+import { useState } from "react";
+
+import { BlocklyWorkspace } from "react-blockly";
+
 export default function App() {
+    const [xml, setXml] = useState("");
+
     return (
-        <div>
-            <h1>Hello, tauri!!!</h1>
-        </div>
+        <BlocklyWorkspace
+            initialXml={xml}
+            onXmlChange={setXml}
+        />
     );
 }
