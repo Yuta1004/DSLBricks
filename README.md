@@ -1,8 +1,17 @@
 # DSL Generator with Syntax-Brick
 
+## Requires
+
+- make
+- cargo
+- Docker
+
 ## Command
 
 ```
+// Setup(once)
+$ make setup
+
 // Test
 $ make test
 
