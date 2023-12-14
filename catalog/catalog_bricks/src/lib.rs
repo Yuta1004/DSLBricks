@@ -1,6 +1,13 @@
-// 共通定義
-pub mod common;
-pub use common as prelude;
+// 共通定義など
+mod common;
+pub mod prelude {
+    pub use std::rc::Rc;
+
+    pub use compiler::designer::design::DSLGeneratable;
+    pub use compiler::build_dsl;
+
+    pub use crate::common::*;
+}
 
 // 制約
 pub mod constraints;
