@@ -1,0 +1,20 @@
+IMAGE := dslbricks-editor:build
+SH := /bin/ash
+OPTS :=\
+	--rm \
+	-v $(shell pwd)/src:/workdir/src \
+	-v $(shell pwd)/next.config.js:/workdir/next.config.js \
+	-v $(shell pwd)/tsconfig.json:/workdir/tsconfig.json \
+	-v $(shell pwd):/outdir
+
+run:
+	docker run $(OPTS) -p 5000:5000 $(IMAGE) $(SH) -c "npm run dev"
+
+build:
+	docker run $(OPTS) $(IMAGE) $(SH) -c "npm run build && rm -rf ../outdir/dist && mv out ../outdir/dist"
+
+shell:
+	docker run $(OPTS) $(IMAGE) $(SH)
+
+image:
+	docker build -t $(IMAGE) .

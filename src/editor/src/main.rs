@@ -1,3 +1,3 @@
-fn main() {
-    println!("Hello, \"editor\"!");
+fn main() -> anyhow::Result<()> {
+    ui::exec()
 }
