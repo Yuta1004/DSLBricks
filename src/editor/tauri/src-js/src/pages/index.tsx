@@ -3,6 +3,7 @@ import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import ToolBar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 import Split from "react-split";
 
@@ -23,6 +24,9 @@ export default function App() {
                 >
                     DSL Bricks Editor
                 </Typography>
+                <Button color="inherit">Open</Button>
+                <Button color="inherit">Save</Button>
+                <Button color="inherit">Export</Button>
             </ToolBar>
         </AppBar>
         <Split
