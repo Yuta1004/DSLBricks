@@ -1,12 +1,19 @@
 use std::process::Command;
 
+use catalog::catalog;
+
 fn main() {
+    // Catalog
+    blockly::gen_ts_files("../src-js/src/custom", catalog()).unwrap();
+
+    // React project
     Command::new("make")
         .args(&["build"])
         .current_dir("../src-js")
         .status()
         .unwrap();
 
+    // Tauri
     tauri_build::build();
 
     println!("cargo:rerun-if-changed=../src-js/src");

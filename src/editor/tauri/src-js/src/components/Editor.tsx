@@ -4,7 +4,7 @@ import Blockly from "blockly";
 import { BlocklyWorkspace, WorkspaceSvg } from "react-blockly";
 
 import ToolBox from "../custom/toolbox";
-import "../custom/bricks";
+import "../custom/blocks";
 
 type EditorProps = {
     noticeResize: number,
