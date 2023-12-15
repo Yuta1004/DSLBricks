@@ -553,6 +553,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockly",
+ "catalog",
  "thiserror",
 ]
 
@@ -4554,6 +4555,7 @@ name = "ui"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "blockly",
  "catalog_reimpl_blockly",
  "tauri",
  "tauri-build",

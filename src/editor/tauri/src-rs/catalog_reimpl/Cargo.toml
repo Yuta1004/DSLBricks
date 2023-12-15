@@ -7,3 +7,4 @@ edition = "2021"
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 blockly = { path = "../blockly" }
+catalog = { path = "../../../../../catalog/catalog" }
