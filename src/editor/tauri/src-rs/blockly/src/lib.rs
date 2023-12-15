@@ -4,7 +4,8 @@ pub mod toolbox;
 
 use std::fs::File;
 use std::collections::HashMap;
-use std::io::Write;
+use std::fmt::Write as FWrite;
+use std::io::Write as IWrite;
 
 use ir::BlocklyIR;
 use block::BlocklyBlock;
@@ -18,10 +19,10 @@ pub fn gen_ts_files(dir: &str, ir_set: HashMap<&str, Vec<BlocklyIR>>) -> anyhow:
 
 fn gen_ts_file_blocks(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> anyhow::Result<()> {
     // IR(s) to Block
-    let mut blocks = vec![];
+    let mut blocks = String::new();
     for (_, irs) in ir_set {
         for ir in irs {
-            blocks.push(BlocklyBlock::from(ir));
+            writeln!(&mut blocks, "{}", BlocklyBlock::from(ir))?;
         }
     }
 
@@ -53,19 +54,17 @@ fn gen_ts_file_blocks(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> a
                 }})
             }}
         }}
-    "#)?;
-    for block in blocks {
-        writeln!(&mut f, "{}", block)?;
-    }
+        {}
+    "#, blocks)?;
 
     Ok(())
 }
 
 fn gen_ts_file_toolbox(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> anyhow::Result<()> {
     // IR(s) to ToolBox
-    let mut toolboxes = vec![];
+    let mut toolboxes = String::new();
     for (name, irs) in ir_set {
-        toolboxes.push(BlocklyToolBox::from((*name, irs.as_slice())));
+        writeln!(&mut toolboxes, "{}", BlocklyToolBox::from((*name, irs.as_slice())))?;
     }
 
     // Write
@@ -86,15 +85,11 @@ fn gen_ts_file_toolbox(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> 
                         }}
                     ]
                 }},
-    "#)?;
-    for toolbox in toolboxes {
-        writeln!(&mut f, "{}", toolbox)?;
-    }
-    writeln!(&mut f, r#"
+                {}
             ]
         }};
         export default ToolBox;
-    "#)?;
+    "#, toolboxes)?;
 
     Ok(())
 }

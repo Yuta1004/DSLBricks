@@ -24,8 +24,7 @@
                 })
             }
         }
-    
-
+        
             Blockly.Blocks["std.primitive.Integer"] = {
                 init: 
             function() {
@@ -65,3 +64,5 @@
         
             }
         
+
+    
