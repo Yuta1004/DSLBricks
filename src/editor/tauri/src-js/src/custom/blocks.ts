@@ -26,13 +26,17 @@
         }
     
 
-            Blockly.Block["std.primitive.Integer"] = {
+            Blockly.Blocks["std.primitive.Integer"] = {
                 init: 
             function() {
                 this.jsonInit({
                     "type": "std.primitive.Integer",
-                    "message0": "",
-                    "args0": [],
+                    "message0": "Integer %1",
+                    "args0": [
+                {
+                    "type": "input_dummy"
+                }
+                ],
                     "colour": 200,
                     "tooltop": "",
                     "helpUrl": ""
@@ -42,13 +46,17 @@
             }
         
 
-            Blockly.Block["std.primitive.Float"] = {
+            Blockly.Blocks["std.primitive.Float"] = {
                 init: 
             function() {
                 this.jsonInit({
                     "type": "std.primitive.Float",
-                    "message0": "",
-                    "args0": [],
+                    "message0": "Float %1",
+                    "args0": [
+                {
+                    "type": "input_dummy"
+                }
+                ],
                     "colour": 200,
                     "tooltop": "",
                     "helpUrl": ""

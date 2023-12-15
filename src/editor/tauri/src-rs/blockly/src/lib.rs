@@ -76,6 +76,16 @@ fn gen_ts_file_toolbox(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> 
         const ToolBox = {{
             kind: "categoryToolbox",
             contents: [
+                {{
+                    kind: "category",
+                    name: "Default",
+                    contents: [
+                        {{
+                            kind: "block",
+                            type: "brick",
+                        }}
+                    ]
+                }},
     "#)?;
     for toolbox in toolboxes {
         writeln!(&mut f, "{}", toolbox)?;

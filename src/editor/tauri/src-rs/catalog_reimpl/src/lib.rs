@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use blockly::ir::BlocklyIR;
+use blockly::ir::{BlocklyIR, BlocklyIRComponent};
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
 
@@ -9,7 +9,9 @@ macro_rules! blockly_ir {
         let brick = $brick::default();
         BlocklyIR::new(
             DSLBrickMeta::name(&brick),
-            vec![],
+            vec![
+                BlocklyIRComponent::new_text(DSLBrickMeta::start(&brick)),
+            ],
         )
     }};
 }

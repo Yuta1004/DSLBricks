@@ -26,7 +26,7 @@ impl From<&BlocklyIR> for BlocklyBlock {
 impl Display for BlocklyBlock {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, r#"
-            Blockly.Block["{}"] = {{
+            Blockly.Blocks["{}"] = {{
                 init: {}
             }}
         "#, self.ty, self.init)

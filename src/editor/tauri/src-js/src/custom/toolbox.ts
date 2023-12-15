@@ -4,6 +4,16 @@
         const ToolBox = {
             kind: "categoryToolbox",
             contents: [
+                {
+                    kind: "category",
+                    name: "Default",
+                    contents: [
+                        {
+                            kind: "block",
+                            type: "brick",
+                        }
+                    ]
+                },
     
 
             {
