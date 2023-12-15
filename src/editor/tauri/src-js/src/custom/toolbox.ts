@@ -11,7 +11,7 @@ const ToolBox = {
                 },
                 {
                     kind: "block",
-                    type: "if",
+                    type: "test",
                 },
             ],
         },
