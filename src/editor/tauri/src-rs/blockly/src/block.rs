@@ -41,10 +41,10 @@ mod test {
     #[test]
     fn simple() {
         let components = vec![
-            BlocklyIRComponent::Text { title: "Test".to_string() },
-            BlocklyIRComponent::Variable { title: "variable".to_string() },
-            BlocklyIRComponent::TextInput { title: "text".to_string() },
-            BlocklyIRComponent::BlockInput { title: "block".to_string() },
+            BlocklyIRComponent::new_text("Test"),
+            BlocklyIRComponent::new_variable("variable"),
+            BlocklyIRComponent::new_text_input("text"),
+            BlocklyIRComponent::new_block_input("block"),
         ];
         let ir = BlocklyIR::new("test", components);
         let block = BlocklyBlock::from(&ir);

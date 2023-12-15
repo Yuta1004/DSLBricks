@@ -26,3 +26,21 @@ pub enum BlocklyIRComponent {
         title: String,
     }
 }
+
+impl BlocklyIRComponent {
+    pub fn new_text<T: Into<String>>(title: T) -> Self {
+        BlocklyIRComponent::Text { title: title.into() }
+    }
+
+    pub fn new_variable<T: Into<String>>(title: T) -> Self {
+        BlocklyIRComponent::Variable { title: title.into() }
+    }
+
+    pub fn new_text_input<T: Into<String>>(title: T) -> Self {
+        BlocklyIRComponent::TextInput { title: title.into() }
+    }
+
+    pub fn new_block_input<T: Into<String>>(title: T) -> Self {
+        BlocklyIRComponent::BlockInput { title: title.into() }
+    }
+}
