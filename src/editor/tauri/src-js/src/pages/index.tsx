@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 
 import Split from "react-split";
 
-import Editor from "./Editor";
-import SideView from "./SideView";
+import Editor from "../components/Editor";
+import SideView from "../components/SideView";
 
 export default function App() {
     const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
