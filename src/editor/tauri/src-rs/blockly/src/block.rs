@@ -14,11 +14,11 @@ pub struct BlocklyBlock {
     init: BlocklyInitString,
 }
 
-impl From<BlocklyIR> for BlocklyBlock {
-    fn from(ir: BlocklyIR) -> Self {
+impl From<&BlocklyIR> for BlocklyBlock {
+    fn from(ir: &BlocklyIR) -> Self {
         BlocklyBlock {
-            ty: BlocklyTypeString::from(&ir),
-            init: BlocklyInitString::from(&ir),
+            ty: BlocklyTypeString::from(ir),
+            init: BlocklyInitString::from(ir),
         }
     }
 }
@@ -47,7 +47,7 @@ mod test {
             BlocklyIRComponent::BlockInput { title: "block".to_string() },
         ];
         let ir = BlocklyIR::new("test", components);
-        let block = BlocklyBlock::from(ir);
+        let block = BlocklyBlock::from(&ir);
         let _ = format!("{}", block);
     }
 }
