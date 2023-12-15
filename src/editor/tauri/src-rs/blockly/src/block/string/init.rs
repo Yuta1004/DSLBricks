@@ -11,12 +11,12 @@ impl From<&BlocklyIR> for BlocklyInitString {
         let init = format!(r#"
             function() {{
                 this.jsonInit({{
-                    "type": "{}",
-                    "message0": "{}",
-                    "args0": [{}],
-                    "colour": 200,
-                    "tooltop": "",
-                    "helpUrl": ""
+                    type: "{}",
+                    message0: "{}",
+                    args0: [{}],
+                    colour: 200,
+                    tooltop: "",
+                    helpUrl: ""
                 }})
             }}
         "#, ir.ty, message0, args0);
@@ -70,42 +70,42 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
             BlocklyIRComponent::Text { .. } => {
                 format!(r#"
                 {{
-                    "type": "input_dummy"
+                    type: "input_dummy"
                 }}
                 "#)
             }
             BlocklyIRComponent::Variable { .. } => {
                 format!(r#"
                 {{
-                    "type": "field_variable",
-                    "name": "NAME",
-                    "variable": "var"
+                    type: "field_variable",
+                    name: "NAME",
+                    variable: "var"
                 }},
                 {{
-                    "type": "input_dummy"
+                    type: "input_dummy"
                 }}
                 "#)
             }
             BlocklyIRComponent::TextInput { .. } => {
                 format!(r#"
                 {{
-                    "type": "field_input",
-                    "name": "NAME",
-                    "text": "Executable"
+                    type: "field_input",
+                    name: "NAME",
+                    text: "Executable"
                 }},
                 {{
-                    "type": "input_dummy"
+                    type: "input_dummy"
                 }}
                 "#)
             }
             BlocklyIRComponent::BlockInput { .. } => {
                 format!(r#"
                 {{
-                    "type": "input_dummy"
+                    type: "input_dummy"
                 }},
                 {{
-                    "type": "input_statement",
-                    "name": "NAME"
+                    type: "input_statement",
+                    name: "NAME"
                 }}
                 "#)
             }

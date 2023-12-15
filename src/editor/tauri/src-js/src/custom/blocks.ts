@@ -29,16 +29,16 @@
                 init: 
             function() {
                 this.jsonInit({
-                    "type": "std.primitive.Integer",
-                    "message0": "Integer %1",
-                    "args0": [
+                    type: "std.primitive.Integer",
+                    message0: "Integer %1",
+                    args0: [
                 {
-                    "type": "input_dummy"
+                    type: "input_dummy"
                 }
                 ],
-                    "colour": 200,
-                    "tooltop": "",
-                    "helpUrl": ""
+                    colour: 200,
+                    tooltop: "",
+                    helpUrl: ""
                 })
             }
         
@@ -49,16 +49,16 @@
                 init: 
             function() {
                 this.jsonInit({
-                    "type": "std.primitive.Float",
-                    "message0": "Float %1",
-                    "args0": [
+                    type: "std.primitive.Float",
+                    message0: "Float %1",
+                    args0: [
                 {
-                    "type": "input_dummy"
+                    type: "input_dummy"
                 }
                 ],
-                    "colour": 200,
-                    "tooltop": "",
-                    "helpUrl": ""
+                    colour: 200,
+                    tooltop: "",
+                    helpUrl: ""
                 })
             }
         
