@@ -11,8 +11,8 @@ pub struct BlocklyToolBox {
     contents: Vec<BlocklyContentString>,
 }
 
-impl BlocklyToolBox {
-    pub fn new<T: Into<String>>(name: T, irs: &[BlocklyIR]) -> Self {
+impl<T: Into<String>> From<(T, &[BlocklyIR])> for BlocklyToolBox {
+    fn from((name, irs): (T, &[BlocklyIR])) -> Self {
         BlocklyToolBox {
             name: name.into(),
             contents: irs.into_iter().map(BlocklyContentString::from).collect(),
@@ -51,7 +51,7 @@ mod test {
             BlocklyIR::new("test2", vec![]),
             BlocklyIR::new("test3", vec![]),
         ];
-        let toolbox = BlocklyToolBox::new("Group", &irs);
+        let toolbox = BlocklyToolBox::from(("Group", irs.as_slice()));
         let _ = format!("{}", toolbox);
     }
 }
