@@ -11,13 +11,16 @@
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
         "@mui/material": "^5.15.0",
+        "@patternfly/react-log-viewer": "^5.0.0",
         "@tauri-apps/api": "^1.5.2",
         "blockly": "^10.3.0",
         "next": "^14.0.4",
         "react": "^18.2.0",
         "react-blockly": "^8.1.0",
         "react-dom": "^18.2.0",
-        "react-split": "^2.0.14"
+        "react-split": "^2.0.14",
+        "react-syntax-highlighter": "^15.5.0",
+        "react-xml-viewer": "^2.0.1"
     },
     "devDependencies": {
         "@tauri-apps/cli": "^1.5.2",

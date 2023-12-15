@@ -7,7 +7,8 @@ import ToolBox from "../custom/toolbox";
 import "../custom/bricks";
 
 type EditorProps = {
-    noticeUpdate: number,
+    noticeResize: number,
+    onUpdate: (xml: string) => void,
 }
 
 export default function Editor(props: EditorProps) {
@@ -19,14 +20,17 @@ export default function Editor(props: EditorProps) {
         if (ws) {
             Blockly.svgResize(ws);
         }
-    }, [props.noticeUpdate]);
+    }, [props.noticeResize]);
 
     return (
         <BlocklyWorkspace
             className="fullscreen"
             toolboxConfiguration={ToolBox}
             initialXml={xml}
-            onXmlChange={setXml}
+            onXmlChange={(xml) => {
+                setXml(xml);
+                props.onUpdate(xml);
+            }}
             onWorkspaceChange={(newWs) => { ws = newWs; }}
         />
     );

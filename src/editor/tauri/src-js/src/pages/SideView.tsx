@@ -4,7 +4,16 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-export default function SideView() {
+import CodePanel from "./CodePanel";
+import StatusPanel from "./StatusPanel";
+import LogPanel from "./LogPanel";
+
+type SideViewProps = {
+    xml: string,
+    rust: string,
+};
+
+export default function SideView(props: SideViewProps) {
     const [tabStat, setTabStat] = useState<number>(0);
 
     return (
@@ -18,33 +27,20 @@ export default function SideView() {
                 <Tab label="Status"/>
                 <Tab label="Log"/>
             </Tabs>
-            { tabStat === 0 && <CodePanel /> }
-            { tabStat === 1 && <StatusPanel /> }
-            { tabStat === 2 && <LogPanel /> }
-        </Box>
-    );
-}
-
-function CodePanel() {
-    return (
-        <Box>
-            <h1>Code</h1>
-        </Box>
-    );
-}
-
-function StatusPanel() {
-    return (
-        <Box>
-            <h1>Status</h1>
-        </Box>
-    );
-}
-
-function LogPanel() {
-    return (
-        <Box>
-            <h1>Log</h1>
+            <div style={{ margin: "8px" }}>
+                { tabStat === 0 &&
+                    <CodePanel
+                        xml={props.xml}
+                        rust={props.rust}
+                    />
+                }
+                { tabStat === 1 &&
+                    <StatusPanel />
+                }
+                { tabStat === 2 &&
+                    <LogPanel log="Ok" />
+                }
+            </div>
         </Box>
     );
 }

@@ -10,7 +10,8 @@ import Editor from "./Editor";
 import SideView from "./SideView";
 
 export default function App() {
-    const [paneUpdatedCnt, setPaneUpdatedCnt] = useState<number>(0);
+    const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
+    const [xml, setXml] = useState<string>("");
 
     return (<>
         <AppBar position="static">
@@ -20,7 +21,7 @@ export default function App() {
                     component="div"
                     sx={{ flexGrow: 1 }}
                 >
-                    Bricks Editor
+                    DSL Bricks Editor
                 </Typography>
             </ToolBar>
         </AppBar>
@@ -29,10 +30,16 @@ export default function App() {
             gutterSize={5}
             sizes={[70, 30]}
             direction="horizontal"
-            onDrag={() => { setPaneUpdatedCnt((cnt) => cnt + 1) }}
+            onDrag={() => { setPaneResizedCnt((cnt) => cnt + 1) }}
         >
-            <Editor noticeUpdate={paneUpdatedCnt}/>
-            <SideView />
+            <Editor
+                noticeResize={paneResizedCnt}
+                onUpdate={setXml}
+            />
+            <SideView
+                xml={xml}
+                rust="fn main() { }"
+            />
         </Split>
     </>);
 }
