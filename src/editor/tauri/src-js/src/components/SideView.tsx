@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 
 import CodePanel from "./CodePanel";
 import StatusPanel from "./StatusPanel";
+import CatalogPanel from "./CatalogPanel";
 import LogPanel from "./LogPanel";
 
 type SideViewProps = {
@@ -23,9 +24,10 @@ export default function SideView(props: SideViewProps) {
                 onChange={(_, newStat) => setTabStat(newStat)}
                 centered
             >
-                <Tab label="Code"/>
-                <Tab label="Status"/>
-                <Tab label="Log"/>
+                <Tab label="Code" />
+                <Tab label="Status" />
+                <Tab label="Catalog" />
+                <Tab label="Log" />
             </Tabs>
             <div style={{ margin: "8px" }}>
                 { tabStat === 0 &&
@@ -38,6 +40,9 @@ export default function SideView(props: SideViewProps) {
                     <StatusPanel />
                 }
                 { tabStat === 2 &&
+                    <CatalogPanel />
+                }
+                { tabStat === 3 &&
                     <LogPanel log="Ok" />
                 }
             </div>
