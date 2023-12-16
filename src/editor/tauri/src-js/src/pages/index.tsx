@@ -19,7 +19,7 @@ export default function App() {
 
     useEffect(() => {
         (async() => {
-            invoke<string>("convert_xml", { xml })
+            invoke<string>("genrs", { xml })
                 .then(rust => setRust(rust))
                 .catch(console.error);
         })()

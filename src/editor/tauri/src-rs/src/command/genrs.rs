@@ -6,7 +6,7 @@ use blockly::back::ir::{BlocklyIR, BlocklyIRComponent};
 use blockly::back::parse_xml;
 
 #[tauri::command]
-pub fn convert_xml(xml: &str) -> Result<String, InvokeError> {
+pub fn genrs(xml: &str) -> Result<String, InvokeError> {
     match parse_xml(xml) {
         Ok(irs) => Ok(format!("{}", DSLBuildFunc::from(irs))),
         Err(err) => Err(InvokeError::from(format!("{}", err))),
