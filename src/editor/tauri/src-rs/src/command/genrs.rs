@@ -3,11 +3,11 @@ use std::fmt::Display;
 use tauri::InvokeError;
 
 use blockly::back::ir::{BlocklyIR, BlocklyIRComponent};
-use blockly::back::parse_xml;
+use blockly::back::parse_str;
 
 #[tauri::command]
 pub fn genrs(xml: &str) -> Result<String, InvokeError> {
-    match parse_xml(xml) {
+    match parse_str(xml) {
         Ok(irs) => Ok(format!("{}", DSLBuildFunc::from(irs))),
         Err(err) => Err(InvokeError::from(format!("{}", err))),
     }
