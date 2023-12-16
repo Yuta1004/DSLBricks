@@ -2,18 +2,19 @@ use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
 use syn::{ItemFn, ItemStruct, Stmt, Local, Expr};
 
-enum InitArgument<'a> {
-    NameSpace(&'a str, &'a str), // struct_name, namespace
+enum InitArgument<'a, 'b> {
+    Meta(&'a str, &'b Vec<String>, &'a str), // struct_name, struct_fields, namespace
     Property(&'a str, &'a str),  // struct_name, property
 }
 
-impl<'a> From<InitArgument<'a>> for TokenStream {
-    fn from(arg: InitArgument<'a>) -> TokenStream {
+impl<'a, 'b> From<InitArgument<'a, 'b>> for TokenStream {
+    fn from(arg: InitArgument<'a, 'b>) -> TokenStream {
         match arg {
-            InitArgument::NameSpace(struct_name, namespace) => {
+            InitArgument::Meta(struct_name, struct_fields, namespace) => {
                 let start = struct_name;
                 let struct_name: TokenStream = struct_name.parse().unwrap();
                 let fullname = format!("{}.{}", namespace, struct_name);
+                let struct_fields = struct_fields.join(",");
 
                 quote! {
                     impl DSLBrickMeta for #struct_name {
@@ -23,6 +24,10 @@ impl<'a> From<InitArgument<'a>> for TokenStream {
 
                         fn start(&self) -> &'static str {
                             #start
+                        }
+
+                        fn components(&self) -> &[&'static str] {
+                            &[#struct_fields]
                         }
                     }
                 }
@@ -41,6 +46,12 @@ pub(super) fn dslbrick_attr_macro_impl(args: TokenStream, ast: ItemStruct) -> To
     let struct_namet = &ast.ident;
     let struct_name = struct_namet.to_string();
 
+    let struct_fields = ast
+        .fields
+        .iter()
+        .map(|field| field.ident.as_ref().unwrap().to_string())
+        .collect::<Vec<String>>();
+
     let impls = args
         .to_string()
         .split(',')
@@ -50,7 +61,7 @@ pub(super) fn dslbrick_attr_macro_impl(args: TokenStream, ast: ItemStruct) -> To
             let right = arg[1].trim();
 
             match left {
-                "namespace" => vec![InitArgument::NameSpace(&struct_name, right)],
+                "namespace" => vec![InitArgument::Meta(&struct_name, &struct_fields, right)],
                 "property" => right
                     .split('+')
                     .map(|property| InitArgument::Property(&struct_name, property))
