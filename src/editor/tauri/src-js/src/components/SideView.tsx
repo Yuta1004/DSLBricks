@@ -27,7 +27,11 @@ export default function SideView(props: SideViewProps) {
                 <Tab label="Status" />
                 <Tab label="Catalog" />
             </Tabs>
-            <div style={{ margin: "8px" }}>
+            <div style={{
+                margin: "8px",
+                height: "calc(100vh - 128px)",
+                overflowY: "scroll"
+            }}>
                 { tabStat === 0 &&
                     <CodePanel
                         xml={props.xml}
