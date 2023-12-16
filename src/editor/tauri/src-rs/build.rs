@@ -4,7 +4,7 @@ use catalog::catalog;
 
 fn main() {
     // Catalog
-    blockly_front::gen_ts_files("../src-js/src/custom", catalog()).unwrap();
+    blockly::front::gen_ts_files("../src-js/src/custom", catalog()).unwrap();
 
     // React project
     Command::new("make")

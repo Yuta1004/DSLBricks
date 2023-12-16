@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use blockly_front::ir::{BlocklyIR, BlocklyIRComponent};
+use blockly::front::ir::{BlocklyIR, BlocklyIRComponent};
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
 
