@@ -1,12 +1,12 @@
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXML {
     #[serde(rename = "$value")]
     pub values: Vec<BlocklyXMLValue>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum BlocklyXMLValue {
     #[serde(rename = "variables")]
     Variables(BlocklyXMLVariable),
@@ -14,12 +14,12 @@ pub enum BlocklyXMLValue {
     Block(BlocklyXMLBlock),
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLVariable {
     pub variable: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLBlock {
     #[serde(rename = "type")]
     pub ty: String,
@@ -27,7 +27,7 @@ pub struct BlocklyXMLBlock {
     pub components: Vec<BlocklyXMLBlockComponent>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum BlocklyXMLBlockComponent {
     #[serde(rename = "field")]
     Field(BlocklyXMLField),
@@ -35,14 +35,14 @@ pub enum BlocklyXMLBlockComponent {
     Statement(BlocklyXMLStatement),
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLField {
     pub name: String,
     #[serde(rename = "$value")]
     pub value: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLStatement {
     pub name: String,
     #[serde(rename = "block")]
