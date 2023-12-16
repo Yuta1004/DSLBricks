@@ -14,7 +14,6 @@ impl<'a, 'b> From<InitArgument<'a, 'b>> for TokenStream {
                 let start = struct_name;
                 let struct_name: TokenStream = struct_name.parse().unwrap();
                 let fullname = format!("{}.{}", namespace, struct_name);
-                let struct_fields = struct_fields.join(",");
 
                 quote! {
                     impl DSLBrickMeta for #struct_name {
@@ -27,7 +26,7 @@ impl<'a, 'b> From<InitArgument<'a, 'b>> for TokenStream {
                         }
 
                         fn components(&self) -> &[&'static str] {
-                            &[#struct_fields]
+                            &[#( #struct_fields),*]
                         }
                     }
                 }
