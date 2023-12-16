@@ -7,7 +7,6 @@ import Tab from "@mui/material/Tab";
 import CodePanel from "./CodePanel";
 import StatusPanel from "./StatusPanel";
 import CatalogPanel from "./CatalogPanel";
-import LogPanel from "./LogPanel";
 
 type SideViewProps = {
     xml: string,
@@ -27,7 +26,6 @@ export default function SideView(props: SideViewProps) {
                 <Tab label="Code" />
                 <Tab label="Status" />
                 <Tab label="Catalog" />
-                <Tab label="Log" />
             </Tabs>
             <div style={{ margin: "8px" }}>
                 { tabStat === 0 &&
@@ -41,9 +39,6 @@ export default function SideView(props: SideViewProps) {
                 }
                 { tabStat === 2 &&
                     <CatalogPanel />
-                }
-                { tabStat === 3 &&
-                    <LogPanel log="Ok" />
                 }
             </div>
         </Box>
