@@ -91,7 +91,7 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
                 {{
                     type: "field_input",
                     name: "NAME",
-                    text: "Executable"
+                    text: ""
                 }},
                 {{
                     type: "input_dummy"
