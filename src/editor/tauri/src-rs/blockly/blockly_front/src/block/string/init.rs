@@ -88,7 +88,6 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
                 {{
                     type: "field_variable",
                     name: "{}",
-                    variable: "var"
                 }},
                 {{
                     type: "input_dummy"

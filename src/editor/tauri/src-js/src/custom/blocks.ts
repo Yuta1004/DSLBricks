@@ -14,7 +14,6 @@
                 {
                     type: "field_variable",
                     name: "DSLBrick",
-                    variable: "var"
                 },
                 {
                     type: "input_dummy"
@@ -44,7 +43,6 @@
                 {
                     type: "field_variable",
                     name: "variable",
-                    variable: "var"
                 },
                 {
                     type: "input_dummy"
@@ -83,7 +81,6 @@
                 {
                     type: "field_variable",
                     name: "variable",
-                    variable: "var"
                 },
                 {
                     type: "input_dummy"
@@ -122,7 +119,6 @@
                 {
                     type: "field_variable",
                     name: "variable",
-                    variable: "var"
                 },
                 {
                     type: "input_dummy"
