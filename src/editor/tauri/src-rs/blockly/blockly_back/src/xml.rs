@@ -7,10 +7,9 @@ pub struct BlocklyXML {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum BlocklyXMLValue {
-    #[serde(rename = "variables")]
     Variables(BlocklyXMLVariable),
-    #[serde(rename = "block")]
     Block(BlocklyXMLBlock),
 }
 
@@ -21,22 +20,25 @@ pub struct BlocklyXMLVariable {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLBlock {
-    #[serde(rename = "type")]
-    pub ty: String,
+    pub id: String,
+    pub r#type: String,
+    pub x: Option<i32>,
+    pub y: Option<i32>,
     #[serde(rename = "$value")]
     pub components: Vec<BlocklyXMLBlockComponent>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum BlocklyXMLBlockComponent {
-    #[serde(rename = "field")]
     Field(BlocklyXMLField),
-    #[serde(rename = "statement")]
     Statement(BlocklyXMLStatement),
+    Next { block: BlocklyXMLBlock },
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLField {
+    pub id: Option<String>,
     pub name: String,
     #[serde(rename = "$value")]
     pub value: Option<String>,
@@ -45,8 +47,8 @@ pub struct BlocklyXMLField {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLStatement {
     pub name: String,
-    #[serde(rename = "block")]
-    pub blocks: Vec<BlocklyXMLBlock>,
+    #[serde(rename = "$value")]
+    pub block: BlocklyXMLBlock,
 }
 
 #[cfg(test)]
@@ -66,6 +68,16 @@ mod test {
         <statement name="cond">
             <block type="brick" id="">
                 <field name="DSLBrick" id="">var</field>
+                <next>
+                    <block type="brick" id="">
+                        <field name="DSLBrick" id="">var</field>
+                    </block>
+                    <next>
+                        <block type="brick" id="">
+                            <field name="DSLBrick" id="">var</field>
+                        </block>
+                    </next>
+                </next>
             </block>
         </statement>
     </block>

@@ -2,7 +2,7 @@ use crate::xml::{
     BlocklyXML,
     BlocklyXMLValue,
     BlocklyXMLBlock,
-    BlocklyXMLBlockComponent
+    BlocklyXMLBlockComponent,
 };
 
 #[derive(Debug)]
@@ -39,7 +39,7 @@ impl From<BlocklyXML> for Vec<BlocklyIR> {
 
 impl From<BlocklyXMLBlock> for BlocklyIR {
     fn from(block: BlocklyXMLBlock) -> Self {
-        let ty = block.ty;
+        let ty = block.r#type;
         let components = block.components
             .into_iter()
             .map(Into::into)
@@ -62,12 +62,34 @@ impl From<BlocklyXMLBlockComponent> for BlocklyIRComponent {
             }
             BlocklyXMLBlockComponent::Statement(statement) => {
                 let name = statement.name;
-                let blocks = statement.blocks
-                    .into_iter()
-                    .map(Into::into)
-                    .collect();
+                let blocks = expand_xml_block(statement.block);
                 BlocklyIRComponent::Blocks { name, blocks }
             }
+            _ => unreachable!(),
         }
     }
+}
+
+fn expand_xml_block(block: BlocklyXMLBlock) -> Vec<BlocklyIR> {
+    let mut blocks = vec![];
+
+    let mut now_target = Some(block);
+    while let Some(target) = now_target {
+        let (mut next_target, mut components) = (None, vec![]);
+        for component in target.components {
+            match component {
+                BlocklyXMLBlockComponent::Next { block } => { next_target = Some(block); }
+                _ => components.push(BlocklyIRComponent::from(component)),
+            }
+        }
+
+        blocks.push(BlocklyIR {
+            ty: target.r#type,
+            components,
+        });
+
+        now_target = next_target;
+    }
+
+    blocks
 }
