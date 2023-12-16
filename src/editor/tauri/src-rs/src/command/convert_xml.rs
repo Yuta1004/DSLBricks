@@ -44,7 +44,13 @@ impl Display for DSLBuildFunc {
             .map(|declare| format!("{}", declare))
             .collect::<Vec<String>>()
             .join("\n\n");
-        write!(f, "{}\n\n#[combine_bricks]\nfn main() {{\n{}\n}}", uses, declares)
+
+        writeln!(f, "// Prelude, Macro")?;
+        writeln!(f, "use catalog::prelude::*;")?;
+        writeln!(f, "use catalog::macros::combine_bricks;")?;
+        writeln!(f, "// Bricks")?;
+        writeln!(f, "{}\n", uses)?;
+        writeln!(f, "#[combine_bricks]\nfn main() {{\n{}\n}}", declares)
     }
 }
 
