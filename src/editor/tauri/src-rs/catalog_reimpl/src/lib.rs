@@ -1,15 +1,13 @@
-use std::collections::HashMap;
-
 use blockly::front::ir::BlocklyIR;
 use blockly::front::macros::blockly_ir;
 use catalog::statement::c::If;
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
 
-pub fn catalog() -> HashMap<&'static str, Vec<BlocklyIR>> {
-    let mut catalog = HashMap::new();
+pub fn catalog() -> Vec<(&'static str, Vec<BlocklyIR>)> {
+    let mut catalog = vec![];
 
-    catalog.insert(
+    catalog.push((
         "Default",
         vec![
             blockly_ir! {
@@ -21,22 +19,22 @@ pub fn catalog() -> HashMap<&'static str, Vec<BlocklyIR>> {
                 Variable: "DSLBrick",
             }
         ]
-    );
+    ));
 
-    catalog.insert(
+    catalog.push((
         "Primitive",
         vec![
             irgen::<Integer>(),
             irgen::<Float>(),
         ]
-    );
+    ));
 
-    catalog.insert(
+    catalog.push((
         "Statement",
         vec![
             irgen::<If>(),
         ]
-    );
+    ));
 
     catalog
 }

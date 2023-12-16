@@ -1,10 +1,9 @@
 use std::process::Command;
 
-use catalog::catalog;
-
 fn main() {
     // Catalog
-    blockly::front::gen_ts_files("../src-js/src/custom", catalog()).unwrap();
+    let catalog = catalog::catalog();
+    blockly::front::gen_ts_files("../src-js/src/custom", catalog.as_slice()).unwrap();
 
     // React project
     Command::new("make")
