@@ -20,7 +20,14 @@
                 name: "Primitive",
                 contents: [{ kind: "block", type: "std.primitive.Integer" },{ kind: "block", type: "std.primitive.Float" }]
             }
-        
+        ,
+
+            {
+                kind: "category",
+                name: "Statement",
+                contents: [{ kind: "block", type: "std.statement.c.If" }]
+            }
+        ,
 
             ]
         };

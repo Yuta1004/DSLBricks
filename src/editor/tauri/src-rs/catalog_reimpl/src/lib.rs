@@ -1,20 +1,10 @@
 use std::collections::HashMap;
 
-use blockly::front::ir::{BlocklyIR, BlocklyIRComponent};
+use blockly::front::ir::BlocklyIR;
+use blockly::front::macros::blockly_ir;
+use catalog::statement::c::If;
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
-
-macro_rules! blockly_ir {
-    ($brick:ident) => {{
-        let brick = $brick::default();
-        BlocklyIR::new(
-            DSLBrickMeta::name(&brick),
-            vec![
-                BlocklyIRComponent::new_text(DSLBrickMeta::start(&brick)),
-            ],
-        )
-    }};
-}
 
 pub fn catalog() -> HashMap<&'static str, Vec<BlocklyIR>> {
     let mut catalog = HashMap::new();
@@ -22,10 +12,34 @@ pub fn catalog() -> HashMap<&'static str, Vec<BlocklyIR>> {
     catalog.insert(
         "Primitive",
         vec![
-            blockly_ir!(Integer),
-            blockly_ir!(Float),
+            irgen::<Integer>(),
+            irgen::<Float>(),
+        ]
+    );
+
+    catalog.insert(
+        "Statement",
+        vec![
+            irgen::<If>(),
         ]
     );
 
     catalog
+}
+
+fn irgen<T>() -> BlocklyIR
+where
+    T: Default + DSLBrick,
+{
+    let brick = T::default();
+    blockly_ir! {
+        [Base]
+        Type: DSLBrickMeta::name(&brick),
+
+        [Components]
+        Text: DSLBrickMeta::start(&brick),
+        Variable: "variable",
+        TextInput: "property",
+        BlockInputs: DSLBrickMeta::components(&brick),
+    }
 }

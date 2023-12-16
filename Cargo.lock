@@ -395,6 +395,7 @@ dependencies = [
  "anyhow",
  "blockly_back",
  "blockly_front",
+ "blockly_macros",
  "thiserror",
 ]
 
@@ -411,6 +412,36 @@ name = "blockly_front"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "blockly_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "blockly_macros_declarative",
+ "blockly_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "blockly_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "blockly_front",
+ "thiserror",
+]
+
+[[package]]
+name = "blockly_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 
