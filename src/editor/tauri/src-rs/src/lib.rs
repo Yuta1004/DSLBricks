@@ -3,7 +3,13 @@
     windows_subsystem = "windows",
 )]
 
+mod command;
+
 pub fn exec() -> anyhow::Result<()> {
-    tauri::Builder::default().run(tauri::generate_context!())?;
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![
+            command::convert_xml,
+        ])
+        .run(tauri::generate_context!())?;
     Ok(())
 }

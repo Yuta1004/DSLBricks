@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import AppBar from "@mui/material/AppBar";
 import ToolBar from "@mui/material/Toolbar";
@@ -7,12 +7,23 @@ import Button from "@mui/material/Button";
 
 import Split from "react-split";
 
+import { invoke } from "@tauri-apps/api/tauri";
+
 import Editor from "../components/Editor";
 import SideView from "../components/SideView";
 
 export default function App() {
     const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
     const [xml, setXml] = useState<string>("");
+    const [rust, setRust] = useState<string>("fn main() { }");
+
+    useEffect(() => {
+        (async() => {
+            invoke<string>("convert_xml", { xml })
+                .then(rust => setRust(rust))
+                .catch(console.error);
+        })()
+    }, [xml]);
 
     return (<>
         <AppBar position="static">
@@ -42,7 +53,7 @@ export default function App() {
             />
             <SideView
                 xml={xml}
-                rust="fn main() { }"
+                rust={rust}
             />
         </Split>
     </>);
