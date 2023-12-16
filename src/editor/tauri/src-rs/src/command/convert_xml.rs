@@ -72,7 +72,7 @@ impl BrickDeclare {
                     }
                 }
                 BlocklyIRComponent::Blocks { name, blocks } => {
-                    fields.push(BrickDeclareField::from(blocks));
+                    fields.push(BrickDeclareField::from((name, blocks)));
                 }
             }
         }
@@ -106,19 +106,30 @@ struct BrickDeclareField {
     variables: Vec<String>,
 }
 
-impl From<Vec<BlocklyIR>> for BrickDeclareField {
-    fn from(irs: Vec<BlocklyIR>) -> Self {
-        BrickDeclareField {
-            name: "dummy".to_string(),
-            variables: vec![],
-        }
+impl From<(String, Vec<BlocklyIR>)> for BrickDeclareField {
+    fn from((name, irs): (String, Vec<BlocklyIR>)) -> Self {
+        let variables = irs
+            .into_iter()
+            .map(|ir| {
+                ir.components
+                    .into_iter()
+                    .find_map(|component| {
+                        match component {
+                            BlocklyIRComponent::Field { value, .. } => Some(value),
+                            _ => None,
+                        }
+                    })
+                    .unwrap()
+            })
+            .collect();
+        BrickDeclareField { name, variables }
     }
 }
 
 impl Display for BrickDeclareField {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if self.variables.len() != 1 {
-            write!(f, "        {}: [{}],", self.name, self.variables.join(","))
+            write!(f, "        {}: [{}],", self.name, self.variables.join(", "))
         } else {
             write!(f, "        {}: {},", self.name, self.variables[0])
         }
