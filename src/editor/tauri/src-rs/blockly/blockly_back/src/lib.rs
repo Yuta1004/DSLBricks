@@ -1,4 +1,4 @@
-pub(crate) mod xml;
+pub mod xml;
 pub mod ir;
 
 use xml::BlocklyXML;

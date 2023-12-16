@@ -4,6 +4,7 @@
 )]
 
 mod command;
+mod project;
 
 pub fn exec() -> anyhow::Result<()> {
     tauri::Builder::default()

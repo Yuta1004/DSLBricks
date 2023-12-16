@@ -4620,6 +4620,7 @@ dependencies = [
  "anyhow",
  "blockly",
  "catalog_reimpl_blockly",
+ "serde",
  "tauri",
  "tauri-build",
  "thiserror",
