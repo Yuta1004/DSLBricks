@@ -33,27 +33,6 @@ fn gen_ts_file_blocks(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> a
 
         import Blockly from "blockly";
 
-        Blockly.Blocks["brick"] = {{
-            init: function() {{
-                this.jsonInit({{
-                    "type": "brick",
-                    "message0": "DSLBrick %1",
-                    "args0": [
-                        {{
-                            "type": "field_variable",
-                            "name": "NAME",
-                            "variable": "item"
-                        }}
-                    ],
-                    "inputsInline": false,
-                    "previousStatement": null,
-                    "nextStatement": null,
-                    "colour": 230,
-                    "tooltip": "",
-                    "helpUrl": ""
-                }})
-            }}
-        }}
         {}
     "#, blocks)?;
 
@@ -74,19 +53,7 @@ fn gen_ts_file_toolbox(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> 
 
         const ToolBox = {{
             kind: "categoryToolbox",
-            contents: [
-                {{
-                    kind: "category",
-                    name: "Default",
-                    contents: [
-                        {{
-                            kind: "block",
-                            type: "brick",
-                        }}
-                    ]
-                }},
-                {}
-            ]
+            contents: [{}]
         }};
         export default ToolBox;
     "#, toolboxes)?;
