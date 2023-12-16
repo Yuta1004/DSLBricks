@@ -38,7 +38,7 @@
                 ,
                 {
                     type: "field_variable",
-                    name: "NAME",
+                    name: "variable",
                     variable: "var"
                 },
                 {
@@ -47,7 +47,7 @@
                 ,
                 {
                     type: "field_input",
-                    name: "NAME",
+                    name: "property",
                     text: ""
                 },
                 {
@@ -76,7 +76,7 @@
                 ,
                 {
                     type: "field_variable",
-                    name: "NAME",
+                    name: "variable",
                     variable: "var"
                 },
                 {
@@ -85,7 +85,7 @@
                 ,
                 {
                     type: "field_input",
-                    name: "NAME",
+                    name: "property",
                     text: ""
                 },
                 {
@@ -114,7 +114,7 @@
                 ,
                 {
                     type: "field_variable",
-                    name: "NAME",
+                    name: "variable",
                     variable: "var"
                 },
                 {
@@ -123,7 +123,7 @@
                 ,
                 {
                     type: "field_input",
-                    name: "NAME",
+                    name: "property",
                     text: ""
                 },
                 {
@@ -135,7 +135,7 @@
                 },
                 {
                     type: "input_statement",
-                    name: "NAME"
+                    name: "cond"
                 }
                 ,
                 {
@@ -143,7 +143,7 @@
                 },
                 {
                     type: "input_statement",
-                    name: "NAME"
+                    name: "stmt"
                 }
                 ],
                     colour: 200,

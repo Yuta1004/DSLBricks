@@ -23,21 +23,21 @@ macro_rules! blockly_ir {
     };
 
     (@ $vec:ident += Variable $text:expr) => {
-        $vec.push(BlocklyIRComponent::new_variable($text))
+        $vec.push(BlocklyIRComponent::new_variable($text, $text))
     };
 
     (@ $vec:ident += TextInput $text:expr) => {
-        $vec.push(BlocklyIRComponent::new_text_input($text))
+        $vec.push(BlocklyIRComponent::new_text_input($text, $text))
     };
 
     (@ $vec:ident += BlockInput $text:expr) => {
-        $vec.push(BlocklyIRComponent::new_block_input($text))
+        $vec.push(BlocklyIRComponent::new_block_input($text, $text))
     };
 
     (@ $vec:ident += BlockInputs $text_list:expr) => {{
         $vec.append(&mut $text_list
             .iter()
-            .map(|text| BlocklyIRComponent::new_block_input(*text))
+            .map(|text| BlocklyIRComponent::new_block_input(*text, *text))
             .collect::<Vec<BlocklyIRComponent>>()
         )
     }};

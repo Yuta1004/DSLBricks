@@ -18,12 +18,15 @@ pub enum BlocklyIRComponent {
     },
     Variable {
         title: String,
+        name: String,
     },
     TextInput {
         title: String,
+        name: String,
     },
     BlockInput {
         title: String,
+        name: String,
     }
 }
 
@@ -32,15 +35,36 @@ impl BlocklyIRComponent {
         BlocklyIRComponent::Text { title: title.into() }
     }
 
-    pub fn new_variable<T: Into<String>>(title: T) -> Self {
-        BlocklyIRComponent::Variable { title: title.into() }
+    pub fn new_variable<T, U>(title: T, name: U) -> Self
+    where
+        T: Into<String>,
+        U: Into<String>,
+    {
+        BlocklyIRComponent::Variable {
+            title: title.into(),
+            name: name.into()
+        }
     }
 
-    pub fn new_text_input<T: Into<String>>(title: T) -> Self {
-        BlocklyIRComponent::TextInput { title: title.into() }
+    pub fn new_text_input<T, U>(title: T, name: U) -> Self
+    where
+        T: Into<String>,
+        U: Into<String>,
+    {
+        BlocklyIRComponent::TextInput {
+            title: title.into(),
+            name: name.into(),
+        }
     }
 
-    pub fn new_block_input<T: Into<String>>(title: T) -> Self {
-        BlocklyIRComponent::BlockInput { title: title.into() }
+    pub fn new_block_input<T, U>(title: T, name: U) -> Self
+    where
+        T: Into<String>,
+        U: Into<String>,
+    {
+        BlocklyIRComponent::BlockInput {
+            title: title.into(),
+            name: name.into(),
+        }
     }
 }
