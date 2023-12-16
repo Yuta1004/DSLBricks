@@ -10,6 +10,20 @@ pub fn catalog() -> HashMap<&'static str, Vec<BlocklyIR>> {
     let mut catalog = HashMap::new();
 
     catalog.insert(
+        "Default",
+        vec![
+            blockly_ir! {
+                [Base]
+                Kind: top_bottom_connections,
+                Type: "brick",
+
+                [Components]
+                Variable: "DSLBrick",
+            }
+        ]
+    );
+
+    catalog.insert(
         "Primitive",
         vec![
             irgen::<Integer>(),
@@ -34,6 +48,7 @@ where
     let brick = T::default();
     blockly_ir! {
         [Base]
+        Kind: no_connection,
         Type: DSLBrickMeta::name(&brick),
 
         [Components]

@@ -56,7 +56,8 @@
                 ],
                     colour: 200,
                     tooltop: "",
-                    helpUrl: ""
+                    helpUrl: "",
+                    
                 })
             }
         
@@ -94,7 +95,34 @@
                 ],
                     colour: 200,
                     tooltop: "",
-                    helpUrl: ""
+                    helpUrl: "",
+                    
+                })
+            }
+        
+            }
+        
+
+            Blockly.Blocks["brick"] = {
+                init: 
+            function() {
+                this.jsonInit({
+                    type: "brick",
+                    message0: "DSLBrick %1 %2",
+                    args0: [
+                {
+                    type: "field_variable",
+                    name: "DSLBrick",
+                    variable: "var"
+                },
+                {
+                    type: "input_dummy"
+                }
+                ],
+                    colour: 200,
+                    tooltop: "",
+                    helpUrl: "",
+                    previousStatement: "null",nextStatement: "null"
                 })
             }
         
@@ -148,7 +176,8 @@
                 ],
                     colour: 200,
                     tooltop: "",
-                    helpUrl: ""
+                    helpUrl: "",
+                    
                 })
             }
         

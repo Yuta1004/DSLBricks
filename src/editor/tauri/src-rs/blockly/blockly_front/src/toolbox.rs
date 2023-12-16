@@ -47,9 +47,9 @@ mod test {
     #[test]
     fn simple() {
         let irs = vec![
-            BlocklyIR::new("test1", vec![]),
-            BlocklyIR::new("test2", vec![]),
-            BlocklyIR::new("test3", vec![]),
+            BlocklyIR::new_no_connection("test1", vec![]),
+            BlocklyIR::new_no_connection("test2", vec![]),
+            BlocklyIR::new_no_connection("test3", vec![]),
         ];
         let toolbox = BlocklyToolBox::from(("Group", irs.as_slice()));
         let _ = format!("{}", toolbox);

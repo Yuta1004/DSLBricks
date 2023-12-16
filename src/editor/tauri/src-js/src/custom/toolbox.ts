@@ -24,6 +24,13 @@
 
             {
                 kind: "category",
+                name: "Default",
+                contents: [{ kind: "block", type: "brick" }]
+            }
+        ,
+
+            {
+                kind: "category",
                 name: "Statement",
                 contents: [{ kind: "block", type: "std.statement.c.If" }]
             }

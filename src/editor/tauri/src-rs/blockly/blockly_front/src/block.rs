@@ -46,7 +46,7 @@ mod test {
             BlocklyIRComponent::new_text_input("text", "text"),
             BlocklyIRComponent::new_block_input("block", "block"),
         ];
-        let ir = BlocklyIR::new("test", components);
+        let ir = BlocklyIR::new_no_connection("test", components);
         let block = BlocklyBlock::from(&ir);
         let _ = format!("{}", block);
     }

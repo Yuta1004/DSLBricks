@@ -6,6 +6,7 @@ pub mod __export {
 macro_rules! blockly_ir {
     (
         [Base]
+        Kind: $kind:ident,
         Type: $type:expr,
         [Components]
         $($name:ident : $($arg:expr)+),* $(,)?
@@ -15,7 +16,13 @@ macro_rules! blockly_ir {
         let mut components = vec![];
         $(blockly_ir!(@ components += $name $($arg)+));*;
 
-        BlocklyIR::new($type, components)
+        match stringify!($kind) {
+            "no_connection" => BlocklyIR::new_no_connection($type, components),
+            "top_bottom_connections" => BlocklyIR::new_top_bottom_connections($type, components),
+            "top_connection" => BlocklyIR::new_top_connection($type, components),
+            "bottom_connection" => BlocklyIR::new_bottom_connection($type, components),
+            _ => unimplemented!(),
+        }
     }};
 
     (@ $vec:ident += Text $text:expr) => {

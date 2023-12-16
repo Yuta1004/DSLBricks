@@ -6,7 +6,13 @@ pub struct BlocklyContentString(String);
 
 impl From<&BlocklyIR> for BlocklyContentString {
     fn from(ir: &BlocklyIR) -> Self {
-        BlocklyContentString(ir.ty.to_string())
+        let body = match ir {
+            BlocklyIR::NoConnection(body) => body,
+            BlocklyIR::TopBottomConnections(body) => body,
+            BlocklyIR::TopConnection(body) => body,
+            BlocklyIR::BottomConnection(body) => body,
+        };
+        BlocklyContentString(body.ty.to_string())
     }
 }
 

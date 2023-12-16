@@ -6,8 +6,16 @@ pub struct BlocklyInitString(String);
 
 impl From<&BlocklyIR> for BlocklyInitString {
     fn from(ir: &BlocklyIR) -> Self {
-        let message0 = message0(&ir.components);
-        let args0 = args0(&ir.components);
+        let body = match ir {
+            BlocklyIR::NoConnection(body) => body,
+            BlocklyIR::TopBottomConnections(body) => body,
+            BlocklyIR::TopConnection(body) => body,
+            BlocklyIR::BottomConnection(body) => body,
+        };
+
+        let message0 = message0(&body.components);
+        let args0 = args0(&body.components);
+        let extjson0 = extjson0(ir);
         let init = format!(r#"
             function() {{
                 this.jsonInit({{
@@ -16,10 +24,11 @@ impl From<&BlocklyIR> for BlocklyInitString {
                     args0: [{}],
                     colour: 200,
                     tooltop: "",
-                    helpUrl: ""
+                    helpUrl: "",
+                    {}
                 }})
             }}
-        "#, ir.ty, message0, args0);
+        "#, body.ty, message0, args0, extjson0);
 
         BlocklyInitString(init)
     }
@@ -117,4 +126,20 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
         .map(into)
         .collect::<Vec<String>>()
         .join(",")
+}
+
+fn extjson0(ir: &BlocklyIR) -> String {
+    match ir {
+        BlocklyIR::NoConnection(_) => "",
+        BlocklyIR::TopBottomConnections(_) => {
+            r#"previousStatement: "null",nextStatement: "null""#
+        }
+        BlocklyIR::TopConnection(_) => {
+            r#"previousStatement: "null""#
+        }
+        BlocklyIR::BottomConnection(_) => {
+            r#"nextStatement: "null""#
+        }
+    }
+    .to_string()
 }

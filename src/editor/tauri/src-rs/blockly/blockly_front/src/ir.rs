@@ -1,14 +1,46 @@
-pub struct BlocklyIR {
+pub enum BlocklyIR {
+    NoConnection(BlocklyIRBody),
+    TopBottomConnections(BlocklyIRBody),
+    TopConnection(BlocklyIRBody),
+    BottomConnection(BlocklyIRBody),
+}
+
+pub struct BlocklyIRBody {
     pub ty: String,
     pub components: Vec<BlocklyIRComponent>,
 }
 
 impl BlocklyIR {
-    pub fn new<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
-        BlocklyIR {
+    pub fn new_no_connection<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
+        let body = BlocklyIRBody {
             ty: ty.into(),
             components,
-        }
+        };
+        BlocklyIR::NoConnection(body)
+    }
+
+    pub fn new_top_bottom_connections<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
+        let body = BlocklyIRBody {
+            ty: ty.into(),
+            components,
+        };
+        BlocklyIR::TopBottomConnections(body)
+    }
+
+    pub fn new_top_connection<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
+        let body = BlocklyIRBody {
+            ty: ty.into(),
+            components,
+        };
+        BlocklyIR::TopConnection(body)
+    }
+
+    pub fn new_bottom_connection<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
+        let body = BlocklyIRBody {
+            ty: ty.into(),
+            components,
+        };
+        BlocklyIR::BottomConnection(body)
     }
 }
 
