@@ -11,12 +11,12 @@ type CodePanelProps = {
 export default function CodePanel(props: CodePanelProps) {
     return (
         <Box>
-            <h3>XML</h3>
-            <XMLViewer xml={props.xml} />
             <h3>Rust</h3>
             <SyntaxHighlighter language="rust">
                 { props.rust }
             </SyntaxHighlighter>
+            <h3>XML</h3>
+            <XMLViewer xml={props.xml} />
         </Box>
     );
 }
