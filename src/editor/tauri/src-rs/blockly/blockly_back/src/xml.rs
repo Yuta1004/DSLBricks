@@ -9,13 +9,14 @@ pub struct BlocklyXML {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum BlocklyXMLValue {
-    Variables(BlocklyXMLVariable),
+    Variables(BlocklyXMLVariables),
     Block(BlocklyXMLBlock),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct BlocklyXMLVariable {
-    pub variable: String,
+pub struct BlocklyXMLVariables {
+    #[serde(rename = "$value")]
+    pub variable: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -60,6 +61,7 @@ mod test {
         let target = r#"
 <xml xmlns="https://developers.google.com/blockly/xml">
     <variables>
+        <variable>var</variable>
         <variable>var</variable>
     </variables>
     <block type="std.statement.c.If" id="id" x="0" y="0">
