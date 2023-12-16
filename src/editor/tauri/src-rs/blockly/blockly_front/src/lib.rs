@@ -64,7 +64,7 @@ fn gen_ts_file_toolbox(path: String, ir_set: &HashMap<&str, Vec<BlocklyIR>>) -> 
     // IR(s) to ToolBox
     let mut toolboxes = String::new();
     for (name, irs) in ir_set {
-        writeln!(&mut toolboxes, "{}", BlocklyToolBox::from((*name, irs.as_slice())))?;
+        writeln!(&mut toolboxes, "{},", BlocklyToolBox::from((*name, irs.as_slice())))?;
     }
 
     // Write
