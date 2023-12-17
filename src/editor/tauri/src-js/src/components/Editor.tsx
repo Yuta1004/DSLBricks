@@ -30,6 +30,10 @@ export default function Editor(props: EditorProps) {
                 grid: {
                     spacing: 50,
                     length: 3
+                },
+                zoom: {
+                    controls: true,
+                    wheel: true
                 }
             }}
             toolboxConfiguration={ToolBox}
