@@ -8,13 +8,13 @@ import "../custom/blocks";
 
 type EditorProps = {
     noticeResize: number,
+    xml: string,
     onUpdate: (xml: string) => void,
 }
 
 export default function Editor(props: EditorProps) {
     var ws: WorkspaceSvg = null;
 
-    const [xml, setXml] = useState<string>("<xml xmlns='https://developers.google.com/blockly/xml'/>");
     const [status, setStatus] = useState<string>("Initialized");
 
     useEffect(() => {
@@ -23,16 +23,21 @@ export default function Editor(props: EditorProps) {
         }
     }, [props.noticeResize]);
 
+    useEffect(() => {
+        if (ws) {
+            const xml = document.createElement("div");
+            xml.innerHTML = props.xml;
+            Blockly.Xml.clearWorkspaceAndLoadFromXml(xml.firstElementChild, ws);
+        }
+    }, [props.xml]);
+
     return (
         <div className="workspace-outer">
             <BlocklyWorkspace
                 className="workspace"
                 toolboxConfiguration={ToolBox}
-                initialXml={xml}
-                onXmlChange={(xml) => {
-                    setXml(xml);
-                    props.onUpdate(xml);
-                }}
+                initialXml={props.xml}
+                onXmlChange={props.onUpdate}
                 onWorkspaceChange={(newWs) => { ws = newWs; }}
             />
             <p

@@ -58,6 +58,7 @@ export default function App() {
         >
             <Editor
                 noticeResize={paneResizedCnt}
+                xml={xml}
                 onUpdate={setXml}
             />
             <SideView
