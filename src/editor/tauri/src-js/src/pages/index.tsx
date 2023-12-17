@@ -7,23 +7,17 @@ import Button from "@mui/material/Button";
 
 import Split from "react-split";
 
-import { invoke } from "@tauri-apps/api/tauri";
-
 import Editor from "../components/Editor";
 import SideView from "../components/SideView";
+
+import { openProject, saveProject, exportProject, genRustCode } from "../tauri/Command";
 
 export default function App() {
     const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
     const [xml, setXml] = useState<string>("");
     const [rust, setRust] = useState<string>("fn main() { }");
 
-    useEffect(() => {
-        (async () => {
-            invoke<string>("genrs", { xml })
-                .then(rust => setRust(rust))
-                .catch(console.error);
-        })()
-    }, [xml]);
+    useEffect(() => genRustCode(xml, setRust), [xml]);
 
     return (<>
         <AppBar position="static">
@@ -37,32 +31,22 @@ export default function App() {
                 </Typography>
                 <Button
                     color="inherit"
-                    onClick={() => {
-                        (async () => {
-                            await invoke<string>("open_project", {});
-                        })()
-                    }}
+                    onClick={openProject}
                 >
                     Open
                 </Button>
                 <Button
                     color="inherit"
-                    onClick={() => {
-                        (async () => {
-                            await invoke<string>("save_project", {});
-                        })()
-                    }}
+                    onClick={saveProject}
                 >
-                        Save
+                    Save
                 </Button>
                 <Button
                     color="inherit"
-                    onClick={() => {
-                        (async () => {
-                            await invoke<string>("export_project", {});
-                        })()
-                    }}
-                >Export</Button>
+                    onClick={exportProject}
+                >
+                    Export
+                </Button>
             </ToolBar>
         </AppBar>
         <Split
