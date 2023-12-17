@@ -17,8 +17,8 @@ const Light = ColorMode.Light;
 type TerminalPanelProps = {}
 
 export default function TerminalPanel(props: TerminalPanelProps) {
+    // States
     const [running, setRunning] = useState<boolean>(false);
-
     const [color, setColor] = useState<ColorMode>(ColorMode.Light);
     const [prompt, setPrompt] = useState<string|null>(">>");
     const [lines, setLines] = useState<JSX.Element[]>([
@@ -26,6 +26,7 @@ export default function TerminalPanel(props: TerminalPanelProps) {
         <TerminalOutput>Type 'help' to show available commmands.</TerminalOutput>
     ]);
 
+    // Commands (for terminal)
     const compileCommand = (input: string) => {
         setPrompt(null);
         setLines(lines => {
@@ -122,6 +123,17 @@ export default function TerminalPanel(props: TerminalPanelProps) {
         if (input === "help")    return helpCommand(input);
         else                     return unknownCommand(input);
     };
+
+    // Setup terminal scroll
+    (() => {
+        const terminal = document.getElementsByClassName("react-terminal")[0] as HTMLDivElement;
+        if (terminal != null) {
+            const observer = new MutationObserver(() => {
+                terminal.scroll(0, terminal.scrollHeight - terminal.clientHeight);
+            });
+            observer.observe(terminal, { childList: true });
+        }
+    })();
 
     return (
         <Box style={{ height: "100%" }}>
