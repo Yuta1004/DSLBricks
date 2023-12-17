@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXML {
-    #[serde(rename = "$value")]
+    #[serde(rename = "$value", default)]
     pub values: Vec<BlocklyXMLValue>,
 }
 
@@ -15,7 +15,7 @@ pub enum BlocklyXMLValue {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlocklyXMLVariables {
-    #[serde(rename = "$value")]
+    #[serde(rename = "$value", default)]
     pub variable: Vec<String>,
 }
 
@@ -25,7 +25,7 @@ pub struct BlocklyXMLBlock {
     pub r#type: String,
     pub x: Option<i32>,
     pub y: Option<i32>,
-    #[serde(rename = "$value")]
+    #[serde(rename = "$value", default)]
     pub components: Vec<BlocklyXMLBlockComponent>,
 }
 
@@ -56,9 +56,7 @@ pub struct BlocklyXMLStatement {
 mod test {
     use super::BlocklyXML;
 
-    #[test]
-    fn raw_xml() {
-        let target = r#"
+    const TARGET: &'static str = r#"
 <xml xmlns="https://developers.google.com/blockly/xml">
     <variables>
         <variable>var</variable>
@@ -85,6 +83,15 @@ mod test {
     </block>
 </xml>
         "#;
-        serde_xml_rs::from_str::<BlocklyXML>(target).unwrap();
+
+    #[test]
+    fn deserialize() {
+        serde_xml_rs::from_str::<BlocklyXML>(TARGET).unwrap();
+    }
+
+    #[test]
+    fn mutual() {
+        let _blockly = serde_xml_rs::from_str::<BlocklyXML>(TARGET).unwrap();
+        // TODO: serde_xml_rs::to_string(&blockly).unwrap();
     }
 }

@@ -1,8 +1,9 @@
 import { invoke } from "@tauri-apps/api/tauri";
 
-export function openProject() {
+export function openProject(callback: (xml: string) => void) {
+    const wrappedCallback = (xml: string|null) => xml && callback(xml);
     const ipc = async () => {
-        await invoke<string>("open_project", {});
+        invoke<string | null>("open_project", {}).then(wrappedCallback);
     };
     ipc();
 };

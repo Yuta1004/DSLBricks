@@ -31,7 +31,7 @@ export default function App() {
                 </Typography>
                 <Button
                     color="inherit"
-                    onClick={openProject}
+                    onClick={() => openProject(setXml)}
                 >
                     Open
                 </Button>

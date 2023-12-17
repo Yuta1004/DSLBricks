@@ -14,8 +14,7 @@ pub fn save_project(xml: &str) -> Result<(), InvokeError> {
         .save_file();
 
     if let Some(path) = path {
-        let blockly = serde_xml_rs::from_str(xml).unwrap();
-        let project = Project::new(blockly);
+        let project = Project::new(xml.to_string());
         let project = serde_xml_rs::to_string(&project).unwrap();
 
         let mut f = File::create(path).unwrap();
