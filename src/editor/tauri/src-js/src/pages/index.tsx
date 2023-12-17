@@ -20,8 +20,8 @@ import {
 } from "../tauri/Command";
 
 export default function App() {
-    const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
     const [status, setStatus] = useState<[AlertColor, string]>(["success", ""]);
+    const [resetCnt, setResetCnt] = useState<number>(0);
     const [xml, setXml] = useState<string>('<xml xmlns="https://developers.google.com/blockly/xml" />');
     const [rust, setRust] = useState<string>("fn main() { }");
 
@@ -41,6 +41,7 @@ export default function App() {
                     color="inherit"
                     onClick={() => openProject((xml) => {
                         setXml(xml);
+                        setResetCnt(cnt => cnt + 1);
                         setStatus(["success", "The project has been successfully opened."]);
                     })}
                 >
@@ -69,10 +70,9 @@ export default function App() {
             gutterSize={5}
             sizes={[70, 30]}
             direction="horizontal"
-            onDrag={() => { setPaneResizedCnt((cnt) => cnt + 1) }}
         >
             <Editor
-                noticeResize={paneResizedCnt}
+                noticeResetXML={resetCnt}
                 xml={xml}
                 onUpdate={setXml}
             />

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import Blockly from "blockly";
 import { BlocklyWorkspace, WorkspaceSvg } from "react-blockly";
@@ -7,19 +7,13 @@ import ToolBox from "../custom/toolbox";
 import "../custom/blocks";
 
 type EditorProps = {
-    noticeResize: number,
+    noticeResetXML: number,
     xml: string,
     onUpdate: (xml: string) => void,
 }
 
 export default function Editor(props: EditorProps) {
-    var ws: WorkspaceSvg = null;
-
-    useEffect(() => {
-        if (ws) {
-            Blockly.svgResize(ws);
-        }
-    }, [props.noticeResize]);
+    var [ws, setWs] = useState<WorkspaceSvg>(null);
 
     useEffect(() => {
         if (ws) {
@@ -27,15 +21,20 @@ export default function Editor(props: EditorProps) {
             xml.innerHTML = props.xml;
             Blockly.Xml.clearWorkspaceAndLoadFromXml(xml.firstElementChild, ws);
         }
-    }, [props.xml]);
+    }, [props.noticeResetXML]);
 
     return (
         <BlocklyWorkspace
             className="workspace"
+            workspaceConfiguration={{
+                grid: {
+                    spacing: 50,
+                    length: 3
+                }
+            }}
             toolboxConfiguration={ToolBox}
-            initialXml={props.xml}
             onXmlChange={props.onUpdate}
-            onWorkspaceChange={(newWs) => { ws = newWs; }}
+            onWorkspaceChange={setWs}
         />
     );
 }
