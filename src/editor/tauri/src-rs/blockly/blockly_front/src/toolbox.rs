@@ -33,6 +33,7 @@ impl Display for BlocklyToolBox {
             {{
                 kind: "category",
                 name: "{}",
+                colour: "100",
                 contents: [{}]
             }}
         "#, self.name, contents)
