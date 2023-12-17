@@ -28,3 +28,24 @@ export function genRustCode(xml: string, callback: (rust: string) => void) {
     };
     ipc();
 };
+
+export function createVerifyProcess(callback: () => void) {
+    const ipc = async () => {
+        invoke<void>("create_verify_process", {}).then(callback);
+    };
+    ipc();
+}
+
+export function connectVerifyProcess(msg: string, callback: (recv: string) => void) {
+    const ipc = async () => {
+        invoke<string>("connect_verify_process", { msg }).then(callback);
+    };
+    ipc();
+}
+
+export function finishVerifyProcess(callback: () => void) {
+    const ipc = async () => {
+        invoke<void>("finish_verify_process", {}).then(callback);
+    };
+    ipc();
+}

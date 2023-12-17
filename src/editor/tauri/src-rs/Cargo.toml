@@ -10,6 +10,7 @@ serde = { workspace = true, features = ["derive"] }
 serde-xml-rs = "0.6.0"
 tauri = { version = "1.5.3", features = ["api-all"] }
 rfd = "0.10.0"
+os_pipe = "1.1.4"
 blockly = { path = "./blockly/blockly", features = ["back"] }
 
 [build-dependencies]

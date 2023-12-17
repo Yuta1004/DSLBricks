@@ -12,7 +12,12 @@ import Editor from "../components/Editor";
 import SideView from "../components/SideView";
 import AlertPopup from "../components/AlertPopup";
 
-import { openProject, saveProject, exportProject, genRustCode } from "../tauri/Command";
+import {
+    openProject,
+    saveProject,
+    exportProject,
+    genRustCode,
+} from "../tauri/Command";
 
 export default function App() {
     const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
