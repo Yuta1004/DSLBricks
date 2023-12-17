@@ -11,15 +11,14 @@ pub fn save_project(xml: &str) -> Result<(), InvokeError> {
     let path = FileDialog::new()
         .add_filter("DSLBricks Project (.dbp)", &["dbp"])
         .set_file_name("mydsl.dbp")
-        .save_file();
+        .save_file()
+        .ok_or(InvokeError::from("File not specified."))?;
 
-    if let Some(path) = path {
-        let project = Project::new(xml.to_string());
-        let project = serde_xml_rs::to_string(&project).unwrap();
+    let project = Project::new(xml.to_string());
+    let project = serde_xml_rs::to_string(&project).unwrap();
 
-        let mut f = File::create(path).unwrap();
-        write!(&mut f, "{}", project).unwrap();
-    }
+    let mut f = File::create(path).unwrap();
+    write!(&mut f, "{}", project).unwrap();
 
     Ok(())
 }
