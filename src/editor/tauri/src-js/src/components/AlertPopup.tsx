@@ -16,11 +16,19 @@ export default function AlertPopup(props: AlertPopupProps) {
     };
 
     const [visible, setVisible] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+
+    useEffect(() => setMessage(props.message), [props.message]);
 
     useEffect(() => {
-        setVisible(props.message.length > 0);
-        setTimeout(() => setVisible(false), 8000);
-    }, [props.message])
+        if (message.length > 0) {
+            setVisible(true);
+            setTimeout(() => {
+                props.message = "";
+                setVisible(false);
+            }, 10000);
+        }
+    }, [message])
 
     return (
         <div
