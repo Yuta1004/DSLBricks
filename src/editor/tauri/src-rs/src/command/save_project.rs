@@ -9,7 +9,7 @@ use crate::project::Project;
 #[tauri::command]
 pub fn save_project(xml: &str) -> Result<(), InvokeError> {
     let path = FileDialog::new()
-        .add_filter("DSLBricks Project (.dbp)", &[".dbp"])
+        .add_filter("DSLBricks Project (.dbp)", &["dbp"])
         .set_file_name("mydsl.dbp")
         .save_file();
 

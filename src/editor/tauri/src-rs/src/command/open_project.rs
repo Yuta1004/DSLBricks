@@ -8,7 +8,7 @@ use crate::project::Project;
 #[tauri::command]
 pub fn open_project() -> Result<Option<String>, InvokeError> {
     let path = FileDialog::new()
-        .add_filter("DSLBricks Project (.dbp)", &[".dbp"])
+        .add_filter("DSLBricks Project (.dbp)", &["dbp"])
         .set_file_name("mydsl.dbp")
         .pick_file()
         .ok_or(InvokeError::from("File not selected."))?;
