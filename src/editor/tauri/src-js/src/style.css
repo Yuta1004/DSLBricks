@@ -2,14 +2,9 @@ body {
     margin: 0px;
 }
 
-.workspace-outer {
-    width: 100%;
-    min-height: calc(100vh - 64px)
-}
-
 .workspace {
     width: 100%;
-    height: calc(100vh - 64px - 24px);
+    min-height: calc(100vh - 64px)
 }
 
 .gutter {

@@ -14,7 +14,7 @@ import { openProject, saveProject, exportProject, genRustCode } from "../tauri/C
 
 export default function App() {
     const [paneResizedCnt, setPaneResizedCnt] = useState<number>(0);
-    const [xml, setXml] = useState<string>("");
+    const [xml, setXml] = useState<string>('<xml xmlns="https://developers.google.com/blockly/xml" />');
     const [rust, setRust] = useState<string>("fn main() { }");
 
     useEffect(() => genRustCode(xml, setRust), [xml]);
