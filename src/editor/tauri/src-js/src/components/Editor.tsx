@@ -40,7 +40,8 @@ export default function Editor(props: EditorProps) {
                 },
                 zoom: {
                     controls: true,
-                    wheel: true
+                    wheel: true,
+                    scaleSpeed: 1.05
                 }
             }}
             toolboxConfiguration={ToolBox}
