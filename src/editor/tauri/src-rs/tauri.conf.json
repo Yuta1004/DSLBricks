@@ -54,8 +54,8 @@
         "windows": [
             {
                 "fullscreen": false,
-                "width": 1280,
-                "height": 800,
+                "width": 1680,
+                "height": 950,
                 "resizable": true,
                 "title": "Editor"
             }
