@@ -18,7 +18,7 @@ export default function App() {
     const [rust, setRust] = useState<string>("fn main() { }");
 
     useEffect(() => {
-        (async() => {
+        (async () => {
             invoke<string>("genrs", { xml })
                 .then(rust => setRust(rust))
                 .catch(console.error);
@@ -35,9 +35,34 @@ export default function App() {
                 >
                     DSL Bricks Editor
                 </Typography>
-                <Button color="inherit">Open</Button>
-                <Button color="inherit">Save</Button>
-                <Button color="inherit">Export</Button>
+                <Button
+                    color="inherit"
+                    onClick={() => {
+                        (async () => {
+                            await invoke<string>("open_project", {});
+                        })()
+                    }}
+                >
+                    Open
+                </Button>
+                <Button
+                    color="inherit"
+                    onClick={() => {
+                        (async () => {
+                            await invoke<string>("save_project", {});
+                        })()
+                    }}
+                >
+                        Save
+                </Button>
+                <Button
+                    color="inherit"
+                    onClick={() => {
+                        (async () => {
+                            await invoke<string>("export_project", {});
+                        })()
+                    }}
+                >Export</Button>
             </ToolBar>
         </AppBar>
         <Split
