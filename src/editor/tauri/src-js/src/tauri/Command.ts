@@ -15,9 +15,9 @@ export async function saveProject(xml: string, callback: () => void) {
     ipc();
 };
 
-export async function exportProject(callback: () => void) {
+export async function exportProject(xml: string, rust: string, callback: () => void) {
     const ipc = async () => {
-        invoke<string>("export_project", {}).then(callback);
+        invoke<string>("export_project", { xml, rust }).then(callback);
     };
     ipc();
 };

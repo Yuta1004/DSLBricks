@@ -58,7 +58,7 @@ export default function App() {
                 </Button>
                 <Button
                     color="inherit"
-                    onClick={() => exportProject(() => {
+                    onClick={() => exportProject(xml, rust, () => {
                         setStatus(["success", "The project has been successfully exported."]);
                     })}
                 >
