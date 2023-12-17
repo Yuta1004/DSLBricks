@@ -8,16 +8,16 @@ export function openProject(callback: (xml: string) => void) {
     ipc();
 };
 
-export function saveProject(xml: string) {
+export async function saveProject(xml: string, callback: () => void) {
     const ipc = async () => {
-        await invoke<void>("save_project", { xml });
+        invoke<void>("save_project", { xml }).then(callback);
     };
     ipc();
 };
 
-export function exportProject() {
+export async function exportProject(callback: () => void) {
     const ipc = async () => {
-        await invoke<string>("export_project", {});
+        invoke<string>("export_project", {}).then(callback);
     };
     ipc();
 };
