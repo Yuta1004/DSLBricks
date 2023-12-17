@@ -7,9 +7,9 @@ export function openProject() {
     ipc();
 };
 
-export function saveProject() {
+export function saveProject(xml: string) {
     const ipc = async () => {
-        await invoke<string>("save_project", {});
+        await invoke<void>("save_project", { xml });
     };
     ipc();
 };

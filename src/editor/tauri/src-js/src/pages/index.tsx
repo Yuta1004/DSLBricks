@@ -37,7 +37,7 @@ export default function App() {
                 </Button>
                 <Button
                     color="inherit"
-                    onClick={saveProject}
+                    onClick={() => saveProject(xml)}
                 >
                     Save
                 </Button>
