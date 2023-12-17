@@ -21,6 +21,7 @@ import {
 
 export default function App() {
     const [status, setStatus] = useState<[AlertColor, string]>(["success", ""]);
+    const [resizeCnt, setResizeCnt] = useState<number>(0);
     const [resetCnt, setResetCnt] = useState<number>(0);
     const [xml, setXml] = useState<string>('<xml xmlns="https://developers.google.com/blockly/xml" />');
     const [rust, setRust] = useState<string>("fn main() { }");
@@ -70,8 +71,10 @@ export default function App() {
             gutterSize={5}
             sizes={[70, 30]}
             direction="horizontal"
+            onDrag={() => setResizeCnt(cnt => cnt + 1)}
         >
             <Editor
+                noticeResize={resizeCnt}
                 noticeResetXML={resetCnt}
                 xml={xml}
                 onUpdate={setXml}

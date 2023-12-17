@@ -7,6 +7,7 @@ import ToolBox from "../custom/toolbox";
 import "../custom/blocks";
 
 type EditorProps = {
+    noticeResize: number,
     noticeResetXML: number,
     xml: string,
     onUpdate: (xml: string) => void,
@@ -22,6 +23,12 @@ export default function Editor(props: EditorProps) {
             Blockly.Xml.clearWorkspaceAndLoadFromXml(xml.firstElementChild, ws);
         }
     }, [props.noticeResetXML]);
+
+    useEffect(() => {
+        if (ws) {
+            Blockly.svgResize(ws);
+        }
+    }, [props.noticeResize]);
 
     return (
         <BlocklyWorkspace
