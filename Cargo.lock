@@ -423,7 +423,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockly_macros_declarative",
- "blockly_macros_procedural",
  "thiserror",
 ]
 
@@ -433,17 +432,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockly_front",
- "thiserror",
-]
-
-[[package]]
-name = "blockly_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -574,16 +562,7 @@ name = "catalog_macros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "catalog_macros_declarative",
  "catalog_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 
@@ -779,7 +758,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "compiler_macros_declarative",
- "compiler_macros_procedural",
  "thiserror",
 ]
 
@@ -789,17 +767,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -1041,7 +1008,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_constraint_ctime_declarative",
- "designer_constraint_ctime_procedural",
  "thiserror",
 ]
 
@@ -1051,17 +1017,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_design",
- "thiserror",
-]
-
-[[package]]
-name = "designer_constraint_ctime_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -1087,7 +1042,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_design_macros_declarative",
- "designer_design_macros_procedural",
  "thiserror",
 ]
 
@@ -1097,17 +1051,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_design",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -3136,16 +3079,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "processor_lexer",
- "processor_lexer_macros_declarative",
  "processor_lexer_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 
@@ -3209,16 +3143,7 @@ name = "processor_util_macros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "processor_util_macros_declarative",
  "processor_util_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_util_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 

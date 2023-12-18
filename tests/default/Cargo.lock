@@ -128,7 +128,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "compiler_macros_declarative",
- "compiler_macros_procedural",
  "thiserror",
 ]
 
@@ -138,17 +137,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -182,7 +170,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_constraint_ctime_declarative",
- "designer_constraint_ctime_procedural",
  "thiserror",
 ]
 
@@ -191,17 +178,6 @@ name = "designer_constraint_ctime_declarative"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "designer_constraint_ctime_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -227,7 +203,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_design_macros_declarative",
- "designer_design_macros_procedural",
  "thiserror",
 ]
 
@@ -237,17 +212,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "designer_design",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -350,16 +314,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "processor_lexer",
- "processor_lexer_macros_declarative",
  "processor_lexer_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 
@@ -423,16 +378,7 @@ name = "processor_util_macros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "processor_util_macros_declarative",
  "processor_util_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_util_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
  "thiserror",
 ]
 
