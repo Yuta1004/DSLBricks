@@ -6,8 +6,14 @@
 mod command;
 mod project;
 
+use tauri::api::process::Command;
+
 pub fn exec() -> anyhow::Result<()> {
     tauri::Builder::default()
+        .setup(|_| {
+            Command::new_sidecar("docs_web")?.spawn()?;
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             command::genrs,
             command::open_project,

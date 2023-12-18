@@ -8,7 +8,7 @@ fn main() -> anyhow::Result<()> {
         .finalize()?;
 
     rocket::custom(config)
-        .mount("/", StaticFiles::from("./"))
+        .mount("/", StaticFiles::from("./target/doc/"))
         .launch();
 
     Ok(())
