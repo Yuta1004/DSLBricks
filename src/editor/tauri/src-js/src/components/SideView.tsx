@@ -32,7 +32,7 @@ export default function SideView(props: SideViewProps) {
             <div style={{
                 margin: "8px",
                 height: "calc(100vh - 128px)",
-                overflowY: "scroll"
+                overflowY: "auto"
             }}>
                 <div style={{ display: tabStat === 0 ? "inline" : "none" }}>
                     <CodePanel
