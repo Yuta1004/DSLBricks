@@ -126,12 +126,14 @@ export default function TerminalPanel(props: TerminalPanelProps) {
 
     // Setup terminal scroll
     (() => {
-        const terminal = document.getElementsByClassName("react-terminal")[0] as HTMLDivElement;
-        if (terminal != null) {
-            const observer = new MutationObserver(() => {
-                terminal.scroll(0, terminal.scrollHeight - terminal.clientHeight);
-            });
-            observer.observe(terminal, { childList: true });
+        if (typeof document !== "undefined") {
+            const terminal = document.getElementsByClassName("react-terminal")[0] as HTMLDivElement;
+            if (terminal != null) {
+                const observer = new MutationObserver(() => {
+                    terminal.scroll(0, terminal.scrollHeight - terminal.clientHeight);
+                });
+                observer.observe(terminal, { childList: true });
+            }
         }
     })();
 
