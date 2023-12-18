@@ -1,5 +1,9 @@
 # Rustdoc for web
 
+## Features
+
+- embedded
+
 ## Command
 
 ```
