@@ -1,9 +1,19 @@
+use std::env;
 use std::process::Command;
 
 fn main() {
-    // Catalog
+    // Catalog (lib)
     let catalog = catalog::catalog();
     blockly::front::gen_ts_files("../src-js/src/custom", catalog.as_slice()).unwrap();
+
+    // Catalog (bin)
+    let current_dir = env::current_dir().unwrap();
+    Command::new("make")
+        .args(&["bin"])
+        .args(&[format!("OUT_DIR={}", current_dir.display())])
+        .current_dir("../../../../docs/rustdoc_web")
+        .status()
+        .unwrap();
 
     // React project
     Command::new("make")
