@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Switch from "@mui/material/Switch";
@@ -18,24 +18,14 @@ type TerminalPanelProps = {}
 
 export default function TerminalPanel(props: TerminalPanelProps) {
     // States
-    const [running, setRunning] = useState<boolean>(false);
     const [color, setColor] = useState<ColorMode>(ColorMode.Light);
-    const [prompt, setPrompt] = useState<string>(">>");
     const [lines, setLines] = useState<JSX.Element[]>([
         <TerminalOutput>Welcome to Terminal.</TerminalOutput>,
         <TerminalOutput>Type 'help' to show available commmands.</TerminalOutput>
     ]);
 
-    // Commands (for terminal)
-    const compileCommand = (input: string) => {
-        setLines(lines => {
-            return [
-                ...lines,
-                <TerminalOutput>{">> " + input}</TerminalOutput>,
-                <TerminalOutput>Compiling...</TerminalOutput>,
-            ];
-        });
-
+    // Subprocess
+    useEffect(() => {
         createSubprocess(
             (line) => {
                 setLines(lines => {
@@ -45,82 +35,18 @@ export default function TerminalPanel(props: TerminalPanelProps) {
                     ];
                 });
             },
-            () => {
-                setLines(lines => {
-                    return [
-                        ...lines,
-                        <TerminalOutput>Ok</TerminalOutput>,
-                        <TerminalOutput/>
-                    ];
-                });
-                setPrompt("$");
-                setRunning(true);
-            }
+            () => {}
         );
-    };
-
-    const subprocessCommand = (input: string) => {
-        if (input === "exit") {
-            finishSubprocess(() => {
-                setLines(lines => {
-                    return [
-                        ...lines,
-                        <TerminalOutput>{ "$ exit" }</TerminalOutput>,
-                        <TerminalOutput>bye...</TerminalOutput>,
-                        <TerminalOutput/>
-                    ];
-                });
-                setPrompt(">>");
-                setRunning(false);
-            });
-            return;
-        }
-
-        setLines(lines => {
-            return [
-                ...lines,
-                <TerminalOutput>{"$ " + input}</TerminalOutput>,
-            ];
-        });
-
-        connectSubprocess(input+"\n", () => {});
-    };
-
-    const clearCommand = (input: string) => {
-        setLines([]);
-    };
-
-    const helpCommand = (input: string) => {
-        setLines(lines => {
-            return [
-                ...lines,
-                <TerminalOutput>{">> " + input}</TerminalOutput>,
-                <TerminalOutput>Available commands</TerminalOutput>,
-                <TerminalOutput>  - 'compile' : Compile the DSL bricks.</TerminalOutput>,
-                <TerminalOutput>  - 'clear' : Clear the input history.</TerminalOutput>,
-                <TerminalOutput>  - 'help' : Show this message.</TerminalOutput>,
-                <TerminalOutput/>
-            ];
-        });
-    };
-
-    const unknownCommand = (input: string) => {
-        setLines(lines => {
-            return [
-                ...lines,
-                <TerminalOutput>{">> " + input}</TerminalOutput>,
-                <TerminalOutput>Command not registered.</TerminalOutput>,
-                <TerminalOutput/>
-            ];
-        });
-    };
+    }, []);
 
     const evalInput = (input: string) => {
-        if (running)             return subprocessCommand(input);
-        if (input === "compile") return compileCommand(input);
-        if (input === "clear")   return clearCommand(input);
-        if (input === "help")    return helpCommand(input);
-        else                     return unknownCommand(input);
+        setLines(lines => {
+            return [
+                ...lines,
+                <TerminalOutput>{">> " + input}</TerminalOutput>,
+            ];
+        });
+        connectSubprocess(input+"\n", () => {});
     };
 
     // Setup terminal scroll
@@ -150,8 +76,8 @@ export default function TerminalPanel(props: TerminalPanelProps) {
             <Terminal
                 height="100%"
                 colorMode={color}
-                prompt={prompt}
-                onInput={prompt ? evalInput : null}
+                prompt=">>"
+                onInput={evalInput}
             >
                 { lines }
             </Terminal>
