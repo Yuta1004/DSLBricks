@@ -30,6 +30,7 @@ $ cargo run --bin minic_interpreter
 
 - [editor](./src/editor/README.md)
 - [gen_template](./src/gen_template/README.md)
+- [docs_web](./docs/web/README.md)
 - calc_interpreter (example)
 - minic_interpreter (example)
 
