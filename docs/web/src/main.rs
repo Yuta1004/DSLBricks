@@ -22,6 +22,7 @@ impl<'r> Responder<'r, 'static> for StaticFileResponse {
         let StaticFileResponse (content_type, content_body) = self;
         Response::build()
             .header(content_type)
+            .raw_header("X-Frame-Options","ALLOW-FROM *")
             .sized_body(content_body.len(), Cursor::new(content_body))
             .ok()
     }
