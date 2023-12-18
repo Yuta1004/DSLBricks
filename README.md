@@ -10,7 +10,7 @@
 
 ```
 // Docs(rustdoc) => http://localhost:5555/catalog/index.html
-$ make -C docs/rustdoc_web
+$ make -C docs/rustdoc web
 
 // Test
 $ make test
@@ -24,13 +24,18 @@ $ cargo run --bin calc_interpreter
 $ cargo run --bin minic_interpreter
 ```
 
+## Docs
+
+- [catalog](./docs/catalog/README.md)
+- [rustdoc](./docs/rustdoc/README.md)
+
 ## Crates
 
 ### bin
 
 - [editor](./src/editor/README.md)
 - [gen_template](./src/gen_template/README.md)
-- [docs_web](./docs/web/README.md)
+- [rustdoc_web](./docs/rustdoc/tools/rustdoc_web/README.md)
 - calc_interpreter (example)
 - minic_interpreter (example)
 

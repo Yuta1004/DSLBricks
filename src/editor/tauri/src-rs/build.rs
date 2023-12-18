@@ -11,7 +11,7 @@ fn main() {
     Command::new("make")
         .args(&["bin"])
         .args(&[format!("OUT_DIR={}", current_dir.display())])
-        .current_dir("../../../../docs/rustdoc_web")
+        .current_dir("../../../../docs/rustdoc/tools/rustdoc_web")
         .status()
         .unwrap();
 
