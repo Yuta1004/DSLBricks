@@ -10,4 +10,5 @@ rocket = "0.5"
 bundle = { package = "rustdoc_web_bundle", path = "./bundle", optional = true }
 
 [features]
-default = ["bundle/embedded"]
+default = ["bundle"]
+embedded = ["bundle/embedded"]
