@@ -1,11 +1,14 @@
-import Box from "@mui/material/Box";
-
 type CatalogPanelProps = {}
 
 export default function CatalogPanel(props: CatalogPanelProps) {
     return (
-        <Box>
-            <h3>Catalog</h3>
-        </Box>
+        <iframe
+            src="http://localhost:5555"
+            style={{
+                width: "100%",
+                height: "calc(100% - 8px)",
+                border: "none"
+            }}
+        />
     );
 }
