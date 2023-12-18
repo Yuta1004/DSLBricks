@@ -11,7 +11,7 @@ use tauri::api::process::Command;
 pub fn exec() -> anyhow::Result<()> {
     tauri::Builder::default()
         .setup(|_| {
-            Command::new_sidecar("docs_web")?.spawn()?;
+            Command::new_sidecar("rustdoc_web")?.spawn()?;
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

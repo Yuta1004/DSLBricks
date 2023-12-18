@@ -238,25 +238,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "docs_web"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "docs_web_embed",
- "rocket",
- "thiserror",
-]
-
-[[package]]
-name = "docs_web_embed"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "rust-embed",
- "thiserror",
-]
-
-[[package]]
 name = "either"
 version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1028,6 +1009,25 @@ name = "rustc-demangle"
 version = "0.1.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d626bb9dae77e28219937af045c257c28bfd3f69333c512553507f5f9798cb76"
+
+[[package]]
+name = "rustdoc_web"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rocket",
+ "rustdoc_web_embed",
+ "thiserror",
+]
+
+[[package]]
+name = "rustdoc_web_embed"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rust-embed",
+ "thiserror",
+]
 
 [[package]]
 name = "rustix"

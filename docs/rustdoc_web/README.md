@@ -1,4 +1,4 @@
-# Docs for web
+# Rustdoc for web
 
 ## Command
 

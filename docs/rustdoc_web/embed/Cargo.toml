@@ -1,5 +1,5 @@
 [package]
-name = "docs_web_embed"
+name = "rustdoc_web_embed"
 version = "0.1.0"
 edition = "2021"
 

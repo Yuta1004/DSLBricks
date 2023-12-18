@@ -9,7 +9,7 @@ fn main() {
         .args(&["doc"])
         .args(&["--lib"])
         .args(&["--config", &format!("build.rustdocflags = [\"--extend-css\", \"{}\"]", css_path.display())])
-        .current_dir("../../")
+        .current_dir("../../../")
         .status()
         .unwrap();
 }

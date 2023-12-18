@@ -1,5 +1,5 @@
 [package]
-name = "docs_web"
+name = "rustdoc_web"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 rocket = "0.5"
-embed = { package = "docs_web_embed", path = "./embed" }
+embed = { package = "rustdoc_web_embed", path = "./embed" }

@@ -43,7 +43,7 @@
                 "timestampUrl": ""
             },
             "externalBin": [
-                "./bin/docs_web"
+                "./bin/rustdoc_web"
             ]
         },
         "security": {
