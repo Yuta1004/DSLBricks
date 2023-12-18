@@ -3,6 +3,9 @@
 ## Command
 
 ```
+// Run (http://localhost:5555)
 $ cargo run
-// => http://localhost:5555
+
+// Build
+$ make bin
 ```
