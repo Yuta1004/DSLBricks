@@ -7,4 +7,4 @@ edition = "2021"
 anyhow = "1.0"
 thiserror = "1.0"
 rocket = "0.5"
-embed = { package = "rustdoc_web_embed", path = "./embed" }
+bundle = { package = "rustdoc_web_bundle", path = "./bundle" }

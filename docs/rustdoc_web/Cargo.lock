@@ -1016,12 +1016,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "rocket",
- "rustdoc_web_embed",
+ "rustdoc_web_bundle",
  "thiserror",
 ]
 
 [[package]]
-name = "rustdoc_web_embed"
+name = "rustdoc_web_bundle"
 version = "0.1.0"
 dependencies = [
  "anyhow",

@@ -7,7 +7,7 @@ use rocket::response::Responder;
 use rocket::http::ContentType;
 use rocket::{get, routes, launch};
 
-use embed::Document;
+use bundle::Document;
 
 struct StaticFileResponse(ContentType, String);
 
