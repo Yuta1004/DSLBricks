@@ -69,7 +69,7 @@ export default function App() {
         <Split
             className="split-flex"
             gutterSize={5}
-            sizes={[70, 30]}
+            sizes={[60, 40]}
             direction="horizontal"
             onDrag={() => setResizeCnt(cnt => cnt + 1)}
         >
