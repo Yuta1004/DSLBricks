@@ -34,21 +34,21 @@ export default function SideView(props: SideViewProps) {
                 height: "calc(100vh - 128px)",
                 overflowY: "scroll"
             }}>
-                { tabStat === 0 &&
+                <div style={{ display: tabStat === 0 ? "inline" : "none" }}>
                     <CodePanel
                         xml={props.xml}
                         rust={props.rust}
                     />
-                }
-                { tabStat === 1 &&
+                </div>
+                <div style={{ display: tabStat === 1 ? "inline" : "none" }}>
                     <StatusPanel />
-                }
-                { tabStat === 2 &&
+                </div>
+                <div style={{ display: tabStat === 2 ? "inline" : "none" }}>
                     <CatalogPanel />
-                }
-                { tabStat === 3 &&
+                </div>
+                <div style={{ display: tabStat === 3 ? "inline" : "none" }}>
                     <TerminalPanel />
-                }
+                </div>
             </div>
         </Box>
     );
