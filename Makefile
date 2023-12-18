@@ -1,3 +1,6 @@
+docs-web:
+	make -C docs/rustdoc_web
+
 test: unit-test integration-test
 
 unit-test:

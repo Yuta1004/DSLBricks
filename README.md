@@ -9,6 +9,9 @@
 ## Command
 
 ```
+// Docs (http://localhost:5555/catalog/index.html)
+$ make docs-web
+
 // Test
 $ make test
 
