@@ -9,8 +9,8 @@
 ## Command
 
 ```
-// Docs (http://localhost:5555/catalog/index.html)
-$ make docs-web
+// Docs(rustdoc) => http://localhost:5555/catalog/index.html
+$ make -C docs/rustdoc_web
 
 // Test
 $ make test
