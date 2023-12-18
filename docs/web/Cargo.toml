@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
+rocket = "0.4.1"
+rocket_contrib = "0.4.1"
