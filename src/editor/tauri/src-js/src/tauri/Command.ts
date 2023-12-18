@@ -29,23 +29,23 @@ export function genRustCode(xml: string, callback: (rust: string) => void) {
     ipc();
 };
 
-export function createVerifyProcess(callback: () => void) {
+export function createSubprocess(callback: () => void) {
     const ipc = async () => {
-        invoke<void>("create_verify_process", {}).then(callback);
+        invoke<void>("create_subprocess", {}).then(callback);
     };
     ipc();
 }
 
-export function connectVerifyProcess(msg: string, callback: (recv: string) => void) {
+export function connectSubprocess(msg: string, callback: (recv: string) => void) {
     const ipc = async () => {
-        invoke<string>("connect_verify_process", { msg }).then(callback);
+        invoke<string>("connect_subprocess", { msg }).then(callback);
     };
     ipc();
 }
 
-export function finishVerifyProcess(callback: () => void) {
+export function finishSubprocess(callback: () => void) {
     const ipc = async () => {
-        invoke<void>("finish_verify_process", {}).then(callback);
+        invoke<void>("finish_subprocess", {}).then(callback);
     };
     ipc();
 }

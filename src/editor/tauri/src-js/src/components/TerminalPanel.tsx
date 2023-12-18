@@ -6,9 +6,9 @@ import Switch from "@mui/material/Switch";
 import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
 
 import {
-    createVerifyProcess,
-    connectVerifyProcess,
-    finishVerifyProcess
+    createSubprocess,
+    connectSubprocess,
+    finishSubprocess
 } from "../tauri/Command";
 
 const Dark = ColorMode.Dark;
@@ -37,7 +37,7 @@ export default function TerminalPanel(props: TerminalPanelProps) {
             ];
         });
 
-        createVerifyProcess(() => {
+        createSubprocess(() => {
             setLines(lines => {
                 return [
                     ...lines,
@@ -50,9 +50,9 @@ export default function TerminalPanel(props: TerminalPanelProps) {
         });
     };
 
-    const verifyCommand = (input: string) => {
+    const subprocessCommand = (input: string) => {
         if (input === "exit") {
-            finishVerifyProcess(() => {
+            finishSubprocess(() => {
                 setLines(lines => {
                     return [
                         ...lines,
@@ -75,7 +75,7 @@ export default function TerminalPanel(props: TerminalPanelProps) {
             ];
         });
 
-        connectVerifyProcess(input+"\n", (recv) => {
+        connectSubprocess(input+"\n", (recv) => {
             setLines(lines => {
                 return [
                     ...lines,
@@ -117,7 +117,7 @@ export default function TerminalPanel(props: TerminalPanelProps) {
     };
 
     const evalInput = (input: string) => {
-        if (running)             return verifyCommand(input);
+        if (running)             return subprocessCommand(input);
         if (input === "compile") return compileCommand(input);
         if (input === "clear")   return clearCommand(input);
         if (input === "help")    return helpCommand(input);
