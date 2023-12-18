@@ -4,14 +4,11 @@
 
 - make
 - cargo
-- Docker
+- npm
 
 ## Command
 
 ```
-// Setup(once)
-$ make setup
-
 // Test
 $ make test
 
