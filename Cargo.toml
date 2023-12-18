@@ -7,10 +7,6 @@ members = [
     # Catalog
     "catalog/catalog",
 
-    # Docs
-    "docs/web",
-    "docs/cli",
-
     # Tools
     "src/editor",
     "src/gen_template",
@@ -20,6 +16,9 @@ members = [
     "examples/minic_interpreter",
 ]
 exclude = [
+    # Docs
+    "docs/web",
+
     # Tests
     "tests/default",
     "tests/with_serde",

@@ -43,7 +43,7 @@
                 "timestampUrl": ""
             },
             "externalBin": [
-                "../../../../target/debug/docs_web"
+                "./bin/docs_web"
             ]
         },
         "security": {
