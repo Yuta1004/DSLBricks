@@ -13,9 +13,9 @@ pub fn exec() -> anyhow::Result<()> {
             command::open_project,
             command::save_project,
             command::export_project,
-            command::create_verify_process,
-            command::connect_verify_process,
-            command::finish_verify_process,
+            command::create_subprocess,
+            command::connect_subprocess,
+            command::finish_subprocess,
         ])
         .run(tauri::generate_context!())?;
     Ok(())

@@ -20,7 +20,7 @@ export default function TerminalPanel(props: TerminalPanelProps) {
     // States
     const [running, setRunning] = useState<boolean>(false);
     const [color, setColor] = useState<ColorMode>(ColorMode.Light);
-    const [prompt, setPrompt] = useState<string|null>(">>");
+    const [prompt, setPrompt] = useState<string>(">>");
     const [lines, setLines] = useState<JSX.Element[]>([
         <TerminalOutput>Welcome to Terminal.</TerminalOutput>,
         <TerminalOutput>Type 'help' to show available commmands.</TerminalOutput>
@@ -28,7 +28,6 @@ export default function TerminalPanel(props: TerminalPanelProps) {
 
     // Commands (for terminal)
     const compileCommand = (input: string) => {
-        setPrompt(null);
         setLines(lines => {
             return [
                 ...lines,
@@ -37,17 +36,27 @@ export default function TerminalPanel(props: TerminalPanelProps) {
             ];
         });
 
-        createSubprocess(() => {
-            setLines(lines => {
-                return [
-                    ...lines,
-                    <TerminalOutput>Ok</TerminalOutput>,
-                    <TerminalOutput/>
-                ];
-            });
-            setPrompt("$");
-            setRunning(true);
-        });
+        createSubprocess(
+            (line) => {
+                setLines(lines => {
+                    return [
+                        ...lines,
+                        <TerminalOutput>{line}</TerminalOutput>,
+                    ];
+                });
+            },
+            () => {
+                setLines(lines => {
+                    return [
+                        ...lines,
+                        <TerminalOutput>Ok</TerminalOutput>,
+                        <TerminalOutput/>
+                    ];
+                });
+                setPrompt("$");
+                setRunning(true);
+            }
+        );
     };
 
     const subprocessCommand = (input: string) => {
@@ -67,7 +76,6 @@ export default function TerminalPanel(props: TerminalPanelProps) {
             return;
         }
 
-        setPrompt(null);
         setLines(lines => {
             return [
                 ...lines,
@@ -75,16 +83,7 @@ export default function TerminalPanel(props: TerminalPanelProps) {
             ];
         });
 
-        connectSubprocess(input+"\n", (recv) => {
-            setLines(lines => {
-                return [
-                    ...lines,
-                    <TerminalOutput>{recv}</TerminalOutput>,
-                    <TerminalOutput/>
-                ];
-            });
-            setPrompt("$");
-        });
+        connectSubprocess(input+"\n", () => {});
     };
 
     const clearCommand = (input: string) => {

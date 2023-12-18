@@ -1,23 +1,26 @@
 use std::thread;
 use std::process::{Command, Child};
 use std::io::{Write, BufRead, BufReader};
-use std::time::Duration;
 use std::sync::{Arc, Mutex};
 
 use os_pipe::PipeWriter;
-use tauri::InvokeError;
+use tauri::{AppHandle, InvokeError, Manager};
 
 static mut SUBPROCESS: Option<Arc<Mutex<Subprocess>>> = None;
 
 #[tauri::command]
-pub fn create_verify_process() -> Result<(), InvokeError> {
+pub fn create_subprocess(app: AppHandle) -> Result<(), InvokeError> {
     unsafe {
         if SUBPROCESS.is_some() {
-            return Err(InvokeError::from("Verification process is already launched."));
+            return Err(InvokeError::from("Subprocess is already launched."));
         }
     }
 
-    match Subprocess::new("bash") {
+    let stdout_handler = move |line: &str| {
+        app.emit_all("subprocess_stdout", line).unwrap();
+    };
+
+    match Subprocess::new("bash", stdout_handler) {
         Ok(subprocess) => {
             unsafe { SUBPROCESS = Some(subprocess); }
             Ok(())
@@ -27,27 +30,25 @@ pub fn create_verify_process() -> Result<(), InvokeError> {
 }
 
 #[tauri::command]
-pub fn connect_verify_process(msg: &str) -> Result<String, InvokeError> {
+pub fn connect_subprocess(msg: &str) -> Result<(), InvokeError> {
     let subprocess = unsafe {
         match &SUBPROCESS {
             Some(subprocess) => subprocess,
-            None => return Err(InvokeError::from("Verification process is not launched."))
+            None => return Err(InvokeError::from("Subprocess is not launched."))
         }
     };
 
     Subprocess::stdin(Arc::clone(subprocess), msg).unwrap();
-    thread::sleep(Duration::from_millis(500));
-    let stdout = Subprocess::stdout(Arc::clone(subprocess)).unwrap();
 
-    Ok(stdout)
+    Ok(())
 }
 
 #[tauri::command]
-pub fn finish_verify_process() -> Result<(), InvokeError> {
+pub fn finish_subprocess() -> Result<(), InvokeError> {
     let subprocess = unsafe {
         match &SUBPROCESS {
             Some(subprocess) => subprocess,
-            None => return Err(InvokeError::from("Verification process is not launched."))
+            None => return Err(InvokeError::from("Subprocess is not launched."))
         }
     };
 
@@ -60,11 +61,15 @@ pub fn finish_verify_process() -> Result<(), InvokeError> {
 struct Subprocess {
     process: Child,
     stdin: PipeWriter,
-    stdout: Vec<String>,
+    stdout_handler: Box<dyn Fn(&str) -> () + Send>,
 }
 
 impl Subprocess {
-    pub fn new(cmd: &str) -> anyhow::Result<Arc<Mutex<Self>>> {
+    pub fn new<F>(cmd: &str, stdout_handler: F) -> anyhow::Result<Arc<Mutex<Self>>>
+    where
+        F: Fn(&str) -> () + Send + 'static,
+    {
+        // Spawn subprocess
         let (stdin_process, stdin_us) = os_pipe::pipe()?;
         let (stdout_us, stdout_process) = os_pipe::pipe()?;
         let process = Command::new(cmd)
@@ -77,7 +82,7 @@ impl Subprocess {
         let subprocess = Subprocess {
             process,
             stdin: stdin_us,
-            stdout: vec![],
+            stdout_handler: Box::new(stdout_handler),
         };
         let subprocess = Arc::new(Mutex::new(subprocess));
 
@@ -89,8 +94,8 @@ impl Subprocess {
                     subprcess_in_thread
                         .lock()
                         .unwrap()
-                        .stdout
-                        .push(line);
+                        .stdout_handler
+                        .as_ref()(&line);
                 }
             }
         });
@@ -102,12 +107,6 @@ impl Subprocess {
         let mut stdin = &subprocess.lock().unwrap().stdin;
         write!(&mut stdin, "{}", input)?;
         Ok(())
-    }
-
-    pub fn stdout(subprocess: Arc<Mutex<Self>>) -> anyhow::Result<String> {
-        let stdout = subprocess.lock().unwrap().stdout.join("\n");
-        *(&mut subprocess.lock().unwrap().stdout) = vec![];
-        Ok(stdout)
     }
 
     pub fn kill(subprocess: Arc<Mutex<Self>>) -> anyhow::Result<()> {
