@@ -7,7 +7,7 @@ run:
 bin:
 	cargo build -F embedded
 	mkdir -p $(OUT_DIR)/bin
-	cp ./target/debug/rustdoc_web $(OUT_DIR)/bin
-	cp $(OUT_DIR)/bin/rustdoc_web $(OUT_DIR)/bin/rustdoc_web-$(TARGET_TRIPLE)
+	cp -u ./target/debug/rustdoc_web $(OUT_DIR)/bin
+	cp -u $(OUT_DIR)/bin/rustdoc_web $(OUT_DIR)/bin/rustdoc_web-$(TARGET_TRIPLE)
 
 .PHONY: bin
