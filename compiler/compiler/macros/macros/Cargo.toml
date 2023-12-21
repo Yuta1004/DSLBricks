@@ -1,0 +1,14 @@
+[package]
+name = "compiler_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+macros_decralative = { package = "compiler_macros_declarative", path = "../macros_declarative", optional = true }
+macros_procedural = { package = "compiler_macros_procedural", path = "../macros_procedural", optional = true }
+
+[features]
+default = ["macros_decralative", "macros_procedural"]
+build = ["macros_decralative/build", "macros_procedural/build"]

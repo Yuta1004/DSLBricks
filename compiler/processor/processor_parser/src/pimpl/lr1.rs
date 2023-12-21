@@ -9,7 +9,7 @@ use lexer::{LexIterator, TokenSet};
 use util_macros::cfg_where;
 
 use super::super::rule::{Rule, RuleElem, RuleSet};
-use super::super::syntax::{ASyntax, Syntax};
+use super::super::syntax::{pre, post};
 use super::super::ParseError;
 use super::ParserImpl;
 
@@ -22,33 +22,33 @@ enum LRAction<S> {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct LR1<A, S, T>
+pub struct LR1<PostS, PreS, T>
 where
-    // A: ASyntax<S, T>,
-    // S: Syntax<A, T>,
+    // PostS: post::Syntax<PreS, T>,
+    // PreS: pre::Syntax<PostS, T>,
     // T: TokenSet,
     // see => https://github.com/serde-rs/serde/issues/2418
     T: Eq + Hash,
 {
     // PhantomData
-    semantics: PhantomData<A>,
+    semantics: PhantomData<PostS>,
 
     // LR Tables
-    action_table: Vec<HashMap<T, LRAction<S>>>,
-    eof_action_table: Vec<LRAction<S>>,
+    action_table: Vec<HashMap<T, LRAction<PreS>>>,
+    eof_action_table: Vec<LRAction<PreS>>,
     goto_table: Vec<Vec<usize>>,
 }
 
 #[cfg_where(feature = "with-serde", S: for<'de> Deserialize<'de>, T: for<'de> Deserialize<'de>)]
-impl<A, S, T> ParserImpl<A, S, T> for LR1<A, S, T>
+impl<PostS, PreS, T> ParserImpl<PostS, PreS, T> for LR1<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T>,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T>,
     T: TokenSet + 'static,
 {
     fn setup() -> anyhow::Result<Self> {
         // 1. Pre-process
-        let ruleset = S::syntax();
+        let ruleset = PreS::syntax();
         let first_set = ruleset.first_set();
 
         // 2. Generate dummy nonterm
@@ -78,16 +78,16 @@ where
             }
         }
 
-        let rule_table: Vec<S> = S::iter().collect();
+        let rule_table: Vec<PreS> = PreS::iter().collect();
 
-        let mut action_table: Vec<HashMap<T, LRAction<S>>> = Vec::with_capacity(dfa.0.len());
-        let mut eof_action_table: Vec<LRAction<S>> = Vec::with_capacity(dfa.0.len());
+        let mut action_table: Vec<HashMap<T, LRAction<PreS>>> = Vec::with_capacity(dfa.0.len());
+        let mut eof_action_table: Vec<LRAction<PreS>> = Vec::with_capacity(dfa.0.len());
         let mut goto_table: Vec<Vec<usize>> = Vec::with_capacity(dfa.0.len());
         for _ in 0..dfa.0.len() {
             action_table.push(HashMap::from_iter(
                 T::iter()
                     .map(|token| (token, LRAction::None))
-                    .collect::<Vec<(T, LRAction<S>)>>(),
+                    .collect::<Vec<(T, LRAction<PreS>)>>(),
             ));
             eof_action_table.push(LRAction::None);
             goto_table.push(vec![0; nonterm_table.keys().len()]);
@@ -151,7 +151,7 @@ where
         })
     }
 
-    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<A>> {
+    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>, ParseError> {
         let mut stack = vec![0];
         let mut result = vec![];
         loop {
@@ -180,7 +180,7 @@ where
                             result0.push(result.pop().unwrap());
                         }
                         result0.reverse();
-                        result.push((Some(A::mapping(*syntax, result0)?), None));
+                        result.push((Some(PostS::mapping(*syntax, result0)?), None));
                     }
                     LRAction::None => {
                         let pos = lexer.pos();
@@ -458,18 +458,19 @@ mod test {
     use lexer::{Lexer, TokenSet};
 
     use crate::rule::{Rule, RuleElem};
-    use crate::syntax::{ASyntax, Syntax};
-    use crate::{Parser, LR1};
+    use crate::syntax::{pre, post};
+    use crate::kind::LR1;
+    use crate::Parser;
 
     #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
 
-    impl<S, T> ASyntax<S, T> for VoidSemantics
+    impl<PreS, T> post::Syntax<PreS, T> for VoidSemantics
     where
-        S: Syntax<Self, T>,
+        PreS: pre::Syntax<Self, T>,
         T: TokenSet,
     {
-        fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
+        fn mapping(_: PreS, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
             Ok(Box::new(VoidSemantics {}))
         }
     }
@@ -530,7 +531,7 @@ mod test {
         Fact2Num,
     }
 
-    impl Syntax<VoidSemantics, TestToken> for TestSyntax {
+    impl pre::Syntax<VoidSemantics, TestToken> for TestSyntax {
         type Parser = LR1<VoidSemantics, TestSyntax, TestToken>;
 
         fn iter() -> Box<dyn Iterator<Item = Self>> {
@@ -666,14 +667,14 @@ mod test {
         }
     }
 
-    fn parse<A, S, T>(input: &str) -> bool
+    fn parse<PostS, PreS, T>(input: &str) -> bool
     where
-        A: ASyntax<S, T>,
-        S: Syntax<A, T>,
+        PostS: post::Syntax<PreS, T>,
+        PreS: pre::Syntax<PostS, T>,
         T: TokenSet + 'static,
     {
         let lexer = Lexer::<T>::new().unwrap();
-        let parser = Parser::<A, S, T>::new().unwrap();
+        let parser = Parser::<PostS, PreS, T>::new().unwrap();
 
         parser.parse(&mut lexer.lex(input)).is_ok()
     }

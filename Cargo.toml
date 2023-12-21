@@ -5,14 +5,15 @@ members = [
     "compiler/compiler",
 
     # Library
-    "library",
+    "catalog/catalog",
 
     # Examples
     "examples/calc_interpreter",
     "examples/minic_interpreter",
 
     # Tools
-    # "tools/...",
+    "src/editor",
+    "src/gen_template",
 ]
 exclude = [
     # Tests

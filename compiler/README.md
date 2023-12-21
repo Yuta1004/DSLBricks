@@ -2,6 +2,7 @@
 
 ## Features
 
+- build
 - with-serde
 
 ## Crates

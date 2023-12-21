@@ -4,7 +4,7 @@ use std::io::Write;
 use clap::Parser;
 
 use processor::lexer::TokenSet;
-use processor::parser::syntax::{ASyntax, Syntax};
+use processor::parser::syntax::{pre, post};
 use processor::parser::ParseError;
 use processor::DSL;
 
@@ -12,27 +12,27 @@ use processor::DSL;
 #[command(author, version, about)]
 struct InterpreterCLI {}
 
-pub struct Interpreter<A, S, T>(DSL<A, S, T>)
+pub struct Interpreter<PostS, PreS, T>(DSL<PostS, PreS, T>)
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T> + 'static,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static;
 
-impl<A, S, T> From<DSL<A, S, T>> for Interpreter<A, S, T>
+impl<PostS, PreS, T> From<DSL<PostS, PreS, T>> for Interpreter<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T> + 'static,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static,
 {
-    fn from(dsl: DSL<A, S, T>) -> Self {
+    fn from(dsl: DSL<PostS, PreS, T>) -> Self {
         Interpreter(dsl)
     }
 }
 
-impl<A, S, T> Interpreter<A, S, T>
+impl<PostS, PreS, T> Interpreter<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T> + 'static,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static,
 {
     pub fn exec(self) -> anyhow::Result<()> {

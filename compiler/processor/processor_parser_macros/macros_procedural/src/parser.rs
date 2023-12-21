@@ -42,7 +42,7 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
         #[derive(Clone, Copy, #extra_derives)]
         #target_ast
 
-        impl Syntax<#semantics, #token> for #enum_name {
+        impl pre::Syntax<#semantics, #token> for #enum_name {
             type Parser = #parser <#semantics, #enum_name, #token>;
 
             fn iter() -> Box<dyn Iterator<Item = Self>> {

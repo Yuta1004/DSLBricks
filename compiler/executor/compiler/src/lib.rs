@@ -1,34 +1,34 @@
 use clap::Parser;
 
 use processor::lexer::TokenSet;
-use processor::parser::syntax::{ASyntax, Syntax};
+use processor::parser::syntax::{pre, post};
 use processor::DSL;
 
 #[derive(Parser)]
 #[command(author, version, about)]
 struct CompilerCLI {}
 
-pub struct Compiler<A, S, T>(DSL<A, S, T>)
+pub struct Compiler<PostS, PreS, T>(DSL<PostS, PreS, T>)
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T> + 'static,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static;
 
-impl<A, S, T> From<DSL<A, S, T>> for Compiler<A, S, T>
+impl<PostS, PreS, T> From<DSL<PostS, PreS, T>> for Compiler<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T> + 'static,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static,
 {
-    fn from(dsl: DSL<A, S, T>) -> Self {
+    fn from(dsl: DSL<PostS, PreS, T>) -> Self {
         Compiler(dsl)
     }
 }
 
-impl<A, S, T> Compiler<A, S, T>
+impl<PostS, PreS, T> Compiler<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T>,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T>,
     T: TokenSet,
 {
     pub fn exec(self) -> anyhow::Result<()> {

@@ -1,12 +1,16 @@
-use compiler::build_dsl;
-use library::expression::util::Arithmetic;
-use library::primitive::number::{Float, Integer};
+use std::rc::Rc;
 
+use catalog::expression::util::Arithmetic;
+use catalog::primitive::number::{Float, Integer};
+use catalog::prelude::*;
+use catalog::macros::combine_bricks;
+
+#[combine_bricks]
 fn main() {
-    build_dsl! {
-        Arithmetic::new()
-            .add_unit(Integer::new())
-            .add_unit(Float::new())
-            .unwrap()
+    let integer = Integer {};
+    let float = Float {};
+
+    Arithmetic {
+        unit: [integer, float],
     }
 }

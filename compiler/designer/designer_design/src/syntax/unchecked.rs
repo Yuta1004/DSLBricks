@@ -53,28 +53,29 @@ impl From<(&'static str, Vec<Rule>)> for RuleSet {
 
 impl RuleSet {
     pub(crate) fn expand(mut self) -> RuleSet {
-        let expanded = self
-            .0
-            .iter()
-            .flat_map(|rule| {
-                rule.rights
-                    .iter()
-                    .flat_map(|selem| {
-                        if let SyntaxElem::Hole(design) = selem {
-                            Some(design)
-                        } else {
-                            None
-                        }
-                    })
-                    .collect::<Vec<&Rc<dyn DSLGeneratable>>>()
-            })
-            .collect::<HashSet<&Rc<dyn DSLGeneratable>>>()
+        let mut target_designs = HashSet::new();
+        self.expand_children(&mut target_designs);
+
+        let expanded = target_designs
             .into_iter()
-            .flat_map(|design| design.design().expand().0)
+            .map(|design| design.design().0)
+            .flatten()
             .collect::<Vec<Rule>>();
 
         self.0.extend(expanded);
-
         self
+    }
+
+    fn expand_children(&self, state: &mut HashSet<Rc<dyn DSLGeneratable>>) {
+        for rule in self.0.iter() {
+            for selem in rule.rights.iter() {
+                if let SyntaxElem::Hole(expandable) = selem {
+                    if !state.contains(expandable) {
+                        state.insert(Rc::clone(expandable));
+                        expandable.design().expand_children(state);
+                    }
+                }
+            }
+        }
     }
 }
