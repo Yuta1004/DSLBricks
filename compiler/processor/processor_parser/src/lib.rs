@@ -1,4 +1,7 @@
 mod pimpl;
+pub mod kind {
+    pub use crate::pimpl::*;
+}
 pub mod rule;
 pub mod syntax;
 
@@ -12,7 +15,6 @@ use thiserror::Error;
 use lexer::{LexIterator, TokenSet};
 
 use pimpl::ParserImpl;
-pub use pimpl::LR1;
 use syntax::{pre, post};
 
 #[derive(Debug, Error, Serialize, Deserialize)]

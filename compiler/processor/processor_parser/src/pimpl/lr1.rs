@@ -459,7 +459,8 @@ mod test {
 
     use crate::rule::{Rule, RuleElem};
     use crate::syntax::{pre, post};
-    use crate::{Parser, LR1};
+    use crate::kind::LR1;
+    use crate::Parser;
 
     #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
