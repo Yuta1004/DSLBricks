@@ -12,11 +12,17 @@ pub mod prelude {
 // 制約
 pub mod constraints;
 
-// プリミティブ (int, float, ...)
+// プリミティブ
 pub mod primitive;
 
-// 式 (arithmetic, ...)
+// 式
 pub mod expression;
 
-// 文 (if, for, ...)
+// 文
 pub mod statement;
+
+// 関数
+pub mod function;
+
+// 構造体
+pub mod r#struct;
