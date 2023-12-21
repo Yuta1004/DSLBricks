@@ -48,4 +48,8 @@ macro_rules! blockly_ir {
             .collect::<Vec<BlocklyIRComponent>>()
         )
     }};
+
+    (@ $vec:ident += CheckBoxInput $text:expr) => {
+        $vec.push(BlocklyIRComponent::new_checkbox_input($text, $text))
+    };
 }

@@ -51,6 +51,7 @@ where
 
         [Components]
         Text: DSLBrickMeta::start(&brick),
+        CheckBoxInput: "root",
         Variable: "variable",
         TextInput: "property",
         BlockInputs: DSLBrickMeta::components(&brick),

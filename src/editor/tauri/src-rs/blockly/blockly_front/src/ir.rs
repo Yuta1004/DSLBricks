@@ -59,7 +59,11 @@ pub enum BlocklyIRComponent {
     BlockInput {
         title: String,
         name: String,
-    }
+    },
+    CheckBoxInput {
+        tilte: String,
+        name: String,
+    },
 }
 
 impl BlocklyIRComponent {
@@ -96,6 +100,17 @@ impl BlocklyIRComponent {
     {
         BlocklyIRComponent::BlockInput {
             title: title.into(),
+            name: name.into(),
+        }
+    }
+
+    pub fn new_checkbox_input<T, U>(title: T, name: U) -> Self
+    where
+        T: Into<String>,
+        U: Into<String>,
+    {
+        BlocklyIRComponent::CheckBoxInput {
+            tilte: title.into(),
             name: name.into(),
         }
     }

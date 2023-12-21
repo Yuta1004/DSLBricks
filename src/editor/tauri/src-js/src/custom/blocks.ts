@@ -34,8 +34,17 @@
             function() {
                 this.jsonInit({
                     type: "std.primitive.Integer",
-                    message0: "Integer %1 variable %2 %3 property %4 %5",
+                    message0: "Integer %1 root %2 %3 variable %4 %5 property %6 %7",
                     args0: [
+                {
+                    type: "input_dummy"
+                }
+                ,
+                {
+                    type: "field_checkbox",
+                    name: "root",
+                    checked: false
+                },
                 {
                     type: "input_dummy"
                 }
@@ -72,8 +81,17 @@
             function() {
                 this.jsonInit({
                     type: "std.primitive.Float",
-                    message0: "Float %1 variable %2 %3 property %4 %5",
+                    message0: "Float %1 root %2 %3 variable %4 %5 property %6 %7",
                     args0: [
+                {
+                    type: "input_dummy"
+                }
+                ,
+                {
+                    type: "field_checkbox",
+                    name: "root",
+                    checked: false
+                },
                 {
                     type: "input_dummy"
                 }
@@ -110,8 +128,17 @@
             function() {
                 this.jsonInit({
                     type: "std.statement.c.If",
-                    message0: "If %1 variable %2 %3 property %4 %5 cond %6 %7 stmt %8 %9",
+                    message0: "If %1 root %2 %3 variable %4 %5 property %6 %7 cond %8 %9 stmt %10 %11",
                     args0: [
+                {
+                    type: "input_dummy"
+                }
+                ,
+                {
+                    type: "field_checkbox",
+                    name: "root",
+                    checked: false
+                },
                 {
                     type: "input_dummy"
                 }

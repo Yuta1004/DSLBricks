@@ -68,6 +68,12 @@ fn message0(components: &[BlocklyIRComponent]) -> String {
                 msg_elems.push(format!("%{}", arg_cnt + 2));
                 arg_cnt += 2;
             }
+            BlocklyIRComponent::CheckBoxInput { tilte, ..} => {
+                msg_elems.push(tilte.to_owned());
+                msg_elems.push(format!("%{}", arg_cnt + 1));
+                msg_elems.push(format!("%{}", arg_cnt + 2));
+                arg_cnt += 2;
+            }
         };
     }
     msg_elems.join(" ")
@@ -114,6 +120,18 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
                 {{
                     type: "input_statement",
                     name: "{name}"
+                }}
+                "#)
+            },
+            BlocklyIRComponent::CheckBoxInput { name, .. } => {
+                format!(r#"
+                {{
+                    type: "field_checkbox",
+                    name: "{name}",
+                    checked: false
+                }},
+                {{
+                    type: "input_dummy"
                 }}
                 "#)
             }
