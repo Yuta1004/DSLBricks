@@ -23,7 +23,7 @@ fn main() {
 
     // ブロック
     let block_stmt = Block {
-        stmt: [expr_stmt],
+        stmt: [expr_stmt, if_stmt],
     };
 
     // if 文

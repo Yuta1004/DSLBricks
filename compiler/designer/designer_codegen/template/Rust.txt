@@ -4,8 +4,8 @@ use serde::\{Serialize, Deserialize};
 
 use compiler::processor::lexer::macros::*;
 use compiler::processor::parser::macros::*;
-use compiler::processor::parser::syntax::ASyntax;
-use compiler::processor::parser::LR1;
+use compiler::processor::parser::syntax::post;
+use compiler::processor::parser::kind::LR1;
 use compiler::processor::DSL as DSLDef;
 
 #[allow(clippy::upper_case_acronyms)]
@@ -32,7 +32,7 @@ pub enum {NAME}Syntax \{
 {DERIVE_SERDE}
 pub struct {NAME}ASyntax;
 
-impl ASyntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
+impl post::Syntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
     #[allow(unused_variables, unused_mut)]
     fn mapping(
         syntax: {NAME}Syntax,

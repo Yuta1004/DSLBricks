@@ -4,18 +4,18 @@ use serde::Serialize;
 use lexer::TokenSet;
 use util_macros::cfg_where;
 
-use super::abst::ASyntax;
+use super::post;
 use crate::rule::{Rule, RuleElem, RuleSet};
 use crate::ParserImpl;
 
 #[cfg_where(feature = "with-serde", Self: Serialize)]
-pub trait Syntax<A, T>
+pub trait Syntax<PostS, T>
 where
     Self: Clone + Copy + Sized,
-    A: ASyntax<Self, T>,
+    PostS: post::Syntax<Self, T>,
     T: TokenSet,
 {
-    type Parser: ParserImpl<A, Self, T>;
+    type Parser: ParserImpl<PostS, Self, T>;
 
     // for Enum
     fn iter() -> Box<dyn Iterator<Item = Self>>;
