@@ -1,17 +1,10 @@
 #[cfg(feature = "with-serde")]
 use serde::Serialize;
-use thiserror::Error;
 
 use lexer::TokenSet;
 use util_macros::cfg_where;
 
 use super::pre;
-
-#[derive(Debug, Error)]
-pub enum SyntaxError {
-    #[error("Mapping process is not implemented")]
-    NotImplemented,
-}
 
 #[cfg_where(feature = "with-serde", Self: Serialize)]
 pub trait Syntax<PreS, T>
