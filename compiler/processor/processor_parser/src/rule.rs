@@ -206,17 +206,18 @@ mod test {
     use lexer::TokenSet;
 
     use crate::rule::{Rule, RuleElem};
-    use crate::{ASyntax, Syntax, LR1};
+    use crate::syntax::{pre, post};
+    use crate::LR1;
 
     #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
 
-    impl<S, T> ASyntax<S, T> for VoidSemantics
+    impl<PreS, T> post::Syntax<PreS, T> for VoidSemantics
     where
-        S: Syntax<Self, T>,
+        PreS: pre::Syntax<Self, T>,
         T: TokenSet,
     {
-        fn mapping(_: S, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
+        fn mapping(_: PreS, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
             Ok(Box::new(VoidSemantics {}))
         }
     }
@@ -277,7 +278,7 @@ mod test {
         Fact2Num,
     }
 
-    impl Syntax<VoidSemantics, TestToken> for TestSyntax {
+    impl pre::Syntax<VoidSemantics, TestToken> for TestSyntax {
         type Parser = LR1<VoidSemantics, TestSyntax, TestToken>;
 
         fn iter() -> Box<dyn Iterator<Item = Self>> {
@@ -390,7 +391,7 @@ mod test {
 
     #[test]
     fn first_set() {
-        let ruleset = TestSyntax::syntax();
+        let ruleset = <TestSyntax as pre::Syntax<VoidSemantics, TestToken>>::syntax();
         let first_set = ruleset.first_set();
 
         check(

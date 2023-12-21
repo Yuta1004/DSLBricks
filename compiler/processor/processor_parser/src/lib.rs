@@ -13,7 +13,7 @@ use lexer::{LexIterator, TokenSet};
 
 use pimpl::ParserImpl;
 pub use pimpl::LR1;
-use syntax::{ASyntax, Syntax};
+use syntax::{pre, post};
 
 #[derive(Debug, Error, Serialize, Deserialize)]
 pub struct ParseError {
@@ -40,34 +40,34 @@ impl From<Error> for ParseError {
 
 #[derive(Debug)]
 #[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
-pub struct Parser<A, S, T>
+pub struct Parser<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T>,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T>,
     T: TokenSet,
 {
     // PhantomData
-    syntax: PhantomData<S>,
+    syntax: PhantomData<PreS>,
 
     // Parser Body
-    p_impl: S::Parser,
+    p_impl: PreS::Parser,
 }
 
 #[allow(clippy::new_without_default)]
-impl<A, S, T> Parser<A, S, T>
+impl<PostS, PreS, T> Parser<PostS, PreS, T>
 where
-    A: ASyntax<S, T>,
-    S: Syntax<A, T>,
+    PostS: post::Syntax<PreS, T>,
+    PreS: pre::Syntax<PostS, T>,
     T: TokenSet,
 {
-    pub fn new() -> anyhow::Result<Parser<A, S, T>> {
+    pub fn new() -> anyhow::Result<Parser<PostS, PreS, T>> {
         Ok(Parser {
             syntax: PhantomData,
-            p_impl: S::Parser::setup()?,
+            p_impl: PreS::Parser::setup()?,
         })
     }
 
-    pub fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<A>> {
+    pub fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>> {
         self.p_impl.parse(lexer)
     }
 }
