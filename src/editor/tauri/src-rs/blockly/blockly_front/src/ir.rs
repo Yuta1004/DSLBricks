@@ -61,7 +61,7 @@ pub enum BlocklyIRComponent {
         name: String,
     },
     CheckBoxInput {
-        tilte: String,
+        title: String,
         name: String,
     },
 }
@@ -110,7 +110,7 @@ impl BlocklyIRComponent {
         U: Into<String>,
     {
         BlocklyIRComponent::CheckBoxInput {
-            tilte: title.into(),
+            title: title.into(),
             name: name.into(),
         }
     }

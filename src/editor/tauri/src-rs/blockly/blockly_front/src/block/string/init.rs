@@ -41,42 +41,25 @@ impl Display for BlocklyInitString {
 }
 
 fn message0(components: &[BlocklyIRComponent]) -> String {
-    let mut msg_elems = vec![];
-    let mut arg_cnt = 0;
-    for component in components {
-        match component {
-            BlocklyIRComponent::Text { title } => {
-                msg_elems.push(title.to_owned());
-                msg_elems.push(format!("%{}", arg_cnt + 1));
-                arg_cnt += 1;
-            }
-            BlocklyIRComponent::Variable { title, .. } => {
-                msg_elems.push(title.to_owned());
-                msg_elems.push(format!("%{}", arg_cnt + 1));
-                msg_elems.push(format!("%{}", arg_cnt + 2));
-                arg_cnt += 2;
-            }
-            BlocklyIRComponent::TextInput { title, .. } => {
-                msg_elems.push(title.to_owned());
-                msg_elems.push(format!("%{}", arg_cnt + 1));
-                msg_elems.push(format!("%{}", arg_cnt + 2));
-                arg_cnt += 2;
-            }
-            BlocklyIRComponent::BlockInput { title, .. } => {
-                msg_elems.push(title.to_owned());
-                msg_elems.push(format!("%{}", arg_cnt + 1));
-                msg_elems.push(format!("%{}", arg_cnt + 2));
-                arg_cnt += 2;
-            }
-            BlocklyIRComponent::CheckBoxInput { tilte, ..} => {
-                msg_elems.push(tilte.to_owned());
-                msg_elems.push(format!("%{}", arg_cnt + 1));
-                msg_elems.push(format!("%{}", arg_cnt + 2));
-                arg_cnt += 2;
-            }
-        };
-    }
-    msg_elems.join(" ")
+    let (msgs, _) = components
+        .iter()
+        .fold((vec![], 0), |(mut msgs, args_cnt), component| {
+            let (title, cnt) = match component {
+                BlocklyIRComponent::Text { title } => (title, 1),
+                BlocklyIRComponent::Variable { title, .. } => (title, 2),
+                BlocklyIRComponent::TextInput { title, .. } => (title, 2),
+                BlocklyIRComponent::BlockInput { title, .. } => (title, 2),
+                BlocklyIRComponent::CheckBoxInput { title, ..} => (title, 2),
+            };
+
+            msgs.push(title.to_string());
+            (args_cnt..args_cnt+cnt)
+                .into_iter()
+                .for_each(|idx| msgs.push(format!("%{}", idx+1)));
+
+            (msgs, args_cnt+cnt)
+        });
+    msgs.join(" ")
 }
 
 fn args0(components: &[BlocklyIRComponent]) -> String {
