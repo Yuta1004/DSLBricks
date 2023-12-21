@@ -29,7 +29,7 @@ where
         let mut lexer = lexer.lex(input);
         match parser.parse(&mut lexer) {
             Ok(result) => Ok((result, lexer.remain())),
-            Err(err) => Err(err),
+            Err(err) => Err(err.into()),
         }
     }
 }

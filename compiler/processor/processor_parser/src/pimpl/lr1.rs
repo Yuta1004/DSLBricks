@@ -151,7 +151,7 @@ where
         })
     }
 
-    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>> {
+    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>, ParseError> {
         let mut stack = vec![0];
         let mut result = vec![];
         loop {

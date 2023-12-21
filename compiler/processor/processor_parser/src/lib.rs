@@ -69,7 +69,7 @@ where
         })
     }
 
-    pub fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>> {
+    pub fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>, ParseError> {
         self.p_impl.parse(lexer)
     }
 }
