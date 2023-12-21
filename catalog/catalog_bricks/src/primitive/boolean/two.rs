@@ -7,26 +7,26 @@ use macros::*;
 use crate::common::*;
 use crate::constraints::ctime::*;
 
-/// # 文字列
+/// # 2-状態 真理値
 ///
 /// ## 概要
 ///
-/// - 「"」で囲まれた任意の文字列を表現します
+/// - true または false のいずれかの値を表現します
 ///
 /// ## 性質
 ///
 /// - StaticValue
 #[derive(Default)]
-#[dslbrick(namespace = std.primitive, property = StaticValue)]
-pub struct String;
+#[dslbrick(namespace = std.primitive.boolean.two, property = StaticValue)]
+pub struct Boolean;
 
-impl DSLBrickDesign for String {
+impl DSLBrickDesign for Boolean {
     fn design(&self) -> Vec<Rule> {
-        vec![rule! { String -> r#"".*""# }]
+        vec![rule! { Boolean -> r"(true|false)" }]
     }
 }
 
-impl DSLBrickAssertion for String {
+impl DSLBrickAssertion for Boolean {
     fn assert(&self) {
         // do nothing
     }
