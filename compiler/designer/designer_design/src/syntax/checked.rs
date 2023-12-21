@@ -72,7 +72,14 @@ impl From<&RuleSet> for String {
 
 impl RuleSet {
     pub fn token_defs(&self) -> Vec<(&String, &'static str)> {
-        self.0
+        let score = |regex: &str| {
+            let mut score = 0;
+            score += regex.len();
+            score += if regex.contains(['*', '+']) { 100 } else { 0 };
+            score
+        };
+
+        let mut tokens = self.0
             .iter()
             .flat_map(|rule| rule.rights.iter())
             .filter_map(|rule| {
@@ -84,6 +91,11 @@ impl RuleSet {
             })
             .collect::<HashSet<(&String, &str)>>()
             .into_iter()
+            .map(|(id, regex)| (score(regex), (id, regex)))
+            .collect::<Vec<(usize, (&String, &str))>>();
+        tokens.sort_by(|(a, _), (b, _)| a.partial_cmp(b).unwrap());
+        tokens.into_iter()
+            .map(|(_, item)| item)
             .collect()
     }
 
