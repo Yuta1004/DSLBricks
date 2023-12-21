@@ -122,18 +122,22 @@ impl<'a, T: TokenSet> Iterator for LexDriver<'a, T> {
             self.update_state(acc_s.as_str());
         }
 
-        // Found the token
-        let (token, acc_s): (T, &str) = self
+        // Find the token
+        let mut matches = self
             .regex_set
             .matches(self.input)
             .into_iter()
             .map(|idx| &self.regex_map[idx])
             .map(|(regex, token)| (*token, regex.find(self.input).unwrap().as_str()))
-            .next()?;
+            .collect::<Vec<(T, &str)>>();
+        matches.sort_by(|(_, a), (_, b)| a.len().cmp(&b.len()));
+
+        // Update myself
+        let (token, acc_s) = matches.get(0)?;
         let pos = self.pos;
         self.update_state(acc_s);
 
-        Some(Token::new(token, acc_s, pos))
+        Some(Token::new(*token, acc_s, pos))
     }
 }
 

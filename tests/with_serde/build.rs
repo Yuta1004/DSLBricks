@@ -16,7 +16,7 @@ impl DSLGeneratable for MyDSL {
 
     fn design(&self) -> RuleSet {
         let rules = vec![
-            rule!{ hello -> "Hello" names },
+            rule!{ top -> "Hello" names },
             rule!{ names -> names "," name },
             rule!{ names -> name },
             rule!{ name -> "[a-zA-Z]+" },
