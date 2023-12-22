@@ -124,3 +124,53 @@ impl DSLBrickAssertion for If {
         assert!(self.stmt.borrow().len() > 0);
     }
 }
+
+/// # for 文
+///
+/// ## 概要
+///
+/// - C 言語の for 文を表現します
+///
+/// ## はめ込み要素
+///
+/// - init (Executable) : 初期化文として使用する構文部品
+/// - cond (Calculatable) : 条件式として使用する構文部品
+/// - incr (Calculatable) : 増減式として使用する構文部品
+/// - stmt (Executable) : 実行される文として使用する構文部品
+///
+/// ## 性質
+/// - Executable
+#[derive(Default)]
+#[dslbrick(namespace = std.statement.c, property = Executable)]
+pub struct For {
+    #[component(single = Executable)]
+    init: RefCell<Option<Rule>>,
+    #[component(single = Calculatable)]
+    cond: RefCell<Option<Rule>>,
+    #[component(single = Calculatable)]
+    incr: RefCell<Option<Rule>>,
+    #[component(multiple = Executable)]
+    stmt: RefCell<Vec<Rule>>,
+}
+
+impl DSLBrickDesign for For {
+    fn design(&self) -> Vec<Rule> {
+        let mut rules = vec![
+            rule! { For -> "for" r"\(" init ";" cond ";" incr r"\)" stmt },
+        ];
+        rules.push(self.init.borrow().clone().unwrap());
+        rules.push(self.cond.borrow().clone().unwrap());
+        rules.push(self.incr.borrow().clone().unwrap());
+        rules.extend(self.stmt.borrow().clone());
+        rules
+    }
+}
+
+impl DSLBrickAssertion for For {
+    fn assert(&self) {
+        assert!(self.init.borrow().is_some());
+        assert!(self.cond.borrow().is_some());
+        assert!(self.incr.borrow().is_some());
+        assert!(self.stmt.borrow().len() > 0);
+    }
+}

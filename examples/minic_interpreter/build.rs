@@ -1,7 +1,7 @@
 use catalog::expression::Expression;
 use catalog::primitive::number::integer::DecimalInteger;
 use catalog::primitive::number::fraction::DecimalFraction;
-use catalog::statement::c::{Block, ExprStatement, If};
+use catalog::statement::c::{Block, ExprStatement, If, For};
 use catalog::statement::common::StatementSet;
 use catalog::prelude::*;
 use catalog::macros::combine_bricks;
@@ -22,15 +22,23 @@ fn main() {
         expr: expr,
     };
 
-    // ブロック
-    let block_stmt = Block {
-        stmt: [expr_stmt, if_stmt],
-    };
-
     // if 文
     let if_stmt = If {
         cond: expr,
         stmt: [block_stmt],
+    };
+
+    // for 文
+    let for_stmt = For {
+        init: expr_stmt,
+        cond: expr,
+        incr: expr,
+        stmt: [block_stmt]
+    };
+
+    // ブロック
+    let block_stmt = Block {
+        stmt: [expr_stmt, if_stmt, for_stmt],
     };
 
     StatementSet {
