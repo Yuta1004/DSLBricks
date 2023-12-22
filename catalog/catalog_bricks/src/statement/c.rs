@@ -175,3 +175,43 @@ impl DSLBrickAssertion for For {
         assert!(self.stmt.borrow().len() > 0);
     }
 }
+
+/// # while 文
+///
+/// ## 概要
+///
+/// - C 言語の while 文を表現します
+///
+/// ## はめ込み要素
+///
+/// - cond (Calculatable) : 条件式として使用する構文部品
+/// - stmt (Executable) : 実行される文として使用する構文部品
+///
+/// ## 性質
+/// - Executable
+#[derive(Default)]
+#[dslbrick(namespace = std.statement.c, property = Executable)]
+pub struct While {
+    #[component(single = Calculatable)]
+    cond: RefCell<Option<Rule>>,
+    #[component(multiple = Executable)]
+    stmt: RefCell<Vec<Rule>>,
+}
+
+impl DSLBrickDesign for While {
+    fn design(&self) -> Vec<Rule> {
+        let mut rules = vec![
+            rule! { While -> "while" r"\(" cond r"\)" stmt },
+        ];
+        rules.push(self.cond.borrow().clone().unwrap());
+        rules.extend(self.stmt.borrow().clone());
+        rules
+    }
+}
+
+impl DSLBrickAssertion for While {
+    fn assert(&self) {
+        assert!(self.cond.borrow().is_some());
+        assert!(self.stmt.borrow().len() > 0);
+    }
+}
