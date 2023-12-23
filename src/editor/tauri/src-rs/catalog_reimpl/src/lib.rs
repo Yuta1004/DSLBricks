@@ -4,12 +4,9 @@ use catalog::statement::c::If;
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
 
-pub fn catalog() -> Vec<(&'static str, Vec<ir::Block>)> {
-    let mut catalog = vec![];
-
-    catalog.push((
-        "Default",
-        vec![
+pub fn catalog() -> ir::ToolBox {
+    let default = ir::ToolBox::new("Default")
+        .push_block(
             blockly_ir! {
                 [Base]
                 Kind: top_bottom_connections,
@@ -18,25 +15,19 @@ pub fn catalog() -> Vec<(&'static str, Vec<ir::Block>)> {
                 [Components]
                 Variable: "DSLBrick",
             }
-        ]
-    ));
+        );
 
-    catalog.push((
-        "Primitive",
-        vec![
-            irgen::<Integer>(),
-            irgen::<Float>(),
-        ]
-    ));
+    let primitive = ir::ToolBox::new("Primitive")
+        .push_block(irgen::<Integer>())
+        .push_block(irgen::<Float>());
 
-    catalog.push((
-        "Statement",
-        vec![
-            irgen::<If>(),
-        ]
-    ));
+    let statement = ir::ToolBox::new("Statement")
+        .push_block(irgen::<If>());
 
-    catalog
+    ir::ToolBox::new_root()
+        .push_toolbox(default)
+        .push_toolbox(primitive)
+        .push_toolbox(statement)
 }
 
 fn irgen<T>() -> ir::Block

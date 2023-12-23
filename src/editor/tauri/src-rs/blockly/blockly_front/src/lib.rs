@@ -1,27 +1,28 @@
 pub mod ir;
-pub mod json;
+mod js;
 
 use std::fs::File;
 use std::fmt::Write as FWrite;
 use std::io::Write as IWrite;
 
-use json::block::Block;
-use json::toolbox::ToolBox;
-
-pub fn gen_ts_files(dir: &str, ir_set: &[(&str, Vec<ir::Block>)]) -> anyhow::Result<()> {
-    gen_ts_file_blocks(dir.to_string() + "/blocks.ts", &ir_set)?;
-    gen_ts_file_toolbox(dir.to_string() + "/toolbox.ts", &ir_set)?;
+pub fn gen_ts_files(dir: &str, toolbox: ir::ToolBox) -> anyhow::Result<()> {
+    gen_ts_file_blocks(dir.to_string() + "/blocks.ts", &toolbox)?;
+    gen_ts_file_toolbox(dir.to_string() + "/toolbox.ts", &toolbox)?;
     Ok(())
 }
 
-fn gen_ts_file_blocks(path: String, ir_set: &[(&str, Vec<ir::Block>)]) -> anyhow::Result<()> {
-    // IR(s) to Block
-    let mut blocks = String::new();
-    for (_, irs) in ir_set {
-        for ir in irs {
-            writeln!(&mut blocks, "{}", Block::from(ir))?;
+fn gen_ts_file_blocks(path: String, toolbox: &ir::ToolBox) -> anyhow::Result<()> {
+    // IR to Blocks(js)
+    fn expand_toolbox(f: &mut String, toolbox: &ir::ToolBox) {
+        for item in &toolbox.items {
+            match item {
+                ir::ToolBoxItem::Block(block) => writeln!(f, "{}", js::Block::from(block)).unwrap(),
+                ir::ToolBoxItem::ToolBox(toolbox) => expand_toolbox(f, toolbox),
+            }
         }
     }
+    let mut blocks_js = String::new();
+    expand_toolbox(&mut blocks_js, toolbox);
 
     // Write
     let mut f = File::create(path)?;
@@ -31,29 +32,24 @@ fn gen_ts_file_blocks(path: String, ir_set: &[(&str, Vec<ir::Block>)]) -> anyhow
         import Blockly from "blockly";
 
         {}
-    "#, blocks)?;
+    "#, blocks_js)?;
 
     Ok(())
 }
 
-fn gen_ts_file_toolbox(path: String, ir_set: &[(&str, Vec<ir::Block>)]) -> anyhow::Result<()> {
-    // IR(s) to ToolBox
-    let mut toolboxes = String::new();
-    for (name, irs) in ir_set {
-        writeln!(&mut toolboxes, "{},", ToolBox::from((*name, irs.as_slice())))?;
-    }
+fn gen_ts_file_toolbox(path: String, toolbox: &ir::ToolBox) -> anyhow::Result<()> {
+    // IR to ToolBox(js)
+    let toolbox_js = js::ToolBox::from(toolbox);
 
     // Write
     let mut f = File::create(path)?;
     writeln!(&mut f, r#"
         // Note: This is auto generated file.
 
-        const ToolBox = {{
-            kind: "categoryToolbox",
-            contents: [{}]
-        }};
+        const ToolBox = {};
+
         export default ToolBox;
-    "#, toolboxes)?;
+    "#, toolbox_js)?;
 
     Ok(())
 }

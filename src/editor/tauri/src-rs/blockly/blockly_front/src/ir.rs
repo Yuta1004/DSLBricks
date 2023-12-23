@@ -1,3 +1,39 @@
+pub struct ToolBox {
+    pub name: &'static str,
+    pub items: Vec<ToolBoxItem>,
+}
+
+pub enum ToolBoxItem {
+    ToolBox(ToolBox),
+    Block(Block),
+}
+
+impl ToolBox {
+    pub fn new(name: &'static str) -> Self {
+        ToolBox {
+            name,
+            items: vec![],
+        }
+    }
+
+    pub fn new_root() -> Self {
+        ToolBox {
+            name: "root",
+            items: vec![],
+        }
+    }
+
+    pub fn push_toolbox(mut self, toolbox: ToolBox) -> Self {
+        self.items.push(ToolBoxItem::ToolBox(toolbox));
+        self
+    }
+
+    pub fn push_block(mut self, block: Block) -> Self {
+        self.items.push(ToolBoxItem::Block(block));
+        self
+    }
+}
+
 pub enum Block {
     NoConnection(BlockBody),
     TopBottomConnections(BlockBody),

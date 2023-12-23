@@ -3,8 +3,7 @@ use std::process::Command;
 
 fn main() {
     // Catalog (lib)
-    let catalog = catalog::catalog();
-    blockly::front::gen_ts_files("../src-js/src/custom", catalog.as_slice()).unwrap();
+    blockly::front::gen_ts_files("../src-js/src/custom", catalog::catalog()).unwrap();
 
     // Catalog (bin)
     let current_dir = env::current_dir().unwrap();

@@ -32,8 +32,7 @@ impl Display for Block {
 
 #[cfg(test)]
 mod test {
-    use super::Block;
-    use crate::ir;
+    use crate::{ir, js};
 
     #[test]
     fn simple() {
@@ -44,7 +43,7 @@ mod test {
             ir::BlockComponent::new_block_input("block", "block"),
         ];
         let ir = ir::Block::new_no_connection("test", components);
-        let block = Block::from(&ir);
+        let block = js::Block::from(&ir);
         let _ = format!("{}", block);
     }
 }
