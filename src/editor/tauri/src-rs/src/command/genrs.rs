@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use tauri::InvokeError;
 
-use blockly::back::ir::{BlocklyIR, BlocklyIRComponent};
+use blockly::back::ir::BlocklyIR;
 use blockly::back::parse_str;
 
 #[tauri::command]
@@ -23,7 +23,7 @@ impl From<Vec<BlocklyIR>> for DSLBuildFunc {
         let uses = irs
             .iter()
             .map(|ir| {
-                let mut ty = ir.ty.split(".");
+                let mut ty = ir.r#type.split(".");
                 let _ = ty.next();
                 format!("use catalog::{};", ty.collect::<Vec<&str>>().join("::"))
             })
@@ -73,23 +73,10 @@ struct BrickDeclare {
 
 impl BrickDeclare {
     fn from(ir: BlocklyIR) -> Option<Self> {
-        let (mut var, mut fields) = (None, vec![]);
-        for component in ir.components {
-            match component  {
-                BlocklyIRComponent::Field { name, value } => {
-                    match name.as_str() {
-                        "variable" => { var = Some(value); },
-                        _ => {},
-                    }
-                }
-                BlocklyIRComponent::Blocks { name, blocks } => {
-                    fields.push(BrickDeclareField::from((name, blocks)));
-                }
-            }
-        }
-
-        if let Some(var) = var {
-            let ty = ir.ty.split('.').last().unwrap().to_string();
+        if let Some(var) = ir.fields.get("variable") {
+            let ty = ir.r#type.split('.').last().unwrap().to_string();
+            let var = var.to_string();
+            let fields = ir.blocks.iter().map(From::from).collect();
             Some(BrickDeclare { ty, var, fields })
         } else {
             None
@@ -117,22 +104,15 @@ struct BrickDeclareField {
     variables: Vec<String>,
 }
 
-impl From<(String, Vec<BlocklyIR>)> for BrickDeclareField {
-    fn from((name, irs): (String, Vec<BlocklyIR>)) -> Self {
+impl From<(&String, &Vec<BlocklyIR>)> for BrickDeclareField {
+    fn from((name, irs): (&String, &Vec<BlocklyIR>)) -> Self {
+        let name = name.to_string();
         let variables = irs
-            .into_iter()
-            .map(|ir| {
-                ir.components
-                    .into_iter()
-                    .find_map(|component| {
-                        match component {
-                            BlocklyIRComponent::Field { value, .. } => Some(value),
-                            _ => None,
-                        }
-                    })
-                    .unwrap()
-            })
+            .iter()
+            .flat_map(|ir| ir.fields.values())
+            .map(String::to_string)
             .collect();
+
         BrickDeclareField { name, variables }
     }
 }

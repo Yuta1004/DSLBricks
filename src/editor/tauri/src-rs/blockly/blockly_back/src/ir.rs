@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::xml::{
     BlocklyXML,
     BlocklyXMLValue,
@@ -7,20 +9,9 @@ use crate::xml::{
 
 #[derive(Debug)]
 pub struct BlocklyIR {
-    pub ty: String,
-    pub components: Vec<BlocklyIRComponent>,
-}
-
-#[derive(Debug)]
-pub enum BlocklyIRComponent {
-    Field {
-        name: String,
-        value: String
-    },
-    Blocks {
-        name: String,
-        blocks: Vec<BlocklyIR>,
-    },
+    pub r#type: String,
+    pub fields: HashMap<String, String>,
+    pub blocks: HashMap<String, Vec<BlocklyIR>>,
 }
 
 impl From<BlocklyXML> for Vec<BlocklyIR> {
@@ -39,13 +30,48 @@ impl From<BlocklyXML> for Vec<BlocklyIR> {
 
 impl From<BlocklyXMLBlock> for BlocklyIR {
     fn from(block: BlocklyXMLBlock) -> Self {
-        let ty = block.r#type;
+        let r#type = block.r#type;
         let components = block.components
             .into_iter()
             .map(Into::into)
             .collect();
-        BlocklyIR { ty, components }
+
+        BlocklyIR::from((r#type, components))
     }
+}
+
+impl From<(String, Vec<BlocklyIRComponent>)> for BlocklyIR {
+    fn from((r#type, components): (String, Vec<BlocklyIRComponent>)) -> Self {
+        let (mut found_fields, mut found_blocks) = (HashMap::new(), HashMap::new());
+        for component in components {
+            match component {
+                BlocklyIRComponent::Field { name, value } => {
+                    found_fields.insert(name, value);
+                }
+                BlocklyIRComponent::Blocks { name, blocks } => {
+                    found_blocks.insert(name, blocks);
+                }
+            };
+        }
+
+        BlocklyIR {
+            r#type,
+            fields: found_fields,
+            blocks: found_blocks,
+        }
+    }
+}
+
+#[derive(Debug)]
+enum BlocklyIRComponent {
+    Field {
+        name: String,
+        value: String
+    },
+    Blocks {
+        name: String,
+        blocks: Vec<BlocklyIR>,
+    },
 }
 
 impl From<BlocklyXMLBlockComponent> for BlocklyIRComponent {
@@ -82,12 +108,7 @@ fn expand_xml_block(block: BlocklyXMLBlock) -> Vec<BlocklyIR> {
                 _ => components.push(BlocklyIRComponent::from(component)),
             }
         }
-
-        blocks.push(BlocklyIR {
-            ty: target.r#type,
-            components,
-        });
-
+        blocks.push(BlocklyIR::from((target.r#type, components)));
         now_target = next_target;
     }
 
