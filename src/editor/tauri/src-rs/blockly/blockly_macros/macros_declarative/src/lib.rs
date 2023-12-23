@@ -3,7 +3,7 @@ pub mod __export {
 }
 
 #[macro_export]
-macro_rules! blockly_ir {
+macro_rules! block {
     (
         [Base]
         Kind: $kind:ident,
@@ -14,7 +14,7 @@ macro_rules! blockly_ir {
         use $crate::__export::*;
 
         let mut components = vec![];
-        $(blockly_ir!(@ components += $name $($arg)+));*;
+        $(block!(@ components += $name $($arg)+));*;
 
         match stringify!($kind) {
             "no_connection" => ir::Block::new_no_connection($type, components),

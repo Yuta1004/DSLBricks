@@ -2,7 +2,7 @@
 pub mod front {
     pub use blockly_front::*;
     pub mod macros {
-        pub use blockly_macros::blockly_ir;
+        pub use blockly_macros::block;
     }
 }
 

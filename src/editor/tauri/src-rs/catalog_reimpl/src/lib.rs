@@ -1,5 +1,5 @@
 use blockly::front::ir;
-use blockly::front::macros::blockly_ir;
+use blockly::front::macros::block;
 use catalog::statement::c::If;
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
@@ -7,7 +7,7 @@ use catalog::prelude::*;
 pub fn catalog() -> ir::ToolBox {
     let default = ir::ToolBox::new("Default")
         .push_block(
-            blockly_ir! {
+            block! {
                 [Base]
                 Kind: top_bottom_connections,
                 Type: "brick",
@@ -35,7 +35,7 @@ where
     T: Default + DSLBrick,
 {
     let brick = T::default();
-    blockly_ir! {
+    block! {
         [Base]
         Kind: no_connection,
         Type: DSLBrickMeta::name(&brick),
