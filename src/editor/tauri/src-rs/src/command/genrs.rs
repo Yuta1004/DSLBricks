@@ -44,6 +44,15 @@ impl Display for DSLBuildFunc {
             .map(|declare| format!("{}", declare))
             .collect::<Vec<String>>()
             .join("\n\n");
+        let root_variable = self.declares
+            .iter()
+            .find_map(|declare| {
+                if declare.is_root {
+                    Some(declare.var.as_str())
+                } else {
+                    None
+                }
+            });
 
         // Use (prelude, macro)
         writeln!(f, "// Prelude, Macro")?;
@@ -58,7 +67,11 @@ impl Display for DSLBuildFunc {
 
         // Main func
         if declares.len() > 0 {
-            writeln!(f, "\n#[combine_bricks]\nfn main() {{\n{}\n}}", declares)
+            if let Some(root_variable) = root_variable {
+                writeln!(f, "\n#[combine_bricks]\nfn main() {{\n{}\n\n    {}\n}}", declares, root_variable)
+            } else {
+                writeln!(f, "\n#[combine_bricks]\nfn main() {{\n{}\n}}", declares)
+            }
         } else {
             writeln!(f, "\n#[combine_bricks]\nfn main() {{ }}")
         }
@@ -66,7 +79,8 @@ impl Display for DSLBuildFunc {
 }
 
 struct BrickDeclare {
-    ty: String,
+    is_root: bool,
+    r#type: String,
     var: String,
     fields: Vec<BrickDeclareField>,
 }
@@ -74,10 +88,11 @@ struct BrickDeclare {
 impl BrickDeclare {
     fn from(ir: BlocklyIR) -> Option<Self> {
         if let Some(var) = ir.fields.get("variable") {
-            let ty = ir.r#type.split('.').last().unwrap().to_string();
+            let is_root = ir.fields.get("root").unwrap() == "TRUE";
+            let r#type = ir.r#type.split('.').last().unwrap().to_string();
             let var = var.to_string();
             let fields = ir.blocks.iter().map(From::from).collect();
-            Some(BrickDeclare { ty, var, fields })
+            Some(BrickDeclare { is_root, r#type, var, fields })
         } else {
             None
         }
@@ -92,9 +107,9 @@ impl Display for BrickDeclare {
                 .map(|field| format!("{}", field))
                 .collect::<Vec<String>>()
                 .join("\n");
-            write!(f, "    let {} = {} {{\n{}\n    }};", self.var, self.ty, fields)
+            write!(f, "    let {} = {} {{\n{}\n    }};", self.var, self.r#type, fields)
         } else {
-            write!(f, "    let {} = {} {{ }};", self.var, self.ty)
+            write!(f, "    let {} = {} {{ }};", self.var, self.r#type)
         }
     }
 }
