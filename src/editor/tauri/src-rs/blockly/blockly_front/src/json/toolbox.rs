@@ -2,25 +2,25 @@ mod string;
 
 use std::fmt::Display;
 
-use string::BlocklyContentString;
+use string::ContentString;
 
-use crate::ir::BlocklyIR;
+use crate::ir;
 
-pub struct BlocklyToolBox {
+pub struct ToolBox {
     name: String,
-    contents: Vec<BlocklyContentString>,
+    contents: Vec<ContentString>,
 }
 
-impl<T: Into<String>> From<(T, &[BlocklyIR])> for BlocklyToolBox {
-    fn from((name, irs): (T, &[BlocklyIR])) -> Self {
-        BlocklyToolBox {
+impl<T: Into<String>> From<(T, &[ir::Block])> for ToolBox {
+    fn from((name, irs): (T, &[ir::Block])) -> Self {
+        ToolBox {
             name: name.into(),
-            contents: irs.into_iter().map(BlocklyContentString::from).collect(),
+            contents: irs.into_iter().map(ContentString::from).collect(),
         }
     }
 }
 
-impl Display for BlocklyToolBox {
+impl Display for ToolBox {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let contents = self
             .contents
@@ -42,17 +42,17 @@ impl Display for BlocklyToolBox {
 
 #[cfg(test)]
 mod test {
-    use super::BlocklyToolBox;
-    use crate::ir::BlocklyIR;
+    use super::ToolBox;
+    use crate::ir;
 
     #[test]
     fn simple() {
         let irs = vec![
-            BlocklyIR::new_no_connection("test1", vec![]),
-            BlocklyIR::new_no_connection("test2", vec![]),
-            BlocklyIR::new_no_connection("test3", vec![]),
+            ir::Block::new_no_connection("test1", vec![]),
+            ir::Block::new_no_connection("test2", vec![]),
+            ir::Block::new_no_connection("test3", vec![]),
         ];
-        let toolbox = BlocklyToolBox::from(("Group", irs.as_slice()));
+        let toolbox = ToolBox::from(("Group", irs.as_slice()));
         let _ = format!("{}", toolbox);
     }
 }

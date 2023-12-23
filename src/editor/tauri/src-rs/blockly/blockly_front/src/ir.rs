@@ -1,50 +1,50 @@
-pub enum BlocklyIR {
-    NoConnection(BlocklyIRBody),
-    TopBottomConnections(BlocklyIRBody),
-    TopConnection(BlocklyIRBody),
-    BottomConnection(BlocklyIRBody),
+pub enum Block {
+    NoConnection(BlockBody),
+    TopBottomConnections(BlockBody),
+    TopConnection(BlockBody),
+    BottomConnection(BlockBody),
 }
 
-pub struct BlocklyIRBody {
+pub struct BlockBody {
     pub ty: String,
-    pub components: Vec<BlocklyIRComponent>,
+    pub components: Vec<BlockComponent>,
 }
 
-impl BlocklyIR {
-    pub fn new_no_connection<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
-        let body = BlocklyIRBody {
+impl Block {
+    pub fn new_no_connection<T: Into<String>>(ty: T, components: Vec<BlockComponent>) -> Self {
+        let body = BlockBody {
             ty: ty.into(),
             components,
         };
-        BlocklyIR::NoConnection(body)
+        Block::NoConnection(body)
     }
 
-    pub fn new_top_bottom_connections<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
-        let body = BlocklyIRBody {
+    pub fn new_top_bottom_connections<T: Into<String>>(ty: T, components: Vec<BlockComponent>) -> Self {
+        let body = BlockBody {
             ty: ty.into(),
             components,
         };
-        BlocklyIR::TopBottomConnections(body)
+        Block::TopBottomConnections(body)
     }
 
-    pub fn new_top_connection<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
-        let body = BlocklyIRBody {
+    pub fn new_top_connection<T: Into<String>>(ty: T, components: Vec<BlockComponent>) -> Self {
+        let body = BlockBody {
             ty: ty.into(),
             components,
         };
-        BlocklyIR::TopConnection(body)
+        Block::TopConnection(body)
     }
 
-    pub fn new_bottom_connection<T: Into<String>>(ty: T, components: Vec<BlocklyIRComponent>) -> Self {
-        let body = BlocklyIRBody {
+    pub fn new_bottom_connection<T: Into<String>>(ty: T, components: Vec<BlockComponent>) -> Self {
+        let body = BlockBody {
             ty: ty.into(),
             components,
         };
-        BlocklyIR::BottomConnection(body)
+        Block::BottomConnection(body)
     }
 }
 
-pub enum BlocklyIRComponent {
+pub enum BlockComponent {
     Text {
         title: String,
     },
@@ -66,9 +66,9 @@ pub enum BlocklyIRComponent {
     },
 }
 
-impl BlocklyIRComponent {
+impl BlockComponent {
     pub fn new_text<T: Into<String>>(title: T) -> Self {
-        BlocklyIRComponent::Text { title: title.into() }
+        BlockComponent::Text { title: title.into() }
     }
 
     pub fn new_variable<T, U>(title: T, name: U) -> Self
@@ -76,7 +76,7 @@ impl BlocklyIRComponent {
         T: Into<String>,
         U: Into<String>,
     {
-        BlocklyIRComponent::Variable {
+        BlockComponent::Variable {
             title: title.into(),
             name: name.into()
         }
@@ -87,7 +87,7 @@ impl BlocklyIRComponent {
         T: Into<String>,
         U: Into<String>,
     {
-        BlocklyIRComponent::TextInput {
+        BlockComponent::TextInput {
             title: title.into(),
             name: name.into(),
         }
@@ -98,7 +98,7 @@ impl BlocklyIRComponent {
         T: Into<String>,
         U: Into<String>,
     {
-        BlocklyIRComponent::BlockInput {
+        BlockComponent::BlockInput {
             title: title.into(),
             name: name.into(),
         }
@@ -109,7 +109,7 @@ impl BlocklyIRComponent {
         T: Into<String>,
         U: Into<String>,
     {
-        BlocklyIRComponent::CheckBoxInput {
+        BlockComponent::CheckBoxInput {
             title: title.into(),
             name: name.into(),
         }

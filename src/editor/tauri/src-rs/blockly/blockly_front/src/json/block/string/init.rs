@@ -1,16 +1,16 @@
 use std::fmt::Display;
 
-use crate::ir::{BlocklyIR, BlocklyIRComponent};
+use crate::ir;
 
-pub struct BlocklyInitString(String);
+pub struct InitString(String);
 
-impl From<&BlocklyIR> for BlocklyInitString {
-    fn from(ir: &BlocklyIR) -> Self {
+impl From<&ir::Block> for InitString {
+    fn from(ir: &ir::Block) -> Self {
         let body = match ir {
-            BlocklyIR::NoConnection(body) => body,
-            BlocklyIR::TopBottomConnections(body) => body,
-            BlocklyIR::TopConnection(body) => body,
-            BlocklyIR::BottomConnection(body) => body,
+            ir::Block::NoConnection(body) => body,
+            ir::Block::TopBottomConnections(body) => body,
+            ir::Block::TopConnection(body) => body,
+            ir::Block::BottomConnection(body) => body,
         };
 
         let message0 = message0(&body.components);
@@ -30,26 +30,26 @@ impl From<&BlocklyIR> for BlocklyInitString {
             }}
         "#, body.ty, message0, args0, extjson0);
 
-        BlocklyInitString(init)
+        InitString(init)
     }
 }
 
-impl Display for BlocklyInitString {
+impl Display for InitString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0)
     }
 }
 
-fn message0(components: &[BlocklyIRComponent]) -> String {
+fn message0(components: &[ir::BlockComponent]) -> String {
     let (msgs, _) = components
         .iter()
         .fold((vec![], 0), |(mut msgs, args_cnt), component| {
             let (title, cnt) = match component {
-                BlocklyIRComponent::Text { title } => (title, 1),
-                BlocklyIRComponent::Variable { title, .. } => (title, 2),
-                BlocklyIRComponent::TextInput { title, .. } => (title, 2),
-                BlocklyIRComponent::BlockInput { title, .. } => (title, 2),
-                BlocklyIRComponent::CheckBoxInput { title, ..} => (title, 2),
+                ir::BlockComponent::Text { title } => (title, 1),
+                ir::BlockComponent::Variable { title, .. } => (title, 2),
+                ir::BlockComponent::TextInput { title, .. } => (title, 2),
+                ir::BlockComponent::BlockInput { title, .. } => (title, 2),
+                ir::BlockComponent::CheckBoxInput { title, ..} => (title, 2),
             };
 
             msgs.push(title.to_string());
@@ -62,17 +62,17 @@ fn message0(components: &[BlocklyIRComponent]) -> String {
     msgs.join(" ")
 }
 
-fn args0(components: &[BlocklyIRComponent]) -> String {
-    let into = |component: &BlocklyIRComponent| {
+fn args0(components: &[ir::BlockComponent]) -> String {
+    let into = |component: &ir::BlockComponent| {
         match component {
-            BlocklyIRComponent::Text { .. } => {
+            ir::BlockComponent::Text { .. } => {
                 format!(r#"
                 {{
                     type: "input_dummy"
                 }}
                 "#)
             }
-            BlocklyIRComponent::Variable { name, .. } => {
+            ir::BlockComponent::Variable { name, .. } => {
                 format!(r#"
                 {{
                     type: "field_variable",
@@ -83,7 +83,7 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
                 }}
                 "#, name)
             }
-            BlocklyIRComponent::TextInput { name, .. } => {
+            ir::BlockComponent::TextInput { name, .. } => {
                 format!(r#"
                 {{
                     type: "field_input",
@@ -95,7 +95,7 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
                 }}
                 "#)
             }
-            BlocklyIRComponent::BlockInput { name, .. } => {
+            ir::BlockComponent::BlockInput { name, .. } => {
                 format!(r#"
                 {{
                     type: "input_dummy"
@@ -106,7 +106,7 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
                 }}
                 "#)
             },
-            BlocklyIRComponent::CheckBoxInput { name, .. } => {
+            ir::BlockComponent::CheckBoxInput { name, .. } => {
                 format!(r#"
                 {{
                     type: "field_checkbox",
@@ -128,16 +128,16 @@ fn args0(components: &[BlocklyIRComponent]) -> String {
         .join(",")
 }
 
-fn extjson0(ir: &BlocklyIR) -> String {
+fn extjson0(ir: &ir::Block) -> String {
     match ir {
-        BlocklyIR::NoConnection(_) => "",
-        BlocklyIR::TopBottomConnections(_) => {
+        ir::Block::NoConnection(_) => "",
+        ir::Block::TopBottomConnections(_) => {
             r#"previousStatement: "null",nextStatement: "null""#
         }
-        BlocklyIR::TopConnection(_) => {
+        ir::Block::TopConnection(_) => {
             r#"previousStatement: "null""#
         }
-        BlocklyIR::BottomConnection(_) => {
+        ir::Block::BottomConnection(_) => {
             r#"nextStatement: "null""#
         }
     }

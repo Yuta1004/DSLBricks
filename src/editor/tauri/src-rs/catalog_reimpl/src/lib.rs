@@ -1,10 +1,10 @@
-use blockly::front::ir::BlocklyIR;
+use blockly::front::ir;
 use blockly::front::macros::blockly_ir;
 use catalog::statement::c::If;
 use catalog::primitive::number::{Integer, Float};
 use catalog::prelude::*;
 
-pub fn catalog() -> Vec<(&'static str, Vec<BlocklyIR>)> {
+pub fn catalog() -> Vec<(&'static str, Vec<ir::Block>)> {
     let mut catalog = vec![];
 
     catalog.push((
@@ -39,7 +39,7 @@ pub fn catalog() -> Vec<(&'static str, Vec<BlocklyIR>)> {
     catalog
 }
 
-fn irgen<T>() -> BlocklyIR
+fn irgen<T>() -> ir::Block
 where
     T: Default + DSLBrick,
 {
