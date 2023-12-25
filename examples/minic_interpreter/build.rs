@@ -1,13 +1,16 @@
-use catalog::expression::Expression;
+// Prelude, macros
+use catalog::prelude::*;
+use catalog::macros::combine_bricks;
+
+// Bricks
 use catalog::primitive::number::integer::DecimalInteger;
 use catalog::primitive::number::fraction::DecimalFraction;
 use catalog::primitive::identifier::CStyleIdentifier;
+use catalog::expression::Expression;
 use catalog::statement::c::{Block, ExprStatement, If, For, While};
 use catalog::function::c::Function;
 use catalog::r#struct::c::Struct;
 use catalog::base::DeclaringBaseLanguage;
-use catalog::prelude::*;
-use catalog::macros::combine_bricks;
 
 #[combine_bricks]
 fn main() {

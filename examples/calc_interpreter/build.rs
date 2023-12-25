@@ -1,11 +1,12 @@
-use std::rc::Rc;
+// Prelude, macros
+use catalog::prelude::*;
+use catalog::macros::combine_bricks;
 
+// Bricks
 use catalog::expression::Expression;
 use catalog::primitive::number::integer::DecimalInteger;
 use catalog::primitive::number::fraction::DecimalFraction;
 use catalog::base::ExpressionBaseLanguage;
-use catalog::prelude::*;
-use catalog::macros::combine_bricks;
 
 #[combine_bricks]
 fn main() {
