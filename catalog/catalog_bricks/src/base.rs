@@ -54,7 +54,6 @@ impl DSLBrickAssertion for DeclaringBaseLanguage {
 /// ## 概要
 ///
 /// - 算術式や if 式のように，式をトップレベルにもつ言語を表現します
-/// - 式の区切り文字として ";" を使用します
 /// - 構文部品を 1 つにまとめるために使用されることを想定しています
 ///
 /// ## はめ込み要素
@@ -74,10 +73,9 @@ impl DSLBrickDesign for ExpressionBaseLanguage {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
             rule! { DeclaringBaseLanguage -> exprs },
-            rule! { exprs -> exprs ";" expr_with_semicolon },
-            rule! { exprs -> expr_with_semicolon },
-            rule! { expre -> },
-            rule! { expr_with_semicolon -> expr ";" },
+            rule! { exprs -> exprs expr },
+            rule! { exprs -> expr },
+            rule! { exprs -> },
         ];
         rules.extend(self.expr.borrow().clone());
         rules
