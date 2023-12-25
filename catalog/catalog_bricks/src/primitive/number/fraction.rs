@@ -22,7 +22,7 @@ use crate::constraints::ctime::*;
 /// - StaticValue
 /// - Calculatable
 #[derive(Default)]
-#[dslbrick(namespace = std.primitive.number.fraction, property = StaticValue + Calculatable)]
+#[dslbrick(namespace = std.primitive.number.fraction, property = Calculatable)]
 pub struct DecimalFraction;
 
 impl DSLBrickDesign for DecimalFraction {

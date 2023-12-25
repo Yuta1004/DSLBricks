@@ -22,7 +22,7 @@ use crate::constraints::ctime::*;
 /// - StaticValue
 /// - Calculatable
 #[derive(Default)]
-#[dslbrick(namespace = std.primitive.number.integer, property = StaticValue + Calculatable)]
+#[dslbrick(namespace = std.primitive.number.integer, property = Calculatable)]
 pub struct DecimalInteger;
 
 impl DSLBrickDesign for DecimalInteger {

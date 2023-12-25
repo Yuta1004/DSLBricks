@@ -5,7 +5,6 @@ use compiler::designer::design::DSLGeneratable;
 use macros::*;
 
 use crate::common::*;
-use crate::constraints::ctime::*;
 
 /// # 2-状態 真理値
 ///
@@ -17,7 +16,7 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 #[derive(Default)]
-#[dslbrick(namespace = std.primitive.boolean.two, property = StaticValue)]
+#[dslbrick(namespace = std.primitive.boolean.two)]
 pub struct Boolean;
 
 impl DSLBrickDesign for Boolean {
