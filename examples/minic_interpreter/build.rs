@@ -17,7 +17,7 @@ fn main() {
 
     // 算術式
     let expr = Expression {
-        unit: [integer, fraction],
+        unit: [integer, fraction, identifier],
     };
 
     // 式-文

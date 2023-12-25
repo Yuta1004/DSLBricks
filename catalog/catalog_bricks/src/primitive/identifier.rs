@@ -15,8 +15,9 @@ use crate::constraints::ctime::*;
 ///
 /// ## 性質
 /// - Identifiable
+/// - Calculatable
 #[derive(Default)]
-#[dslbrick(namespace = std.primitive.identifier, property = Identifiable)]
+#[dslbrick(namespace = std.primitive.identifier, property = Identifiable + Calculatable)]
 pub struct CStyleIdentifier;
 
 impl DSLBrickDesign for CStyleIdentifier {
