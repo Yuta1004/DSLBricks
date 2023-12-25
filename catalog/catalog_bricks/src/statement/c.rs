@@ -144,7 +144,7 @@ impl DSLBrickAssertion for If {
 #[derive(Default)]
 #[dslbrick(namespace = std.statement.c, property = Executable)]
 pub struct For {
-    #[component(single = Executable)]
+    #[component(single = Calculatable)]
     init: RefCell<Option<Rule>>,
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,
@@ -157,7 +157,13 @@ pub struct For {
 impl DSLBrickDesign for For {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
-            rule! { For -> "for" r"\(" init ";" cond ";" incr r"\)" stmt },
+            rule! { For -> "for" r"\(" init_or_null ";" cond_or_null ";" incr_or_null r"\)" stmt },
+            rule! { init_or_null -> init },
+            rule! { init_or_null -> },
+            rule! { cond_or_null -> cond },
+            rule! { cond_or_null -> },
+            rule! { incr_or_null -> incr },
+            rule! { incr_or_null -> },
         ];
         rules.push(self.init.borrow().clone().unwrap());
         rules.push(self.cond.borrow().clone().unwrap());

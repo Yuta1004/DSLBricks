@@ -30,7 +30,7 @@ fn main() {
 
     // for 文
     let for_stmt = For {
-        init: expr_stmt,
+        init: expr,
         cond: expr,
         incr: expr,
         stmt: [block_stmt],
