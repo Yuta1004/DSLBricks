@@ -1,8 +1,10 @@
 use catalog::expression::Expression;
 use catalog::primitive::number::integer::DecimalInteger;
 use catalog::primitive::number::fraction::DecimalFraction;
+use catalog::primitive::identifier::CStyleIdentifier;
 use catalog::statement::c::{Block, ExprStatement, If, For, While};
 use catalog::statement::StatementSet;
+use catalog::function::c::Function;
 use catalog::prelude::*;
 use catalog::macros::combine_bricks;
 
@@ -11,6 +13,7 @@ fn main() {
     // プリミティブ
     let integer = DecimalInteger {};
     let fraction = DecimalFraction {};
+    let identifier = CStyleIdentifier {};
 
     // 算術式
     let expr = Expression {
@@ -47,7 +50,13 @@ fn main() {
         stmt: [expr_stmt, if_stmt, for_stmt, while_stmt],
     };
 
-    StatementSet {
+    // 文の集合
+    let stmts = StatementSet {
         stmt: [block_stmt],
+    };
+
+    Function {
+        id: identifier,
+        stmt: stmts,
     }
 }
