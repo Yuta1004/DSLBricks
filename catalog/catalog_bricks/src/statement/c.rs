@@ -35,7 +35,7 @@ impl DSLBrickDesign for Block {
             rule! { Block -> r"\{" stmts r"\}" },
             rule! { Block -> stmt },
             rule! { stmts -> stmts stmt },
-            rule! { stmts -> stmt ";" },
+            rule! { stmts -> stmt },
             rule! { stmts -> },
         ];
         rules.extend(self.stmt.borrow().clone());
@@ -71,7 +71,7 @@ pub struct ExprStatement {
 impl DSLBrickDesign for ExprStatement {
     fn design(&self) -> Vec<Rule> {
         vec![
-            rule! { ExprStatement -> expr },
+            rule! { ExprStatement -> expr ";" },
             self.expr.borrow().clone().unwrap(),
         ]
     }
