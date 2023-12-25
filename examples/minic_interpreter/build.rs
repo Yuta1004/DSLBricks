@@ -5,6 +5,7 @@ use catalog::primitive::identifier::CStyleIdentifier;
 use catalog::statement::c::{Block, ExprStatement, If, For, While};
 use catalog::function::c::Function;
 use catalog::r#struct::c::Struct;
+use catalog::base::DeclaringBaseLanguage;
 use catalog::prelude::*;
 use catalog::macros::combine_bricks;
 
@@ -56,7 +57,12 @@ fn main() {
         stmt: block_stmt,
     };
 
-    Struct {
+    // 構造体
+    let r#struct = Struct {
         id: identifier,
+    };
+
+    DeclaringBaseLanguage {
+        declare: [function, r#struct],
     }
 }

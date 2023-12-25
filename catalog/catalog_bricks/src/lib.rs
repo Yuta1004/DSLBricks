@@ -12,6 +12,9 @@ pub mod prelude {
 // 制約
 pub mod constraints;
 
+// 基礎構造
+pub mod base;
+
 // プリミティブ
 pub mod primitive;
 
