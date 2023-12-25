@@ -16,8 +16,7 @@ use crate::constraints::ctime::*;
 /// - C 言語の構造体定義を表現します
 ///
 /// ## 性質
-/// - Identifiable
-/// - Calculatable
+/// - DeclaredObject
 #[derive(Default)]
 #[dslbrick(namespace = std.struct.c, property = DeclaredObject)]
 pub struct Struct {
