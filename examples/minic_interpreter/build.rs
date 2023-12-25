@@ -2,7 +2,7 @@ use catalog::expression::Expression;
 use catalog::primitive::number::integer::DecimalInteger;
 use catalog::primitive::number::fraction::DecimalFraction;
 use catalog::statement::c::{Block, ExprStatement, If, For, While};
-use catalog::statement::common::StatementSet;
+use catalog::statement::StatementSet;
 use catalog::prelude::*;
 use catalog::macros::combine_bricks;
 
