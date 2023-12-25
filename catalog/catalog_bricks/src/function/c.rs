@@ -18,6 +18,7 @@ use crate::constraints::ctime::*;
 ///
 /// ## はめ込み要素
 ///
+/// - id (Identifiable) : 引数の宣言に使用する識別子として使用する構文部品
 /// - stmt (Executable) : 実行される文として使用する構文部品
 ///
 /// ## 性質
@@ -27,18 +28,21 @@ use crate::constraints::ctime::*;
 pub struct Function {
     #[component(single = Identifiable)]
     id: RefCell<Option<Rule>>,
-    #[component(single = Executable)]
-    stmt: RefCell<Option<Rule>>,
+    #[component(multiple = Executable)]
+    stmt: RefCell<Vec<Rule>>,
 }
 
 impl DSLBrickDesign for Function {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
-            rule! { Function -> "int" id r"\(" args r"\)" stmt },
+            rule! { Function -> "int" id r"\(" args r"\)" r"\{" stmts r"\}" },
             rule! { args -> args "," arg },
             rule! { args -> arg },
             rule! { args -> },
             rule! { arg -> "int" id },
+            rule! { stmts -> stmts stmt },
+            rule! { stmts -> stmt },
+            rule! { stmts -> },
         ];
         rules.extend(self.id.borrow().clone());
         rules.extend(self.stmt.borrow().clone());
@@ -49,6 +53,6 @@ impl DSLBrickDesign for Function {
 impl DSLBrickAssertion for Function {
     fn assert(&self) {
         assert!(self.id.borrow().is_some());
-        assert!(self.stmt.borrow().is_some());
+        assert!(self.stmt.borrow().len() > 0);
     }
 }
