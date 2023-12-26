@@ -31,7 +31,7 @@ impl DSLBrickDesign for Struct {
             rule! { members -> members member },
             rule! { members -> member },
             rule! { members -> },
-            rule! { member -> "int" id ";" },
+            rule! { member -> "TYPE" id ";" },
         ];
         rules.extend(self.id.borrow().clone());
         rules

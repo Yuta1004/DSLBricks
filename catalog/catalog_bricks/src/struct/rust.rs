@@ -33,7 +33,7 @@ impl DSLBrickDesign for Struct {
             rule! { named_fields -> named_fields "," named_field },
             rule! { named_fields -> named_field },
             rule! { named_fields -> },
-            rule! { named_field -> id ":" "i32" },
+            rule! { named_field -> id ":" "TYPE" },
             rule! { fields -> fields "," id },
             rule! { fileds -> id },
             rule! { fields -> },

@@ -35,11 +35,11 @@ pub struct Function {
 impl DSLBrickDesign for Function {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
-            rule! { Function -> "int" id r"\(" args r"\)" r"\{" stmts r"\}" },
+            rule! { Function -> "TYPE" id r"\(" args r"\)" r"\{" stmts r"\}" },
             rule! { args -> args "," arg },
             rule! { args -> arg },
             rule! { args -> },
-            rule! { arg -> "int" id },
+            rule! { arg -> "TYPE" id },
             rule! { stmts -> stmts stmt },
             rule! { stmts -> stmt },
             rule! { stmts -> },
