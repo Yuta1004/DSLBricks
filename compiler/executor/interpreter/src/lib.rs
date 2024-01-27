@@ -47,13 +47,12 @@ where
         println!("Type 'Ctrl-D' to evaluate inputs, 'Ctrl-C' to exit.");
 
         loop {
-            let lines = read_lines()?;
-            match dsl.process(&lines) {
+            let input = read_lines()?;
+            match dsl.process(&input) {
                 Ok(_) => println!("Ok\n"),
                 Err(err) => {
                     let pos = ParseError::from(err).pos;
-                    println!("{}^ here", " ".repeat(pos.1 as usize));
-                    println!("Error at line {}\n", pos.0 + 1);
+                    print_pretty_error(&input, pos);
                 }
             };
         }
@@ -113,4 +112,20 @@ fn read_lines() -> anyhow::Result<String> {
     println!();
 
     Ok(buf.into_iter().collect::<String>())
+}
+
+fn print_pretty_error(input: &str, (row, col): (u32, u32)) {
+    let lines = input.split('\n').into_iter();
+    let neighbor_lines = lines.skip(row as usize - 2).take(3);
+
+    println!("-----");
+
+    neighbor_lines
+        .enumerate()
+        .for_each(|(idx, line)| {
+            println!("{:2}: {}", row - 1 + idx as u32, line);
+        });
+
+    println!("    {}^ here", " ".repeat(col as usize));
+    println!("Error at line {}, columns {}.\n", row + 1, col + 1);
 }
