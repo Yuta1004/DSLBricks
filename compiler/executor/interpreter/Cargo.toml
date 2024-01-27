@@ -7,4 +7,5 @@ edition = "2021"
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 clap = { version = "4.3", features = ["derive"] }
+crossterm = "0.27"
 processor = { path = "../../processor/processor" }
