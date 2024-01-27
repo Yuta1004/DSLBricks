@@ -1,3 +1,4 @@
+use std::cmp::max;
 use std::io;
 use std::io::Write;
 
@@ -115,17 +116,20 @@ fn read_lines() -> anyhow::Result<String> {
 }
 
 fn print_pretty_error(input: &str, (row, col): (u32, u32)) {
+    let (row, col) = (row as i32, col as i32);
+
     let lines = input.split('\n').into_iter();
-    let neighbor_lines = lines.skip(row as usize - 2).take(3);
+    let neighbor_lines = lines.skip(max(0, row-2) as usize).take(3);
 
     println!("-----");
 
     neighbor_lines
         .enumerate()
         .for_each(|(idx, line)| {
-            println!("{:2}: {}", row - 1 + idx as u32, line);
+            let row = max(1, row-1) + (idx as i32);
+            println!("{:2}: {}", row, line);
         });
 
     println!("    {}^ here", " ".repeat(col as usize));
-    println!("Error at line {}, columns {}.\n", row + 1, col + 1);
+    println!("Error at line {}, column {}.\n", row+1, col+1);
 }
