@@ -1,4 +1,6 @@
-# DSL Generator with Syntax-Brick
+# DSLBricks
+
+DSL Generator with Syntax-Brick
 
 ## Requires
 
@@ -43,3 +45,4 @@ $ cargo run --bin minic_interpreter
 
 - [catalog](./catalog/README.md)
 - [compiler](./compiler/README.md)
+
