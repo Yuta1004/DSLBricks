@@ -4,18 +4,21 @@ members = [
     # Compiler
     "compiler/compiler",
 
-    # Library
+    # Catalog
     "catalog/catalog",
-
-    # Examples
-    "examples/calc_interpreter",
-    "examples/minic_interpreter",
 
     # Tools
     "src/editor",
     "src/gen_template",
+
+    # Examples
+    "examples/calc_interpreter",
+    "examples/minic_interpreter",
 ]
 exclude = [
+    # Doc-tools
+    "docs/rustdoc/tools/rustdoc_web",
+
     # Tests
     "tests/default",
     "tests/with_serde",
