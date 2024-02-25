@@ -1,9 +1,30 @@
 [workspace]
+resolver = "2"
 members = [
-    "compiler/dpp",
-    "library/dev",
-    "tests",
-    "examples",
+    # Compiler
+    "compiler/compiler",
+
+    # Catalog
+    "catalog/catalog",
+
+    # Tools
+    "src/editor",
+    "src/gen_template",
+
+    # Examples
+    "examples/calc_interpreter",
+    "examples/minic_interpreter",
+]
+exclude = [
+    # Doc-tools
+    "docs/rustdoc/tools/rustdoc_web",
+
+    # Tests
+    "tests/default",
+    "tests/with_serde",
 ]
 
-exclude = []
+[workspace.dependencies]
+anyhow = "1.0.75"
+thiserror = "1.0.50"
+serde = "1.0.192"

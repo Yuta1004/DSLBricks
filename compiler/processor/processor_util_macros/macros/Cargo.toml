@@ -1,0 +1,9 @@
+[package]
+name = "processor_util_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+macros_procedural = { package = "processor_util_macros_procedural", path = "../macros_procedural" }

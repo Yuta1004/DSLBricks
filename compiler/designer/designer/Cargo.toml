@@ -1,0 +1,17 @@
+[package]
+name = "designer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+codegen = { package = "designer_codegen", path = "../designer_codegen", optional = true }
+constraint_ctime = { package = "designer_constraint_ctime", path = "../designer_constraint_ctime/macros" }
+constraint_rtime = { package = "designer_constraint_rtime", path = "../designer_constraint_rtime" }
+design = { package = "designer_design", path = "../designer_design" }
+design_macros = { package = "designer_design_macros", path = "../designer_design_macros/macros" }
+
+[features]
+default = ["codegen"]
+with-serde = ["codegen/with-serde"]

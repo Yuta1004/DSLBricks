@@ -1,0 +1,9 @@
+[package]
+name = "blockly_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+macros_decralative = { package = "blockly_macros_declarative", path = "../macros_declarative" }

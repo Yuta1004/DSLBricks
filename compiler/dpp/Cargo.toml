@@ -1,9 +1,0 @@
-[package]
-name = "depagerpp"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-driver = { package = "depagerpp_driver", path = "../dpp_driver" }
-langpart = { package = "depagerpp_langpart", path = "../dpp_langpart" }
-langpart_macros = { package = "depagerpp_langpart_macros", path = "../dpp_langpart_macros" }

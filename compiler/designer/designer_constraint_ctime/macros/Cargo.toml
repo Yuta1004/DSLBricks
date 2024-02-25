@@ -1,0 +1,9 @@
+[package]
+name = "designer_constraint_ctime"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+macros_decralative = { package = "designer_constraint_ctime_declarative", path = "../macros_declarative" }
