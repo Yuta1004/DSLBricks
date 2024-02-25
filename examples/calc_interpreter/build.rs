@@ -1,16 +1,25 @@
-use std::rc::Rc;
-
-use catalog::expression::util::Arithmetic;
-use catalog::primitive::number::{Float, Integer};
+// Prelude, macros
 use catalog::prelude::*;
 use catalog::macros::combine_bricks;
 
+// Bricks
+use catalog::expression::Expression;
+use catalog::primitive::number::integer::DecimalInteger;
+use catalog::primitive::number::fraction::DecimalFraction;
+use catalog::base::ExpressionBaseLanguage;
+
 #[combine_bricks]
 fn main() {
-    let integer = Integer {};
-    let float = Float {};
+    // プリミティブ
+    let integer = DecimalInteger {};
+    let fraction = DecimalFraction {};
 
-    Arithmetic {
-        unit: [integer, float],
+    // 算術式
+    let expr = Expression {
+        unit: [integer, fraction],
+    };
+
+    ExpressionBaseLanguage {
+        expr: [expr],
     }
 }

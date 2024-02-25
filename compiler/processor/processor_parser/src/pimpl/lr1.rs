@@ -39,7 +39,7 @@ where
     goto_table: Vec<Vec<usize>>,
 }
 
-#[cfg_where(feature = "with-serde", S: for<'de> Deserialize<'de>, T: for<'de> Deserialize<'de>)]
+#[cfg_where(feature = "with-serde", PreS: for<'de> Deserialize<'de>, T: for<'de> Deserialize<'de>)]
 impl<PostS, PreS, T> ParserImpl<PostS, PreS, T> for LR1<PostS, PreS, T>
 where
     PostS: post::Syntax<PreS, T>,

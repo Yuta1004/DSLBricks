@@ -29,12 +29,12 @@
             }
         
 
-            Blockly.Blocks["std.primitive.Integer"] = {
+            Blockly.Blocks["std.primitive.number.integer.DecimalInteger"] = {
                 init: 
             function() {
                 this.jsonInit({
-                    type: "std.primitive.Integer",
-                    message0: "Integer %1 root %2 %3 variable %4 %5 property %6 %7",
+                    type: "std.primitive.number.integer.DecimalInteger",
+                    message0: "DecimalInteger %1 root %2 %3 variable %4 %5 property %6 %7",
                     args0: [
                 {
                     type: "input_dummy"
@@ -76,12 +76,12 @@
             }
         
 
-            Blockly.Blocks["std.primitive.Float"] = {
+            Blockly.Blocks["std.primitive.number.fraction.DecimalFraction"] = {
                 init: 
             function() {
                 this.jsonInit({
-                    type: "std.primitive.Float",
-                    message0: "Float %1 root %2 %3 variable %4 %5 property %6 %7",
+                    type: "std.primitive.number.fraction.DecimalFraction",
+                    message0: "DecimalFraction %1 root %2 %3 variable %4 %5 property %6 %7",
                     args0: [
                 {
                     type: "input_dummy"

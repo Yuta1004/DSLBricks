@@ -1,7 +1,8 @@
 use blockly::front::ir;
 use blockly::front::macros::block;
 use catalog::statement::c::If;
-use catalog::primitive::number::{Integer, Float};
+use catalog::primitive::number::integer::DecimalInteger;
+use catalog::primitive::number::fraction::DecimalFraction;
 use catalog::prelude::*;
 
 pub fn catalog() -> ir::ToolBox {
@@ -18,8 +19,8 @@ pub fn catalog() -> ir::ToolBox {
         );
 
     let primitive = ir::ToolBox::new("Primitive")
-        .push_block(irgen::<Integer>())
-        .push_block(irgen::<Float>());
+        .push_block(irgen::<DecimalInteger>())
+        .push_block(irgen::<DecimalFraction>());
 
     let statement = ir::ToolBox::new("Statement")
         .push_block(irgen::<If>());

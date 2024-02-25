@@ -5,7 +5,6 @@ use compiler::designer::design::DSLGeneratable;
 use macros::*;
 
 use crate::common::*;
-use crate::constraints::ctime::*;
 
 /// # 文字列
 ///
@@ -17,7 +16,7 @@ use crate::constraints::ctime::*;
 ///
 /// - StaticValue
 #[derive(Default)]
-#[dslbrick(namespace = std.primitive, property = StaticValue)]
+#[dslbrick(namespace = std.primitive.character.string)]
 pub struct String;
 
 impl DSLBrickDesign for String {
