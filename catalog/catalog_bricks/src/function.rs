@@ -1,7 +1,3 @@
-// 共通部品
-mod common;
-pub use common::*;
-
 // C
 pub mod c;
 

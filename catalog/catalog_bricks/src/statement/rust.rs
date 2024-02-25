@@ -14,7 +14,7 @@ use crate::constraints::ctime::*;
 ///
 /// ## 概要
 ///
-/// - C 言語の ブロック を表現します
+/// - Rust のブロックを表現します
 ///
 /// ## はめ込み要素
 ///
@@ -23,7 +23,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.rust, property = Executable)]
 pub struct Block {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
@@ -53,7 +53,7 @@ impl DSLBrickAssertion for Block {
 ///
 /// ## 概要
 ///
-/// - C 言語の 式-文を表現します
+/// - Rust の 式-文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -62,7 +62,7 @@ impl DSLBrickAssertion for Block {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.rust, property = Executable)]
 pub struct ExprStatement {
     #[component(single = Calculatable)]
     expr: RefCell<Option<Rule>>,
@@ -87,7 +87,7 @@ impl DSLBrickAssertion for ExprStatement {
 ///
 /// ## 概要
 ///
-/// - C 言語の if 文を表現します
+/// - Rust の if 文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -97,7 +97,7 @@ impl DSLBrickAssertion for ExprStatement {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.rust, property = Executable)]
 pub struct If {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,
@@ -108,10 +108,13 @@ pub struct If {
 impl DSLBrickDesign for If {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
-            rule! { If -> "if" r"\(" cond r"\)" stmt },
-            rule! { If -> "if" r"\(" cond r"\)" stmt else },
+            rule! { If -> "if" cond r"\{" stmts r"\}" },
+            rule! { If -> "if" cond r"\{" stmts r"\}" else },
             rule! { else -> "else" if },
-            rule! { else -> "else" stmt },
+            rule! { else -> "else" r"\{" stmts r"\}" },
+            rule! { stmts -> stmts stmt },
+            rule! { stmts -> stmt },
+            rule! { stmts -> },
         ];
         rules.push(self.cond.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());
@@ -126,58 +129,50 @@ impl DSLBrickAssertion for If {
     }
 }
 
-/// # for 文
+/// # for-in 文
 ///
 /// ## 概要
 ///
-/// - C 言語の for 文を表現します
+/// - Rust の for-in 文を表現します
 ///
 /// ## はめ込み要素
 ///
-/// - init (Executable) : 初期化文として使用する構文部品
-/// - cond (Calculatable) : 条件式として使用する構文部品
-/// - incr (Calculatable) : 増減式として使用する構文部品
+/// - id (Identifiable) : for-in 文内で使用する変数名として使用する構文部品
+/// - iter (Calculatable) : for-in 文の実行のために使用するイテレータとしての働きをする構文部品
 /// - stmt (Executable) : 実行される文として使用する構文部品
 ///
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
-pub struct For {
+#[dslbrick(namespace = std.statement.rust, property = Executable)]
+pub struct ForIn {
+    #[component(single = Identifiable)]
+    id: RefCell<Option<Rule>>,
     #[component(single = Calculatable)]
-    init: RefCell<Option<Rule>>,
-    #[component(single = Calculatable)]
-    cond: RefCell<Option<Rule>>,
-    #[component(single = Calculatable)]
-    incr: RefCell<Option<Rule>>,
+    iter: RefCell<Option<Rule>>,
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
 }
 
-impl DSLBrickDesign for For {
+impl DSLBrickDesign for ForIn {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
-            rule! { For -> "for" r"\(" init_or_null ";" cond_or_null ";" incr_or_null r"\)" stmt },
-            rule! { init_or_null -> init },
-            rule! { init_or_null -> },
-            rule! { cond_or_null -> cond },
-            rule! { cond_or_null -> },
-            rule! { incr_or_null -> incr },
-            rule! { incr_or_null -> },
+            rule! { ForIn -> "for" id "in" iter r"\{" stmts r"\}" },
+            rule! { stmts -> stmts stmt },
+            rule! { stmts -> stmt },
+            rule! { stmts -> },
         ];
-        rules.push(self.init.borrow().clone().unwrap());
-        rules.push(self.cond.borrow().clone().unwrap());
-        rules.push(self.incr.borrow().clone().unwrap());
+        rules.push(self.id.borrow().clone().unwrap());
+        rules.push(self.iter.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());
         rules
     }
 }
 
-impl DSLBrickAssertion for For {
+impl DSLBrickAssertion for ForIn {
     fn assert(&self) {
-        assert!(self.init.borrow().is_some());
-        assert!(self.cond.borrow().is_some());
-        assert!(self.incr.borrow().is_some());
+        assert!(self.id.borrow().is_some());
+        assert!(self.iter.borrow().is_some());
         assert!(self.stmt.borrow().len() > 0);
     }
 }
@@ -186,7 +181,7 @@ impl DSLBrickAssertion for For {
 ///
 /// ## 概要
 ///
-/// - C 言語の while 文を表現します
+/// - Rust の while 文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -196,7 +191,7 @@ impl DSLBrickAssertion for For {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.rust, property = Executable)]
 pub struct While {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,
@@ -207,7 +202,10 @@ pub struct While {
 impl DSLBrickDesign for While {
     fn design(&self) -> Vec<Rule> {
         let mut rules = vec![
-            rule! { While -> "while" r"\(" cond r"\)" stmt },
+            rule! { While -> "while" cond r"\{" stmts r"\}" },
+            rule! { stmts -> stmts stmt },
+            rule! { stmts -> stmt },
+            rule! { stmts -> },
         ];
         rules.push(self.cond.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());
@@ -218,6 +216,44 @@ impl DSLBrickDesign for While {
 impl DSLBrickAssertion for While {
     fn assert(&self) {
         assert!(self.cond.borrow().is_some());
+        assert!(self.stmt.borrow().len() > 0);
+    }
+}
+
+/// # loop 文
+///
+/// ## 概要
+///
+/// - Rust の loop 文を表現します
+///
+/// ## はめ込み要素
+///
+/// - stmt (Executable) : 実行される文として使用する構文部品
+///
+/// ## 性質
+/// - Executable
+#[derive(Default)]
+#[dslbrick(namespace = std.statement.rust, property = Executable)]
+pub struct Loop {
+    #[component(multiple = Executable)]
+    stmt: RefCell<Vec<Rule>>,
+}
+
+impl DSLBrickDesign for Loop {
+    fn design(&self) -> Vec<Rule> {
+        let mut rules = vec![
+            rule! { While -> "loop" r"\{" stmts r"\}" },
+            rule! { stmts -> stmts stmt },
+            rule! { stmts -> stmt },
+            rule! { stmts -> },
+        ];
+        rules.extend(self.stmt.borrow().clone());
+        rules
+    }
+}
+
+impl DSLBrickAssertion for Loop {
+    fn assert(&self) {
         assert!(self.stmt.borrow().len() > 0);
     }
 }

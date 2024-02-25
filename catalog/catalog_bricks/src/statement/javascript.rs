@@ -14,7 +14,7 @@ use crate::constraints::ctime::*;
 ///
 /// ## 概要
 ///
-/// - C 言語の ブロック を表現します
+/// - JavsScript の ブロック を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -23,7 +23,7 @@ use crate::constraints::ctime::*;
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.javascript, property = Executable)]
 pub struct Block {
     #[component(multiple = Executable)]
     stmt: RefCell<Vec<Rule>>,
@@ -53,7 +53,7 @@ impl DSLBrickAssertion for Block {
 ///
 /// ## 概要
 ///
-/// - C 言語の 式-文を表現します
+/// - JavaScript の 式-文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -62,7 +62,7 @@ impl DSLBrickAssertion for Block {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.javascript, property = Executable)]
 pub struct ExprStatement {
     #[component(single = Calculatable)]
     expr: RefCell<Option<Rule>>,
@@ -87,7 +87,7 @@ impl DSLBrickAssertion for ExprStatement {
 ///
 /// ## 概要
 ///
-/// - C 言語の if 文を表現します
+/// - JavaScript の if 文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -97,7 +97,7 @@ impl DSLBrickAssertion for ExprStatement {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.javascript, property = Executable)]
 pub struct If {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,
@@ -130,7 +130,7 @@ impl DSLBrickAssertion for If {
 ///
 /// ## 概要
 ///
-/// - C 言語の for 文を表現します
+/// - JavaScript の for 文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -142,7 +142,7 @@ impl DSLBrickAssertion for If {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.javascript, property = Executable)]
 pub struct For {
     #[component(single = Calculatable)]
     init: RefCell<Option<Rule>>,
@@ -186,7 +186,7 @@ impl DSLBrickAssertion for For {
 ///
 /// ## 概要
 ///
-/// - C 言語の while 文を表現します
+/// - JavaScript の while 文を表現します
 ///
 /// ## はめ込み要素
 ///
@@ -196,7 +196,7 @@ impl DSLBrickAssertion for For {
 /// ## 性質
 /// - Executable
 #[derive(Default)]
-#[dslbrick(namespace = std.statement.c, property = Executable)]
+#[dslbrick(namespace = std.statement.javascript, property = Executable)]
 pub struct While {
     #[component(single = Calculatable)]
     cond: RefCell<Option<Rule>>,

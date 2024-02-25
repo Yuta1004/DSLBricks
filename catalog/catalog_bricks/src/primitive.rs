@@ -1,11 +1,11 @@
 // 数値
 pub mod number;
 
-// 文字列
-pub mod string;
+// 文字
+pub mod character;
 
-// 記号
-pub mod symbol;
+// 識別子
+pub mod identifier;
 
 // 真理値
 pub mod boolean;
