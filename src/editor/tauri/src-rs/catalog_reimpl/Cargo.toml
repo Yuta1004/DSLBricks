@@ -6,5 +6,5 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
+catalog = { workspace = true }
 blockly = { path = "../blockly/blockly", features = ["front"] }
-catalog = { path = "../../../../../catalog/catalog" }
