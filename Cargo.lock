@@ -603,7 +603,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "catalog_reimpl_blockly"
+name = "catalog_reimpl"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -1230,7 +1230,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockly",
- "catalog_reimpl_blockly",
+ "catalog_reimpl",
  "os_pipe",
  "rfd",
  "serde",

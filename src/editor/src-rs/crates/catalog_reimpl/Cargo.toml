@@ -1,5 +1,5 @@
 [package]
-name = "catalog_reimpl_blockly"
+name = "catalog_reimpl"
 version = "0.1.0"
 edition = "2021"
 
