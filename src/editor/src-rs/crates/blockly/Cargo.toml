@@ -6,9 +6,9 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-blockly_front = { path = "../blockly_front", optional = true }
-blockly_back = { path = "../blockly_back", optional = true }
-blockly_macros = { path = "../blockly_macros/macros" }
+blockly_front = { path = "./crates/front", optional = true }
+blockly_back = { path = "./crates/back", optional = true }
+blockly_macros = { path = "./crates/macros/macros" }
 
 [features]
 default = []

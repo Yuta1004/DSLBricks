@@ -11,9 +11,9 @@ serde-xml-rs = "0.6.0"
 tauri = { version = "1.5.3", features = ["api-all"] }
 rfd = "0.10.0"
 os_pipe = "1.1.4"
-blockly = { path = "./crates/blockly/blockly", features = ["back"] }
+blockly = { path = "./crates/blockly", features = ["back"] }
 
 [build-dependencies]
 tauri-build = "1.5.0"
-blockly = { path = "./crates/blockly/blockly", features = ["front"] }
+blockly = { path = "./crates/blockly", features = ["front"] }
 catalog_reimpl = { path = "./crates/catalog_reimpl" }
