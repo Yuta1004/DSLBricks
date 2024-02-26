@@ -8,7 +8,7 @@ members = [
     "library/catalog/catalog",
 
     # Tools
-    "src/editor",
+    "src/editor/src-rs",
     "src/gen_template",
 
     # Examples

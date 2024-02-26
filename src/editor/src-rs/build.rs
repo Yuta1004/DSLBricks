@@ -10,7 +10,7 @@ fn main() {
     Command::new("make")
         .args(&["bin"])
         .args(&[format!("OUT_DIR={}", current_dir.display())])
-        .current_dir("../../../../docs/rustdoc/tools/rustdoc_web")
+        .current_dir("../../../docs/rustdoc/tools/rustdoc_web")
         .status()
         .unwrap();
 
@@ -24,11 +24,11 @@ fn main() {
     // Tauri
     tauri_build::build();
 
-    println!("cargo:rerun-if-changed=../../../../docs/rustdoc/tools/rustdoc_web/src");
-    println!("cargo:rerun-if-changed=../../../../docs/rustdoc/tools/rustdoc_web/bundle/src");
-    println!("cargo:rerun-if-changed=../../../../docs/rustdoc/tools/rustdoc_web/bundle/build.rs");
-    println!("cargo:rerun-if-changed=../../../../docs/rustdoc/tools/rustdoc_web/bundle/style.css");
-    println!("cargo:rerun-if-changed=../../../../catalog");
+    println!("cargo:rerun-if-changed=../../../docs/rustdoc/tools/rustdoc_web/src");
+    println!("cargo:rerun-if-changed=../../../docs/rustdoc/tools/rustdoc_web/bundle/src");
+    println!("cargo:rerun-if-changed=../../../docs/rustdoc/tools/rustdoc_web/bundle/build.rs");
+    println!("cargo:rerun-if-changed=../../../docs/rustdoc/tools/rustdoc_web/bundle/style.css");
+    println!("cargo:rerun-if-changed=../../../catalog");
 
     println!("cargo:rerun-if-changed=../src-js/src/components");
     println!("cargo:rerun-if-changed=../src-js/src/pages");

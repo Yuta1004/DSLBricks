@@ -8,7 +8,7 @@ mod project;
 
 use tauri::api::process::Command;
 
-pub fn exec() -> anyhow::Result<()> {
+fn main() -> anyhow::Result<()> {
     tauri::Builder::default()
         .setup(|_| {
             Command::new_sidecar("rustdoc_web")?.spawn()?;
