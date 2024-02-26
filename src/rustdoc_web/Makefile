@@ -1,9 +1,6 @@
 TARGET_TRIPLE := $(shell rustc -Vv | grep host | cut -f2 -d' ')
 OUT_DIR := ./
 
-run:
-	cargo run
-
 bin:
 	cargo build -F embedded
 	mkdir -p $(OUT_DIR)/bin

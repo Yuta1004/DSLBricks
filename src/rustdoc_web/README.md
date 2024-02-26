@@ -8,7 +8,7 @@
 
 ```
 // Run => http://localhost:5555/catalog/index.html
-$ make run
+$ cargo run
 
 // Build
 $ make bin
