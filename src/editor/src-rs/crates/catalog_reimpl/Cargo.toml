@@ -1,12 +1,10 @@
 [package]
-name = "calc_interpreter"
+name = "catalog_reimpl"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-compiler = { workspace = true }
-
-[build-dependencies]
 catalog = { workspace = true }
+blockly = { path = "../blockly", features = ["front"] }

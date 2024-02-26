@@ -603,7 +603,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "catalog_reimpl_blockly"
+name = "catalog_reimpl"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -1229,8 +1229,15 @@ name = "editor"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "blockly",
+ "catalog_reimpl",
+ "os_pipe",
+ "rfd",
+ "serde",
+ "serde-xml-rs",
+ "tauri",
+ "tauri-build",
  "thiserror",
- "ui",
 ]
 
 [[package]]
@@ -1713,14 +1720,6 @@ dependencies = [
  "libc",
  "system-deps 6.2.0",
  "x11",
-]
-
-[[package]]
-name = "gen_template"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
 ]
 
 [[package]]
@@ -4775,22 +4774,6 @@ dependencies = [
  "memoffset 0.9.0",
  "tempfile",
  "winapi",
-]
-
-[[package]]
-name = "ui"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "blockly",
- "catalog_reimpl_blockly",
- "os_pipe",
- "rfd",
- "serde",
- "serde-xml-rs",
- "tauri",
- "tauri-build",
- "thiserror",
 ]
 
 [[package]]

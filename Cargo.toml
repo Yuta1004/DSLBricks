@@ -4,20 +4,19 @@ members = [
     # Compiler
     "compiler/compiler",
 
-    # Catalog
-    "catalog/catalog",
+    # Libirary
+    "library/catalog/catalog",
 
     # Tools
-    "src/editor",
-    "src/gen_template",
+    "src/editor/src-rs",
 
     # Examples
     "examples/calc_interpreter",
     "examples/minic_interpreter",
 ]
 exclude = [
-    # Doc-tools
-    "docs/rustdoc/tools/rustdoc_web",
+    # Tools
+    "src/rustdoc_web",
 
     # Tests
     "tests/default",
@@ -28,3 +27,5 @@ exclude = [
 anyhow = "1.0.75"
 thiserror = "1.0.50"
 serde = "1.0.192"
+compiler = { path = "compiler/compiler" }
+catalog = { path = "library/catalog/catalog" }
