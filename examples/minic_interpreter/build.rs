@@ -57,7 +57,7 @@ fn main() {
     // 関数
     let function = Function {
         id: identifier,
-        stmt: [expr_stmt, if_stmt, for_stmt, while_stmt],
+        stmt: [block_stmt],
     };
 
     // 構造体
