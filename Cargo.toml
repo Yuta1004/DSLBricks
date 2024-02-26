@@ -4,8 +4,8 @@ members = [
     # Compiler
     "compiler/compiler",
 
-    # Catalog
-    "catalog/catalog",
+    # Libirary
+    "library/catalog/catalog",
 
     # Tools
     "src/editor",
@@ -29,4 +29,4 @@ anyhow = "1.0.75"
 thiserror = "1.0.50"
 serde = "1.0.192"
 compiler = { path = "compiler/compiler" }
-catalog = { path = "catalog/catalog" }
+catalog = { path = "library/catalog/catalog" }

@@ -6,5 +6,5 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-compiler = { path = "../../compiler/compiler", features = ["build"] }
+compiler = { workspace = true, features = ["build"] }
 macros = { package = "catalog_macros", path = "../catalog_macros/macros" }
