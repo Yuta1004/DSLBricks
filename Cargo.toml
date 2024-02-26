@@ -9,7 +9,6 @@ members = [
 
     # Tools
     "src/editor/src-rs",
-    "src/gen_template",
 
     # Examples
     "examples/calc_interpreter",
