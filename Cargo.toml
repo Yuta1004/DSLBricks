@@ -17,7 +17,7 @@ members = [
 ]
 exclude = [
     # Doc-tools
-    "docs/rustdoc/tools/rustdoc_web",
+    "src/rustdoc_web",
 
     # Tests
     "tests/default",

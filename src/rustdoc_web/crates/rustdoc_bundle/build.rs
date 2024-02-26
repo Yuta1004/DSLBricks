@@ -11,9 +11,9 @@ fn main() {
             .args(&["--lib"])
             .args(&["--workspace"])
             .args(&["--exclude", "ui"])
-            .args(&["--target-dir", "./docs/rustdoc/tools/rustdoc_web/bundle/target"])
+            .args(&["--target-dir", "./src/rustdoc_web/crates/rustdoc_bundle/target"])
             .args(&["--config", &format!("build.rustdocflags = [\"--extend-css\", \"{}\"]", css_path.display())])
-            .current_dir("../../../../../")
+            .current_dir("../../../../")
             .status()
             .unwrap();
     } else {
@@ -22,12 +22,12 @@ fn main() {
             .args(&["--lib"])
             .args(&["--workspace"])
             .args(&["--exclude", "ui"])
-            .args(&["--target-dir", "./docs/rustdoc/tools/rustdoc_web/bundle/target"])
-            .current_dir("../../../../../")
+            .args(&["--target-dir", "./src/rustdoc_web/crates/rustdoc_bundle/target"])
+            .current_dir("../../../../")
             .status()
             .unwrap();
     }
 
     println!("cargo:rerun-if-changed=style.css");
-    println!("cargo:rerun-if-changed=../../../../../catalog");
+    println!("cargo:rerun-if-changed=../../../../catalog");
 }

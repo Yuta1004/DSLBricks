@@ -7,7 +7,7 @@ use rocket::response::Responder;
 use rocket::http::ContentType;
 use rocket::{get, routes, launch};
 
-use bundle::Document;
+use rustdoc::RustDoc;
 
 struct StaticFileResponse(ContentType, String);
 
@@ -32,7 +32,7 @@ impl<'r> Responder<'r, 'static> for StaticFileResponse {
 fn static_file<'r>(path: PathBuf) -> impl Responder<'r, 'static> {
     let path = path.to_str().unwrap();
     let ext = path.split('.').last().unwrap();
-    let file = match Document::get(path) {
+    let file = match RustDoc::get(path) {
         Some(file) => file,
         None => panic!("Not found"),
     };
