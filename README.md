@@ -16,7 +16,7 @@ DSL Generator with Syntax-Brick
 $ make test
 ```
 
-### Exaples
+### Exmaples
 
 ```
 $ cargo run --bin calc_interpreter
