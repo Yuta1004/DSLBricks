@@ -15,7 +15,7 @@ members = [
     "examples/minic_interpreter",
 ]
 exclude = [
-    # Doc-tools
+    # Tools
     "src/rustdoc_web",
 
     # Tests
