@@ -1,7 +1,5 @@
-use compiler::designer::design::macros::*;
-use compiler::designer::design::syntax::RuleSet;
-use compiler::designer::design::DSLGeneratable;
-use compiler::bricks::*;
+use compiler::bricks::dslbrick;
+use compiler::bricks::prelude::*;
 
 /// # 文字列
 ///

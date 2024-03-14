@@ -1,4 +1,4 @@
-use compiler::designer::constraint::ctime::declare_constraints;
+use compiler::bricks::prelude::*;
 
 // 1. ユーザに宣言を要請する制約
 declare_constraints! {

@@ -1,8 +1,10 @@
+pub mod prelude;
+
 use std::rc::Rc;
 
 use designer::design::syntax::Rule;
 
-pub use baker::{dslbrick, DSLBrickBuilder, DSLBrickBaker};
+pub use baker::dslbrick;
 pub use composer::combine_bricks;
 
 pub trait DSLBrick

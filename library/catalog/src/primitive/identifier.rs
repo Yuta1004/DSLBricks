@@ -1,7 +1,5 @@
-use compiler::designer::design::macros::*;
-use compiler::designer::design::syntax::{Rule, RuleSet};
-use compiler::designer::design::DSLGeneratable;
-use compiler::bricks::*;
+use compiler::bricks::dslbrick;
+use compiler::bricks::prelude::*;
 
 use crate::constraints::ctime::*;
 
