@@ -9,8 +9,8 @@ designer = { path = "./crates/core/designer", optional = true }
 processor = { path = "./crates/core/processor", optional = true }
 
 # Interface (wrapper)
-bricks = { path = "./crates/bricks" }
-runtime = { path = "./crates/runtime" }
+bricks = { path = "./crates/interface/bricks" }
+runtime = { path = "./crates/interface/runtime" }
 
 [features]
 default = ["processor", "designer"]
