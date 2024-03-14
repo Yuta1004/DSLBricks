@@ -1,5 +1,4 @@
 // Core
-#[cfg(feature = "build")]
 pub use designer;
 pub use processor;
 
@@ -9,11 +8,9 @@ pub mod macros {
         pub use std::rc::Rc;
         pub use std::{env, fs};
 
-        #[cfg(feature = "build")]
         pub use designer::codegen::rust;
     }
 
-    #[cfg(feature = "build")]
     #[macro_export]
     macro_rules! build_dsl {
         ($dsl:expr) => {{
