@@ -1,8 +1,3 @@
-// 依存定義
-pub mod prelude {
-    pub use compiler::bricks::*;
-}
-
 // 制約
 pub mod constraints;
 

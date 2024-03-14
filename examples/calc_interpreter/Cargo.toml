@@ -7,6 +7,8 @@ edition = "2021"
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 compiler = { workspace = true }
+runner = { workspace = true }
 
 [build-dependencies]
+compiler = { workspace = true }
 catalog = { workspace = true }

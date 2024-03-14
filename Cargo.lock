@@ -569,6 +569,7 @@ dependencies = [
  "anyhow",
  "catalog",
  "compiler",
+ "runner",
  "thiserror",
 ]
 
@@ -598,6 +599,7 @@ dependencies = [
  "anyhow",
  "blockly",
  "catalog",
+ "compiler",
  "thiserror",
 ]
 
@@ -2514,6 +2516,7 @@ dependencies = [
  "anyhow",
  "catalog",
  "compiler",
+ "runner",
  "thiserror",
 ]
 

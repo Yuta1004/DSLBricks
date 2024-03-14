@@ -1,9 +1,10 @@
-use blockly::front::ir;
-use blockly::front::macros::block;
+use compiler::bricks::prelude::*;
 use catalog::statement::c::If;
 use catalog::primitive::number::integer::DecimalInteger;
 use catalog::primitive::number::fraction::DecimalFraction;
-use catalog::prelude::*;
+
+use blockly::front::ir;
+use blockly::front::macros::block;
 
 pub fn catalog() -> ir::ToolBox {
     let default = ir::ToolBox::new("Default")

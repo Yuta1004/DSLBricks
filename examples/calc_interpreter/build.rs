@@ -1,6 +1,7 @@
 // Prelude, macros
-use catalog::prelude::*;
-use catalog::macros::combine_bricks;
+use compiler::build_dsl;
+use compiler::bricks::combine_bricks;
+use compiler::bricks::prelude::*;
 
 // Bricks
 use catalog::expression::Expression;

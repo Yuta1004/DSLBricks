@@ -30,3 +30,4 @@ thiserror = "1.0.50"
 serde = "1.0.192"
 compiler = { path = "./compiler" }
 catalog = { path = "./library/catalog" }
+runner = { path = "./library/runner" }
