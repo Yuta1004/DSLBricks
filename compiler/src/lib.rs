@@ -1,5 +1,7 @@
 // Core
+#[cfg(feature = "dev")]
 pub use designer;
+#[cfg(feature = "dev")]
 pub use processor;
 
 pub mod macros {
@@ -44,5 +46,6 @@ pub mod macros {
     }
 }
 
-// Bricks
+// Interface (wrapper)
 pub use bricks;
+pub use runtime;
