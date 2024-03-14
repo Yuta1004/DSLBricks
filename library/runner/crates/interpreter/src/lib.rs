@@ -9,10 +9,10 @@ use crossterm::style;
 use crossterm::queue;
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
 
-use processor::lexer::TokenSet;
-use processor::parser::syntax::{pre, post};
-use processor::parser::ParseError;
-use processor::DSL;
+use compiler::processor::lexer::TokenSet;
+use compiler::processor::parser::syntax::{pre, post};
+use compiler::processor::parser::ParseError;
+use compiler::processor::DSL;
 
 #[derive(Parser)]
 #[command(author, version, about)]

@@ -1,8 +1,8 @@
 use clap::Parser;
 
-use processor::lexer::TokenSet;
-use processor::parser::syntax::{pre, post};
-use processor::DSL;
+use compiler::processor::lexer::TokenSet;
+use compiler::processor::parser::syntax::{pre, post};
+use compiler::processor::DSL;
 
 #[derive(Parser)]
 #[command(author, version, about)]

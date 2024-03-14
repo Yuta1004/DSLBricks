@@ -780,8 +780,6 @@ version = "0.1.0"
 dependencies = [
  "bricks",
  "designer",
- "exec_compiler",
- "exec_interpreter",
  "processor",
  "runtime",
 ]
@@ -1369,27 +1367,6 @@ checksum = "feedafcaa9b749175d5ac357452a9d41ea2911da598fde46ce1fe02c37751291"
 dependencies = [
  "event-listener 5.1.0",
  "pin-project-lite",
-]
-
-[[package]]
-name = "exec_compiler"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "processor",
- "thiserror",
-]
-
-[[package]]
-name = "exec_interpreter"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "crossterm",
- "processor",
- "thiserror",
 ]
 
 [[package]]
@@ -3524,6 +3501,37 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "windows 0.37.0",
+]
+
+[[package]]
+name = "runner"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "runner_compiler",
+ "runner_interpreter",
+ "thiserror",
+]
+
+[[package]]
+name = "runner_compiler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "compiler",
+ "thiserror",
+]
+
+[[package]]
+name = "runner_interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "compiler",
+ "crossterm",
+ "thiserror",
 ]
 
 [[package]]

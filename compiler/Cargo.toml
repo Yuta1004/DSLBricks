@@ -12,11 +12,7 @@ processor = { path = "./crates/core/processor", optional = true }
 bricks = { path = "./crates/bricks", optional = true }
 runtime = { path = "./crates/runtime", optional = true }
 
-# Others
-exec_compiler = { path = "./crates/executor/compiler", optional = true }
-exec_interpreter = { path = "./crates/executor/interpreter", optional = true }
-
 [features]
-default = ["processor", "exec_compiler", "exec_interpreter", "runtime"]
+default = ["processor", "runtime"]
 build = ["designer", "bricks"]
 with-serde = ["designer/with-serde", "processor/with-serde"]

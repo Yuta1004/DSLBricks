@@ -6,6 +6,7 @@ members = [
 
     # Library
     "library/catalog",
+    "library/runner",
 
     # Tools
     "src/editor/src-rs",

@@ -1,11 +1,10 @@
 [package]
-name = "exec_interpreter"
+name = "runner_compiler"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
+compiler = { workspace = true }
 clap = { version = "4.3", features = ["derive"] }
-crossterm = "0.27"
-processor = { path = "../../core/processor" }
