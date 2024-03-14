@@ -1,0 +1,9 @@
+[package]
+name = "bricks"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+baker = { path = "./crates/baker" }
+composer = { path = "./crates/composer" }
+designer = { path = "../core/designer" }

@@ -1,3 +1,4 @@
+// Core
 #[cfg(feature = "build")]
 pub use designer;
 
@@ -6,9 +7,8 @@ pub mod executor {
     pub use exec_compiler::Compiler;
     pub use exec_interpreter::Interpreter;
 }
-pub use macros::*;
 
-mod macros {
+pub mod macros {
     pub mod __export {
         pub use std::path::Path;
         pub use std::rc::Rc;
@@ -22,7 +22,7 @@ mod macros {
     #[macro_export]
     macro_rules! build_dsl {
         ($dsl:expr) => {{
-            use $crate::__export::*;
+            use $crate::macros::__export::*;
 
             let dsl_code = rust($dsl).unwrap();
             let out_dir = env::var_os("OUT_DIR").unwrap();
@@ -51,3 +51,6 @@ mod macros {
         };
     }
 }
+
+// Bricks
+pub use bricks;

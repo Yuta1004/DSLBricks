@@ -4,10 +4,8 @@ use std::rc::Rc;
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::{Rule, RuleSet};
 use compiler::designer::design::DSLGeneratable;
+use compiler::bricks::*;
 
-use macros::*;
-
-use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 関数

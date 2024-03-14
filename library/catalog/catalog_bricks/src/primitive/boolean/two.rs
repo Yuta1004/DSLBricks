@@ -1,10 +1,7 @@
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
-
-use macros::*;
-
-use crate::common::*;
+use compiler::bricks::*;
 
 /// # 2-状態 真理値
 ///

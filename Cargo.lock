@@ -353,6 +353,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "baker"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "thiserror",
+]
+
+[[package]]
 name = "base64"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -452,6 +463,15 @@ dependencies = [
  "anyhow",
  "blockly_front",
  "thiserror",
+]
+
+[[package]]
+name = "bricks"
+version = "0.1.0"
+dependencies = [
+ "baker",
+ "composer",
+ "designer",
 ]
 
 [[package]]
@@ -789,10 +809,22 @@ dependencies = [
 name = "compiler"
 version = "0.1.0"
 dependencies = [
+ "bricks",
  "designer",
  "exec_compiler",
  "exec_interpreter",
  "processor",
+]
+
+[[package]]
+name = "composer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "thiserror",
 ]
 
 [[package]]

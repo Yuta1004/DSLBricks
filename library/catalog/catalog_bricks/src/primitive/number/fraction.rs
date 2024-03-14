@@ -5,10 +5,8 @@
 use compiler::designer::design::macros::*;
 use compiler::designer::design::syntax::RuleSet;
 use compiler::designer::design::DSLGeneratable;
+use compiler::bricks::*;
 
-use macros::*;
-
-use crate::common::*;
 use crate::constraints::ctime::*;
 
 /// # 10進数 小数
