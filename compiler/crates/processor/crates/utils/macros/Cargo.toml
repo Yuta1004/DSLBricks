@@ -1,10 +1,9 @@
 [package]
-name = "exec_compiler"
+name = "utils_macros"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-clap = { version = "4.3", features = ["derive"] }
-processor = { path = "../../processor" }
+procedural_macros = { package = "utils_macros_procedural", path = "./crates/procedural" }

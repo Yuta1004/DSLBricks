@@ -1,10 +1,8 @@
 [package]
-name = "exec_compiler"
+name = "parser_macros_declarative"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-clap = { version = "4.3", features = ["derive"] }
-processor = { path = "../../processor" }

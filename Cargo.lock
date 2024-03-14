@@ -1185,6 +1185,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
 
 [[package]]
+name = "dslgen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "lexer",
+ "parser",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "dtoa"
 version = "1.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2320,6 +2331,38 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
+name = "lexer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "regex",
+ "serde",
+ "thiserror",
+ "utils",
+]
+
+[[package]]
+name = "lexer_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "lexer",
+ "lexer_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "lexer_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+ "thiserror",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2873,6 +2916,50 @@ dependencies = [
 ]
 
 [[package]]
+name = "parser"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "itertools",
+ "lexer",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "utils",
+]
+
+[[package]]
+name = "parser_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "parser",
+ "parser_macros_declarative",
+ "parser_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "parser_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "parser_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "parser",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "thiserror",
+]
+
+[[package]]
 name = "pathdiff"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3185,119 +3272,12 @@ dependencies = [
 name = "processor"
 version = "0.1.0"
 dependencies = [
- "processor_dslgen",
- "processor_lexer",
- "processor_lexer_macros",
- "processor_parser",
- "processor_parser_macros",
+ "dslgen",
+ "lexer",
+ "lexer_macros",
+ "parser",
+ "parser_macros",
  "serde",
-]
-
-[[package]]
-name = "processor_dslgen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_lexer",
- "processor_parser",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_util_macros",
- "regex",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_lexer",
- "processor_lexer_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 2.0.50",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "itertools",
- "processor_lexer",
- "processor_util_macros",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_parser",
- "processor_parser_macros_declarative",
- "processor_parser_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "processor_parser",
- "quote",
- "syn 1.0.109",
- "thiserror",
-]
-
-[[package]]
-name = "processor_util_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_util_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_util_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 2.0.50",
- "thiserror",
 ]
 
 [[package]]
@@ -4807,6 +4787,35 @@ name = "utf8parse"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "711b9620af191e0cdc7468a8d14e709c3dcdb115b36f838e601583af800a370a"
+
+[[package]]
+name = "utils"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+ "utils_macros",
+]
+
+[[package]]
+name = "utils_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+ "utils_macros_procedural",
+]
+
+[[package]]
+name = "utils_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+ "thiserror",
+]
 
 [[package]]
 name = "uuid"

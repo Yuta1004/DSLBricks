@@ -1,0 +1,19 @@
+[package]
+name = "parser_macros_procedural"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version ="1.0", features = ["full", "extra-traits"] }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+parser = { path = "../../../parser" }
+
+[lib]
+proc-macro = true
+
+[features]
+default = []
+with-serde = []
