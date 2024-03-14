@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-designer = { path = "./crates/designer/designer", optional = true }
+designer = { path = "./crates/designer", optional = true }
 processor = { path = "./crates/processor", optional = true }
 exec_compiler = { path = "./crates/executor/compiler", optional = true }
 exec_interpreter = { path = "./crates/executor/interpreter", optional = true }

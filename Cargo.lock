@@ -753,6 +753,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "codegen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design",
+ "serde",
+ "thiserror",
+ "tinytemplate",
+]
+
+[[package]]
 name = "color_quant"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -791,6 +802,32 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d16048cd947b08fa32c24458a22f5dc5e835264f689f4f5653210c69fd107363"
 dependencies = [
  "crossbeam-utils",
+]
+
+[[package]]
+name = "constraint_ctime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "constraint_ctime_declarative",
+ "thiserror",
+]
+
+[[package]]
+name = "constraint_ctime_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design",
+ "thiserror",
+]
+
+[[package]]
+name = "constraint_rtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
 ]
 
 [[package]]
@@ -1057,78 +1094,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "design"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "design_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design_macros_declarative",
+ "thiserror",
+]
+
+[[package]]
+name = "design_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design",
+ "thiserror",
+]
+
+[[package]]
 name = "designer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "designer_codegen",
- "designer_constraint_ctime",
- "designer_constraint_rtime",
- "designer_design",
- "designer_design_macros",
- "thiserror",
-]
-
-[[package]]
-name = "designer_codegen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design",
- "serde",
- "thiserror",
- "tinytemplate",
-]
-
-[[package]]
-name = "designer_constraint_ctime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_constraint_ctime_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "designer_constraint_ctime_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design",
- "thiserror",
-]
-
-[[package]]
-name = "designer_constraint_rtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design_macros_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design",
+ "codegen",
+ "constraint_ctime",
+ "constraint_rtime",
+ "design",
+ "design_macros",
  "thiserror",
 ]
 

@@ -1,5 +1,5 @@
 [package]
-name = "designer_codegen"
+name = "codegen"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,7 +8,7 @@ anyhow = { workspace = true }
 thiserror = { workspace = true }
 tinytemplate = "1.1"
 serde = { workspace = true, features = ["derive"] }
-design = { package = "designer_design", path = "../designer_design" }
+design = { path = "../design" }
 
 [features]
 default = []

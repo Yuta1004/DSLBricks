@@ -1,8 +1,9 @@
 [package]
-name = "designer_constraint_rtime"
+name = "constraint_ctime"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
+decralative_macros = { package = "constraint_ctime_declarative", path = "./crates/declarative" }
