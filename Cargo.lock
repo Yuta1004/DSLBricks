@@ -814,6 +814,7 @@ dependencies = [
  "exec_compiler",
  "exec_interpreter",
  "processor",
+ "runtime",
 ]
 
 [[package]]
@@ -3554,6 +3555,14 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "windows 0.37.0",
+]
+
+[[package]]
+name = "runtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
 ]
 
 [[package]]

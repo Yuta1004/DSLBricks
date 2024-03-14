@@ -8,14 +8,15 @@ edition = "2021"
 designer = { path = "./crates/core/designer", optional = true }
 processor = { path = "./crates/core/processor", optional = true }
 
-# Bricks
+# Interface (wrapper)
 bricks = { path = "./crates/bricks", optional = true }
+runtime = { path = "./crates/runtime", optional = true }
 
 # Others
 exec_compiler = { path = "./crates/executor/compiler", optional = true }
 exec_interpreter = { path = "./crates/executor/interpreter", optional = true }
 
 [features]
-default = ["processor", "exec_compiler", "exec_interpreter"]
+default = ["processor", "exec_compiler", "exec_interpreter", "runtime"]
 build = ["designer", "bricks"]
 with-serde = ["designer/with-serde", "processor/with-serde"]
