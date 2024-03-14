@@ -587,38 +587,7 @@ name = "catalog"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "catalog_bricks",
- "catalog_macros",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_bricks"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "catalog_macros",
  "compiler",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "catalog_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 

@@ -1,12 +1,6 @@
-// 共通定義など
-mod common;
+// 依存定義
 pub mod prelude {
-    pub use std::rc::Rc;
-
-    pub use compiler::designer::design::DSLGeneratable;
-    pub use compiler::build_dsl;
-
-    pub use crate::common::*;
+    pub use compiler::bricks::*;
 }
 
 // 制約
