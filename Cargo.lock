@@ -778,29 +778,10 @@ dependencies = [
 name = "compiler"
 version = "0.1.0"
 dependencies = [
- "compiler_macros",
  "designer",
  "exec_compiler",
  "exec_interpreter",
  "processor",
-]
-
-[[package]]
-name = "compiler_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "compiler_macros_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer",
- "thiserror",
 ]
 
 [[package]]
