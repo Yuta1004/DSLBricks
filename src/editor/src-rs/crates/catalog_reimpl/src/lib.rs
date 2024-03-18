@@ -1,7 +1,7 @@
 use compiler::bricks::prelude::*;
-use catalog::statement::c::If;
-use catalog::primitive::number::integer::DecimalInteger;
-use catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::statement::c::If;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::primitive::number::fraction::DecimalFraction;
 
 use blockly::front::ir;
 use blockly::front::macros::block;

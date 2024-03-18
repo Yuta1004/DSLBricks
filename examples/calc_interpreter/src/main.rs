@@ -1,5 +1,5 @@
 use compiler::load_dsl;
-use runner::Interpreter;
+use lib::runner::Interpreter;
 
 load_dsl!();
 

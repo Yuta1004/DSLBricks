@@ -567,9 +567,8 @@ name = "calc_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "catalog",
  "compiler",
- "runner",
+ "lib",
  "thiserror",
 ]
 
@@ -598,8 +597,8 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockly",
- "catalog",
  "compiler",
+ "lib",
  "thiserror",
 ]
 
@@ -2344,6 +2343,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "lib"
+version = "0.1.0"
+dependencies = [
+ "catalog",
+ "runner",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2514,9 +2521,8 @@ name = "minic_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "catalog",
  "compiler",
- "runner",
+ "lib",
  "thiserror",
 ]
 

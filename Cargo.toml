@@ -5,8 +5,7 @@ members = [
     "compiler",
 
     # Library
-    "library/catalog",
-    "library/runner",
+    "library",
 
     # Tools
     "src/editor/src-rs",
@@ -29,5 +28,4 @@ anyhow = "1.0.75"
 thiserror = "1.0.50"
 serde = "1.0.192"
 compiler = { path = "./compiler" }
-catalog = { path = "./library/catalog" }
-runner = { path = "./library/runner" }
+lib = { path = "./library" }

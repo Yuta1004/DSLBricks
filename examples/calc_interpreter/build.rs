@@ -4,10 +4,10 @@ use compiler::bricks::combine_bricks;
 use compiler::bricks::prelude::*;
 
 // Bricks
-use catalog::expression::Expression;
-use catalog::primitive::number::integer::DecimalInteger;
-use catalog::primitive::number::fraction::DecimalFraction;
-use catalog::base::ExpressionBaseLanguage;
+use lib::catalog::expression::Expression;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::base::ExpressionBaseLanguage;
 
 #[combine_bricks]
 fn main() {
