@@ -1,4 +1,4 @@
-use compiler::runtime::main;
+use compiler::entrypoint::main;
 use lib::runtime::Interpreter;
 
 #[main]

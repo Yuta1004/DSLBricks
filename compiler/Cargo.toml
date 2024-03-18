@@ -10,7 +10,7 @@ processor = { path = "./crates/core/processor", optional = true }
 
 # Interface (wrapper)
 bricks = { path = "./crates/interface/bricks" }
-runtime = { path = "./crates/interface/runtime" }
+entrypoint = { path = "./crates/interface/entrypoint" }
 
 [features]
 default = ["processor", "designer"]

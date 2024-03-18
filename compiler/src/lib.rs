@@ -48,4 +48,4 @@ pub mod macros {
 
 // Interface (wrapper)
 pub use bricks;
-pub use runtime;
+pub use entrypoint;

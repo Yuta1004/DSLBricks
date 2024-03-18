@@ -772,8 +772,8 @@ version = "0.1.0"
 dependencies = [
  "bricks",
  "designer",
+ "entrypoint",
  "processor",
- "runtime",
 ]
 
 [[package]]
@@ -1257,6 +1257,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7268b386296a025e474d5140678f75d6de9493ae55a5d709eeb9dd08149945e1"
 dependencies = [
  "cfg-if",
+]
+
+[[package]]
+name = "entrypoint"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+ "thiserror",
 ]
 
 [[package]]
@@ -3541,17 +3552,6 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "windows 0.37.0",
-]
-
-[[package]]
-name = "runtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 2.0.50",
- "thiserror",
 ]
 
 [[package]]
