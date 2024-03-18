@@ -5,4 +5,4 @@ pub use designer::design::DSLGeneratable;
 pub use baker::{DSLBrickBaker, DSLBrickBuilder};
 
 pub use crate::attribute::*;
-pub use crate::{DSLBrick, DSLBrickRc};
+pub use crate::DSLBrick;

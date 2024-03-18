@@ -10,17 +10,7 @@ use attribute::*;
 
 pub trait DSLBrick
 where
-    Self: DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
-{}
-
-impl<T> DSLBrick for T
-where
-    T: DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
-{}
-
-pub trait DSLBrickRc
-where
-    Self: Default + DSLBrick,
+    Self: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
 {
     fn new() -> Rc<Self> {
         Rc::new(Self::default())
@@ -31,7 +21,7 @@ where
     }
 }
 
-impl<T> DSLBrickRc for T
+impl<T> DSLBrick for T
 where
-    T: Default + DSLBrick,
+    T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
 {}
