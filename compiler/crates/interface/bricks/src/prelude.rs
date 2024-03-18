@@ -4,4 +4,5 @@ pub use designer::design::syntax::{Rule, RuleSet};
 pub use designer::design::DSLGeneratable;
 pub use baker::{DSLBrickBaker, DSLBrickBuilder};
 
-pub use crate::{DSLBrick, DSLBrickMeta, DSLBrickDesign, DSLBrickAssertion, DSLBrickRc};
+pub use crate::attribute::*;
+pub use crate::{DSLBrick, DSLBrickRc};
