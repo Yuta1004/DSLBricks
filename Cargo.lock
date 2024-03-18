@@ -583,15 +583,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "catalog"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "compiler",
- "thiserror",
-]
-
-[[package]]
 name = "catalog_reimpl"
 version = "0.1.0"
 dependencies = [
@@ -2346,8 +2337,48 @@ dependencies = [
 name = "lib"
 version = "0.1.0"
 dependencies = [
- "catalog",
- "runner",
+ "lib_catalog",
+ "lib_runtime",
+]
+
+[[package]]
+name = "lib_catalog"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "compiler",
+ "thiserror",
+]
+
+[[package]]
+name = "lib_runtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "lib_runtime_compiler",
+ "lib_runtime_interpreter",
+ "thiserror",
+]
+
+[[package]]
+name = "lib_runtime_compiler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "compiler",
+ "thiserror",
+]
+
+[[package]]
+name = "lib_runtime_interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "compiler",
+ "crossterm",
+ "thiserror",
 ]
 
 [[package]]
@@ -3513,57 +3544,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "runner"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "runner_compiler",
- "runner_interpreter",
- "thiserror",
-]
-
-[[package]]
-name = "runner_compiler"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "compiler",
- "thiserror",
-]
-
-[[package]]
-name = "runner_interpreter"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "compiler",
- "crossterm",
- "thiserror",
-]
-
-[[package]]
 name = "runtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor",
- "runtime_macros",
- "thiserror",
-]
-
-[[package]]
-name = "runtime_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "runtime_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "runtime_macros_procedural"
 version = "0.1.0"
 dependencies = [
  "anyhow",

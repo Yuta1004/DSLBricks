@@ -8,7 +8,6 @@ pub(super) fn main_attr_macro_impl(ast: ItemFn) -> TokenStream {
     let block = ast.block;
 
     let fn_keyword = sig.fn_token;
-    let fn_name = sig.ident;
     let fn_ret_type = sig.output;
 
     let dsl_letname = sig.inputs[0].to_token_stream().to_string();
@@ -22,7 +21,7 @@ pub(super) fn main_attr_macro_impl(ast: ItemFn) -> TokenStream {
     quote! {
         include!(concat!(env!("OUT_DIR"), "/DSL.rs"));
 
-        #fn_keyword #fn_name () #fn_ret_type {
+        #fn_keyword main () #fn_ret_type {
             let #dsl_letname = DSL::gen().unwrap();
             {
                 #block

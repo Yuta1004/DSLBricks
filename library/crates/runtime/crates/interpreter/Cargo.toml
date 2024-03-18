@@ -1,5 +1,5 @@
 [package]
-name = "runner_compiler"
+name = "lib_runtime_interpreter"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,3 +8,5 @@ anyhow = { workspace = true }
 thiserror = { workspace = true }
 compiler = { workspace = true, features = ["dev"] }
 clap = { version = "4.3", features = ["derive"] }
+crossterm = "0.27"
+

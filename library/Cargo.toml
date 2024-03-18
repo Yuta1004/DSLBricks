@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-catalog = { path = "./crates/catalog" }
-runner = { path = "./crates/runner" }
+catalog = { package = "lib_catalog", path = "./crates/catalog" }
+runtime = { package = "lib_runtime", path = "./crates/runtime" }
+

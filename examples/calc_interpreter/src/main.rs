@@ -1,5 +1,5 @@
 use compiler::runtime::main;
-use lib::runner::Interpreter;
+use lib::runtime::Interpreter;
 
 #[main]
 fn main(dsl: DSL) -> anyhow::Result<()> {

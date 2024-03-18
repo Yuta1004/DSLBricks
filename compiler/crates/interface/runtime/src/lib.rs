@@ -1,15 +1,12 @@
-use processor::lexer::TokenSet;
-use processor::parser::syntax::{post, pre};
-use processor::DSL;
+mod r#impl;
 
-pub use macros::main;
+use syn::{parse_macro_input, ItemFn};
 
-pub trait Runnable<PostS, PreS, T>
-where
-    Self: From<DSL<PostS, PreS, T>>,
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T>,
-    T: TokenSet,
-{
-    fn run(self) -> anyhow::Result<()>;
+#[proc_macro_attribute]
+pub fn main(
+    _: proc_macro::TokenStream,
+    input: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    let ast = parse_macro_input!(input as ItemFn);
+    r#impl::main_attr_macro_impl(ast).into()
 }
