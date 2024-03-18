@@ -61,7 +61,8 @@ impl From<Vec<Rule>> for RuleSet {
 
 impl From<&RuleSet> for String {
     fn from(ruleset: &RuleSet) -> String {
-        ruleset.0
+        ruleset
+            .0
             .iter()
             .map(Into::<String>::into)
             .collect::<Vec<String>>()
@@ -79,7 +80,8 @@ impl RuleSet {
             score
         };
 
-        let mut tokens = self.0
+        let mut tokens = self
+            .0
             .iter()
             .flat_map(|rule| rule.rights.iter())
             .filter_map(|rule| {
@@ -94,9 +96,7 @@ impl RuleSet {
             .map(|(id, regex)| (score(regex), (id, regex)))
             .collect::<Vec<(usize, (&String, &str))>>();
         tokens.sort_by(|(a, _), (b, _)| a.partial_cmp(b).unwrap());
-        tokens.into_iter()
-            .map(|(_, item)| item)
-            .collect()
+        tokens.into_iter().map(|(_, item)| item).collect()
     }
 
     pub fn syntax_defs(&self) -> Vec<String> {

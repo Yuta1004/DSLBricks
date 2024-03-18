@@ -79,7 +79,7 @@ impl DSLBrickDesign for If {
             rule! { else -> "else" stmts "end" },
             rule! { stmts -> stmts stmt },
             rule! { stmts -> stmt },
-            rule! { stmts -> }
+            rule! { stmts -> },
         ];
         rules.push(self.cond.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());

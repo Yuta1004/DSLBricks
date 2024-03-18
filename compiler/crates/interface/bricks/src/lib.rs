@@ -48,7 +48,4 @@ where
     }
 }
 
-impl<T> DSLBrick for T
-where
-    T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
-{}
+impl<T> DSLBrick for T where T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion {}

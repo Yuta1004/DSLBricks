@@ -1,8 +1,8 @@
 pub mod xml;
 pub mod ir;
 
-use xml::BlocklyXML;
 use ir::BlocklyIR;
+use xml::BlocklyXML;
 
 pub fn parse(xml: BlocklyXML) -> anyhow::Result<Vec<BlocklyIR>> {
     Ok(xml.into())

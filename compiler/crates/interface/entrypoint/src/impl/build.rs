@@ -1,16 +1,14 @@
 use proc_macro2::TokenStream;
-use syn::ItemFn;
 use quote::quote;
 use quote::ToTokens;
+use syn::ItemFn;
 
 pub fn build_attr_macro_impl(ast: ItemFn) -> TokenStream {
     let sig = ast.sig;
-    let attrs = ast.attrs
-        .iter()
-        .fold(quote!{}, |attrs, attr| {
-            let attr = attr.to_token_stream();
-            quote! { #attrs #attr }
-        });
+    let attrs = ast.attrs.iter().fold(quote! {}, |attrs, attr| {
+        let attr = attr.to_token_stream();
+        quote! { #attrs #attr }
+    });
     let block = ast.block;
 
     let fn_keyword = sig.fn_token;

@@ -1,11 +1,6 @@
 use std::collections::HashMap;
 
-use crate::xml::{
-    BlocklyXML,
-    BlocklyXMLValue,
-    BlocklyXMLBlock,
-    BlocklyXMLBlockComponent,
-};
+use crate::xml::{BlocklyXML, BlocklyXMLBlock, BlocklyXMLBlockComponent, BlocklyXMLValue};
 
 #[derive(Debug)]
 pub struct BlocklyIR {
@@ -18,11 +13,9 @@ impl From<BlocklyXML> for Vec<BlocklyIR> {
     fn from(xml: BlocklyXML) -> Self {
         xml.values
             .into_iter()
-            .filter_map(|value| {
-                match value {
-                    BlocklyXMLValue::Block(block) => Some(block.into()),
-                    _ => None,
-                }
+            .filter_map(|value| match value {
+                BlocklyXMLValue::Block(block) => Some(block.into()),
+                _ => None,
             })
             .collect()
     }
@@ -31,10 +24,7 @@ impl From<BlocklyXML> for Vec<BlocklyIR> {
 impl From<BlocklyXMLBlock> for BlocklyIR {
     fn from(block: BlocklyXMLBlock) -> Self {
         let r#type = block.r#type;
-        let components = block.components
-            .into_iter()
-            .map(Into::into)
-            .collect();
+        let components = block.components.into_iter().map(Into::into).collect();
 
         BlocklyIR::from((r#type, components))
     }
@@ -66,7 +56,7 @@ impl From<(String, Vec<BlocklyIRComponent>)> for BlocklyIR {
 enum BlocklyIRComponent {
     Field {
         name: String,
-        value: String
+        value: String,
     },
     Blocks {
         name: String,
@@ -104,7 +94,9 @@ fn expand_xml_block(block: BlocklyXMLBlock) -> Vec<BlocklyIR> {
         let (mut next_target, mut components) = (None, vec![]);
         for component in target.components {
             match component {
-                BlocklyXMLBlockComponent::Next { block } => { next_target = Some(block); }
+                BlocklyXMLBlockComponent::Next { block } => {
+                    next_target = Some(block);
+                }
                 _ => components.push(BlocklyIRComponent::from(component)),
             }
         }

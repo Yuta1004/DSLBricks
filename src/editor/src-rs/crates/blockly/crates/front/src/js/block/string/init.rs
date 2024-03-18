@@ -16,7 +16,8 @@ impl From<&ir::Block> for InitString {
         let message0 = message0(&body.components);
         let args0 = args0(&body.components);
         let extjson0 = extjson0(ir);
-        let init = format!(r#"
+        let init = format!(
+            r#"
             function() {{
                 this.jsonInit({{
                     type: "{}",
@@ -28,7 +29,9 @@ impl From<&ir::Block> for InitString {
                     {}
                 }})
             }}
-        "#, body.ty, message0, args0, extjson0);
+        "#,
+            body.ty, message0, args0, extjson0
+        );
 
         InitString(init)
     }
@@ -49,31 +52,32 @@ fn message0(components: &[ir::BlockComponent]) -> String {
                 ir::BlockComponent::Variable { title, .. } => (title, 2),
                 ir::BlockComponent::TextInput { title, .. } => (title, 2),
                 ir::BlockComponent::BlockInput { title, .. } => (title, 2),
-                ir::BlockComponent::CheckBoxInput { title, ..} => (title, 2),
+                ir::BlockComponent::CheckBoxInput { title, .. } => (title, 2),
             };
 
             msgs.push(title.to_string());
-            (args_cnt..args_cnt+cnt)
-                .into_iter()
-                .for_each(|idx| msgs.push(format!("%{}", idx+1)));
+            (args_cnt..args_cnt + cnt).for_each(|idx| msgs.push(format!("%{}", idx + 1)));
 
-            (msgs, args_cnt+cnt)
+            (msgs, args_cnt + cnt)
         });
     msgs.join(" ")
 }
 
+#[allow(clippy::useless_format)]
 fn args0(components: &[ir::BlockComponent]) -> String {
-    let into = |component: &ir::BlockComponent| {
-        match component {
-            ir::BlockComponent::Text { .. } => {
-                format!(r#"
+    let into = |component: &ir::BlockComponent| match component {
+        ir::BlockComponent::Text { .. } => {
+            format!(
+                r#"
                 {{
                     type: "input_dummy"
                 }}
-                "#)
-            }
-            ir::BlockComponent::Variable { name, .. } => {
-                format!(r#"
+                "#
+            )
+        }
+        ir::BlockComponent::Variable { name, .. } => {
+            format!(
+                r#"
                 {{
                     type: "field_variable",
                     name: "{}",
@@ -81,10 +85,13 @@ fn args0(components: &[ir::BlockComponent]) -> String {
                 {{
                     type: "input_dummy"
                 }}
-                "#, name)
-            }
-            ir::BlockComponent::TextInput { name, .. } => {
-                format!(r#"
+                "#,
+                name
+            )
+        }
+        ir::BlockComponent::TextInput { name, .. } => {
+            format!(
+                r#"
                 {{
                     type: "field_input",
                     name: "{name}",
@@ -93,10 +100,12 @@ fn args0(components: &[ir::BlockComponent]) -> String {
                 {{
                     type: "input_dummy"
                 }}
-                "#)
-            }
-            ir::BlockComponent::BlockInput { name, .. } => {
-                format!(r#"
+                "#
+            )
+        }
+        ir::BlockComponent::BlockInput { name, .. } => {
+            format!(
+                r#"
                 {{
                     type: "input_dummy"
                 }},
@@ -104,10 +113,12 @@ fn args0(components: &[ir::BlockComponent]) -> String {
                     type: "input_statement",
                     name: "{name}"
                 }}
-                "#)
-            },
-            ir::BlockComponent::CheckBoxInput { name, .. } => {
-                format!(r#"
+                "#
+            )
+        }
+        ir::BlockComponent::CheckBoxInput { name, .. } => {
+            format!(
+                r#"
                 {{
                     type: "field_checkbox",
                     name: "{name}",
@@ -116,8 +127,8 @@ fn args0(components: &[ir::BlockComponent]) -> String {
                 {{
                     type: "input_dummy"
                 }}
-                "#)
-            }
+                "#
+            )
         }
     };
 
@@ -131,15 +142,9 @@ fn args0(components: &[ir::BlockComponent]) -> String {
 fn extjson0(ir: &ir::Block) -> String {
     match ir {
         ir::Block::NoConnection(_) => "",
-        ir::Block::TopBottomConnections(_) => {
-            r#"previousStatement: "null",nextStatement: "null""#
-        }
-        ir::Block::TopConnection(_) => {
-            r#"previousStatement: "null""#
-        }
-        ir::Block::BottomConnection(_) => {
-            r#"nextStatement: "null""#
-        }
+        ir::Block::TopBottomConnections(_) => r#"previousStatement: "null",nextStatement: "null""#,
+        ir::Block::TopConnection(_) => r#"previousStatement: "null""#,
+        ir::Block::BottomConnection(_) => r#"nextStatement: "null""#,
     }
     .to_string()
 }

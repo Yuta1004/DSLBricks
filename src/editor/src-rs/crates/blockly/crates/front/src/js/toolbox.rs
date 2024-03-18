@@ -12,7 +12,7 @@ pub struct ToolBox {
 
 impl From<&ir::ToolBox> for ToolBox {
     fn from(toolbox: &ir::ToolBox) -> Self {
-        ToolBox{
+        ToolBox {
             contents: ToolBoxString::from(toolbox),
         }
     }
@@ -20,12 +20,16 @@ impl From<&ir::ToolBox> for ToolBox {
 
 impl Display for ToolBox {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, r#"
+        write!(
+            f,
+            r#"
             {{
                 kind: "categoryToolbox",
                 contents: {}
             }}
-        "#, self.contents)
+        "#,
+            self.contents
+        )
     }
 }
 

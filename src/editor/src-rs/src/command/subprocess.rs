@@ -1,7 +1,7 @@
-use std::thread;
-use std::process::{Command, Child};
-use std::io::{Write, BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
+use std::process::{Child, Command};
 use std::sync::{Arc, Mutex};
+use std::thread;
 
 use os_pipe::PipeWriter;
 use tauri::{AppHandle, InvokeError, Manager};
@@ -22,10 +22,12 @@ pub fn create_subprocess(app: AppHandle) -> Result<(), InvokeError> {
 
     match Subprocess::new("bash", stdout_handler) {
         Ok(subprocess) => {
-            unsafe { SUBPROCESS = Some(subprocess); }
+            unsafe {
+                SUBPROCESS = Some(subprocess);
+            }
             Ok(())
         }
-        Err(err) => Err(InvokeError::from(format!("{}", err)))
+        Err(err) => Err(InvokeError::from(format!("{}", err))),
     }
 }
 
@@ -34,7 +36,7 @@ pub fn connect_subprocess(msg: &str) -> Result<(), InvokeError> {
     let subprocess = unsafe {
         match &SUBPROCESS {
             Some(subprocess) => subprocess,
-            None => return Err(InvokeError::from("Subprocess is not launched."))
+            None => return Err(InvokeError::from("Subprocess is not launched.")),
         }
     };
 
@@ -48,12 +50,14 @@ pub fn finish_subprocess() -> Result<(), InvokeError> {
     let subprocess = unsafe {
         match &SUBPROCESS {
             Some(subprocess) => subprocess,
-            None => return Err(InvokeError::from("Subprocess is not launched."))
+            None => return Err(InvokeError::from("Subprocess is not launched.")),
         }
     };
 
     Subprocess::kill(Arc::clone(subprocess)).unwrap();
-    unsafe { SUBPROCESS = None; }
+    unsafe {
+        SUBPROCESS = None;
+    }
 
     Ok(())
 }
@@ -61,13 +65,14 @@ pub fn finish_subprocess() -> Result<(), InvokeError> {
 struct Subprocess {
     process: Child,
     stdin: PipeWriter,
-    stdout_handler: Box<dyn Fn(&str) -> () + Send>,
+    stdout_handler: Box<dyn Fn(&str) + Send>,
 }
 
 impl Subprocess {
+    #[allow(clippy::manual_flatten)]
     pub fn new<F>(cmd: &str, stdout_handler: F) -> anyhow::Result<Arc<Mutex<Self>>>
     where
-        F: Fn(&str) -> () + Send + 'static,
+        F: Fn(&str) + Send + 'static,
     {
         // Spawn subprocess
         let (stdin_process, stdin_us) = os_pipe::pipe()?;
@@ -91,11 +96,7 @@ impl Subprocess {
         thread::spawn(move || {
             for line in BufReader::new(stdout_us).lines() {
                 if let Ok(line) = line {
-                    subprcess_in_thread
-                        .lock()
-                        .unwrap()
-                        .stdout_handler
-                        .as_ref()(&line);
+                    subprcess_in_thread.lock().unwrap().stdout_handler.as_ref()(&line);
                 }
             }
         });

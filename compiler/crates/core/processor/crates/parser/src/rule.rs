@@ -205,9 +205,9 @@ mod test {
 
     use lexer::TokenSet;
 
-    use crate::rule::{Rule, RuleElem};
-    use crate::syntax::{pre, post};
     use crate::kind::LR1;
+    use crate::rule::{Rule, RuleElem};
+    use crate::syntax::{post, pre};
 
     #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
@@ -217,7 +217,10 @@ mod test {
         PreS: pre::Syntax<Self, T>,
         T: TokenSet,
     {
-        fn mapping(_: PreS, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
+        fn mapping(
+            _: PreS,
+            _: Vec<(Option<Box<Self>>, Option<&str>)>,
+        ) -> anyhow::Result<Box<Self>> {
             Ok(Box::new(VoidSemantics {}))
         }
     }

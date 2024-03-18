@@ -1,5 +1,5 @@
 // 文字
-pub mod character;
+pub mod char;
 
 // 文字列
 pub mod string;

@@ -1,30 +1,26 @@
 use compiler::bricks::prelude::*;
-use lib::catalog::statement::c::If;
-use lib::catalog::primitive::number::integer::DecimalInteger;
 use lib::catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::statement::c::If;
 
 use blockly::front::ir;
 use blockly::front::macros::block;
 
 pub fn catalog() -> ir::ToolBox {
-    let default = ir::ToolBox::new("Default")
-        .push_block(
-            block! {
-                [Base]
-                Kind: top_bottom_connections,
-                Type: "brick",
+    let default = ir::ToolBox::new("Default").push_block(block! {
+        [Base]
+        Kind: top_bottom_connections,
+        Type: "brick",
 
-                [Components]
-                Variable: "DSLBrick",
-            }
-        );
+        [Components]
+        Variable: "DSLBrick",
+    });
 
     let primitive = ir::ToolBox::new("Primitive")
         .push_block(irgen::<DecimalInteger>())
         .push_block(irgen::<DecimalFraction>());
 
-    let statement = ir::ToolBox::new("Statement")
-        .push_block(irgen::<If>());
+    let statement = ir::ToolBox::new("Statement").push_block(irgen::<If>());
 
     ir::ToolBox::new_root()
         .push_toolbox(default)

@@ -55,7 +55,10 @@ impl Block {
         Block::NoConnection(body)
     }
 
-    pub fn new_top_bottom_connections<T: Into<String>>(ty: T, components: Vec<BlockComponent>) -> Self {
+    pub fn new_top_bottom_connections<T: Into<String>>(
+        ty: T,
+        components: Vec<BlockComponent>,
+    ) -> Self {
         let body = BlockBody {
             ty: ty.into(),
             components,
@@ -81,30 +84,18 @@ impl Block {
 }
 
 pub enum BlockComponent {
-    Text {
-        title: String,
-    },
-    Variable {
-        title: String,
-        name: String,
-    },
-    TextInput {
-        title: String,
-        name: String,
-    },
-    BlockInput {
-        title: String,
-        name: String,
-    },
-    CheckBoxInput {
-        title: String,
-        name: String,
-    },
+    Text { title: String },
+    Variable { title: String, name: String },
+    TextInput { title: String, name: String },
+    BlockInput { title: String, name: String },
+    CheckBoxInput { title: String, name: String },
 }
 
 impl BlockComponent {
     pub fn new_text<T: Into<String>>(title: T) -> Self {
-        BlockComponent::Text { title: title.into() }
+        BlockComponent::Text {
+            title: title.into(),
+        }
     }
 
     pub fn new_variable<T, U>(title: T, name: U) -> Self
@@ -114,7 +105,7 @@ impl BlockComponent {
     {
         BlockComponent::Variable {
             title: title.into(),
-            name: name.into()
+            name: name.into(),
         }
     }
 

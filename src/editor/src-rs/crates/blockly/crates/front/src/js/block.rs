@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use crate::ir;
 
-use string::{TypeString, InitString};
+use string::{InitString, TypeString};
 
 pub struct Block {
     ty: TypeString,
@@ -22,11 +22,15 @@ impl From<&ir::Block> for Block {
 
 impl Display for Block {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, r#"
+        write!(
+            f,
+            r#"
             Blockly.Blocks["{}"] = {{
                 init: {}
             }}
-        "#, self.ty, self.init)
+        "#,
+            self.ty, self.init
+        )
     }
 }
 

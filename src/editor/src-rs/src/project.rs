@@ -1,8 +1,8 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Project {
-    pub blockly_xml: String,   // BlocklyXML
+    pub blockly_xml: String, // BlocklyXML
 }
 
 impl Project {

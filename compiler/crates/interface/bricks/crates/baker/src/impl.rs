@@ -4,7 +4,7 @@ use syn::ItemStruct;
 
 enum InitArgument<'a, 'b> {
     Meta(&'a str, &'b Vec<String>, &'a str), // struct_name, struct_fields, namespace
-    Property(&'a str, &'a str),  // struct_name, property
+    Property(&'a str, &'a str),              // struct_name, property
 }
 
 impl<'a, 'b> From<InitArgument<'a, 'b>> for TokenStream {
@@ -142,7 +142,7 @@ pub(super) fn dslbrick_builder_proc_macro_impl(ast: ItemStruct) -> TokenStream {
         .clone()
         .into_iter()
         .map(|field| {
-            if let Some(attr) = field.attrs.get(0) {
+            if let Some(attr) = field.attrs.first() {
                 let arg = attr.parse_args::<syn::ExprAssign>().unwrap();
                 let left = arg.left.into_token_stream();
                 let right = arg.right.into_token_stream();
@@ -169,9 +169,7 @@ pub(super) fn dslbrick_builder_proc_macro_impl(ast: ItemStruct) -> TokenStream {
         })
         .collect::<Vec<Field>>();
 
-    let setters = struct_fields
-        .into_iter()
-        .map(Into::<TokenStream>::into);
+    let setters = struct_fields.into_iter().map(Into::<TokenStream>::into);
 
     quote! {
         impl #struct_name {

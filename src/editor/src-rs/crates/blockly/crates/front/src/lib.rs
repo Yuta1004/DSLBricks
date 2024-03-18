@@ -1,8 +1,8 @@
 pub mod ir;
 mod js;
 
-use std::fs::File;
 use std::fmt::Write as FWrite;
+use std::fs::File;
 use std::io::Write as IWrite;
 
 pub fn gen_ts_files(dir: &str, toolbox: ir::ToolBox) -> anyhow::Result<()> {
@@ -26,13 +26,17 @@ fn gen_ts_file_blocks(path: String, toolbox: &ir::ToolBox) -> anyhow::Result<()>
 
     // Write
     let mut f = File::create(path)?;
-    writeln!(&mut f, r#"
+    writeln!(
+        &mut f,
+        r#"
         // Note: This is auto generated file.
 
         import Blockly from "blockly";
 
         {}
-    "#, blocks_js)?;
+    "#,
+        blocks_js
+    )?;
 
     Ok(())
 }
@@ -43,13 +47,17 @@ fn gen_ts_file_toolbox(path: String, toolbox: &ir::ToolBox) -> anyhow::Result<()
 
     // Write
     let mut f = File::create(path)?;
-    writeln!(&mut f, r#"
+    writeln!(
+        &mut f,
+        r#"
         // Note: This is auto generated file.
 
         const ToolBox = {};
 
         export default ToolBox;
-    "#, toolbox_js)?;
+    "#,
+        toolbox_js
+    )?;
 
     Ok(())
 }

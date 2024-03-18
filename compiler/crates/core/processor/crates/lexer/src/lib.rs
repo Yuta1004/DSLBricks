@@ -133,7 +133,7 @@ impl<'a, T: TokenSet> Iterator for LexDriver<'a, T> {
         matches.sort_by(|(_, a), (_, b)| a.len().cmp(&b.len()));
 
         // Update myself
-        let (token, acc_s) = matches.get(0)?;
+        let (token, acc_s) = matches.first()?;
         let pos = self.pos;
         self.update_state(acc_s);
 

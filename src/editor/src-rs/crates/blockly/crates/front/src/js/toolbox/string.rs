@@ -18,11 +18,7 @@ impl From<&ir::ToolBox> for ToolBoxString {
                         ir::Block::TopConnection(body) => body,
                         ir::Block::BottomConnection(body) => body,
                     };
-                    write!(
-                        &mut body,
-                        r#"{{ kind: "block", type: "{}" }},"#,
-                        block.ty,
-                    ).unwrap();
+                    write!(&mut body, r#"{{ kind: "block", type: "{}" }},"#, block.ty,).unwrap();
                 }
                 ir::ToolBoxItem::ToolBox(toolbox) => {
                     write!(
@@ -30,7 +26,8 @@ impl From<&ir::ToolBox> for ToolBoxString {
                         r#"{{ kind: "category", colour: "100", name: "{}", contents: {} }},"#,
                         toolbox.name,
                         ToolBoxString::from(toolbox),
-                    ).unwrap();
+                    )
+                    .unwrap();
                 }
             }
         }

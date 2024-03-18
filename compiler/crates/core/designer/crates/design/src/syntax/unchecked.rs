@@ -58,8 +58,7 @@ impl RuleSet {
 
         let expanded = target_designs
             .into_iter()
-            .map(|design| design.design().0)
-            .flatten()
+            .flat_map(|design| design.design().0)
             .collect::<Vec<Rule>>();
 
         self.0.extend(expanded);

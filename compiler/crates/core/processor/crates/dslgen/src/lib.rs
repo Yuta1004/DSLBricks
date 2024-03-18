@@ -2,7 +2,7 @@
 use serde::{Deserialize, Serialize};
 
 use lexer::{LexIterator, Lexer, TokenSet};
-use parser::syntax::{pre, post};
+use parser::syntax::{post, pre};
 use parser::Parser;
 
 #[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
