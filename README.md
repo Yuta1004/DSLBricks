@@ -13,7 +13,7 @@ DSL Generator with Syntax-Brick
 ### Test
 
 ```
-$ make test
+$ cargo test
 ```
 
 ### Examples

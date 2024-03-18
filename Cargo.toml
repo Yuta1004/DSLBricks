@@ -17,10 +17,6 @@ members = [
 exclude = [
     # Tools
     "src/rustdoc_web",
-
-    # Tests
-    "tests/default",
-    "tests/with_serde",
 ]
 
 [workspace.dependencies]
