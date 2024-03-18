@@ -142,7 +142,7 @@ pub(super) fn dslbrick_builder_proc_macro_impl(ast: ItemStruct) -> TokenStream {
         .clone()
         .into_iter()
         .map(|field| {
-            if let Some(attr) = field.attrs.get(0) {
+            if let Some(attr) = field.attrs.first() {
                 let arg = attr.parse_args::<syn::ExprAssign>().unwrap();
                 let left = arg.left.into_token_stream();
                 let right = arg.right.into_token_stream();

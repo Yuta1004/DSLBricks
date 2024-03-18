@@ -23,7 +23,7 @@ impl From<Vec<BlocklyIR>> for DSLBuildFunc {
         let uses = irs
             .iter()
             .map(|ir| {
-                let mut ty = ir.r#type.split(".");
+                let mut ty = ir.r#type.split('.');
                 let _ = ty.next();
                 format!("use catalog::{};", ty.collect::<Vec<&str>>().join("::"))
             })
@@ -59,13 +59,13 @@ impl Display for DSLBuildFunc {
         writeln!(f, "use catalog::macros::combine_bricks;")?;
 
         // Use (bricks)
-        if uses.len() > 0 {
+        if !uses.is_empty() {
             writeln!(f, "// Bricks")?;
             writeln!(f, "{}", uses)?;
         }
 
         // Main func
-        if declares.len() > 0 {
+        if !declares.is_empty() {
             if let Some(root_variable) = root_variable {
                 writeln!(
                     f,
@@ -109,7 +109,7 @@ impl BrickDeclare {
 
 impl Display for BrickDeclare {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if self.fields.len() > 0 {
+        if !self.fields.is_empty() {
             let fields = self
                 .fields
                 .iter()

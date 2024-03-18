@@ -56,15 +56,14 @@ fn message0(components: &[ir::BlockComponent]) -> String {
             };
 
             msgs.push(title.to_string());
-            (args_cnt..args_cnt + cnt)
-                .into_iter()
-                .for_each(|idx| msgs.push(format!("%{}", idx + 1)));
+            (args_cnt..args_cnt + cnt).for_each(|idx| msgs.push(format!("%{}", idx + 1)));
 
             (msgs, args_cnt + cnt)
         });
     msgs.join(" ")
 }
 
+#[allow(clippy::useless_format)]
 fn args0(components: &[ir::BlockComponent]) -> String {
     let into = |component: &ir::BlockComponent| match component {
         ir::BlockComponent::Text { .. } => {

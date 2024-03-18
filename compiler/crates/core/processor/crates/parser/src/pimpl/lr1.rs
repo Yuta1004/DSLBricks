@@ -191,7 +191,7 @@ where
                             Some(raw) => (pos.0, pos.1 - (raw.len() as u32)),
                             None => pos,
                         };
-                        return Err(ParseError::from(pos).into());
+                        return Err(ParseError::from(pos));
                     }
                     LRAction::Accept => return Ok(result.pop().unwrap().0.unwrap()),
                 }

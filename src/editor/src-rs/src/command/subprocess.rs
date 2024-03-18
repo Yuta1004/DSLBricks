@@ -65,13 +65,14 @@ pub fn finish_subprocess() -> Result<(), InvokeError> {
 struct Subprocess {
     process: Child,
     stdin: PipeWriter,
-    stdout_handler: Box<dyn Fn(&str) -> () + Send>,
+    stdout_handler: Box<dyn Fn(&str) + Send>,
 }
 
 impl Subprocess {
+    #[allow(clippy::manual_flatten)]
     pub fn new<F>(cmd: &str, stdout_handler: F) -> anyhow::Result<Arc<Mutex<Self>>>
     where
-        F: Fn(&str) -> () + Send + 'static,
+        F: Fn(&str) + Send + 'static,
     {
         // Spawn subprocess
         let (stdin_process, stdin_us) = os_pipe::pipe()?;
