@@ -1,24 +1,18 @@
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
-use syn::{ItemFn, Stmt, Local, Expr};
+use syn::{Expr, ItemFn, Local, Stmt};
 
 pub(super) fn combine_brick_attr_macro_impl(ast: ItemFn) -> TokenStream {
     let sig = ast.sig;
     let block = ast.block.stmts;
 
-    let parts = block
-        .into_iter()
-        .map(|stmt| {
-            match stmt {
-                Stmt::Expr(expr) => DSLParts::from(expr),
-                Stmt::Local(local) => DSLParts::from(local),
-                _ => DSLParts::from(stmt),
-            }
-        });
+    let parts = block.into_iter().map(|stmt| match stmt {
+        Stmt::Expr(expr) => DSLParts::from(expr),
+        Stmt::Local(local) => DSLParts::from(local),
+        _ => DSLParts::from(stmt),
+    });
 
-    let block = parts
-        .into_iter()
-        .collect::<TokenStream>();
+    let block = parts.into_iter().collect::<TokenStream>();
 
     quote! {
         #sig {
@@ -28,7 +22,7 @@ pub(super) fn combine_brick_attr_macro_impl(ast: ItemFn) -> TokenStream {
 }
 
 enum DSLParts {
-    Setup(TokenStream, TokenStream),                     // new, method-chains
+    Setup(TokenStream, TokenStream), // new, method-chains
     SetupWithLet(TokenStream, TokenStream, TokenStream), // ident, new, method-chains
     RawCode(TokenStream),
 }
@@ -52,24 +46,19 @@ impl From<Expr> for DSLParts {
     fn from(expr: Expr) -> Self {
         if let Expr::Struct(expr_struct) = expr {
             let struct_ident = expr_struct.path.get_ident().unwrap();
-            let struct_setters = expr_struct
-                .fields
-                .iter()
-                .map(|field| {
-                    match &field.expr {
-                        Expr::Path(lit) => {
-                            let fname = format_ident!("set_{}", field.member);
-                            let expr = lit.path.to_token_stream();
-                            quote! { .#fname(Rc::clone(&#expr)) }
-                        }
-                        Expr::Array(array) => {
-                            let fname = format_ident!("add_{}", field.member);
-                            let exprs = &array.elems.iter().collect::<Vec<&Expr>>();
-                            quote! { #( .#fname(Rc::clone(&#exprs)) )* }
-                        }
-                        _ => quote! {},
-                    }
-                });
+            let struct_setters = expr_struct.fields.iter().map(|field| match &field.expr {
+                Expr::Path(lit) => {
+                    let fname = format_ident!("set_{}", field.member);
+                    let expr = lit.path.to_token_stream();
+                    quote! { .#fname(Rc::clone(&#expr)) }
+                }
+                Expr::Array(array) => {
+                    let fname = format_ident!("add_{}", field.member);
+                    let exprs = &array.elems.iter().collect::<Vec<&Expr>>();
+                    quote! { #( .#fname(Rc::clone(&#exprs)) )* }
+                }
+                _ => quote! {},
+            });
 
             DSLParts::Setup(
                 quote! { #struct_ident::new(); },
@@ -102,7 +91,7 @@ impl FromIterator<DSLParts> for TokenStream {
                 DSLParts::SetupWithLet(ident, new, methods) => {
                     pre.push(quote! { let #ident = #new; });
                     body.push(quote! { let #ident = #ident #methods;});
-                },
+                }
                 DSLParts::RawCode(stmt) => body.push(stmt),
             }
         }

@@ -39,20 +39,19 @@ impl From<Vec<BlocklyIR>> for DSLBuildFunc {
 impl Display for DSLBuildFunc {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let uses = self.uses.join("\n");
-        let declares = self.declares
+        let declares = self
+            .declares
             .iter()
             .map(|declare| format!("{}", declare))
             .collect::<Vec<String>>()
             .join("\n\n");
-        let root_variable = self.declares
-            .iter()
-            .find_map(|declare| {
-                if declare.is_root {
-                    Some(declare.var.as_str())
-                } else {
-                    None
-                }
-            });
+        let root_variable = self.declares.iter().find_map(|declare| {
+            if declare.is_root {
+                Some(declare.var.as_str())
+            } else {
+                None
+            }
+        });
 
         // Use (prelude, macro)
         writeln!(f, "// Prelude, Macro")?;
@@ -68,7 +67,11 @@ impl Display for DSLBuildFunc {
         // Main func
         if declares.len() > 0 {
             if let Some(root_variable) = root_variable {
-                writeln!(f, "\n#[combine_bricks]\nfn main() {{\n{}\n\n    {}\n}}", declares, root_variable)
+                writeln!(
+                    f,
+                    "\n#[combine_bricks]\nfn main() {{\n{}\n\n    {}\n}}",
+                    declares, root_variable
+                )
             } else {
                 writeln!(f, "\n#[combine_bricks]\nfn main() {{\n{}\n}}", declares)
             }
@@ -92,7 +95,12 @@ impl BrickDeclare {
             let r#type = ir.r#type.split('.').last().unwrap().to_string();
             let var = var.to_string();
             let fields = ir.blocks.iter().map(From::from).collect();
-            Some(BrickDeclare { is_root, r#type, var, fields })
+            Some(BrickDeclare {
+                is_root,
+                r#type,
+                var,
+                fields,
+            })
         } else {
             None
         }
@@ -102,12 +110,17 @@ impl BrickDeclare {
 impl Display for BrickDeclare {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if self.fields.len() > 0 {
-            let fields = self.fields
+            let fields = self
+                .fields
                 .iter()
                 .map(|field| format!("{}", field))
                 .collect::<Vec<String>>()
                 .join("\n");
-            write!(f, "    let {} = {} {{\n{}\n    }};", self.var, self.r#type, fields)
+            write!(
+                f,
+                "    let {} = {} {{\n{}\n    }};",
+                self.var, self.r#type, fields
+            )
         } else {
             write!(f, "    let {} = {} {{ }};", self.var, self.r#type)
         }

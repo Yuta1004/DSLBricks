@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use lexer::{LexIterator, TokenSet};
 use utils::macros::cfg_where;
 
-use super::syntax::{pre, post};
+use super::syntax::{post, pre};
 use super::ParseError;
 pub use lr1::LR1;
 
@@ -19,5 +19,8 @@ where
     T: TokenSet,
 {
     fn setup() -> anyhow::Result<Self>;
-    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>, ParseError>;
+    fn parse<'a, 'b>(
+        &self,
+        lexer: &'a mut impl LexIterator<'b, T>,
+    ) -> anyhow::Result<Box<PostS>, ParseError>;
 }

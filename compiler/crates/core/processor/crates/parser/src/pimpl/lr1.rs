@@ -9,7 +9,7 @@ use lexer::{LexIterator, TokenSet};
 use utils::macros::cfg_where;
 
 use super::super::rule::{Rule, RuleElem, RuleSet};
-use super::super::syntax::{pre, post};
+use super::super::syntax::{post, pre};
 use super::super::ParseError;
 use super::ParserImpl;
 
@@ -151,7 +151,10 @@ where
         })
     }
 
-    fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>, ParseError> {
+    fn parse<'a, 'b>(
+        &self,
+        lexer: &'a mut impl LexIterator<'b, T>,
+    ) -> anyhow::Result<Box<PostS>, ParseError> {
         let mut stack = vec![0];
         let mut result = vec![];
         loop {
@@ -457,9 +460,9 @@ mod test {
 
     use lexer::{Lexer, TokenSet};
 
-    use crate::rule::{Rule, RuleElem};
-    use crate::syntax::{pre, post};
     use crate::kind::LR1;
+    use crate::rule::{Rule, RuleElem};
+    use crate::syntax::{post, pre};
     use crate::Parser;
 
     #[derive(Debug, Serialize, Deserialize)]
@@ -470,7 +473,10 @@ mod test {
         PreS: pre::Syntax<Self, T>,
         T: TokenSet,
     {
-        fn mapping(_: PreS, _: Vec<(Option<Box<Self>>, Option<&str>)>) -> anyhow::Result<Box<Self>> {
+        fn mapping(
+            _: PreS,
+            _: Vec<(Option<Box<Self>>, Option<&str>)>,
+        ) -> anyhow::Result<Box<Self>> {
             Ok(Box::new(VoidSemantics {}))
         }
     }

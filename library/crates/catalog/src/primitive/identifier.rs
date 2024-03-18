@@ -18,9 +18,7 @@ pub struct CStyleIdentifier;
 
 impl DSLBrickDesign for CStyleIdentifier {
     fn design(&self) -> Vec<Rule> {
-        vec![
-            rule! { CStyleIdentifier -> "[_a-zA-Z][_a-zA-Z0-9]*" }
-        ]
+        vec![rule! { CStyleIdentifier -> "[_a-zA-Z][_a-zA-Z0-9]*" }]
     }
 }
 

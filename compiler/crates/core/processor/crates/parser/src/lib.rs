@@ -15,7 +15,7 @@ use thiserror::Error;
 use lexer::{LexIterator, TokenSet};
 
 use pimpl::ParserImpl;
-use syntax::{pre, post};
+use syntax::{post, pre};
 
 #[derive(Debug, Error, Serialize, Deserialize)]
 pub struct ParseError {
@@ -69,7 +69,10 @@ where
         })
     }
 
-    pub fn parse<'a, 'b>(&self, lexer: &'a mut impl LexIterator<'b, T>) -> anyhow::Result<Box<PostS>, ParseError> {
+    pub fn parse<'a, 'b>(
+        &self,
+        lexer: &'a mut impl LexIterator<'b, T>,
+    ) -> anyhow::Result<Box<PostS>, ParseError> {
         self.p_impl.parse(lexer)
     }
 }

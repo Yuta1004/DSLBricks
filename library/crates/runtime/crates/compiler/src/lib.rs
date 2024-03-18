@@ -1,7 +1,7 @@
 use clap::Parser;
 
 use compiler::processor::lexer::TokenSet;
-use compiler::processor::parser::syntax::{pre, post};
+use compiler::processor::parser::syntax::{post, pre};
 use compiler::processor::DSL;
 
 #[derive(Parser)]

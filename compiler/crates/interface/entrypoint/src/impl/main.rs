@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
-use syn::ItemFn;
 use quote::quote;
 use quote::ToTokens;
+use syn::ItemFn;
 
 pub fn main_attr_macro_impl(ast: ItemFn) -> TokenStream {
     let sig = ast.sig;

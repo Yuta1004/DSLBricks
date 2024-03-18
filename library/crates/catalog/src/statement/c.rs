@@ -202,9 +202,7 @@ pub struct While {
 
 impl DSLBrickDesign for While {
     fn design(&self) -> Vec<Rule> {
-        let mut rules = vec![
-            rule! { While -> "while" r"\(" cond r"\)" stmt },
-        ];
+        let mut rules = vec![rule! { While -> "while" r"\(" cond r"\)" stmt }];
         rules.push(self.cond.borrow().clone().unwrap());
         rules.extend(self.stmt.borrow().clone());
         rules

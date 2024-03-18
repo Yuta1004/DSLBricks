@@ -1,17 +1,17 @@
 // Prelude, macros
-use compiler::entrypoint;
 use compiler::bricks::combine_bricks;
 use compiler::bricks::prelude::*;
+use compiler::entrypoint;
 
 // Bricks
-use lib::catalog::primitive::number::integer::DecimalInteger;
-use lib::catalog::primitive::number::fraction::DecimalFraction;
-use lib::catalog::primitive::identifier::CStyleIdentifier;
-use lib::catalog::expression::Expression;
-use lib::catalog::statement::c::{Block, ExprStatement, If, For, While};
-use lib::catalog::function::c::Function;
-use lib::catalog::r#struct::c::Struct;
 use lib::catalog::base::DeclaringBaseLanguage;
+use lib::catalog::expression::Expression;
+use lib::catalog::function::c::Function;
+use lib::catalog::primitive::identifier::CStyleIdentifier;
+use lib::catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::r#struct::c::Struct;
+use lib::catalog::statement::c::{Block, ExprStatement, For, If, While};
 
 #[entrypoint::build]
 #[combine_bricks]
@@ -27,9 +27,7 @@ fn build() -> DeclaringBaseLanguage {
     };
 
     // 式-文
-    let expr_stmt = ExprStatement {
-        expr: expr,
-    };
+    let expr_stmt = ExprStatement { expr };
 
     // if 文
     let if_stmt = If {
@@ -63,9 +61,7 @@ fn build() -> DeclaringBaseLanguage {
     };
 
     // 構造体
-    let r#struct = Struct {
-        id: identifier,
-    };
+    let r#struct = Struct { id: identifier };
 
     DeclaringBaseLanguage {
         declare: [function, r#struct],

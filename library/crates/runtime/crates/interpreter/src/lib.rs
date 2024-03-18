@@ -4,13 +4,13 @@ use std::io::Write;
 
 use clap::Parser;
 use crossterm::cursor;
-use crossterm::event::{self, Event, KeyEvent, KeyCode, KeyModifiers};
-use crossterm::style;
+use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyModifiers};
 use crossterm::queue;
+use crossterm::style;
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
 
 use compiler::processor::lexer::TokenSet;
-use compiler::processor::parser::syntax::{pre, post};
+use compiler::processor::parser::syntax::{post, pre};
 use compiler::processor::parser::ParseError;
 use compiler::processor::DSL;
 
@@ -65,7 +65,10 @@ fn read_lines() -> anyhow::Result<String> {
 
     let mut buf = Vec::new();
     loop {
-        if let Event::Key(KeyEvent { code, modifiers, .. }) = event::read()? {
+        if let Event::Key(KeyEvent {
+            code, modifiers, ..
+        }) = event::read()?
+        {
             // Ctrl Event
             if modifiers.contains(KeyModifiers::CONTROL) {
                 match code {
@@ -119,17 +122,15 @@ fn print_pretty_error(input: &str, (row, col): (u32, u32)) {
     let (row, col) = (row as i32, col as i32);
 
     let lines = input.split('\n').into_iter();
-    let neighbor_lines = lines.skip(max(0, row-2) as usize).take(3);
+    let neighbor_lines = lines.skip(max(0, row - 2) as usize).take(3);
 
     println!("-----");
 
-    neighbor_lines
-        .enumerate()
-        .for_each(|(idx, line)| {
-            let row = max(1, row-1) + (idx as i32);
-            println!("{:2}: {}", row, line);
-        });
+    neighbor_lines.enumerate().for_each(|(idx, line)| {
+        let row = max(1, row - 1) + (idx as i32);
+        println!("{:2}: {}", row, line);
+    });
 
     println!("    {}^ here", " ".repeat(col as usize));
-    println!("Error at line {}, column {}.\n", row+1, col+1);
+    println!("Error at line {}, column {}.\n", row + 1, col + 1);
 }
