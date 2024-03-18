@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true}
 thiserror = { workspace = true }
+processor = { path = " ../../../../core/processor" }
+macros = { package = "runtime_macros", path = "./macros" }

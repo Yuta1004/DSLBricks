@@ -1,9 +1,7 @@
-use compiler::load_dsl;
+use compiler::runtime::main;
 use lib::runner::Interpreter;
 
-load_dsl!();
-
-fn main() -> anyhow::Result<()> {
-    let dsl = DSL::gen()?;
+#[main]
+fn main(dsl: DSL) -> anyhow::Result<()> {
     Interpreter::from(dsl).exec()
 }

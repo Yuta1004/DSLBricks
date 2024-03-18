@@ -3548,6 +3548,28 @@ name = "runtime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "processor",
+ "runtime_macros",
+ "thiserror",
+]
+
+[[package]]
+name = "runtime_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "runtime_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "runtime_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
  "thiserror",
 ]
 
