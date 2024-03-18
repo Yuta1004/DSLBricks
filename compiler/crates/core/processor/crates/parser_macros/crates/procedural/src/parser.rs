@@ -33,7 +33,7 @@ pub(super) fn parser_attr_macro_impl(attrs: String, target_ast: DeriveInput) -> 
             if let Some(rule) = rule_table.get(&variant.to_string()) {
                 quote! { #enum_name :: #variant => #rule }
             } else {
-                panic!("Variant \"{}\" is not mapping for any rule.", variant);
+                quote! { #enum_name :: #variant => unimplemented!() }
             }
         })
         .collect();

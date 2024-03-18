@@ -31,7 +31,7 @@ fn rebuild_tokenstream(trait_bounds: TokenStream, ast: TokenStream) -> TokenStre
     let mut ast_heads = vec![];
     let (mut where_t, mut block_t) = (None, None);
     for token in ast.by_ref() {
-        let token_s = token.clone().span().source_text().unwrap();
+        let token_s = token.to_string();
         if token_s.starts_with("where") {
             where_t = Some(token);
             break;
