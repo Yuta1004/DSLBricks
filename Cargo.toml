@@ -2,10 +2,10 @@
 resolver = "2"
 members = [
     # Compiler
-    "compiler/compiler",
+    "compiler",
 
-    # Libirary
-    "library/catalog/catalog",
+    # Library
+    "library",
 
     # Tools
     "src/editor/src-rs",
@@ -17,15 +17,11 @@ members = [
 exclude = [
     # Tools
     "src/rustdoc_web",
-
-    # Tests
-    "tests/default",
-    "tests/with_serde",
 ]
 
 [workspace.dependencies]
 anyhow = "1.0.75"
 thiserror = "1.0.50"
 serde = "1.0.192"
-compiler = { path = "compiler/compiler" }
-catalog = { path = "library/catalog/catalog" }
+compiler = { path = "./compiler" }
+lib = { path = "./library" }

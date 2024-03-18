@@ -1,0 +1,18 @@
+[package]
+name = "processor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { workspace = true, features = ["derive"], optional = true }
+# check = { path = "./crates/check" }
+# codegen = { path = "./crates/codegen" }
+dslgen = { path = "./crates/dslgen", optional = true }
+lexer = { path = "./crates/lexer", optional = true }
+lexer_macros = { path = "./crates/lexer_macros", optional = true }
+parser = { path = "./crates/parser", optional = true }
+parser_macros = { path = "./crates/parser_macros", optional = true }
+
+[features]
+default = ["dslgen", "lexer", "lexer_macros", "parser", "parser_macros"]
+with-serde = ["serde", "dslgen/with-serde", "lexer/with-serde", "lexer_macros/with-serde", "parser/with-serde", "parser_macros/with-serde"]

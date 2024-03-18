@@ -1,15 +1,17 @@
 // Prelude, macros
-use catalog::prelude::*;
-use catalog::macros::combine_bricks;
+use compiler::entrypoint;
+use compiler::bricks::combine_bricks;
+use compiler::bricks::prelude::*;
 
 // Bricks
-use catalog::expression::Expression;
-use catalog::primitive::number::integer::DecimalInteger;
-use catalog::primitive::number::fraction::DecimalFraction;
-use catalog::base::ExpressionBaseLanguage;
+use lib::catalog::expression::Expression;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::base::ExpressionBaseLanguage;
 
+#[entrypoint::build]
 #[combine_bricks]
-fn main() {
+fn build() -> ExpressionBaseLanguage {
     // プリミティブ
     let integer = DecimalInteger {};
     let fraction = DecimalFraction {};

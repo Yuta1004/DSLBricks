@@ -353,6 +353,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "baker"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "thiserror",
+]
+
+[[package]]
 name = "base64"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -455,6 +466,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "bricks"
+version = "0.1.0"
+dependencies = [
+ "baker",
+ "composer",
+ "designer",
+]
+
+[[package]]
 name = "brotli"
 version = "3.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -547,8 +567,8 @@ name = "calc_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "catalog",
  "compiler",
+ "lib",
  "thiserror",
 ]
 
@@ -563,52 +583,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "catalog"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "catalog_bricks",
- "catalog_macros",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_bricks"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "catalog_macros",
- "compiler",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "catalog_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "catalog_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
- "thiserror",
-]
-
-[[package]]
 name = "catalog_reimpl"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "blockly",
- "catalog",
+ "compiler",
+ "lib",
  "thiserror",
 ]
 
@@ -753,6 +734,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "codegen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design",
+ "serde",
+ "thiserror",
+ "tinytemplate",
+]
+
+[[package]]
 name = "color_quant"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -778,28 +770,20 @@ dependencies = [
 name = "compiler"
 version = "0.1.0"
 dependencies = [
- "compiler_macros",
+ "bricks",
  "designer",
- "exec_compiler",
- "exec_interpreter",
+ "entrypoint",
  "processor",
 ]
 
 [[package]]
-name = "compiler_macros"
+name = "composer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "compiler_macros_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "compiler_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
  "thiserror",
 ]
 
@@ -810,6 +794,32 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d16048cd947b08fa32c24458a22f5dc5e835264f689f4f5653210c69fd107363"
 dependencies = [
  "crossbeam-utils",
+]
+
+[[package]]
+name = "constraint_ctime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "constraint_ctime_declarative",
+ "thiserror",
+]
+
+[[package]]
+name = "constraint_ctime_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design",
+ "thiserror",
+]
+
+[[package]]
+name = "constraint_rtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
 ]
 
 [[package]]
@@ -1076,78 +1086,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "design"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "design_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design_macros_declarative",
+ "thiserror",
+]
+
+[[package]]
+name = "design_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "design",
+ "thiserror",
+]
+
+[[package]]
 name = "designer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "designer_codegen",
- "designer_constraint_ctime",
- "designer_constraint_rtime",
- "designer_design",
- "designer_design_macros",
- "thiserror",
-]
-
-[[package]]
-name = "designer_codegen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design",
- "serde",
- "thiserror",
- "tinytemplate",
-]
-
-[[package]]
-name = "designer_constraint_ctime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_constraint_ctime_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "designer_constraint_ctime_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design",
- "thiserror",
-]
-
-[[package]]
-name = "designer_constraint_rtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design_macros_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "designer_design_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "designer_design",
+ "codegen",
+ "constraint_ctime",
+ "constraint_rtime",
+ "design",
+ "design_macros",
  "thiserror",
 ]
 
@@ -1202,6 +1175,17 @@ name = "downcast-rs"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
+
+[[package]]
+name = "dslgen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "lexer",
+ "parser",
+ "serde",
+ "thiserror",
+]
 
 [[package]]
 name = "dtoa"
@@ -1273,6 +1257,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7268b386296a025e474d5140678f75d6de9493ae55a5d709eeb9dd08149945e1"
 dependencies = [
  "cfg-if",
+]
+
+[[package]]
+name = "entrypoint"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+ "thiserror",
 ]
 
 [[package]]
@@ -1375,27 +1370,6 @@ checksum = "feedafcaa9b749175d5ac357452a9d41ea2911da598fde46ce1fe02c37751291"
 dependencies = [
  "event-listener 5.1.0",
  "pin-project-lite",
-]
-
-[[package]]
-name = "exec_compiler"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "processor",
- "thiserror",
-]
-
-[[package]]
-name = "exec_interpreter"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "crossterm",
- "processor",
- "thiserror",
 ]
 
 [[package]]
@@ -2339,6 +2313,86 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
+name = "lexer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "regex",
+ "serde",
+ "thiserror",
+ "utils",
+]
+
+[[package]]
+name = "lexer_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "lexer",
+ "lexer_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "lexer_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+ "thiserror",
+]
+
+[[package]]
+name = "lib"
+version = "0.1.0"
+dependencies = [
+ "lib_catalog",
+ "lib_runtime",
+]
+
+[[package]]
+name = "lib_catalog"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "compiler",
+ "thiserror",
+]
+
+[[package]]
+name = "lib_runtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "lib_runtime_compiler",
+ "lib_runtime_interpreter",
+ "thiserror",
+]
+
+[[package]]
+name = "lib_runtime_compiler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "compiler",
+ "thiserror",
+]
+
+[[package]]
+name = "lib_runtime_interpreter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "compiler",
+ "crossterm",
+ "thiserror",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2509,8 +2563,8 @@ name = "minic_interpreter"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "catalog",
  "compiler",
+ "lib",
  "thiserror",
 ]
 
@@ -2892,6 +2946,50 @@ dependencies = [
 ]
 
 [[package]]
+name = "parser"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "itertools",
+ "lexer",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "utils",
+]
+
+[[package]]
+name = "parser_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "parser",
+ "parser_macros_declarative",
+ "parser_macros_procedural",
+ "thiserror",
+]
+
+[[package]]
+name = "parser_macros_declarative"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+]
+
+[[package]]
+name = "parser_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "parser",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "thiserror",
+]
+
+[[package]]
 name = "pathdiff"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3204,119 +3302,12 @@ dependencies = [
 name = "processor"
 version = "0.1.0"
 dependencies = [
- "processor_dslgen",
- "processor_lexer",
- "processor_lexer_macros",
- "processor_parser",
- "processor_parser_macros",
+ "dslgen",
+ "lexer",
+ "lexer_macros",
+ "parser",
+ "parser_macros",
  "serde",
-]
-
-[[package]]
-name = "processor_dslgen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_lexer",
- "processor_parser",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_util_macros",
- "regex",
- "serde",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_lexer",
- "processor_lexer_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_lexer_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 2.0.50",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "itertools",
- "processor_lexer",
- "processor_util_macros",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_parser",
- "processor_parser_macros_declarative",
- "processor_parser_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "processor_parser_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "processor_parser",
- "quote",
- "syn 1.0.109",
- "thiserror",
-]
-
-[[package]]
-name = "processor_util_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "processor_util_macros_procedural",
- "thiserror",
-]
-
-[[package]]
-name = "processor_util_macros_procedural"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 2.0.50",
- "thiserror",
 ]
 
 [[package]]
@@ -4826,6 +4817,35 @@ name = "utf8parse"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "711b9620af191e0cdc7468a8d14e709c3dcdb115b36f838e601583af800a370a"
+
+[[package]]
+name = "utils"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+ "utils_macros",
+]
+
+[[package]]
+name = "utils_macros"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "thiserror",
+ "utils_macros_procedural",
+]
+
+[[package]]
+name = "utils_macros_procedural"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+ "thiserror",
+]
 
 [[package]]
 name = "uuid"

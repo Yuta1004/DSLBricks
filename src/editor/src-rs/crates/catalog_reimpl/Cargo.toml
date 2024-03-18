@@ -6,5 +6,6 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-catalog = { workspace = true }
+compiler = { workspace = true }
+lib = { workspace = true }
 blockly = { path = "../blockly", features = ["front"] }

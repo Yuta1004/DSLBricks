@@ -1,19 +1,21 @@
 // Prelude, macros
-use catalog::prelude::*;
-use catalog::macros::combine_bricks;
+use compiler::entrypoint;
+use compiler::bricks::combine_bricks;
+use compiler::bricks::prelude::*;
 
 // Bricks
-use catalog::primitive::number::integer::DecimalInteger;
-use catalog::primitive::number::fraction::DecimalFraction;
-use catalog::primitive::identifier::CStyleIdentifier;
-use catalog::expression::Expression;
-use catalog::statement::c::{Block, ExprStatement, If, For, While};
-use catalog::function::c::Function;
-use catalog::r#struct::c::Struct;
-use catalog::base::DeclaringBaseLanguage;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::primitive::identifier::CStyleIdentifier;
+use lib::catalog::expression::Expression;
+use lib::catalog::statement::c::{Block, ExprStatement, If, For, While};
+use lib::catalog::function::c::Function;
+use lib::catalog::r#struct::c::Struct;
+use lib::catalog::base::DeclaringBaseLanguage;
 
+#[entrypoint::build]
 #[combine_bricks]
-fn main() {
+fn build() -> DeclaringBaseLanguage {
     // プリミティブ
     let integer = DecimalInteger {};
     let fraction = DecimalFraction {};

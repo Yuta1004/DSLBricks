@@ -1,0 +1,15 @@
+[package]
+name = "codegen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tinytemplate = "1.1"
+serde = { workspace = true, features = ["derive"] }
+design = { path = "../design" }
+
+[features]
+default = []
+with-serde = []
