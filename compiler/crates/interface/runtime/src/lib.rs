@@ -8,5 +8,5 @@ pub fn main(
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
     let ast = parse_macro_input!(input as ItemFn);
-    r#impl::main_attr_macro_impl(ast).into()
+    r#impl::main::main_attr_macro_impl(ast).into()
 }
