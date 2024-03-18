@@ -24,11 +24,10 @@ fn main() {
     // Tauri
     tauri_build::build();
 
-    println!("cargo:rerun-if-changed=../../../src/rustdoc_web/src");
-    println!("cargo:rerun-if-changed=../../../src/rustdoc_web/bundle/src");
-    println!("cargo:rerun-if-changed=../../../src/rustdoc_web/bundle/build.rs");
-    println!("cargo:rerun-if-changed=../../../src/rustdoc_web/bundle/style.css");
-    println!("cargo:rerun-if-changed=../../../catalog");
+    println!("cargo:rerun-if-changed=../../rustdoc_web/src/main.rs");
+    println!("cargo:rerun-if-changed=../../rustdoc_web/crates/rustdoc_bundle/src/lib.rs");
+    println!("cargo:rerun-if-changed=../../rustdoc_web/crates/rustdoc_bundle/build.rs");
+    println!("cargo:rerun-if-changed=../../rustdoc_web/crates/rustdoc_bundle/style.css");
 
     println!("cargo:rerun-if-changed=../src-js/src/components");
     println!("cargo:rerun-if-changed=../src-js/src/pages");
