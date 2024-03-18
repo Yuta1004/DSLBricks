@@ -1,5 +1,5 @@
 // Prelude, macros
-use compiler::build_dsl;
+use compiler::entrypoint::build;
 use compiler::bricks::combine_bricks;
 use compiler::bricks::prelude::*;
 
@@ -13,8 +13,9 @@ use lib::catalog::function::c::Function;
 use lib::catalog::r#struct::c::Struct;
 use lib::catalog::base::DeclaringBaseLanguage;
 
+#[build]
 #[combine_bricks]
-fn main() {
+fn main() -> DeclaringBaseLanguage {
     // プリミティブ
     let integer = DecimalInteger {};
     let fraction = DecimalFraction {};

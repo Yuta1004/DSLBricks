@@ -19,7 +19,11 @@ where
         Rc::new(Self::default())
     }
 
-    fn unwrap(self: Rc<Self>) -> impl DSLGeneratable {
+    fn unwrap(self: Rc<Self>) -> Self {
+        Rc::into_inner(self).unwrap()
+    }
+
+    fn into(self) -> impl DSLGeneratable {
         struct __DSLBrick<T: DSLBrick>(T);
 
         impl<T: DSLBrick> DSLGeneratable for __DSLBrick<T> {
@@ -40,7 +44,7 @@ where
             }
         }
 
-        __DSLBrick(Rc::into_inner(self).unwrap())
+        __DSLBrick(self)
     }
 }
 

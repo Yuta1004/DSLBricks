@@ -1,5 +1,5 @@
 // Prelude, macros
-use compiler::build_dsl;
+use compiler::entrypoint::build;
 use compiler::bricks::combine_bricks;
 use compiler::bricks::prelude::*;
 
@@ -9,8 +9,9 @@ use lib::catalog::primitive::number::integer::DecimalInteger;
 use lib::catalog::primitive::number::fraction::DecimalFraction;
 use lib::catalog::base::ExpressionBaseLanguage;
 
+#[build]
 #[combine_bricks]
-fn main() {
+fn main() -> ExpressionBaseLanguage {
     // プリミティブ
     let integer = DecimalInteger {};
     let fraction = DecimalFraction {};

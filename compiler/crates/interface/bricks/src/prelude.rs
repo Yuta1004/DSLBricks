@@ -1,3 +1,4 @@
+pub use designer::codegen;
 pub use designer::constraint::ctime::declare_constraints;
 pub use designer::design::macros::*;
 pub use designer::design::syntax::{Rule, RuleSet};

@@ -2,6 +2,31 @@ use proc_macro2::TokenStream;
 use quote::{format_ident, quote, ToTokens};
 use syn::{ItemFn, Stmt, Local, Expr};
 
+pub(super) fn combine_brick_attr_macro_impl(ast: ItemFn) -> TokenStream {
+    let sig = ast.sig;
+    let block = ast.block.stmts;
+
+    let parts = block
+        .into_iter()
+        .map(|stmt| {
+            match stmt {
+                Stmt::Expr(expr) => DSLParts::from(expr),
+                Stmt::Local(local) => DSLParts::from(local),
+                _ => DSLParts::from(stmt),
+            }
+        });
+
+    let block = parts
+        .into_iter()
+        .collect::<TokenStream>();
+
+    quote! {
+        #sig {
+            { #block __product }.unwrap()
+        }
+    }
+}
+
 enum DSLParts {
     Setup(TokenStream, TokenStream),                     // new, method-chains
     SetupWithLet(TokenStream, TokenStream, TokenStream), // ident, new, method-chains
@@ -83,33 +108,5 @@ impl FromIterator<DSLParts> for TokenStream {
         }
         pre.extend(body);
         pre.into_iter().collect::<TokenStream>()
-    }
-}
-
-pub(super) fn combine_brick_attr_macro_impl(ast: ItemFn) -> TokenStream {
-    let sig = ast.sig;
-    let block = ast.block.stmts;
-
-    let parts = block
-        .into_iter()
-        .map(|stmt| {
-            match stmt {
-                Stmt::Expr(expr) => DSLParts::from(expr),
-                Stmt::Local(local) => DSLParts::from(local),
-                _ => DSLParts::from(stmt),
-            }
-        });
-
-    let block = parts
-        .into_iter()
-        .collect::<TokenStream>();
-
-    quote! {
-        #sig {
-            fn __inner() -> impl DSLGeneratable {
-                { #block __product }.unwrap()
-            }
-            build_dsl!(__inner())
-        }
     }
 }
