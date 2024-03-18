@@ -48,4 +48,4 @@ $ cargo run --bin gen_template
 
 - [compiler](./compiler/README.md)
 - [library/catalog](./library/catalog/README.md)
-- [library/runner](./library/runner/README.md)
+- [library/runtime](./library/runtime/README.md)
