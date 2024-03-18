@@ -39,13 +39,8 @@ $ cargo run --bin gen_template
 
 - [editor](./src/editor/README.md)
 - [rustdoc_web](./src/rustdoc_web/README.md)
-- calc_interpreter (example)
-- minic_interpreter (example)
-- test_default (test)
-- test_with_serde (test)
 
 ### lib
 
 - [compiler](./compiler/README.md)
-- [library/catalog](./library/catalog/README.md)
-- [library/runtime](./library/runtime/README.md)
+- [library](./library/README.md)

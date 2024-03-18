@@ -1,4 +1,4 @@
-# Runner
+# Runtime
 
 ## Crates
 
@@ -8,5 +8,5 @@ none
 
 ### lib
 
-- runner_compiler
-- runner_interpreter
+- runtime_compiler
+- runtime_interpreter
