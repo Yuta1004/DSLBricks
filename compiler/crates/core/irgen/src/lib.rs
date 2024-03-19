@@ -2,7 +2,7 @@ mod r#impl;
 
 use vfs::VfsPath;
 
-use designer::design::DSLDesign;
+use design::DSLDesign;
 
 pub use r#impl::rust::rust;
 
@@ -17,8 +17,8 @@ where
 mod test {
     use vfs::MemoryFS;
 
-    use designer::design::syntax::RuleSet;
-    use designer::design::{DSLDesign, DSLGeneratable};
+    use design::syntax::RuleSet;
+    use design::{DSLDesign, DSLGeneratable};
 
     use crate::{irgen, rust};
 
@@ -41,11 +41,6 @@ mod test {
     #[test]
     fn gen_rust() {
         let fs = MemoryFS::new();
-        irgen(
-            &rust,
-            DSLDesign::try_from(TmpDSL {}).unwrap(),
-            fs.into(),
-        )
-        .unwrap();
+        irgen(&rust, DSLDesign::try_from(TmpDSL {}).unwrap(), fs.into()).unwrap();
     }
 }

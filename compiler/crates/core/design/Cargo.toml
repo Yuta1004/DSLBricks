@@ -1,17 +1,14 @@
 [package]
-name = "designer"
+name = "design"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
-codegen = { path = "./crates/codegen", optional = true }
 constraint_ctime = { path = "./crates/constraint_ctime" }
 constraint_rtime = { path = "./crates/constraint_rtime" }
-design = { path = "./crates/design" }
-design_macros = { path = "./crates/design_macros" }
 
 [features]
-default = ["codegen"]
-with-serde = ["codegen/with-serde"]
+default = []
+with-serde = []

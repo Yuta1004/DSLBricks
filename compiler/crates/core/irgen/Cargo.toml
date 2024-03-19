@@ -9,7 +9,7 @@ thiserror = { workspace = true }
 serde = { workspace = true }
 vfs = { workspace = true }
 tinytemplate = "1.1"
-designer = { path = "../designer" }
+design = { path = "../design" }
 
 [features]
 default = []

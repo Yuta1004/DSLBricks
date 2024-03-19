@@ -1,4 +1,4 @@
-use designer::design::syntax::Rule;
+use design::syntax::Rule;
 
 pub trait DSLBrickDesign {
     fn design(&self) -> Vec<Rule>;

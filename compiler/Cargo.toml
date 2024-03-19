@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 # Core
-designer = { path = "./crates/core/designer", optional = true }
+design = { path = "./crates/core/design", optional = true }
 irgen = { path = "./crates/core/irgen", optional = true }
 processor = { path = "./crates/core/processor", optional = true }
 
@@ -14,6 +14,6 @@ bricks = { path = "./crates/interface/bricks" }
 entrypoint = { path = "./crates/interface/entrypoint" }
 
 [features]
-default = ["designer", "irgen", "processor"]
-dev = ["designer", "irgen", "processor"]
-with-serde = ["designer/with-serde", "irgen/with-serde", "processor/with-serde"]
+default = ["design", "irgen", "processor"]
+dev = ["design", "irgen", "processor"]
+with-serde = ["design/with-serde", "irgen/with-serde", "processor/with-serde"]

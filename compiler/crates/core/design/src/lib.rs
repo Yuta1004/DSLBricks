@@ -1,4 +1,8 @@
 pub mod syntax;
+pub mod constraint {
+    pub use constraint_ctime as ctime;
+    pub use constraint_rtime as rtime;
+}
 
 use std::hash::Hash;
 

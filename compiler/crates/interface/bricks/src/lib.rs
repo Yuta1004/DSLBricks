@@ -3,8 +3,8 @@ pub mod prelude;
 
 use std::rc::Rc;
 
-use designer::design::syntax::RuleSet;
-use designer::design::DSLGeneratable;
+use design::syntax::RuleSet;
+use design::DSLGeneratable;
 
 pub use baker::dslbrick;
 pub use composer::combine_bricks;

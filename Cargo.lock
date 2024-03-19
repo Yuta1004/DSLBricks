@@ -471,7 +471,7 @@ version = "0.1.0"
 dependencies = [
  "baker",
  "composer",
- "designer",
+ "design",
 ]
 
 [[package]]
@@ -734,17 +734,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "codegen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "design",
- "serde",
- "thiserror",
- "tinytemplate",
-]
-
-[[package]]
 name = "color_quant"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -771,7 +760,7 @@ name = "compiler"
 version = "0.1.0"
 dependencies = [
  "bricks",
- "designer",
+ "design",
  "entrypoint",
  "irgen",
  "processor",
@@ -802,16 +791,6 @@ name = "constraint_ctime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "constraint_ctime_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "constraint_ctime_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "design",
  "thiserror",
 ]
 
@@ -1102,37 +1081,8 @@ name = "design"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "thiserror",
-]
-
-[[package]]
-name = "design_macros"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "design_macros_declarative",
- "thiserror",
-]
-
-[[package]]
-name = "design_macros_declarative"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "design",
- "thiserror",
-]
-
-[[package]]
-name = "designer"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "codegen",
  "constraint_ctime",
  "constraint_rtime",
- "design",
- "design_macros",
  "thiserror",
 ]
 
@@ -1266,7 +1216,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "converter",
- "designer",
+ "design",
  "irgen",
  "thiserror",
  "vfs",
@@ -2209,7 +2159,7 @@ name = "irgen"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "designer",
+ "design",
  "serde",
  "thiserror",
  "tinytemplate",

@@ -1,9 +1,21 @@
+pub mod macros;
 pub(crate) mod checked;
 pub(crate) mod unchecked;
 
 use std::collections::HashMap;
 
+pub use macros::rule;
 pub use unchecked::{Rule, RuleSet, SyntaxElem};
+
+pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet> {
+    let mut context = CheckContext::default();
+
+    let uc_ruleset = uc_ruleset.expand();
+    let token_set = collect_tokens(&mut context, &uc_ruleset);
+    let marked_uc_rules = mark(&mut context, uc_ruleset);
+
+    convert(marked_uc_rules, token_set)
+}
 
 #[derive(Debug, Default)]
 struct CheckContext {
@@ -23,16 +35,6 @@ impl CheckContext {
         self.rule_id += 1;
         rule_id
     }
-}
-
-pub fn check(uc_ruleset: unchecked::RuleSet) -> anyhow::Result<checked::RuleSet> {
-    let mut context = CheckContext::default();
-
-    let uc_ruleset = uc_ruleset.expand();
-    let token_set = collect_tokens(&mut context, &uc_ruleset);
-    let marked_uc_rules = mark(&mut context, uc_ruleset);
-
-    convert(marked_uc_rules, token_set)
 }
 
 fn collect_tokens(

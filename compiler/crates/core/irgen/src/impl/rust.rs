@@ -2,7 +2,7 @@ use serde::Serialize;
 use tinytemplate::{format_unescaped, TinyTemplate};
 use vfs::VfsPath;
 
-use designer::design::DSLDesign;
+use design::DSLDesign;
 
 pub fn rust(design: DSLDesign, vfs: VfsPath) -> anyhow::Result<VfsPath> {
     let name = "DSL".to_string();
