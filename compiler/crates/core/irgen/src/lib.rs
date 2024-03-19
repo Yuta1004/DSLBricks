@@ -2,14 +2,13 @@ mod r#impl;
 
 use vfs::VfsPath;
 
-use designer::design::DSLGeneratable;
+use designer::design::DSLDesign;
 
 pub use r#impl::rust::rust;
 
-pub fn irgen<T, F>(genfunc: &F, dsl: T, vfs: VfsPath) -> anyhow::Result<VfsPath>
+pub fn irgen<F>(genfunc: &F, dsl: DSLDesign, vfs: VfsPath) -> anyhow::Result<VfsPath>
 where
-    T: DSLGeneratable,
-    F: Fn(T, VfsPath) -> anyhow::Result<VfsPath> + 'static,
+    F: Fn(DSLDesign, VfsPath) -> anyhow::Result<VfsPath> + 'static,
 {
     genfunc(dsl, vfs)
 }
@@ -42,6 +41,11 @@ mod test {
     #[test]
     fn gen_rust() {
         let fs = MemoryFS::new();
-        irgen(&rust, TmpDSL {}, fs.into()).unwrap();
+        irgen(
+            &rust,
+            DSLGeneratable::try_into(TmpDSL {}).unwrap(),
+            fs.into(),
+        )
+        .unwrap();
     }
 }

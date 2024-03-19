@@ -2,11 +2,9 @@ use serde::Serialize;
 use tinytemplate::{format_unescaped, TinyTemplate};
 use vfs::VfsPath;
 
-use designer::design::DSLGeneratable;
+use designer::design::DSLDesign;
 
-pub fn rust(dsl: impl DSLGeneratable, vfs: VfsPath) -> anyhow::Result<VfsPath> {
-    let design = dsl.try_into()?;
-
+pub fn rust(design: DSLDesign, vfs: VfsPath) -> anyhow::Result<VfsPath> {
     let name = "DSL".to_string();
     let token_defs = gen_token_code(&design.ruleset.token_defs())?;
     let syntax_defs = gen_syntax_code(&design.ruleset.syntax_defs())?;

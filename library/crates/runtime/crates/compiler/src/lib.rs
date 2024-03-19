@@ -19,7 +19,6 @@ where
     T: TokenSet + 'static,
     PreS: pre::Syntax<T, PostS> + 'static,
     PostS: post::Syntax<T, PreS>,
-
 {
     fn from(dsl: DSL<T, PreS, PostS>) -> Self {
         Compiler(dsl)
