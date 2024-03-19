@@ -1,7 +1,7 @@
-use compiler::entrypoint;
+use compiler::entrypoint::main as entrypoint;
 use lib::runtime::Interpreter;
 
-#[entrypoint::main]
+#[entrypoint]
 fn main(dsl: DSL) -> anyhow::Result<()> {
     Interpreter::from(dsl).exec()
 }

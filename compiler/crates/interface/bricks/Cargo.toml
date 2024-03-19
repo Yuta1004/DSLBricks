@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+design = { path = "../../core/design" }
 baker = { path = "./crates/baker" }
 composer = { path = "./crates/composer" }
-designer = { path = "../../core/designer" }

@@ -7,11 +7,11 @@ use utils::macros::cfg_where;
 use super::pre;
 
 #[cfg_where(feature = "with-serde", Self: Serialize)]
-pub trait Syntax<PreS, T>
+pub trait Syntax<T, PreS>
 where
     Self: Sized,
-    PreS: pre::Syntax<Self, T>,
     T: TokenSet,
+    PreS: pre::Syntax<T, Self>,
 {
     #[allow(unused_variables)]
     fn mapping(

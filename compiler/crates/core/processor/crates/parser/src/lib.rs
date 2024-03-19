@@ -42,11 +42,11 @@ impl From<Error> for ParseError {
 
 #[derive(Debug)]
 #[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
-pub struct Parser<PostS, PreS, T>
+pub struct Parser<T, PreS, PostS>
 where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T>,
     T: TokenSet,
+    PreS: pre::Syntax<T, PostS>,
+    PostS: post::Syntax<T, PreS>,
 {
     // PhantomData
     syntax: PhantomData<PreS>,
@@ -56,13 +56,13 @@ where
 }
 
 #[allow(clippy::new_without_default)]
-impl<PostS, PreS, T> Parser<PostS, PreS, T>
+impl<T, PreS, PostS> Parser<T, PreS, PostS>
 where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T>,
     T: TokenSet,
+    PreS: pre::Syntax<T, PostS>,
+    PostS: post::Syntax<T, PreS>,
 {
-    pub fn new() -> anyhow::Result<Parser<PostS, PreS, T>> {
+    pub fn new() -> anyhow::Result<Parser<T, PreS, PostS>> {
         Ok(Parser {
             syntax: PhantomData,
             p_impl: PreS::Parser::setup()?,

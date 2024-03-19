@@ -1,10 +1,10 @@
-mod attribute;
+pub mod attribute;
 pub mod prelude;
 
 use std::rc::Rc;
 
-use designer::design::syntax::RuleSet;
-use designer::design::DSLGeneratable;
+use design::syntax::RuleSet;
+use design::DSLGeneratable;
 
 pub use baker::dslbrick;
 pub use composer::combine_bricks;
@@ -48,4 +48,9 @@ where
     }
 }
 
-impl<T> DSLBrick for T where T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion {}
+impl<T> DSLBrick for T
+where
+    T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
+{
+    // auto implementation for all DSLBrick
+}

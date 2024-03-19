@@ -1,0 +1,43 @@
+{{ if DERIVE_SERDE }}
+use serde::\{Serialize, Deserialize};
+{{ endif }}
+
+use compiler::processor::lexer::macros::*;
+use compiler::processor::parser::macros::*;
+use compiler::processor::parser::syntax::post;
+use compiler::processor::parser::kind::LR1;
+use compiler::processor::DSL as DSLDef;
+
+#[allow(clippy::upper_case_acronyms)]
+type {NAME} = DSLDef::<{NAME}Token, {NAME}Syntax, {NAME}ASyntax>;
+
+#[lexer]
+#[allow(non_camel_case_types)]
+pub enum {NAME}Token \{
+    {TOKEN_DEFS}
+}
+
+#[parser(
+    kind => LR1,
+    token => {NAME}Token,
+    semantics => {NAME}ASyntax,
+    bnf => {BNF}
+)]
+#[allow(non_camel_case_types)]
+pub enum {NAME}Syntax \{
+    {SYNTAX_DEFS}
+}
+
+#[derive(Debug)]
+{DERIVE_SERDE}
+pub struct {NAME}ASyntax;
+
+impl post::Syntax<{NAME}Token, {NAME}Syntax> for {NAME}ASyntax \{
+    #[allow(unused_variables, unused_mut)]
+    fn mapping(
+        syntax: {NAME}Syntax,
+        mut tokens: Vec<(Option<Box<Self>>, Option<&str>)>,
+    ) -> anyhow::Result<Box<{NAME}ASyntax>> \{
+        Ok(Box::new({NAME}ASyntax))
+    }
+}

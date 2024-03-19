@@ -1,12 +1,16 @@
 [package]
-name = "entrypoint"
+name = "irgen"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = { workspace = true }
 thiserror = { workspace = true }
+serde = { workspace = true }
 vfs = { workspace = true }
-design = { path = "../../core/design" }
-irgen = { path = "../../core/irgen" }
-converter = { path = "./crates/converter" }
+tinytemplate = "1.1"
+design = { path = "../design" }
+
+[features]
+default = []
+with-serde = []

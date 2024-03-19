@@ -212,9 +212,9 @@ mod test {
     #[derive(Debug, Serialize, Deserialize)]
     pub struct VoidSemantics;
 
-    impl<PreS, T> post::Syntax<PreS, T> for VoidSemantics
+    impl<T, PreS> post::Syntax<T, PreS> for VoidSemantics
     where
-        PreS: pre::Syntax<Self, T>,
+        PreS: pre::Syntax<T, Self>,
         T: TokenSet,
     {
         fn mapping(
@@ -281,8 +281,8 @@ mod test {
         Fact2Num,
     }
 
-    impl pre::Syntax<VoidSemantics, TestToken> for TestSyntax {
-        type Parser = LR1<VoidSemantics, TestSyntax, TestToken>;
+    impl pre::Syntax<TestToken, VoidSemantics> for TestSyntax {
+        type Parser = LR1<TestToken, TestSyntax, VoidSemantics>;
 
         fn iter() -> Box<dyn Iterator<Item = Self>> {
             Box::new(
@@ -394,7 +394,7 @@ mod test {
 
     #[test]
     fn first_set() {
-        let ruleset = <TestSyntax as pre::Syntax<VoidSemantics, TestToken>>::syntax();
+        let ruleset = <TestSyntax as pre::Syntax<TestToken, VoidSemantics>>::syntax();
         let first_set = ruleset.first_set();
 
         check(
