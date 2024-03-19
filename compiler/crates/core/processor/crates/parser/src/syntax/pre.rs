@@ -9,13 +9,13 @@ use crate::rule::{Rule, RuleElem, RuleSet};
 use crate::ParserImpl;
 
 #[cfg_where(feature = "with-serde", Self: Serialize)]
-pub trait Syntax<PostS, T>
+pub trait Syntax<T, PostS>
 where
     Self: Clone + Copy + Sized,
-    PostS: post::Syntax<Self, T>,
     T: TokenSet,
+    PostS: post::Syntax<T, Self>,
 {
-    type Parser: ParserImpl<PostS, Self, T>;
+    type Parser: ParserImpl<T, Self, PostS>;
 
     // for Enum
     fn iter() -> Box<dyn Iterator<Item = Self>>;

@@ -9,7 +9,7 @@ use compiler::processor::parser::kind::LR1;
 use compiler::processor::DSL as DSLDef;
 
 #[allow(clippy::upper_case_acronyms)]
-type {NAME} = DSLDef::<{NAME}ASyntax, {NAME}Syntax, {NAME}Token>;
+type {NAME} = DSLDef::<{NAME}Token, {NAME}Syntax, {NAME}ASyntax>;
 
 #[lexer]
 #[allow(non_camel_case_types)]
@@ -32,7 +32,7 @@ pub enum {NAME}Syntax \{
 {DERIVE_SERDE}
 pub struct {NAME}ASyntax;
 
-impl post::Syntax<{NAME}Syntax, {NAME}Token> for {NAME}ASyntax \{
+impl post::Syntax<{NAME}Token, {NAME}Syntax> for {NAME}ASyntax \{
     #[allow(unused_variables, unused_mut)]
     fn mapping(
         syntax: {NAME}Syntax,

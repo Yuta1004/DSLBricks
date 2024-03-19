@@ -18,28 +18,28 @@ use compiler::processor::DSL;
 #[command(author, version, about)]
 struct InterpreterCLI {}
 
-pub struct Interpreter<PostS, PreS, T>(DSL<PostS, PreS, T>)
+pub struct Interpreter<T, PreS, PostS>(DSL<T, PreS, PostS>)
 where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T> + 'static,
-    T: TokenSet + 'static;
-
-impl<PostS, PreS, T> From<DSL<PostS, PreS, T>> for Interpreter<PostS, PreS, T>
-where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static,
+    PreS: pre::Syntax<T, PostS> + 'static,
+    PostS: post::Syntax<T, PreS>;
+
+impl<T, PreS, PostS> From<DSL<T, PreS, PostS>> for Interpreter<T, PreS, PostS>
+where
+    T: TokenSet + 'static,
+    PreS: pre::Syntax<T, PostS> + 'static,
+    PostS: post::Syntax<T, PreS>,
 {
-    fn from(dsl: DSL<PostS, PreS, T>) -> Self {
+    fn from(dsl: DSL<T, PreS, PostS>) -> Self {
         Interpreter(dsl)
     }
 }
 
-impl<PostS, PreS, T> Interpreter<PostS, PreS, T>
+impl<T, PreS, PostS> Interpreter<T, PreS, PostS>
 where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static,
+    PreS: pre::Syntax<T, PostS> + 'static,
+    PostS: post::Syntax<T, PreS>,
 {
     pub fn exec(self) -> anyhow::Result<()> {
         let _ = InterpreterCLI::parse();

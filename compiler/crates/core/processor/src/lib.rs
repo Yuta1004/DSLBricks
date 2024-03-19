@@ -15,21 +15,21 @@ use parser::syntax::{post, pre};
 use parser::Parser;
 
 #[cfg_attr(feature = "with-serde", derive(Serialize, Deserialize))]
-pub struct DSL<PostS, PreS, T>(Lexer<T>, Parser<PostS, PreS, T>)
+pub struct DSL<T, PreS, PostS>(Lexer<T>, Parser<T, PreS, PostS>)
 where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T>,
-    T: TokenSet;
+    T: TokenSet,
+    PreS: pre::Syntax<T, PostS>,
+    PostS: post::Syntax<T, PreS>;
 
-impl<PostS, PreS, T> DSL<PostS, PreS, T>
+impl<T, PreS, PostS> DSL<T, PreS, PostS>
 where
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T> + 'static,
     T: TokenSet + 'static,
+    PreS: pre::Syntax<T, PostS> + 'static,
+    PostS: post::Syntax<T, PreS>,
 {
-    pub fn gen() -> anyhow::Result<DSL<PostS, PreS, T>> {
+    pub fn gen() -> anyhow::Result<DSL<T, PreS, PostS>> {
         let lexer = Lexer::<T>::new()?;
-        let parser = Parser::<PostS, PreS, T>::new()?;
+        let parser = Parser::<T, PreS, PostS>::new()?;
         Ok(DSL(lexer, parser))
     }
 

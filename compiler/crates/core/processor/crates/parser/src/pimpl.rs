@@ -11,12 +11,12 @@ use super::ParseError;
 pub use lr1::LR1;
 
 #[cfg_where(feature = "with-serde", Self: Serialize + for<'de> Deserialize<'de>)]
-pub trait ParserImpl<PostS, PreS, T>
+pub trait ParserImpl<T, PreS, PostS>
 where
     Self: Sized,
-    PostS: post::Syntax<PreS, T>,
-    PreS: pre::Syntax<PostS, T>,
     T: TokenSet,
+    PreS: pre::Syntax<T, PostS>,
+    PostS: post::Syntax<T, PreS>,
 {
     fn setup() -> anyhow::Result<Self>;
     fn parse<'a, 'b>(
