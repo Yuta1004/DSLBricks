@@ -1,13 +1,14 @@
 pub mod prelude;
 
-// Core
+// Core (for dev)
 #[cfg(feature = "dev")]
 pub use designer;
 #[cfg(feature = "dev")]
-pub use irgen;
-#[cfg(feature = "dev")]
 pub use processor;
 
-// Interface (wrapper)
+// Core
+pub use irgen;
+
+// Interface
 pub use bricks;
 pub use entrypoint;
