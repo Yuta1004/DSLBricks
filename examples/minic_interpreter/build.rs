@@ -1,6 +1,6 @@
 // Prelude, macros
 use compiler::bricks::combine_bricks;
-use compiler::entrypoint;
+use compiler::entrypoint::build as entrypoint;
 use compiler::prelude::*;
 
 // Bricks
@@ -13,7 +13,7 @@ use lib::catalog::primitive::number::integer::DecimalInteger;
 use lib::catalog::r#struct::c::Struct;
 use lib::catalog::statement::c::{Block, ExprStatement, For, If, While};
 
-#[entrypoint::build]
+#[entrypoint]
 #[combine_bricks]
 fn build() -> DeclaringBaseLanguage {
     // プリミティブ

@@ -1,6 +1,6 @@
 // Prelude, macros
 use compiler::bricks::combine_bricks;
-use compiler::entrypoint;
+use compiler::entrypoint::build as entrypoint;
 use compiler::prelude::*;
 
 // Bricks
@@ -9,7 +9,7 @@ use lib::catalog::expression::Expression;
 use lib::catalog::primitive::number::fraction::DecimalFraction;
 use lib::catalog::primitive::number::integer::DecimalInteger;
 
-#[entrypoint::build]
+#[entrypoint]
 #[combine_bricks]
 fn build() -> ExpressionBaseLanguage {
     // プリミティブ
