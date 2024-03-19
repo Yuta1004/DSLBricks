@@ -1,4 +1,4 @@
-mod attribute;
+pub mod attribute;
 pub mod prelude;
 
 use std::rc::Rc;
@@ -48,4 +48,9 @@ where
     }
 }
 
-impl<T> DSLBrick for T where T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion {}
+impl<T> DSLBrick for T
+where
+    T: Default + DSLBrickMeta + DSLBrickDesign + DSLBrickAssertion,
+{
+    // auto implementation for all DSLBrick
+}
