@@ -1,0 +1,16 @@
+[package]
+name = "irgen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }
+vfs = { workspace = true }
+tinytemplate = "1.1"
+designer = { path = "../designer" }
+
+[features]
+default = []
+with-serde = []

@@ -23,5 +23,6 @@ exclude = [
 anyhow = "1.0.75"
 thiserror = "1.0.50"
 serde = "1.0.192"
+vfs = "0.9.0"
 compiler = { path = "./compiler" }
 lib = { path = "./library" }
