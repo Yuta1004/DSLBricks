@@ -1,7 +1,7 @@
 // Prelude, macros
 use compiler::bricks::combine_bricks;
-use compiler::bricks::prelude::*;
 use compiler::entrypoint;
+use compiler::prelude::*;
 
 // Bricks
 use lib::catalog::base::DeclaringBaseLanguage;

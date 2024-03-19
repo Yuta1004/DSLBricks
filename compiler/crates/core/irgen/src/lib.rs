@@ -18,7 +18,7 @@ mod test {
     use vfs::MemoryFS;
 
     use designer::design::syntax::RuleSet;
-    use designer::design::DSLGeneratable;
+    use designer::design::{DSLDesign, DSLGeneratable};
 
     use crate::{irgen, rust};
 
@@ -43,7 +43,7 @@ mod test {
         let fs = MemoryFS::new();
         irgen(
             &rust,
-            DSLGeneratable::try_into(TmpDSL {}).unwrap(),
+            DSLDesign::try_from(TmpDSL {}).unwrap(),
             fs.into(),
         )
         .unwrap();

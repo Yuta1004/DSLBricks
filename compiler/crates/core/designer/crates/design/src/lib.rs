@@ -9,20 +9,19 @@ pub struct DSLDesign {
     pub ruleset: checked::RuleSet,
 }
 
+impl DSLDesign {
+    pub fn try_from(dsl: impl DSLGeneratable) -> anyhow::Result<Self> {
+        Ok(DSLDesign {
+            name: dsl.name(),
+            ruleset: syntax::check(dsl.design())?,
+        })
+    }
+}
+
 pub trait DSLGeneratable {
     fn name(&self) -> &'static str;
     fn start(&self) -> &'static str;
     fn design(&self) -> unchecked::RuleSet;
-
-    fn try_into(self) -> anyhow::Result<DSLDesign>
-    where
-        Self: Sized,
-    {
-        Ok(DSLDesign {
-            name: self.name(),
-            ruleset: syntax::check(self.design())?,
-        })
-    }
 }
 
 impl Hash for dyn DSLGeneratable {

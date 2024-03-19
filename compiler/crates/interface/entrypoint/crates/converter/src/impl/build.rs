@@ -20,10 +20,12 @@ pub fn build_attr_macro_impl(ast: ItemFn) -> TokenStream {
             fn __inner() #fn_ret_type #block
 
             let root_brick = DSLBrick::into(__inner());
-            let dsl_code = codegen::rust(root_brick).unwrap();
-            let out_dir = std::env::var_os("OUT_DIR").unwrap();
-            let dst_path = std::path::Path::new(&out_dir).join("DSL.rs");
-            std::fs::write(&dst_path, dsl_code).unwrap();
+            let design = DSLDesign::try_from(root_brick).unwrap();
+
+            let build_env = std::env::var_os("OUT_DIR").unwrap();
+            let build_dir = PhysicalFS::new(&build_env).into();
+
+            irgen(&rust, design, build_dir).unwrap();
         }
     }
 }

@@ -7,5 +7,6 @@ edition = "2021"
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 vfs = { workspace = true }
-converter = { path = "./crates/converter" }
+designer = { path = "../../core/designer" }
 irgen = { path = "../../core/irgen" }
+converter = { path = "./crates/converter" }
