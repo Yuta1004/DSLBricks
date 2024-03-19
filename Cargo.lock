@@ -1177,17 +1177,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
 
 [[package]]
-name = "dslgen"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "lexer",
- "parser",
- "serde",
- "thiserror",
-]
-
-[[package]]
 name = "dtoa"
 version = "1.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3302,12 +3291,13 @@ dependencies = [
 name = "processor"
 version = "0.1.0"
 dependencies = [
- "dslgen",
+ "anyhow",
  "lexer",
  "lexer_macros",
  "parser",
  "parser_macros",
  "serde",
+ "thiserror",
 ]
 
 [[package]]
