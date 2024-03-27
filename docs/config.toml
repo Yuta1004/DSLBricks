@@ -3,6 +3,7 @@ theme = "hugo-theme-learn"
 languageCode = "ja-JP"
 defaultContentLanguage = "ja"
 canonifyurls = true
+relativeURLs = true
 
 [outputs]
 home = ["HTML", "JSON"]
