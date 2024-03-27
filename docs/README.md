@@ -3,7 +3,7 @@
 ## Command
 
 ```
-// Run
+// Run => http://localhost:1313
 make run
 
 // New chapter
