@@ -6,7 +6,8 @@ DSL Generator with Syntax-Brick
 
 - make
 - cargo
-- npm (for GUI Editor)
+- npm (optional / GUI Editor)
+- docker (optional / Docs)
 
 ## Command
 
@@ -31,6 +32,13 @@ $ cargo run --bin editor
 
 // Rustdoc on Web => http://localhost:5555/catalog/index.html
 $ cargo run --bin gen_template
+```
+
+### Docs
+
+```
+// Docs on Web => http://localhost:1313
+$ make -C docs
 ```
 
 ## Crates

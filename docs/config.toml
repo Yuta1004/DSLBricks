@@ -1,0 +1,28 @@
+title = "DSLBricks Document"
+theme = "hugo-theme-learn"
+languageCode = "ja-JP"
+defaultContentLanguage = "ja"
+canonifyurls = true
+
+[outputs]
+home = ["HTML", "JSON"]
+
+[params]
+title = "DSLBricks"
+description = "DSLBricks"
+images = ["images/ogp.png"]
+titleSeparator = "|"
+themeVariant = "blue"
+disableLandingPageButton = true
+disableShortcutsTitle = true
+
+[Languages]
+[Languages.ja]
+weight = 1
+languageName = "日本語"
+
+[[Languages.ja.menu.shortcuts]]
+name = "<i class='fab fa-fw fa-github'></i> DSLBricks"
+identifier = "github-dslbricks"
+url = "https://github.com/Yuta1004/DSLBricks"
+weight = 1
