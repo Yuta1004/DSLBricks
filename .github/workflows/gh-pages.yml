@@ -24,9 +24,11 @@ jobs:
           hugo-version: '0.85.0'
 
       - name: Build
+        working-directory: ./docs
         run: hugo --minify
 
       - name: Fix permissions
+        working-directory: ./docs
         run: |
           chmod -v -R +rX "public/" | while read line; do
             echo "::warning title=Invalid file permissions automatically fixed::$line"
@@ -35,7 +37,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
-          path: public
+          path: ./docs/public
 
       - name: Deploy
         id: deployment
