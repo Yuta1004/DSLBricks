@@ -15,6 +15,9 @@ FILEPATH :=
 run:
 	@$(call exec_on_hugo_container, server $(HUGO_OPTS))
 
+publish:
+	@$(call exec_on_hugo_container, )
+
 chapter:
 	@$(call exec_on_hugo_container, new --kind chapter $(FILEPATH))
 
