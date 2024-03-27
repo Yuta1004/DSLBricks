@@ -1,0 +1,14 @@
+[package]
+name = "lexer_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+lexer = { path = "../lexer" }
+procedural_macro = { package = "lexer_macros_procedural", path = "./crates/procedural", optional = true }
+
+[features]
+default = ["procedural_macro"]
+with-serde = ["procedural_macro/with-serde"]

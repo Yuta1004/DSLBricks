@@ -1,0 +1,14 @@
+[package]
+name = "design"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+constraint_ctime = { path = "./crates/constraint_ctime" }
+constraint_rtime = { path = "./crates/constraint_rtime" }
+
+[features]
+default = []
+with-serde = []

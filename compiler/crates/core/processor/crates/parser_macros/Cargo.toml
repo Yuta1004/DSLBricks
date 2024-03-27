@@ -1,0 +1,15 @@
+[package]
+name = "parser_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+parser = { path = "../parser" }
+decralative_macros = { package = "parser_macros_declarative", path = "./crates/declarative" }
+procedural_macros = { package = "parser_macros_procedural", path = "./crates/procedural", optional = true }
+
+[features]
+default = ["procedural_macros"]
+with-serde = ["procedural_macros/with-serde"]

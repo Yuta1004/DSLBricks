@@ -1,0 +1,19 @@
+[package]
+name = "compiler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Core
+design = { path = "./crates/core/design", optional = true }
+irgen = { path = "./crates/core/irgen", optional = true }
+processor = { path = "./crates/core/processor", optional = true }
+
+# Interface (wrapper)
+bricks = { path = "./crates/interface/bricks" }
+entrypoint = { path = "./crates/interface/entrypoint" }
+
+[features]
+default = ["design", "irgen", "processor"]
+dev = ["design", "irgen", "processor"]
+with-serde = ["design/with-serde", "irgen/with-serde", "processor/with-serde"]

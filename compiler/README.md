@@ -2,7 +2,7 @@
 
 ## Features
 
-- build
+- dev
 - with-serde
 
 ## Crates
@@ -13,11 +13,10 @@ none
 
 ### lib
 
-- **compiler**
 - designer
 - processor
-- executor/compiler
-- executor/interpreter
+- bricks
+- runtime
 
 ## Design
 
@@ -25,6 +24,4 @@ none
 flowchart TD
     A["dyn DSLGeneratable"] -->|"designer (design::DSLDesign::from)"| B("DSLDesign")
     B -->|"processor (dslgen::DSL::gen)"| C("DSL< A, S, T >")
-    C -->|"executor (Interpreter::from)"| D["Interpreter(DSL< A, S, T >)"]
-    C -->|"executor (Compiler::from)"| E["Compiler(DSL< A, S, T >)"]
 ```

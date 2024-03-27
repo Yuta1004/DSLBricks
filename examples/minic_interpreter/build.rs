@@ -1,19 +1,21 @@
 // Prelude, macros
-use catalog::prelude::*;
-use catalog::macros::combine_bricks;
+use compiler::bricks::combine_bricks;
+use compiler::entrypoint::build as entrypoint;
+use compiler::prelude::*;
 
 // Bricks
-use catalog::primitive::number::integer::DecimalInteger;
-use catalog::primitive::number::fraction::DecimalFraction;
-use catalog::primitive::identifier::CStyleIdentifier;
-use catalog::expression::Expression;
-use catalog::statement::c::{Block, ExprStatement, If, For, While};
-use catalog::function::c::Function;
-use catalog::r#struct::c::Struct;
-use catalog::base::DeclaringBaseLanguage;
+use lib::catalog::base::DeclaringBaseLanguage;
+use lib::catalog::expression::Expression;
+use lib::catalog::function::c::Function;
+use lib::catalog::primitive::identifier::CStyleIdentifier;
+use lib::catalog::primitive::number::fraction::DecimalFraction;
+use lib::catalog::primitive::number::integer::DecimalInteger;
+use lib::catalog::r#struct::c::Struct;
+use lib::catalog::statement::c::{Block, ExprStatement, For, If, While};
 
+#[entrypoint]
 #[combine_bricks]
-fn main() {
+fn build() -> DeclaringBaseLanguage {
     // プリミティブ
     let integer = DecimalInteger {};
     let fraction = DecimalFraction {};
@@ -25,9 +27,7 @@ fn main() {
     };
 
     // 式-文
-    let expr_stmt = ExprStatement {
-        expr: expr,
-    };
+    let expr_stmt = ExprStatement { expr };
 
     // if 文
     let if_stmt = If {
@@ -57,13 +57,11 @@ fn main() {
     // 関数
     let function = Function {
         id: identifier,
-        stmt: [expr_stmt, if_stmt, for_stmt, while_stmt],
+        stmt: [block_stmt],
     };
 
     // 構造体
-    let r#struct = Struct {
-        id: identifier,
-    };
+    let r#struct = Struct { id: identifier };
 
     DeclaringBaseLanguage {
         declare: [function, r#struct],

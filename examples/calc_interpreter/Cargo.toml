@@ -4,9 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0"
-thiserror = "1.0"
-compiler = { path = "../../compiler/compiler" }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+compiler = { workspace = true }
+lib = { workspace = true }
 
 [build-dependencies]
-catalog = { path = "../../catalog/catalog" }
+compiler = { workspace = true }
+lib = { workspace = true }

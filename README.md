@@ -6,43 +6,41 @@ DSL Generator with Syntax-Brick
 
 - make
 - cargo
-- npm
+- npm (for GUI Editor)
 
 ## Command
 
+### Test
+
 ```
-// Docs(rustdoc) => http://localhost:5555/catalog/index.html
-$ make -C docs/rustdoc web
+$ cargo test
+```
 
-// Test
-$ make test
+### Examples
 
-// Tools
-$ cargo run --bin editor
-$ cargo run --bin gen_template
-
-// Example
+```
 $ cargo run --bin calc_interpreter
 $ cargo run --bin minic_interpreter
 ```
 
-## Docs
+### Tools
 
-- [catalog](./docs/catalog/README.md)
-- [rustdoc](./docs/rustdoc/README.md)
+```
+// GUI Editor
+$ cargo run --bin editor
+
+// Rustdoc on Web => http://localhost:5555/catalog/index.html
+$ cargo run --bin gen_template
+```
 
 ## Crates
 
 ### bin
 
 - [editor](./src/editor/README.md)
-- [gen_template](./src/gen_template/README.md)
-- [rustdoc_web](./docs/rustdoc/tools/rustdoc_web/README.md)
-- calc_interpreter (example)
-- minic_interpreter (example)
+- [rustdoc_web](./src/rustdoc_web/README.md)
 
 ### lib
 
-- [catalog](./catalog/README.md)
 - [compiler](./compiler/README.md)
-
+- [library](./library/README.md)

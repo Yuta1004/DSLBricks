@@ -2,29 +2,27 @@
 resolver = "2"
 members = [
     # Compiler
-    "compiler/compiler",
+    "compiler",
 
-    # Catalog
-    "catalog/catalog",
+    # Library
+    "library",
 
     # Tools
-    "src/editor",
-    "src/gen_template",
+    "src/editor/src-rs",
 
     # Examples
     "examples/calc_interpreter",
     "examples/minic_interpreter",
 ]
 exclude = [
-    # Doc-tools
-    "docs/rustdoc/tools/rustdoc_web",
-
-    # Tests
-    "tests/default",
-    "tests/with_serde",
+    # Tools
+    "src/rustdoc_web",
 ]
 
 [workspace.dependencies]
 anyhow = "1.0.75"
 thiserror = "1.0.50"
 serde = "1.0.192"
+vfs = "0.9.0"
+compiler = { path = "./compiler" }
+lib = { path = "./library" }
