@@ -3,8 +3,7 @@ EXT_CSS_PATH := $(MAKEFILE_DIR)/style.css
 
 CARGO_OPTS := \
 	--lib \
-	--workspace \
-	-p lib_catalog
+	--workspace
 
 doc-embedded:
 	cargo doc $(CARGO_OPTS) --config "build.rustdocflags = ['--extend-css', '$(EXT_CSS_PATH)']"
