@@ -4,18 +4,12 @@ DSL Generator with Syntax-Brick
 
 ## Requires
 
-- make
 - cargo
+- make (optional / GUI Editor, Docs)
 - npm (optional / GUI Editor)
 - hugo (optional / Docs)
 
 ## Command
-
-### Setup (once)
-
-```
-$ make setup
-```
 
 ### Test
 
@@ -32,15 +26,17 @@ $ cargo run --bin minic_interpreter
 
 ### Tools
 
+#### GUI Editor
+
 ```
-// GUI Editor
+$ make -C src/editor setup
 $ cargo run --bin editor
 ```
 
 ### Docs
 
 ```
-$ make docs
+$ make -C docs
 $ open docs/public/index.html
 ```
 

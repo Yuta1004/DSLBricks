@@ -2,11 +2,11 @@ HUGO_OPTS :=
 
 FILEPATH :=
 
-run:
-	hugo server $(HUGFO_OPTS)
-
 publish:
 	hugo
+
+run:
+	hugo server $(HUGFO_OPTS)
 
 chapter:
 	hugo new --kind chapter $(FILEPATH)

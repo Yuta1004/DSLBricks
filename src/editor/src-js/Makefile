@@ -20,6 +20,7 @@ node_modules:
 
 bundle_rustdoc:
 	cargo doc -p lib_catalog --lib
+	mkdir -p public
 	cp -r ../../../target/doc ./public/rustdoc
 
 .PHONY: run setup
