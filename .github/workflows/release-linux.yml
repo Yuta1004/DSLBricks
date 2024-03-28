@@ -19,7 +19,7 @@ jobs:
 
     - uses: ./.github/actions/cache_cargo
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run:
         sudo apt update &&
         sudo apt install -y
@@ -48,7 +48,7 @@ jobs:
 
     - uses: ./.github/actions/cache_cargo
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run:
         sudo apt update &&
         sudo apt install -y
@@ -66,3 +66,11 @@ jobs:
       run:
         make setup &&
         cargo build --release --bin editor
+
+    - name: Upload artifact to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/editor
+        asset_name: editor
+        draft: true
