@@ -9,14 +9,11 @@ members = [
 
     # Tools
     "src/editor/src-rs",
+    "src/rustdoc_web",
 
     # Examples
     "examples/calc_interpreter",
     "examples/minic_interpreter",
-]
-exclude = [
-    # Tools
-    "src/rustdoc_web",
 ]
 
 [workspace.dependencies]

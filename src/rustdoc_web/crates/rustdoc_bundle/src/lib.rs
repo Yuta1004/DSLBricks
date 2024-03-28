@@ -1,5 +1,5 @@
 use rust_embed::RustEmbed;
 
 #[derive(RustEmbed)]
-#[folder = "./target/doc"]
+#[folder = "./rustdoc"]
 pub struct RustDoc;
