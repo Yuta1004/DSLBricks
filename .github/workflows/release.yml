@@ -23,13 +23,11 @@ jobs:
         make -C src/editor setup &&
         cargo build --release --bin editor
 
-    - name: Upload artifact to release
-      uses: svenstaro/upload-release-action@v2
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/editor.exe
-        asset_name: editor_win.exe
-        draft: true
+        name: windows
+        path: target/release/editor.exe
 
   build-macos:
     runs-on: macos-latest
@@ -43,13 +41,11 @@ jobs:
         make -C src/editor setup &&
         cargo build --release --bin editor
 
-    - name: Upload artifact to release
-      uses: svenstaro/upload-release-action@v2
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/editor
-        asset_name: editor_macos
-        draft: true
+        name: macos
+        path: target/release/editor
 
   build-linux:
     runs-on: ubuntu-latest
@@ -77,10 +73,24 @@ jobs:
         make -C src/editor setup &&
         cargo build --release --bin editor
 
-    - name: Upload artifact to release
-      uses: svenstaro/upload-release-action@v2
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: target/release/editor
-        asset_name: editor_linux.exe
-        draft: true
+        name: linux
+        path: target/release/editor
+
+  release:
+    runs-on: ubuntu-latest
+
+    needs: [build-win, build-macos, build-linux]
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Upload artifact to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./*
+          draft: true
