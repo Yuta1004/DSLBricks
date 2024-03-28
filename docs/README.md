@@ -1,5 +1,10 @@
 # Docs
 
+## Requires
+
+- make
+- hugo
+
 ## Command
 
 ```
