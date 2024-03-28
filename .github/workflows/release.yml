@@ -18,16 +18,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Build Editor
-      run:
-        make -C src/editor setup &&
-        cargo build --release --bin editor
+    # - name: Build Editor
+    #   run: |
+    #     make -C src/editor setup
+    #     cargo build --release --bin editor
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: windows
-        path: target/release/editor.exe
+        # path: target/release/editor.exe
+        path: README.md
 
   build-macos:
     runs-on: macos-latest
@@ -36,16 +37,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Build Editor
-      run:
-        make -C src/editor setup &&
-        cargo build --release --bin editor
+    # - name: Build Editor
+    #   run: |
+    #     make -C src/editor setup
+    #     cargo build --release --bin editor
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: macos
-        path: target/release/editor
+        # path: target/release/editor
+        path: README.md
 
   build-linux:
     runs-on: ubuntu-latest
@@ -54,30 +56,31 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run:
-        sudo apt update &&
-        sudo apt install -y
-            libwebkit2gtk-4.0-dev
-            build-essential
-            curl
-            wget
-            file
-            libssl-dev
-            libgtk-3-dev
-            libayatana-appindicator3-dev
-            librsvg2-dev
+    # - name: Install dependencies
+    #   run: |
+    #     sudo apt update
+    #     sudo apt install -y \
+    #         libwebkit2gtk-4.0-dev \
+    #         build-essential \
+    #         curl \
+    #         wget \
+    #         file \
+    #         libssl-dev \
+    #         libgtk-3-dev \
+    #         libayatana-appindicator3-dev \
+    #         librsvg2-dev
 
-    - name: Build Editor
-      run:
-        make -C src/editor setup &&
-        cargo build --release --bin editor
+    # - name: Build Editor
+    #   run: |
+    #     make -C src/editor setup
+    #     cargo build --release --bin editor
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: linux
-        path: target/release/editor
+        # path: target/release/editor
+        path: README.md
 
   release:
     runs-on: ubuntu-latest
@@ -88,9 +91,38 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
 
-      - name: Upload artifact to release
+      - name: Zip artifacts
+        run: |
+          zip -r windows.zip windows
+          zip -r macos.zip macos
+          zip -r linux.zip linux
+
+      - name: Upload artifact to release (win)
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./*
+          tag: latest
+          file: windows.zip
+          overwrite: true
+          prerelease: true
+          draft: true
+
+      - name: Upload artifact to release (macos)
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag": latest
+          file: macos.zip
+          overwrite: true
+          prerelease: true
+          draft: true
+
+      - name: Upload artifact to release (linux)
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          file: linux.zip
+          overwrite: true
+          prerelease: true
           draft: true
