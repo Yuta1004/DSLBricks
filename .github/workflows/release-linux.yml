@@ -11,42 +11,11 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  cache:
-    runs-on: ubuntu-22.04
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - uses: ./.github/actions/cache_cargo
-
-    - name: Install dependencies
-      run:
-        sudo apt update &&
-        sudo apt install -y
-            libwebkit2gtk-4.0-dev
-            build-essential
-            curl
-            wget
-            file
-            libssl-dev
-            libgtk-3-dev
-            libayatana-appindicator3-dev
-            librsvg2-dev
-
-    - name: Build
-      run:
-        make -C src/editor setup &&
-        cargo build --all-targets
-
   build:
     runs-on: ubuntu-22.04
 
-    needs: cache
-
     steps:
     - uses: actions/checkout@v3
-
-    - uses: ./.github/actions/cache_cargo
 
     - name: Install dependencies
       run:
