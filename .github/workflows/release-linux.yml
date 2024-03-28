@@ -35,7 +35,7 @@ jobs:
 
     - name: Build
       run:
-        make setup &&
+        make -C src/editor setup &&
         cargo build --all-targets
 
   build:
@@ -64,7 +64,7 @@ jobs:
 
     - name: Build Editor
       run:
-        make setup &&
+        make -C src/editor setup &&
         cargo build --release --bin editor
 
     - name: Upload artifact to release
