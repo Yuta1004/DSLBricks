@@ -34,7 +34,9 @@ jobs:
             librsvg2-dev
 
     - name: Build
-      run: cargo build --all-targets
+      run:
+        make setup &&
+        cargo build --all-targets
 
   build:
     runs-on: ubuntu-22.04
@@ -61,4 +63,6 @@ jobs:
             librsvg2-dev
 
     - name: Build Editor
-      run: cargo build --release --bin editor
+      run:
+        make setup &&
+        cargo build --release --bin editor
