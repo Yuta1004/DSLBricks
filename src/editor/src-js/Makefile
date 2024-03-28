@@ -1,3 +1,5 @@
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 SRCS :=\
 	$(wildcard src/components/*.tsx) \
 	$(wildcard src/pages/*.tsx) \
@@ -5,13 +7,19 @@ SRCS :=\
 	package.json \
 	next.config.js
 
-run: node_modules
+run:
 	npm run dev
 
-build: node_modules $(SRCS)
+build: $(SRCS)
 	npm run build
+
+setup: node_modules bundle_rustdoc
 
 node_modules:
 	npm install
 
-.PHONY: run
+bundle_rustdoc:
+	cargo doc -p lib_catalog --lib
+	cp -r ../../../target/doc ./public/rustdoc
+
+.PHONY: run setup

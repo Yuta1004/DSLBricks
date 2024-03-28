@@ -41,10 +41,7 @@
                 "certificateThumbprint": null,
                 "digestAlgorithm": "sha256",
                 "timestampUrl": ""
-            },
-            "externalBin": [
-                "./bin/rustdoc_web"
-            ]
+            }
         },
         "security": {
             "csp": null

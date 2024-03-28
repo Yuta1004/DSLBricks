@@ -14,10 +14,6 @@ members = [
     "examples/calc_interpreter",
     "examples/minic_interpreter",
 ]
-exclude = [
-    # Tools
-    "src/rustdoc_web",
-]
 
 [workspace.dependencies]
 anyhow = "1.0.75"
